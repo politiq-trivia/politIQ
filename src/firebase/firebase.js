@@ -1,4 +1,5 @@
 import firebase from 'firebase/app';
+import 'firebase/auth';
 
 const config = {
   apiKey: "AIzaSyC0YbDHa0-H96NiIZJJ0zEWreBmdGrf7Vg",
@@ -8,3 +9,13 @@ const config = {
   storageBucket: "politiq-fc0e3.appspot.com",
   messagingSenderId: "56223684739"
 };
+
+if(!firebase.apps.length) {
+  firebase.initializeApp(config);
+}
+
+const auth = firebase.auth();
+
+export {
+  auth,
+}
