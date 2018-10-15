@@ -20,11 +20,25 @@ const Page = ({ title }) => (
         <Link to="/about">About</Link>
       </p>
       <p>
-        <Link to="/settings">Settings</Link>
+        <Link to="/profile">Profile</Link>
+      </p>
+      <p>
+        <Link to="/play">Play Game</Link>
+      </p>
+      <p>
+        <Link to="/quiz-archive">Quiz Archive</Link>
+      </p>
+      <p>
+        <Link to="/submit-question">Submit Question</Link>
+      </p>
+      <p>
+        <Link to="/leaderboard">Leaderboard</Link>
       </p>
     </div>
 );
 
+
+// components in this section will later become their own files
 const Home = (props) => (
   <Page title="Home"/>
 );
@@ -33,9 +47,33 @@ const About = (props) => (
   <Page title="About"/>
 );
 
-const Settings = (props) => (
-  <Page title="Settings"/>
+const Profile = (props) => (
+  <Page title="Profile"/>
 );
+
+const SubmitQuestion = (props) => {
+  return (
+    <Page title="Submit Question" />
+  )
+}
+
+const Leaderboard = (props) => {
+  return (
+    <Page title="Leaderboard" />
+  )
+}
+
+const Play = (props) => {
+  return (
+    <Page title="Play Game" />
+  )
+}
+
+const QuizArchive = (props) => {
+  return (
+    <Page title="Quiz Archive" />
+  )
+}
 
 class App extends Component {
   render() {
@@ -43,7 +81,11 @@ class App extends Component {
       <Router history={browserHistory}>
         <Route path="/" component={Home}/>
         <Route path="/about" component={About}/>
-        <Route path="/settings" component={Settings}/>
+        <Route path="/profile" component={Profile}/>
+        <Route path="/submit-question" component={SubmitQuestion}/>
+        <Route path="/leaderboard" component={Leaderboard}/>
+        <Route path="/play" component={Play}/>
+        <Route path="/quiz-archive" component={QuizArchive}/>
       </Router>
     );
   }
