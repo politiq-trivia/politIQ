@@ -16,6 +16,8 @@ import HomePage from './HomePage';
 import ProfilePage from './Profile';
 
 import * as routes from '../constants/routes';
+import { firebase } from '../firebase';
+import withAuthentication from './withAuthentication';
 
 // const Page = ({ title }) => (
 //     <div className="App">
@@ -89,11 +91,27 @@ import * as routes from '../constants/routes';
 // }
 
 class App extends Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      authUser: null,
+    };
+  }
+
+  componentDidMount() {
+    firebase.auth.onAuthStateChanged(authUser => {
+      authUser
+        ? this.setState({ authUser })
+        : this.setState({ authUser: null });
+    })
+  }
+
   render() {
     return (
       <Router>
         <div>
-          <Navigation />
+          <Navigation authUser={this.state.authUser} />
           <hr/>
 
           <Route
@@ -104,10 +122,7 @@ class App extends Component {
             exact path={routes.SIGN_UP}
             component={SignUpPage}
           />
-          <Route
-            exact path={routes.SIGN_IN}
-            component={SignInPage}
-          />
+          <Route exact path={routes.SIGN_IN} component={SignInPage} />
           <Route
             exact path={routes.PASSWORD_FORGET}
             component={PasswordForgetPage}
@@ -126,4 +141,4 @@ class App extends Component {
   }
 }
 
-export default App;
+export default withAuthentication(App);
