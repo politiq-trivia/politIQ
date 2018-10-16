@@ -6,6 +6,7 @@ export const doCreateUser = (id, username, email) =>
   db.ref(`users/${id}`).set({
     username,
     email,
+    // role,
   });
 
 export const onceGetUsers = () =>
