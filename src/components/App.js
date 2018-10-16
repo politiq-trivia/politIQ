@@ -14,81 +14,12 @@ import SignInPage from './SignIn';
 import PasswordForgetPage from './PasswordForget';
 import HomePage from './HomePage';
 import ProfilePage from './Profile';
+import Footer from './Footer';
 
 import * as routes from '../constants/routes';
 import { firebase } from '../firebase';
 import withAuthentication from './withAuthentication';
 
-// const Page = ({ title }) => (
-//     <div className="App">
-//       <div className="App-header">
-//         <img src={logo} className="App-logo" alt="logo" />
-//         <h2>{title}</h2>
-//       </div>
-//       <p className="App-intro">
-//         This is the {title} page.
-//       </p>
-//       {/* <p>
-//         <Link to="/">Home</Link>
-//       </p>
-//       <p>
-//         <Link to="/about">About</Link>
-//       </p>
-//       <p>
-//         <Link to="/profile">Profile</Link>
-//       </p>
-//       <p>
-//         <Link to="/play">Play Game</Link>
-//       </p>
-//       <p>
-//         <Link to="/quiz-archive">Quiz Archive</Link>
-//       </p>
-//       <p>
-//         <Link to="/submit-question">Submit Question</Link>
-//       </p>
-//       <p>
-//         <Link to="/leaderboard">Leaderboard</Link>
-//       </p> */}
-//     </div>
-// );
-
-
-// components in this section will later become their own files
-// const Home = (props) => (
-//   <Page title="Home"/>
-// );
-//
-// const About = (props) => (
-//   <Page title="About"/>
-// );
-//
-// const Profile = (props) => (
-//   <Page title="Profile"/>
-// );
-//
-// const SubmitQuestion = (props) => {
-//   return (
-//     <Page title="Submit Question" />
-//   )
-// }
-//
-// const Leaderboard = (props) => {
-//   return (
-//     <Page title="Leaderboard" />
-//   )
-// }
-//
-// const Play = (props) => {
-//   return (
-//     <Page title="Play Game" />
-//   )
-// }
-//
-// const QuizArchive = (props) => {
-//   return (
-//     <Page title="Quiz Archive" />
-//   )
-// }
 
 class App extends Component {
   constructor(props) {
@@ -112,7 +43,6 @@ class App extends Component {
       <Router>
         <div>
           <Navigation authUser={this.state.authUser} />
-          <hr/>
 
           <Route
             exact path={routes.LANDING}
@@ -135,6 +65,8 @@ class App extends Component {
             exact path={routes.HOME}
             component={HomePage}
           />
+
+          <Footer />
         </div>
       </Router>
     );

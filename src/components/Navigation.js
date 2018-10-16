@@ -1,31 +1,19 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
 
 import AuthUserContext from './AuthUserContext';
-import SignOutButton from './SignOut';
-import * as routes from '../constants/routes';
 import { auth } from '../firebase';
 
 // UI stuff
-import PropTypes from 'prop-types';
-import { withStyles } from '@material-ui/core/styles';
 import SwipeableDrawer from '@material-ui/core/SwipeableDrawer';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
-import Divider from '@material-ui/core/Divider';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
-import Typography from '@material-ui/core/Typography';
 import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
 import AccountCircle from '@material-ui/icons/AccountCircle';
-import Switch from '@material-ui/core/Switch';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import FormGroup from '@material-ui/core/FormGroup';
-import MenuItem from '@material-ui/core/MenuItem';
-import Menu from '@material-ui/core/Menu';
+import Button from '@material-ui/core/Button';
 
 const Navigation = ({ authUser }) => {
   return (
@@ -192,7 +180,7 @@ class NavigationNonAuth extends Component {
           <ListItem button component="a" href="/">
             <ListItemText primary="Home" />
           </ListItem>
-          <ListItem button component="a" href="/sign-in">
+          <ListItem button component="a" href="/signin">
             <ListItemText primary="Sign In" />
           </ListItem>
           <ListItem button component="a" href="/play-game">
@@ -216,13 +204,13 @@ class NavigationNonAuth extends Component {
               PolitIQ
             </h3>
             <div>
-              <IconButton
+              <Button
                 aria-haspopup='true'
                 color="inherit"
-                href="/profile"
+                href="/signin"
               >
-                <AccountCircle />
-              </IconButton>
+                Login
+              </Button>
               <SwipeableDrawer
                 classes={{ paper: styles.drawerPaper }}
                 id="menu-appbar"

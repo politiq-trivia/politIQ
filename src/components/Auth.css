@@ -1,0 +1,15 @@
+.authCard {
+  width: 50%;
+  margin-left: auto;
+  margin-right: auto;
+  padding-top: 2vh;
+  padding-bottom: 2vh;
+  padding-left: 5vw;
+  padding-right: 5vw;
+  text-align: center;
+  margin-top: 5vh;
+}
+
+/* .authButton {
+  margin-top: 3vh;
+} */

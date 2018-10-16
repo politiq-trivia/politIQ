@@ -2,14 +2,22 @@ import React, { Component } from 'react';
 import { Link, withRouter } from 'react-router-dom';
 
 import { auth, db } from '../firebase';
+import { SignInLink } from './SignIn';
 
 import * as routes from '../constants/routes';
 
+//UI
+import Paper from '@material-ui/core/Paper';
+import TextField from '@material-ui/core/TextField';
+import Button from '@material-ui/core/Button';
+import './Auth.css';
+
 const SignUpPage = ({ history }) =>
-  <div>
-    <h1>SignUp</h1>
+  <Paper className="authCard">
+    <h1>Sign Up</h1>
     <SignUpForm history={history} />
-  </div>
+    <SignInLink />
+  </Paper>
 
 const INITIAL_STATE = {
   username: '',
@@ -80,33 +88,41 @@ class SignUpForm extends Component {
 
     return (
       <form onSubmit={this.onSubmit}>
-        <input
+        <TextField
+          margin="normal"
+          fullWidth
           value={username}
           onChange={event => this.setState(byPropKey('username', event.target.value ))}
           type="text"
           placeholder = "Username"
         />
-        <input
+        <TextField
+          margin="normal"
+          fullWidth
           value={email}
           onChange={event => this.setState(byPropKey('email', event.target.value ))}
           type="text"
           placeholder = "Email Address"
         />
-        <input
+        <TextField
+          margin="normal"
+          fullWidth
           value={passwordOne}
           onChange={event => this.setState(byPropKey('passwordOne', event.target.value ))}
           type="password"
           placeholder = "Password"
         />
-        <input
+        <TextField
+          margin="normal"
+          fullWidth
           value={passwordTwo}
           onChange={event => this.setState(byPropKey('passwordTwo', event.target.value ))}
           type="password"
           placeholder = "Confirm Password"
         />
-        <button disabled={isInvalid} type="submit">
+        <Button disabled={isInvalid} type="submit" variant="contained" color="primary" style={{ marginTop: '2vh'}}>
           Sign Up
-        </button>
+        </Button>
 
         { error && <p>{error.message}</p> }
       </form>
