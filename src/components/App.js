@@ -20,6 +20,17 @@ import * as routes from '../constants/routes';
 import { firebase } from '../firebase';
 import withAuthentication from './withAuthentication';
 
+import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
+
+const theme = createMuiTheme({
+  palette: {
+    primary: {
+      main: '#a54ee8'
+    },
+    // secondary: green,
+  },
+});
+
 
 class App extends Component {
   constructor(props) {
@@ -41,33 +52,35 @@ class App extends Component {
   render() {
     return (
       <Router>
-        <div>
-          <Navigation authUser={this.state.authUser} />
+        <MuiThemeProvider theme={theme}>
+          <div>
+            <Navigation authUser={this.state.authUser} />
 
-          <Route
-            exact path={routes.LANDING}
-            component={LandingPage}
-          />
-          <Route
-            exact path={routes.SIGN_UP}
-            component={SignUpPage}
-          />
-          <Route exact path={routes.SIGN_IN} component={SignInPage} />
-          <Route
-            exact path={routes.PASSWORD_FORGET}
-            component={PasswordForgetPage}
-          />
-          <Route
-            exact path={routes.PROFILE}
-            component={ProfilePage}
-          />
-          <Route
-            exact path={routes.HOME}
-            component={HomePage}
-          />
+            <Route
+              exact path={routes.LANDING}
+              component={LandingPage}
+            />
+            <Route
+              exact path={routes.SIGN_UP}
+              component={SignUpPage}
+            />
+            <Route exact path={routes.SIGN_IN} component={SignInPage} />
+            <Route
+              exact path={routes.PASSWORD_FORGET}
+              component={PasswordForgetPage}
+            />
+            <Route
+              exact path={routes.PROFILE}
+              component={ProfilePage}
+            />
+            <Route
+              exact path={routes.HOME}
+              component={HomePage}
+            />
 
-          <Footer />
-        </div>
+            <Footer />
+          </div>
+        </MuiThemeProvider>
       </Router>
     );
   }
