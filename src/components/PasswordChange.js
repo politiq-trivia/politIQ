@@ -7,8 +7,8 @@ const byPropKey = (propertyName, value) => () => ({
 });
 
 const INITIAL_STATE = {
-  passwordOne: '';
-  passwordTwo: '';
+  passwordOne: '',
+  passwordTwo: '',
   error: null,
 };
 
