@@ -114,21 +114,11 @@ class NavigationAuth extends Component {
     return (
       <div className={styles.root}>
         <AppBar position="static" className={styles.appBar}>
-          <Toolbar>
-            <IconButton aria-label="Menu" color="inherit" onClick={this.toggleDrawer('top', true)}>
-              <MenuIcon />
-            </IconButton>
-            <h3 style={{ color: 'white' }}>
+          <Toolbar >
+            <h3 style={{ color: 'white' }} href="/">
               PolitIQ
             </h3>
             <div>
-              <IconButton
-                aria-haspopup='true'
-                color="inherit"
-                href="/profile"
-              >
-                <AccountCircle />
-              </IconButton>
               <SwipeableDrawer
                 classes={{ paper: styles.drawerPaper }}
                 id="menu-appbar"
@@ -150,6 +140,19 @@ class NavigationAuth extends Component {
                 </div>
               </SwipeableDrawer>
             </div>
+            <div style={{ marginLeft: 'auto', marginRight: '0' }}>
+            <IconButton
+              aria-haspopup='true'
+              color="inherit"
+              href="/profile"
+            >
+              <AccountCircle />
+            </IconButton>
+            <IconButton aria-label="Menu" color="inherit" onClick={this.toggleDrawer('top', true)} >
+              <MenuIcon />
+            </IconButton>
+            </div>
+
           </Toolbar>
         </AppBar>
       </div>
@@ -197,20 +200,11 @@ class NavigationNonAuth extends Component {
       <div className={styles.root}>
         <AppBar position="static" className={styles.appBar}>
           <Toolbar>
-            <IconButton aria-label="Menu" color="inherit" onClick={this.toggleDrawer('top', true)}>
-              <MenuIcon />
-            </IconButton>
-            <h3 style={{ color: 'white' }}>
+
+            <h3 style={{ color: 'white' }} href="/">
               PolitIQ
             </h3>
             <div>
-              <Button
-                aria-haspopup='true'
-                color="inherit"
-                href="/signin"
-              >
-                Login
-              </Button>
               <SwipeableDrawer
                 classes={{ paper: styles.drawerPaper }}
                 id="menu-appbar"
@@ -232,6 +226,17 @@ class NavigationNonAuth extends Component {
                 </div>
               </SwipeableDrawer>
             </div>
+            <Button
+              aria-haspopup='true'
+              color="inherit"
+              href="/signin"
+              style={{ marginLeft: 'auto', marginRight: '0' }}
+            >
+              Login
+            </Button>
+            <IconButton aria-label="Menu" color="inherit" onClick={this.toggleDrawer('top', true)}>
+              <MenuIcon />
+            </IconButton>
           </Toolbar>
         </AppBar>
       </div>
