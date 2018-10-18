@@ -10,6 +10,7 @@ import * as routes from '../constants/routes';
 import Paper from '@material-ui/core/Paper';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
+import MenuItem from '@material-ui/core/MenuItem';
 import './Auth.css';
 
 const SignUpPage = ({ history }) =>
@@ -24,8 +25,21 @@ const INITIAL_STATE = {
   email: '',
   passwordOne: '',
   passwordTwo: '',
+  affiliation: '',
   error: null
 };
+
+const affiliations = [
+  {
+    value: 'Democrat',
+  },
+  {
+    value: 'Republican',
+  },
+  {
+    value: 'Independent',
+  },
+];
 
 const byPropKey = (propertyName, value) => () => ({
   [propertyName]: value,
@@ -43,6 +57,7 @@ class SignUpForm extends Component {
       username,
       email,
       passwordOne,
+      affiliation,
     } = this.state;
 
     const {
@@ -54,7 +69,7 @@ class SignUpForm extends Component {
 
         // this one creates the user in the firebase database and is where I'll
         // add in the additional information (to the state in this component)
-        db.doCreateUser(authUser.user.uid, username, email)
+        db.doCreateUser(authUser.user.uid, username, email, affiliation)
           .then(() => {
             this.setState({ ...INITIAL_STATE });
             history.push(routes.HOME);
@@ -120,6 +135,20 @@ class SignUpForm extends Component {
           type="password"
           placeholder = "Confirm Password"
         />
+        <TextField
+          select
+          label="Political Affiliation"
+          value={this.state.affiliation}
+          onChange={event => this.setState(byPropKey('affiliation', event.target.value))}
+          margin="normal"
+          fullWidth
+        >
+          {affiliations.map(option => (
+            <MenuItem key={option.value} value={option.value}>
+              {option.value}
+            </MenuItem>
+          ))}
+        </TextField>
         <Button disabled={isInvalid} type="submit" variant="contained" color="primary" style={{ marginTop: '2vh'}}>
           Sign Up
         </Button>

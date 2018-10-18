@@ -18,6 +18,11 @@ const Footer = () =>
     <div className="sharing">
       <h3>Share on Social Media</h3>
     </div>
+    <div className="bottom-nav">
+      <Link to="/play-game" id="play">Play Now</Link>
+      <Link to="/leaderboard">Leaderboard</Link>
+      <Link to="/about">About PolitIQ</Link>
+    </div>
   </div>
 
 export default Footer;

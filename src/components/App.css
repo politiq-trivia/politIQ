@@ -56,11 +56,13 @@ body {
 
 h3 {
   color: #a54ee8;
+  margin-bottom: 1.5vh;
 }
 
 .description > p {
   color: white;
   font-size: 12px;
+  margin-bottom: 1vh;
 }
 
 .description > a {
@@ -70,4 +72,54 @@ h3 {
 
 .description > a:hover {
   color: #DDBDF6;
+}
+
+.bottom-nav {
+  display: none;
+}
+
+@media (max-width: 680px) {
+  .description, .sharing, .links {
+    display: none;
+  }
+  .footer {
+    height: 5vh;
+  }
+  .bottom-nav {
+    display: flex;
+    flex-direction: row;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  .bottom-nav > a {
+    color: #BB7AEE;
+    text-decoration: none;
+    padding-left: 2vw;
+    padding-right: 2vw;
+    margin-top: 1vh;
+    margin-bottom: 1vh;
+    border-left: 1px solid #BB7AEE;
+  }
+  #play {
+    border-left: none;
+  }
+}
+
+@media (max-width: 980px) {
+  h3 {
+    margin-bottom: 0;
+    margin-top: 1vh;
+  }
+  .description > p {
+    margin-top: 0.5vh;
+    margin-bottom: 0.5vh;
+    font-size: 11.5px;
+  }
+  .description > a {
+    margin-top: 0;
+    font-size: 12px;
+  }
+  .description {
+    width: 40%;
+  }
 }
