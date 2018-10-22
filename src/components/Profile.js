@@ -5,14 +5,25 @@ import { PasswordForgetForm } from './PasswordForget';
 import PasswordChangeForm from './PasswordChange';
 import withAuthorization from './withAuthorization';
 
+import Paper from '@material-ui/core/Paper';
+// import './Profile.css';
+
 const ProfilePage = () =>
   <AuthUserContext.Consumer>
     {authUser =>
-      <div>
-        <h1> Account: {authUser.email}</h1>
-        <PasswordForgetForm />
+      <Paper className="page-style">
+        <div className="profile-header">
+          <img src="https://via.placeholder.com/150x150" />
+          <div className="profile-info">
+            <h1> User Information</h1>
+            <p> Display Name: </p>
+            <p> Email Address: {authUser.email}</p>
+            { console.log(authUser)}
+          </div>
+        </div>
+        {/* <PasswordForgetForm /> */}
         <PasswordChangeForm />
-      </div>
+      </Paper>
     }
   </AuthUserContext.Consumer>
 

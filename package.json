@@ -3,6 +3,8 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@material-ui/core": "^3.2.2",
+    "@material-ui/icons": "^3.0.1",
     "firebase": "^5.5.4",
     "react": "^16.5.2",
     "react-dom": "^16.5.2",
@@ -25,5 +27,9 @@
     "not dead",
     "not ie <= 11",
     "not op_mini all"
-  ]
+  ],
+  "main": "index.js",
+  "repository": "git@github.com:hanna2895/politIQ.git",
+  "author": "Hannah Werman <hanna.w28@gmail.com>",
+  "license": "MIT"
 }
