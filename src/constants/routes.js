@@ -12,3 +12,6 @@ export const QUIZ_ARCHIVE = '/quiz-archive';
 export const SUBMIT_QUESTION = '/submit-question';
 export const LEADERBOARD = '/leaderboard';
 export const ABOUT = '/about';
+
+// admn routes
+export const ADMIN_DASHBOARD = '/admin';

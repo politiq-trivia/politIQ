@@ -3,7 +3,8 @@ import { Link, withRouter } from 'react-router-dom';
 
 import { SignUpLink } from './SignUp';
 import { PasswordForgetLink } from './PasswordForget';
-import { auth } from '../firebase';
+import { auth, db } from '../firebase';
+// import * as firebase from '../firebase';
 import * as routes from '../constants/routes';
 
 // UI
@@ -28,6 +29,9 @@ const byPropKey = (propertyName, value) => () => ({
   [propertyName]: value,
 });
 
+
+
+
 const INITIAL_STATE = {
   email: '',
   password: '',
@@ -41,6 +45,20 @@ class SignInForm extends Component {
     this.state = { ...INITIAL_STATE };
   }
 
+  isAdmin = async () => {
+    const { history } = this.props;
+    const check = await db.checkAdmin()
+      if (check == true) { // this doesn't work yet - it always hit s home
+        console.log('is admin')
+        history.push(routes.ADMIN_DASHBOARD)
+      } else {
+        console.log('is not admin')
+        history.push(routes.HOME);
+      }
+    
+
+  }
+
   onSubmit = (event) => {
     const {
       email,
@@ -52,9 +70,11 @@ class SignInForm extends Component {
     } = this.props;
 
     auth.doSignInWithEmailAndPassword(email, password)
-      .then(() => {
+      .then((authUser) => {
         this.setState({ ...INITIAL_STATE });
-        history.push(routes.HOME);
+        const userID = authUser.uid;
+        this.isAdmin();
+
       })
       .catch(error => {
         this.setState(byPropKey('error', error));

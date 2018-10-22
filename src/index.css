@@ -24,6 +24,12 @@ code {
   flex-direction: column;
 }
 
+.home {
+  text-align: center;
+  padding-top: 5vh;
+  height: 63vh;
+}
+
 /* profile page styles */
 .profile-header{
   display: flex;

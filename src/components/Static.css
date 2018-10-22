@@ -53,3 +53,30 @@
   padding-bottom: 5vh;
   height: 59vh;
 }
+
+#today {
+  width: 50vw;
+  font-size: 2.5em;
+  text-transform: capitalize;
+  letter-spacing: 2px;
+  font-family: "Baloo Bhaina", cursive;
+  line-height: 80%;
+  padding-top: 3vh;
+}
+
+#archive-link {
+  display: block;
+  width: 25vw;
+  font-size: 1.5em;
+  margin-top: 5vh;
+  margin-left: auto;
+  margin-right: auto;
+  text-transform: capitalize;
+  font-family: "Baloo Bhaina", cursive;
+  line-height: 80%;
+  padding-top: 2.5vh;
+}
+
+h4 {
+  margin-top: 10vh;
+}

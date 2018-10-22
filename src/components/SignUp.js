@@ -26,6 +26,7 @@ const INITIAL_STATE = {
   passwordOne: '',
   passwordTwo: '',
   affiliation: '',
+  isAdmin: false,
   error: null
 };
 
@@ -58,6 +59,7 @@ class SignUpForm extends Component {
       email,
       passwordOne,
       affiliation,
+      isAdmin,
     } = this.state;
 
     const {
@@ -69,10 +71,17 @@ class SignUpForm extends Component {
 
         // this one creates the user in the firebase database and is where I'll
         // add in the additional information (to the state in this component)
-        db.doCreateUser(authUser.user.uid, username, email, affiliation)
+        db.doCreateUser(authUser.user.uid, username, email, affiliation, isAdmin)
           .then(() => {
             this.setState({ ...INITIAL_STATE });
-            history.push(routes.HOME);
+
+            // if the user is admin, direct them to the admin dashboard, otherwise direct other users to the homepage
+            if (isAdmin) {
+              history.push(routes.ADMIN_DASHBOARD)
+            } else {
+              history.push(routes.HOME);
+            }
+
           })
           .catch(error => {
             this.setState(byPropKey('error', error));
@@ -109,7 +118,7 @@ class SignUpForm extends Component {
           value={username}
           onChange={event => this.setState(byPropKey('username', event.target.value ))}
           type="text"
-          placeholder = "Username"
+          placeholder = "Display Name"
         />
         <TextField
           margin="normal"

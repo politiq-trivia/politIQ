@@ -14,7 +14,7 @@ const LandingPage = () =>
     <h2>Where you can answer the question: Are you smarter than a </h2>
     <span id="rep">Republican? </span><span id="dem">Democrat? </span><span id="ind">Independent?</span><br/>
 
-    <img src={bg} id="bg-image"/>
+    <img src={bg} id="bg-image" alt="democrats and republicans face off"/>
 
     <Button size="large" variant="contained" color="secondary" className="home-button"><Link to="/signup" style={{ color: 'white', textDecoration: 'none', fontSize: '1.5em' }}>Sign Up and Find Out</Link></Button>
   </Paper>

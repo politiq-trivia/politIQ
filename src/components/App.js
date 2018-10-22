@@ -15,6 +15,7 @@ import PasswordForgetPage from './PasswordForget';
 import HomePage from './HomePage';
 import ProfilePage from './Profile';
 import Footer from './Footer';
+import AdminDashboard from './AdminDashboard';
 
 import * as routes from '../constants/routes';
 import { firebase } from '../firebase';
@@ -78,6 +79,10 @@ class App extends Component {
             <Route
               exact path={routes.HOME}
               component={HomePage}
+            />
+            <Route
+              exact path={routes.ADMIN_DASHBOARD}
+              component={AdminDashboard}
             />
 
             <Footer />
