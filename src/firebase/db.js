@@ -16,36 +16,18 @@ export const onceGetUsers = () =>
 
 // Other Entity APIs ...
 
-// get one user
+// get one user and check if it is the admin
 export const checkAdmin = (uid) => {
-  let isAdmin;
-  const users = db.ref('users')
-  users.on("value", function(snapshot) {
-    snapshot.forEach(function(childSnapshot) {
-      var childData = childSnapshot.val();
-      isAdmin=childData.isAdmin;
-      console.log(childData, 'this is childdata');
-      if (isAdmin) {
-        console.log('true')
-        return true;
-      } else {
-        console.log('false')
-        return false;
-      }
-    });
+  const user = db.ref('users').child(uid).once('value', function(snapshot) {
+    return snapshot.val().isAdmin;
   });
+  return user;
 }
 
 
-function gotUsers(users) {
-  console.log(users.val());
-  console.log('response from getUser ^^')
-  const usersObject = users.val();
-  console.log(usersObject, 'this is usersObject');
-  return usersObject;
-}
-
-function errUsers(err) {
-  console.error("Error!");
-  console.error(err);
+// Add a quiz
+export const addQuiz = (title) => {
+  var ref = db.ref();
+  ref.child("quizzes").set(title)
+  console.log('addQuiz called')
 }

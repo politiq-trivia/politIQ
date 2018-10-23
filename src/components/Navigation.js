@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
+import * as routes from '../constants/routes';
 
 import AuthUserContext from './AuthUserContext';
 import { auth } from '../firebase';
@@ -25,16 +27,6 @@ const Navigation = ({ authUser }) => {
     </AuthUserContext.Consumer>
   )
 }
-
-// class Navigation extends Component {
-//   constructor(props) {
-//     super(props);
-//
-//     this.state = {
-//       authUser
-//     }
-//   }
-// }
 
 const drawerWidth = 240;
 
@@ -83,11 +75,11 @@ class NavigationAuth extends Component {
     const fullList = (
       <div>
         <List component="nav">
-          <ListItem button component="a" href="/">
-            <ListItemText primary="Home" />
+          <ListItem button component="a" href="/admin">
+            <ListItemText primary="Admin Dashboard" />
           </ListItem>
           <ListItem button component="a" href="/home">
-            <ListItemText primary="Dashboard" />
+            <ListItemText primary="Home" />
           </ListItem>
           <ListItem button component="a" href="/play-game">
             <ListItemText primary="Play Game" />
@@ -96,7 +88,7 @@ class NavigationAuth extends Component {
             <ListItemText primary="Quiz Archive" />
           </ListItem>
           <ListItem button component="a" href="/leaderboard">
-            <ListItemText primary="leaderboard" />
+            <ListItemText primary="Leaderboard" />
           </ListItem>
           <ListItem button component="a" href="/profile">
             <ListItemText primary="Profile" />
@@ -114,10 +106,12 @@ class NavigationAuth extends Component {
     return (
       <div className={styles.root}>
         <AppBar position="static" className={styles.appBar}>
-          <Toolbar >
-            <h3 style={{ color: 'white' }} href="/">
-              PolitIQ
-            </h3>
+          <Toolbar>
+            <Link to={routes.HOME}>
+              <h3 style={{ color: 'white' }}>
+                PolitIQ
+              </h3>
+            </Link>
             <div>
               <SwipeableDrawer
                 classes={{ paper: styles.drawerPaper }}
@@ -200,10 +194,11 @@ class NavigationNonAuth extends Component {
       <div className={styles.root}>
         <AppBar position="static" className={styles.appBar}>
           <Toolbar>
-
-            <h3 style={{ color: 'white' }} href="/">
-              PolitIQ
-            </h3>
+            <Link to={routes.LANDING}>
+              <h3 style={{ color: 'white' }} href="/">
+                PolitIQ
+              </h3>
+            </Link>
             <div>
               <SwipeableDrawer
                 classes={{ paper: styles.drawerPaper }}

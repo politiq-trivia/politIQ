@@ -24,13 +24,9 @@ const SignInPage = ({ history }) => {
   )
 }
 
-
 const byPropKey = (propertyName, value) => () => ({
   [propertyName]: value,
 });
-
-
-
 
 const INITIAL_STATE = {
   email: '',
@@ -45,18 +41,18 @@ class SignInForm extends Component {
     this.state = { ...INITIAL_STATE };
   }
 
-  isAdmin = async () => {
+  isAdmin = async (uid) => {
     const { history } = this.props;
-    const check = await db.checkAdmin()
-      if (check == true) { // this doesn't work yet - it always hit s home
-        console.log('is admin')
-        history.push(routes.ADMIN_DASHBOARD)
-      } else {
-        console.log('is not admin')
-        history.push(routes.HOME);
-      }
-    
-
+    await db.checkAdmin(uid)
+      .then(response => {
+        const isAdmin = response.val().isAdmin;
+        if (isAdmin) {
+          history.push(routes.ADMIN_DASHBOARD)
+        } else {
+          this.setState({ ...INITIAL_STATE });
+          history.push(routes.HOME)
+        }
+      })
   }
 
   onSubmit = (event) => {
@@ -65,16 +61,10 @@ class SignInForm extends Component {
       password,
     } = this.state;
 
-    const {
-      history,
-    } = this.props;
-
     auth.doSignInWithEmailAndPassword(email, password)
       .then((authUser) => {
-        this.setState({ ...INITIAL_STATE });
-        const userID = authUser.uid;
-        this.isAdmin();
-
+        const userID = authUser.user.uid;
+        this.isAdmin(userID);
       })
       .catch(error => {
         this.setState(byPropKey('error', error));

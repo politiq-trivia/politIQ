@@ -13,7 +13,7 @@ const ProfilePage = () =>
     {authUser =>
       <Paper className="page-style">
         <div className="profile-header">
-          <img src="https://via.placeholder.com/150x150" />
+          <img src="https://via.placeholder.com/150x150" alt="placeholder image"/>
           <div className="profile-info">
             <h1> User Information</h1>
             <p> Display Name: </p>
