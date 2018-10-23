@@ -10,7 +10,7 @@ class AdminDashboard extends Component {
     super(props);
 
     this.state = {
-      addingQuiz: false
+      addingQuiz: false,
     }
   }
 
@@ -20,6 +20,10 @@ class AdminDashboard extends Component {
       addingQuiz: !this.state.addingQuiz
     })
   }
+
+  // add question function
+  // each time it is clicked, it adds another add question component to the add quiz component
+  // need a counter (in state)
 
   render() {
     return (

@@ -8,7 +8,6 @@ export const doCreateUser = (id, username, email, affiliation, isAdmin) =>
     email,
     affiliation,
     isAdmin,
-    // role,
   });
 
 export const onceGetUsers = () =>
@@ -26,8 +25,14 @@ export const checkAdmin = (uid) => {
 
 
 // Add a quiz
-export const addQuiz = (title) => {
-  var ref = db.ref();
-  ref.child("quizzes").set(title)
+export const addQuiz = (date, title) => {
+  var quizzes = db.ref().child('quizzes');
+  quizzes.child(date).set(title)
   console.log('addQuiz called')
 }
+
+// to store the questions, what if I grab them in an array of objects on the front end,
+// and then loop through that array on this end.
+// each quiz has multiple questions.
+// each question has multiple answers
+// answers are going to be objects with value and isCorrect properties

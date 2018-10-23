@@ -15,7 +15,7 @@ import PasswordForgetPage from './PasswordForget';
 import HomePage from './HomePage';
 import ProfilePage from './Profile';
 import Footer from './Footer';
-import AdminDashboard from './AdminDashboard';
+import AdminDashboard from './AdminDashboard/AdminDashboard';
 import QuizArchive from './QuizArchive';
 
 import * as routes from '../constants/routes';

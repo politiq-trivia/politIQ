@@ -1,0 +1,17 @@
+.quizEngine {
+  /* width: 98%; */
+  height: 61.7vh;
+  overflow: scroll;
+  padding-left: 5vw;
+  padding-right: 5vw;
+  padding-top: 3vh;
+  padding-bottom: 3vh;
+}
+
+.quizEngine > h1 {
+  text-align: center;
+}
+
+.questionDiv {
+  margin-top: 5vh;
+}
