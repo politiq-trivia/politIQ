@@ -50,6 +50,10 @@ code {
   margin-right: auto;
 }
 
+.profile-info {
+  width: 40vw;
+}
+
 h1 {
   margin-top: 0;
 }
