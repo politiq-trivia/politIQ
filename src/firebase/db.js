@@ -24,6 +24,7 @@ export const checkAdmin = (uid) => {
 }
 
 
+
 // Add a quiz
 export const addQuiz = (date, title) => {
   var quizzes = db.ref().child('quizzes');

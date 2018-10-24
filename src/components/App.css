@@ -123,3 +123,9 @@ h3 {
     width: 40%;
   }
 }
+
+@media (min-width: 1000px) {
+  .footer {
+    height: 16vh;
+  }
+}

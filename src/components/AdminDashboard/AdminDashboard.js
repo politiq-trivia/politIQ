@@ -10,7 +10,7 @@ class AdminDashboard extends Component {
     super(props);
 
     this.state = {
-      addingQuiz: false,
+      addingQuiz: true,
     }
   }
 

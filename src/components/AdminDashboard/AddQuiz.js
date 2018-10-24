@@ -10,6 +10,7 @@ import Checkbox from '@material-ui/core/Checkbox';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 
 import './quizEngine.css';
+import QuestionForm from './QuestionForm';
 
 
 const byPropKey = (propertyName, value) => () => ({
@@ -19,27 +20,29 @@ const byPropKey = (propertyName, value) => () => ({
 const INITIAL_STATE = {
   date: '',
   quizTitle: '',
+  addingQuestion: true,
   questionCounter: 0,
-  q1: {
-    qtext: "",
-    a1: {
-        text: "",
-        isCorrect: "",
-    },
-    a2: {
-      text: "",
-      a2isCorrect: "",
-    },
-    a3: {
-      text: "",
-      a3isCorrect: "",
-    },
-    a4: {
-      text: "",
-      a4isCorrect: "",
-    },
-  },
-  questionsToDisplay: [],
+  // questionCounter: 0,
+  // q1: {
+  //   qtext: "",
+  //   a1: {
+  //       text: "",
+  //       isCorrect: "",
+  //   },
+  //   a2: {
+  //     text: "",
+  //     a2isCorrect: "",
+  //   },
+  //   a3: {
+  //     text: "",
+  //     a3isCorrect: "",
+  //   },
+  //   a4: {
+  //     text: "",
+  //     a4isCorrect: "",
+  //   },
+  // },
+  // questionsToDisplay: [],
 };
 
 class AddQuiz extends Component {
@@ -50,15 +53,15 @@ class AddQuiz extends Component {
   }
 
   addQuestion = () => {
-    let qCounter = this.state.questionCounter; // grab the qCounter from state and store it
-    qCounter++;                                // increment the local qCounter so I'm not manipulating state directly
-    const objSelect = "q" + qCounter;          // objects in state are defined by a q + number so I make that here
-    const selectedObj = this.state[objSelect]
-    this.setState({
-      questionCounter: qCounter,               // update the qCounter
-      questionsToDisplay: [...this.state.questionsToDisplay,selectedObj],
-    })
-    console.log(this.state, 'this is state in the add question method')
+    // let qCounter = this.state.questionCounter; // grab the qCounter from state and store it
+    // qCounter++;                                // increment the local qCounter so I'm not manipulating state directly
+    // const objSelect = "q" + qCounter;          // objects in state are defined by a q + number so I make that here
+    // const selectedObj = this.state[objSelect]
+    // this.setState({
+    //   questionCounter: qCounter,               // update the qCounter
+    //   questionsToDisplay: [...this.state.questionsToDisplay,selectedObj],
+    // })
+    // console.log(this.state, 'this is state in the add question method')
 
   }
 
@@ -88,101 +91,101 @@ class AddQuiz extends Component {
   // maybe it should go somewhere else? like didComponentUpdate or some shit.
 
 
-  renderQuestionForms = (event) => {
-    // loop through the questionsToDisplay array.
-    for (let i = 0; i <= this.state.questionCounter; i++) {
-      const q = this.state.questionsToDisplay[i];
-      console.log(q, 'this is q')
-      if (q) {
-        let qNum = "Question " + (i + 1);
-        return (
-          <div className="questionDiv">
-            <TextField
-              margin="normal"
-              fullWidth
-              value={q.qtext}
-              onChange={event => this.setState(byPropKey(q.qtext, event.target.value))}
-              type="text"
-              placeholder={qNum}
-            />
-
-            <TextField
-              margin="normal"
-              fullWidth
-              value={q.a1.text}
-              onChange={event => this.setState(byPropKey(q.a1.text, event.target.value))}
-              type="text"
-              placeholder="Answer 1"
-            />
-            <FormControlLabel
-              control={
-                <Checkbox
-                  checked={q.a1.isCorrect}
-                  onChange={this.handleCheck(q.a1.isCorrect)}
-                  color="primary"
-                />
-              }
-              label="Correct Answer"
-            />
-            <TextField
-              margin="normal"
-              fullWidth
-              value={q.a2.text}
-              onChange={event => this.setState(byPropKey(this.state.questionsToDisplay[i].a2.text, event.target.value))}
-              type="text"
-              placeholder="Answer 2"
-            />
-            <FormControlLabel
-              control={
-                <Checkbox
-                  checked={this.state.questionsToDisplay[i].a2.isCorrect}
-                  onChange={this.handleCheck(this.state.questionsToDisplay[i].a2.isCorrect)}
-                  color="primary"
-                />
-              }
-              label="Correct Answer"
-            />
-            <TextField
-              margin="normal"
-              fullWidth
-              value={q.a3.text}
-              onChange={event => this.setState(byPropKey(this.state.questionsToDisplay[i].a3.text, event.target.value))}
-              type="text"
-              placeholder="Answer 3"
-            />
-            <FormControlLabel
-              control={
-                <Checkbox
-                  checked={this.state.questionsToDisplay[i].a3.isCorrect}
-                  onChange={this.handleCheck(this.state.questionsToDisplay[i].a3.isCorrect)}
-                  color="primary"
-                />
-              }
-              label="Correct Answer"
-            />
-            <TextField
-              margin="normal"
-              fullWidth
-              value={q.a4.text}
-              onChange={event => this.setState(byPropKey(this.state.questionsToDisplay[i].a4.text, event.target.value))}
-              type="text"
-              placeholder="Answer 4"
-            />
-            <FormControlLabel
-              control={
-                <Checkbox
-                  checked={this.state.questionsToDisplay[i].a4.isCorrect}
-                  onChange={this.handleCheck(this.state.questionsToDisplay[i].a4.isCorrect)}
-                  color="primary"
-                />
-              }
-              label="Correct Answer"
-            />
-          </div>
-        )
-      }
-    }
-  }
+  // renderQuestionForms = (event) => {
+  //   // loop through the questionsToDisplay array.
+  //   for (let i = 0; i <= this.state.questionCounter; i++) {
+  //     const q = this.state.questionsToDisplay[i];
+  //     console.log(q, 'this is q')
+  //     if (q) {
+  //       let qNum = "Question " + (i + 1);
+  //       return (
+  //         <div className="questionDiv">
+  //           <TextField
+  //             margin="normal"
+  //             fullWidth
+  //             value={q.qtext}
+  //             onChange={event => this.setState(byPropKey(q.qtext, event.target.value))}
+  //             type="text"
+  //             placeholder={qNum}
+  //           />
+  //
+  //           <TextField
+  //             margin="normal"
+  //             fullWidth
+  //             value={q.a1.text}
+  //             onChange={event => this.setState(byPropKey(q.a1.text, event.target.value))}
+  //             type="text"
+  //             placeholder="Answer 1"
+  //           />
+  //           <FormControlLabel
+  //             control={
+  //               <Checkbox
+  //                 checked={q.a1.isCorrect}
+  //                 onChange={this.handleCheck(q.a1.isCorrect)}
+  //                 color="primary"
+  //               />
+  //             }
+  //             label="Correct Answer"
+  //           />
+  //           <TextField
+  //             margin="normal"
+  //             fullWidth
+  //             value={q.a2.text}
+  //             onChange={event => this.setState(byPropKey(this.state.questionsToDisplay[i].a2.text, event.target.value))}
+  //             type="text"
+  //             placeholder="Answer 2"
+  //           />
+  //           <FormControlLabel
+  //             control={
+  //               <Checkbox
+  //                 checked={this.state.questionsToDisplay[i].a2.isCorrect}
+  //                 onChange={this.handleCheck(this.state.questionsToDisplay[i].a2.isCorrect)}
+  //                 color="primary"
+  //               />
+  //             }
+  //             label="Correct Answer"
+  //           />
+  //           <TextField
+  //             margin="normal"
+  //             fullWidth
+  //             value={q.a3.text}
+  //             onChange={event => this.setState(byPropKey(this.state.questionsToDisplay[i].a3.text, event.target.value))}
+  //             type="text"
+  //             placeholder="Answer 3"
+  //           />
+  //           <FormControlLabel
+  //             control={
+  //               <Checkbox
+  //                 checked={this.state.questionsToDisplay[i].a3.isCorrect}
+  //                 onChange={this.handleCheck(this.state.questionsToDisplay[i].a3.isCorrect)}
+  //                 color="primary"
+  //               />
+  //             }
+  //             label="Correct Answer"
+  //           />
+  //           <TextField
+  //             margin="normal"
+  //             fullWidth
+  //             value={q.a4.text}
+  //             onChange={event => this.setState(byPropKey(this.state.questionsToDisplay[i].a4.text, event.target.value))}
+  //             type="text"
+  //             placeholder="Answer 4"
+  //           />
+  //           <FormControlLabel
+  //             control={
+  //               <Checkbox
+  //                 checked={this.state.questionsToDisplay[i].a4.isCorrect}
+  //                 onChange={this.handleCheck(this.state.questionsToDisplay[i].a4.isCorrect)}
+  //                 color="primary"
+  //               />
+  //             }
+  //             label="Correct Answer"
+  //           />
+  //         </div>
+  //       )
+  //     }
+  //   }
+  // }
 
 
   handleCheck = (name) => (event) => {
@@ -191,10 +194,13 @@ class AddQuiz extends Component {
     });
   };
 
-  handleSubmit = () => {
+  handleSubmit = (event) => {
+    event.preventDefault()
+    let counter = this.state.questionCounter + 1;
     db.addQuiz(this.state.date, this.state.quizTitle)
     this.setState({
-      questionCounter: 0
+      addingQuestion: true,
+      questionCounter: counter,
     })
   }
   render() {
@@ -226,29 +232,35 @@ class AddQuiz extends Component {
 
     return (
       <Paper className="quizEngine">
-        <h1>Create New Quiz</h1>
-        <form onSubmit={this.handleSubmit}>
-          <TextField
-            margin="normal"
-            fullWidth
-            value={this.state.quizTitle}
-            onChange={event => this.setState(byPropKey('quizTitle', event.target.value))}
-            type="text"
-            placeholder="Quiz Title"
-          />
-          <TextField
-            id="date"
-            margin="normal"
-            fullWidth
-            type="date"
-            onChange={event => this.setState(byPropKey('date', event.target.value))}
-          />
-          {/* {questions} */}
-          {this.renderQuestionForms()}
-          <Button color="primary" onClick={this.addQuestion}>Add Question</Button>
-          <Button type="submit">Create New Quiz</Button>
-        </form>
+        { this.state.addingQuestion ?
+          <QuestionForm quizId={this.state.date} counter={this.state.questionCounter}/>
+        :
+          <div>
+            <h1>Create New Quiz</h1>
+            <form onSubmit={this.handleSubmit}>
+              <TextField
+                margin="normal"
+                fullWidth
+                value={this.state.quizTitle}
+                onChange={event => this.setState(byPropKey('quizTitle', event.target.value))}
+                type="text"
+                placeholder="Quiz Title"
+              />
+              <TextField
+                id="date"
+                margin="normal"
+                fullWidth
+                type="date"
+                onChange={event => this.setState(byPropKey('date', event.target.value))}
+              />
+              {/* {questions} */}
+              {/* // {this.renderQuestionForms()} */}
+              <Button type="submit">Create & Add Questions</Button>
+            </form>
+          </div>
+        }
       </Paper>
+
     )
   }
 

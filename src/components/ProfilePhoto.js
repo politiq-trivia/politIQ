@@ -19,7 +19,7 @@ class ProfilePhoto extends Component {
   }
 
   componentDidMount = () => {
-    if (this.props.authUser.uid != "") {
+    if (this.props.authUser.uid !== "") {
       // this gives an error in the console if the user has not uploaded a photo.
       // does not show an error to the user, so it's fine for now.
       const imgName = this.props.authUser.uid + ".jpg"

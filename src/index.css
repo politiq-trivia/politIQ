@@ -34,6 +34,7 @@ code {
 .profile-header{
   display: flex;
   padding: 5vh;
+  padding-top: 3vh;
 }
 
 .profile-header > form {
@@ -52,6 +53,13 @@ code {
 
 .profile-info {
   width: 40vw;
+}
+
+.profile {
+  margin-top: 5vh;
+  margin-bottom: 5vh;
+  width: 85vw;
+  height: 50vh;
 }
 
 h1 {

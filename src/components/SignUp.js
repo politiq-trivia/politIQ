@@ -74,14 +74,7 @@ class SignUpForm extends Component {
         db.doCreateUser(authUser.user.uid, username, email, affiliation, isAdmin)
           .then(() => {
             this.setState({ ...INITIAL_STATE });
-
-            // if the user is admin, direct them to the admin dashboard, otherwise direct other users to the homepage
-            if (isAdmin) {
-              history.push(routes.ADMIN_DASHBOARD)
-            } else {
-              history.push(routes.HOME);
-            }
-
+            history.push(routes.HOME);
           })
           .catch(error => {
             this.setState(byPropKey('error', error));
