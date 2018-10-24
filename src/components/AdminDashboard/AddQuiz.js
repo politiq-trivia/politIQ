@@ -20,7 +20,7 @@ const byPropKey = (propertyName, value) => () => ({
 const INITIAL_STATE = {
   date: '',
   quizTitle: '',
-  addingQuestion: true,
+  addingQuestion: false,
   questionCounter: 0,
   // questionCounter: 0,
   // q1: {
