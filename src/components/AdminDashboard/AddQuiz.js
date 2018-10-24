@@ -58,6 +58,8 @@ class AddQuiz extends Component {
       questionCounter: qCounter,               // update the qCounter
       questionsToDisplay: [...this.state.questionsToDisplay,selectedObj],
     })
+    console.log(this.state, 'this is state in the add question method')
+
   }
 
   // renderQuestionForms = (event) => {
@@ -79,6 +81,11 @@ class AddQuiz extends Component {
   //   }
   // }
   // does .map help with capturing text from fields?
+
+  // SITUATION: I can't capture the text because every time something is typed,
+  // the page is re-rendered because setState is called.
+  // the renderQuestionForms function is called in the render function.
+  // maybe it should go somewhere else? like didComponentUpdate or some shit.
 
 
   renderQuestionForms = (event) => {
@@ -103,15 +110,15 @@ class AddQuiz extends Component {
               margin="normal"
               fullWidth
               value={q.a1.text}
-              onChange={event => this.setState(byPropKey(this.state.questionsToDisplay[i].a1.text, event.target.value))}
+              onChange={event => this.setState(byPropKey(q.a1.text, event.target.value))}
               type="text"
               placeholder="Answer 1"
             />
             <FormControlLabel
               control={
                 <Checkbox
-                  checked={this.state.questionsToDisplay[i].a1.isCorrect}
-                  onChange={this.handleCheck(this.state.questionsToDisplay[i].a1.isCorrect)}
+                  checked={q.a1.isCorrect}
+                  onChange={this.handleCheck(q.a1.isCorrect)}
                   color="primary"
                 />
               }
@@ -192,7 +199,27 @@ class AddQuiz extends Component {
   }
   render() {
 
-
+    // console.log('this is state in the render function', this.state)
+    // // this.renderQuestionForms()
+    // let questions;
+    //
+    //   if (this.state.questionsToDisplay != []) {
+    //     questions = this.state.questionsToDisplay.map((q, i) => {
+    //       console.log(q, 'this is q')
+    //       let qId = `q${i}`
+    //       return (
+    //         <div key={i}>
+    //           <TextField
+    //             margin="normal"
+    //             fullWidth
+    //             value={q.qtext}
+    //             type="text"
+    //             onChange={event => this.setState({...this.state.questionsToDisplay[i], qtext: event.target.value})}
+    //           />
+    //         </div>
+    //       )
+    //     })
+    //   }
 
 
 
@@ -216,6 +243,7 @@ class AddQuiz extends Component {
             type="date"
             onChange={event => this.setState(byPropKey('date', event.target.value))}
           />
+          {/* {questions} */}
           {this.renderQuestionForms()}
           <Button color="primary" onClick={this.addQuestion}>Add Question</Button>
           <Button type="submit">Create New Quiz</Button>
