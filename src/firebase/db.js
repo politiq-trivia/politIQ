@@ -29,7 +29,6 @@ export const checkAdmin = (uid) => {
 export const addQuiz = (date, title) => {
   var quizzes = db.ref().child('quizzes');
   quizzes.child(date).child('quiz-title').set(title)
-  console.log('addQuiz called')
 }
 
 // add questions to a quiz
@@ -37,10 +36,8 @@ export const addQuestion = (date, questionID, qtext, a1text, a1correct, a2text,
   a2correct, a3text, a3correct, a4text, a4correct) => {
 
   var whichQuiz = db.ref().child('quizzes/' + date + "/" + questionID)
-  console.log(whichQuiz)
   // whichQuiz.child('qID').set(questionID)
   whichQuiz.child('q1').set(qtext)
-  console.log(a1text, 'this is a1text')
   whichQuiz.child('a1text').set(a1text)
   whichQuiz.child('a2text').set(a2text)
   whichQuiz.child('a3text').set(a3text)

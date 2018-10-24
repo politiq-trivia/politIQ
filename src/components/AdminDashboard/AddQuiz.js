@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 
 import { db } from '../../firebase';
 
-
 import Paper from '@material-ui/core/Paper';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
@@ -22,27 +21,6 @@ const INITIAL_STATE = {
   quizTitle: '',
   addingQuestion: false,
   questionCounter: 0,
-  // questionCounter: 0,
-  // q1: {
-  //   qtext: "",
-  //   a1: {
-  //       text: "",
-  //       isCorrect: "",
-  //   },
-  //   a2: {
-  //     text: "",
-  //     a2isCorrect: "",
-  //   },
-  //   a3: {
-  //     text: "",
-  //     a3isCorrect: "",
-  //   },
-  //   a4: {
-  //     text: "",
-  //     a4isCorrect: "",
-  //   },
-  // },
-  // questionsToDisplay: [],
 };
 
 class AddQuiz extends Component {
@@ -51,148 +29,6 @@ class AddQuiz extends Component {
 
     this.state = { ...INITIAL_STATE }
   }
-
-  addQuestion = () => {
-    // let qCounter = this.state.questionCounter; // grab the qCounter from state and store it
-    // qCounter++;                                // increment the local qCounter so I'm not manipulating state directly
-    // const objSelect = "q" + qCounter;          // objects in state are defined by a q + number so I make that here
-    // const selectedObj = this.state[objSelect]
-    // this.setState({
-    //   questionCounter: qCounter,               // update the qCounter
-    //   questionsToDisplay: [...this.state.questionsToDisplay,selectedObj],
-    // })
-    // console.log(this.state, 'this is state in the add question method')
-
-  }
-
-  // renderQuestionForms = (event) => {
-  //   if (this.state.questionsToDisplay != []) {
-  //     this.state.questionsToDisplay.map((q, i) => {
-  //       console.log(q, 'this is q')
-  //       let qId = `q${i}`
-  //       return (
-  //         <div key={i}>
-  //           <TextField
-  //             margin="normal"
-  //             fullWidth
-  //             value={q.qtext}
-  //             type="text"
-  //           />
-  //         </div>
-  //       )
-  //     })
-  //   }
-  // }
-  // does .map help with capturing text from fields?
-
-  // SITUATION: I can't capture the text because every time something is typed,
-  // the page is re-rendered because setState is called.
-  // the renderQuestionForms function is called in the render function.
-  // maybe it should go somewhere else? like didComponentUpdate or some shit.
-
-
-  // renderQuestionForms = (event) => {
-  //   // loop through the questionsToDisplay array.
-  //   for (let i = 0; i <= this.state.questionCounter; i++) {
-  //     const q = this.state.questionsToDisplay[i];
-  //     console.log(q, 'this is q')
-  //     if (q) {
-  //       let qNum = "Question " + (i + 1);
-  //       return (
-  //         <div className="questionDiv">
-  //           <TextField
-  //             margin="normal"
-  //             fullWidth
-  //             value={q.qtext}
-  //             onChange={event => this.setState(byPropKey(q.qtext, event.target.value))}
-  //             type="text"
-  //             placeholder={qNum}
-  //           />
-  //
-  //           <TextField
-  //             margin="normal"
-  //             fullWidth
-  //             value={q.a1.text}
-  //             onChange={event => this.setState(byPropKey(q.a1.text, event.target.value))}
-  //             type="text"
-  //             placeholder="Answer 1"
-  //           />
-  //           <FormControlLabel
-  //             control={
-  //               <Checkbox
-  //                 checked={q.a1.isCorrect}
-  //                 onChange={this.handleCheck(q.a1.isCorrect)}
-  //                 color="primary"
-  //               />
-  //             }
-  //             label="Correct Answer"
-  //           />
-  //           <TextField
-  //             margin="normal"
-  //             fullWidth
-  //             value={q.a2.text}
-  //             onChange={event => this.setState(byPropKey(this.state.questionsToDisplay[i].a2.text, event.target.value))}
-  //             type="text"
-  //             placeholder="Answer 2"
-  //           />
-  //           <FormControlLabel
-  //             control={
-  //               <Checkbox
-  //                 checked={this.state.questionsToDisplay[i].a2.isCorrect}
-  //                 onChange={this.handleCheck(this.state.questionsToDisplay[i].a2.isCorrect)}
-  //                 color="primary"
-  //               />
-  //             }
-  //             label="Correct Answer"
-  //           />
-  //           <TextField
-  //             margin="normal"
-  //             fullWidth
-  //             value={q.a3.text}
-  //             onChange={event => this.setState(byPropKey(this.state.questionsToDisplay[i].a3.text, event.target.value))}
-  //             type="text"
-  //             placeholder="Answer 3"
-  //           />
-  //           <FormControlLabel
-  //             control={
-  //               <Checkbox
-  //                 checked={this.state.questionsToDisplay[i].a3.isCorrect}
-  //                 onChange={this.handleCheck(this.state.questionsToDisplay[i].a3.isCorrect)}
-  //                 color="primary"
-  //               />
-  //             }
-  //             label="Correct Answer"
-  //           />
-  //           <TextField
-  //             margin="normal"
-  //             fullWidth
-  //             value={q.a4.text}
-  //             onChange={event => this.setState(byPropKey(this.state.questionsToDisplay[i].a4.text, event.target.value))}
-  //             type="text"
-  //             placeholder="Answer 4"
-  //           />
-  //           <FormControlLabel
-  //             control={
-  //               <Checkbox
-  //                 checked={this.state.questionsToDisplay[i].a4.isCorrect}
-  //                 onChange={this.handleCheck(this.state.questionsToDisplay[i].a4.isCorrect)}
-  //                 color="primary"
-  //               />
-  //             }
-  //             label="Correct Answer"
-  //           />
-  //         </div>
-  //       )
-  //     }
-  //   }
-  // }
-
-
-  handleCheck = (name) => (event) => {
-    this.setState({
-      [name]: event.target.checked
-    });
-  };
 
   handleSubmit = (event) => {
     event.preventDefault()
@@ -203,37 +39,13 @@ class AddQuiz extends Component {
       questionCounter: counter,
     })
   }
+
+
   render() {
-
-    // console.log('this is state in the render function', this.state)
-    // // this.renderQuestionForms()
-    // let questions;
-    //
-    //   if (this.state.questionsToDisplay != []) {
-    //     questions = this.state.questionsToDisplay.map((q, i) => {
-    //       console.log(q, 'this is q')
-    //       let qId = `q${i}`
-    //       return (
-    //         <div key={i}>
-    //           <TextField
-    //             margin="normal"
-    //             fullWidth
-    //             value={q.qtext}
-    //             type="text"
-    //             onChange={event => this.setState({...this.state.questionsToDisplay[i], qtext: event.target.value})}
-    //           />
-    //         </div>
-    //       )
-    //     })
-    //   }
-
-
-
-
     return (
       <Paper className="quizEngine">
         { this.state.addingQuestion ?
-          <QuestionForm quizId={this.state.date} counter={this.state.questionCounter}/>
+          <QuestionForm quizId={this.state.date} counter={this.state.questionCounter} toggleAddQuiz={this.props.toggleAddQuiz}/>
         :
           <div>
             <h1>Create New Quiz</h1>
@@ -253,9 +65,10 @@ class AddQuiz extends Component {
                 type="date"
                 onChange={event => this.setState(byPropKey('date', event.target.value))}
               />
-              {/* {questions} */}
-              {/* // {this.renderQuestionForms()} */}
-              <Button type="submit">Create & Add Questions</Button>
+              <div className="quizButtonHolder">
+                <Button onClick={this.props.toggleAddQuiz} variant="contained">Go Back</Button>
+                <Button disabled={this.state.date === "" || this.state.quizTitle === "" ? true : false} type="submit" variant="contained">Create & Add Questions</Button>
+              </div>
             </form>
           </div>
         }

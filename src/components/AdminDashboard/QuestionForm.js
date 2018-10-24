@@ -1,24 +1,3 @@
-// the user should be able to click an 'add quiz button that populates a form'
-// maybe this form should be it's own component that handles its own state.
-// when the component is rendered, it gets passed a prop from the parent saying which one it is
-// then, when the quiz is submitted, the component makes a db call and stores itself underneath the quiz reference in firebase.
-// that way, then you can add as many questions as you want.
-// these need to be stateful components because they need to grab data.
-
-// the only problem will be submitting the form as a whole.
-// maybe on component dismount, it submits the data. or something like that.
-// somehow the submit button will need to communicate with all the components.
-// not sure if this is possible but I don't have a better idea.
-
-// WHAT IF they are sequential. so you create the quiz. and then you create the questions until you are done.
-// to do that, I'll first have the add quiz component create the quiz and store the id
-// then, that add quiz component will render each of the add question forms and it will individually add questions to the quiz.
-// at each point, it will have a button that gives the user the option to be done, and go back to the dashboard.
-
-// clicking submit and add another question submits it and then clears the form.
-
-// ----------------------------
-
 import React, { Component } from 'react';
 
 import { db } from '../../firebase';
@@ -84,7 +63,7 @@ class QuestionForm extends Component {
 
   // submits the data to the firebase db, resets the form so that the user can
   // add another question
-  handleSubmit = (event) => {
+  handleSubmit = () => {
     this.saveData()
     let counter = this.state.counter + 1;
     this.setState({
@@ -102,9 +81,17 @@ class QuestionForm extends Component {
     console.log('this is state after you submit (should be empty)', this.state)
   }
 
+  // submits the data to the firebase db and then returns the user to the admin dashboard
+  handleReturn = () => {
+    this.saveData();
+    this.props.toggleAddQuiz()
+  }
+
+  handleQuit = () => {
+    this.props.toggleAddQuiz()
+  }
+
   render() {
-    console.log(this.state, 'state')
-    console.log(this.props, 'props')
     const qNum = "Question " + this.state.counter;
 
     return (
@@ -204,13 +191,13 @@ class QuestionForm extends Component {
           style={{ marginLeft: '0'}}
         />
         <div className="quizButtonHolder">
-          <Button color="primary" variant="contained">
+          <Button color="primary" variant="contained" onClick={this.handleQuit}>
             Exit Without Saving
           </Button>
           <Button onClick={this.handleSubmit} color="primary" variant="contained">
             Save & Add New Question
           </Button>
-          <Button color="primary" variant="contained">
+          <Button color="primary" variant="contained" onClick={this.handleReturn}>
             Save & Complete Quiz
           </Button>
 

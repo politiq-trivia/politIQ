@@ -28,7 +28,7 @@ class AdminDashboard extends Component {
   render() {
     return (
       <div>
-        { this.state.addingQuiz ? <AddQuiz /> :
+        { this.state.addingQuiz ? <AddQuiz toggleAddQuiz={this.toggleAddQuiz}/> :
           <div className="dashboard">
             <Paper>
               <h1>This is the admin dashboard</h1>
