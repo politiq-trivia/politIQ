@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 
 import { db } from '../../firebase';
 
-import Paper from '@material-ui/core/Paper';
 import TextField from '@material-ui/core/TextField';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';

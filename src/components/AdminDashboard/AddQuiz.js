@@ -5,8 +5,6 @@ import { db } from '../../firebase';
 import Paper from '@material-ui/core/Paper';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
-import Checkbox from '@material-ui/core/Checkbox';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
 
 import './quizEngine.css';
 import QuestionForm from './QuestionForm';
