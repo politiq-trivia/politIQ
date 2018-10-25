@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 
+import { db } from '../../firebase';
+
 import Paper from '@material-ui/core/Paper';
 import AppBar from '@material-ui/core/AppBar';
 import Tabs from '@material-ui/core/Tabs';
@@ -16,9 +18,14 @@ class AdminDashboard extends Component {
     this.state = {
       addingQuiz: false,
       showDash: true,
-
+      dateArray: [],
+      titleArray: [],
       value: 0,
     }
+  }
+
+  componentDidMount = () => {
+    this.getQuizzesFromDb();
   }
 
   toggleAddQuiz = () => {
@@ -26,6 +33,24 @@ class AdminDashboard extends Component {
       addingQuiz: !this.state.addingQuiz,
       showDash: false,
     })
+  }
+
+  getQuizzesFromDb = async () => {
+    await db.getQuizzes()
+      .then(response => {
+        const data = response.val();
+        const dateArray = Object.keys(data);
+        let titleArray = [];
+        for (let i = 0; i < dateArray.length; i++) {
+          let date = dateArray[i]
+          const title = data[date]["quiz-title"]
+          titleArray.push(title)
+        }
+        this.setState({
+          dateArray: dateArray,
+          titleArray: titleArray,
+        })
+      })
   }
 
   toggleDashboard = () => {
@@ -41,7 +66,7 @@ class AdminDashboard extends Component {
 
   render() {
     const { value } = this.state;
-
+    // this.getQuizzesFromDb();
     return (
       <div>
         <AppBar position="static" color="default">
@@ -55,8 +80,7 @@ class AdminDashboard extends Component {
           <div className="dashboard">
             <Paper className="dashContainer">
               <h3>Available Quizzes</h3>
-              here's where the list of quizzes will go
-              <QuizList />
+              <QuizList quizDates={this.state.dateArray} quizTitles={this.state.titleArray}/>
             </Paper>
             <Paper className="dashContainer">
               <h3>Other Stuff</h3>

@@ -47,3 +47,10 @@ export const addQuestion = (date, questionID, qtext, a1text, a1correct, a2text,
   whichQuiz.child('a3correct').set(a3correct)
   whichQuiz.child('a4correct').set(a4correct)
 }
+
+// get a list of all the quizzes
+export const getQuizzes = () => {
+  const quizzes = db.ref().child('quizzes').once('value')
+  // console.log(quizzes, 'this is quizzes from the db file')
+  return quizzes;
+}
