@@ -15,6 +15,12 @@ export const onceGetUsers = () =>
 
 // Other Entity APIs ...
 
+// -------------------------------------------------------------------------
+
+// USERS
+
+// ------------------------------------------------------------------------
+
 // get one user and check if it is the admin
 export const checkAdmin = (uid) => {
   const user = db.ref('users').child(uid).once('value', function(snapshot) {
@@ -23,6 +29,11 @@ export const checkAdmin = (uid) => {
   return user;
 }
 
+// -------------------------------------------------------------------------
+
+// QUIZZES
+
+// --------------------------------------------------------------------------
 
 
 // Add a quiz
@@ -53,4 +64,11 @@ export const getQuizzes = () => {
   const quizzes = db.ref().child('quizzes').once('value')
   // console.log(quizzes, 'this is quizzes from the db file')
   return quizzes;
+}
+
+// get a specific quiz
+
+export const getQuiz = (date) => {
+  const quiz = db.ref().child('quizzes/' + date).once('value')
+  return quiz;
 }

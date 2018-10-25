@@ -30,7 +30,7 @@ class QuizList extends Component {
     });
   };
 
-  handleClick = (event, id) => {
+  handleCheck = (event, id) => {
     const { selected } = this.state;
     const selectedIndex = selected.indexOf(id);
     let newSelected = [];
@@ -51,21 +51,28 @@ class QuizList extends Component {
     this.setState({ selected: newSelected })
   }
 
+  // open up the selected quiz in a new component
+  handleClick = (event) => {
+    const id = event.target.parentNode.id;
+    // console.log(id)
+    this.props.toggleQuizShow(id)
+  }
+
   render () {
     const List = this.props.quizDates.map((date, i) => {
       let id = date;
       let title = this.props.quizTitles[i]
       return (
-        <TableRow id={i} key={id}>
+        <TableRow id={date} key={id}>
           <TableCell padding="checkbox">
             <Checkbox
-              onClick={this.handleClick}
+              onClick={this.handleCheck}
             />
           </TableCell>
-          <TableCell>
+          <TableCell onClick={this.handleClick}>
             {date}
           </TableCell>
-          <TableCell>
+          <TableCell onClick={this.handleClick}>
             {title}
           </TableCell>
         </TableRow>

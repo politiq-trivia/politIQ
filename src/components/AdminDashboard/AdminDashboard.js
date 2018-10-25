@@ -10,6 +10,7 @@ import Tab from '@material-ui/core/Tab';
 
 import AddQuiz from './AddQuiz';
 import QuizList from './QuizList';
+import ShowQuiz from './ShowQuiz';
 
 class AdminDashboard extends Component {
   constructor(props) {
@@ -18,9 +19,12 @@ class AdminDashboard extends Component {
     this.state = {
       addingQuiz: false,
       showDash: true,
+      showQuiz: false,
       dateArray: [],
       titleArray: [],
       value: 0,
+      selectedQuizId: '',
+      selectedQuiz: {},
     }
   }
 
@@ -35,6 +39,7 @@ class AdminDashboard extends Component {
     })
   }
 
+  // this one gets the list of quizzes to render in the quiz index component
   getQuizzesFromDb = async () => {
     await db.getQuizzes()
       .then(response => {
@@ -57,7 +62,29 @@ class AdminDashboard extends Component {
     this.setState({
       addingQuiz: false,
       showDash: true,
+      showQuiz: false,
     })
+  }
+
+  toggleQuizShow = (date) => {
+    this.getQuiz(date)
+    this.setState({
+      addingQuiz: false,
+      showDash: false,
+      showQuiz: true,
+      selectedQuizId: date,
+    })
+  }
+
+  // this one gets an individual quiz so that the admin can view it.
+  getQuiz = (date) => {
+    db.getQuiz(date)
+      .then(response => {
+        const quiz = response.val()
+        this.setState({
+          selectedQuiz: quiz,
+        })
+      })
   }
 
   handleChange = (event, value) => {
@@ -66,7 +93,6 @@ class AdminDashboard extends Component {
 
   render() {
     const { value } = this.state;
-    // this.getQuizzesFromDb();
     return (
       <div>
         <AppBar position="static" color="default">
@@ -76,20 +102,24 @@ class AdminDashboard extends Component {
             <Tab label="Manage Users" />
           </Tabs>
         </AppBar>
-        { this.state.addingQuiz ? <AddQuiz toggleAddQuiz={this.toggleAddQuiz}/> :
-          <div className="dashboard">
-            <Paper className="dashContainer">
-              <h3>Available Quizzes</h3>
-              <QuizList quizDates={this.state.dateArray} quizTitles={this.state.titleArray}/>
-            </Paper>
-            <Paper className="dashContainer">
-              <h3>Other Stuff</h3>
-              Maybe we'll also have a counter or nav of user submitted questions or something
-              idk some other stuff will go here
-            </Paper>
+        { this.state.addingQuiz ? <AddQuiz toggleAddQuiz={this.toggleAddQuiz}/>
+          : <div>
+          { this.state.showQuiz ? <ShowQuiz toggleDashboard={this.toggleDashboard} quiz={this.state.selectedQuiz}/> :
+            <div className="dashboard">
+              <Paper className="dashContainer">
+                <h3>Available Quizzes</h3>
+                <QuizList quizDates={this.state.dateArray} quizTitles={this.state.titleArray} toggleQuizShow={this.toggleQuizShow}/>
+              </Paper>
+              <Paper className="dashContainer">
+                <h3>Other Stuff</h3>
+                Maybe we'll also have a counter or nav of user submitted questions or something
+                idk some other stuff will go here
+              </Paper>
 
-          </div>
+            </div>
+          }</div>
         }
+
       </div>
     )
   }
