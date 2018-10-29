@@ -12,6 +12,8 @@ import AddQuiz from './AddQuiz';
 import QuizList from './QuizList';
 import ShowQuiz from './ShowQuiz';
 
+import loadingGif from '../../loadingGif.gif';
+
 class AdminDashboard extends Component {
   constructor(props) {
     super(props);
@@ -93,6 +95,25 @@ class AdminDashboard extends Component {
 
   render() {
     const { value } = this.state;
+
+    const isLoaded = () => {
+      if (this.state.dateArray.length === 0) {
+        console.log('this is being hit')
+        return (
+          <div className="gifStyle">
+            <img src={loadingGif} />
+          </div>
+
+        )
+
+      } else {
+        return (
+          <QuizList quizDates={this.state.dateArray} quizTitles={this.state.titleArray} toggleQuizShow={this.toggleQuizShow}/>
+        )
+      }
+    }
+
+
     return (
       <div>
         <AppBar position="static" color="default">
@@ -108,7 +129,7 @@ class AdminDashboard extends Component {
             <div className="dashboard">
               <Paper className="dashContainer">
                 <h3>Available Quizzes</h3>
-                <QuizList quizDates={this.state.dateArray} quizTitles={this.state.titleArray} toggleQuizShow={this.toggleQuizShow}/>
+                  {isLoaded()}
               </Paper>
               <Paper className="dashContainer">
                 <h3>Other Stuff</h3>
