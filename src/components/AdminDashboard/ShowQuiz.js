@@ -8,6 +8,8 @@ import RadioGroup from '@material-ui/core/RadioGroup';
 import Radio from '@material-ui/core/Radio';
 import FormLabel from '@material-ui/core/FormLabel';
 
+import './quizEngine.css';
+
 class ShowQuiz extends Component {
   constructor(props) {
     super(props);
@@ -19,48 +21,58 @@ class ShowQuiz extends Component {
     this.renderQs()
   }
   renderQs = () => {
-    console.log(this.props, 'this is props')
     const quiz = this.props.quiz;
     const quizQs = Object.keys(quiz);
     quizQs.pop()
     const quizLength = quizQs.length;
-    console.log(quizLength)
     this.setState({
       quizLength,
     })
-    console.log(quizQs.length)
   }
 
   render() {
     const quiz = this.props.quiz;
     const quizQs = Object.keys(quiz);
     const quizLength = quizQs.length - 1;
-    console.log(quizLength, 'this is quizLength')
 
     if (quizLength !== -1) {
       quizQs.pop();
     }
-    console.log(quiz)
     let counter = 1;
     const renderQs = quizQs.map((q, i) => {
-      let qNum = "q" + i
       let qtext = quiz[counter]["q1"]
       let a1text = quiz[counter]["a1text"]
       let a2text = quiz[counter]["a2text"]
       let a3text = quiz[counter]["a3text"]
       let a4text = quiz[counter]["a4text"]
+      let a1correct = quiz[counter]["a1correct"]
+      let a2correct = quiz[counter]["a2correct"]
+      let a3correct = quiz[counter]["a3correct"]
+      let a4correct = quiz[counter]["a4correct"]
+      console.log(a1correct, 'this is a1correct')
       counter++;
       return (
         <FormControl key={i} style={{ display: 'block'}}>
-          <FormLabel>{qtext}</FormLabel>
+          <FormLabel>{i + 1}. {qtext}</FormLabel>
           <RadioGroup
             aria-label={qtext}
           >
-            <FormControlLabel value={a1text} control={<Radio />} label={a1text}/>
-            <FormControlLabel value={a2text} control={<Radio />} label={a2text}/>
-            <FormControlLabel value={a3text} control={<Radio />} label={a3text}/>
-            <FormControlLabel value={a4text} control={<Radio />} label={a4text}/>
-
+            <div style={{ display: 'flex'}}>
+              <FormControlLabel value={a1text} control={<Radio />} label={a1text}/>
+              {a1correct ? <p style={{ color: 'green'}}>Correct Answer</p> : null}
+            </div>
+            <div style={{ display: 'flex'}}>
+              <FormControlLabel value={a2text} control={<Radio />} label={a2text}/>
+              {a2correct ? <p style={{ color: 'green'}}>Correct Answer</p> : null}
+            </div>
+            <div style={{ display: 'flex'}}>
+              <FormControlLabel value={a3text} control={<Radio />} label={a3text}/>
+              {a3correct ? <p style={{ color: 'green'}}>Correct Answer</p> : null}
+            </div>
+            <div style={{ display: 'flex'}}>
+              <FormControlLabel value={a4text} control={<Radio />} label={a4text}/>
+              {a4correct ? <p style={{ color: 'green'}}>Correct Answer</p> : null}
+            </div>
           </RadioGroup>
         </FormControl>
       )
@@ -68,10 +80,13 @@ class ShowQuiz extends Component {
 
 
     return (
-      <Paper style={{ padding: '2vh'}}>
+      <Paper className="showQuiz">
         <Button onClick={this.props.toggleDashboard} variant="contained" color="primary">
             Back
         </Button>
+        <Button variant="contained" color="primary" style={{ float: 'right'}}>
+            Edit Quiz
+          </Button>
         <h1>{quiz['quiz-title']}</h1>
         {renderQs}
       </Paper>

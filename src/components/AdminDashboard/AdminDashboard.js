@@ -98,10 +98,9 @@ class AdminDashboard extends Component {
 
     const isLoaded = () => {
       if (this.state.dateArray.length === 0) {
-        console.log('this is being hit')
         return (
           <div className="gifStyle">
-            <img src={loadingGif} />
+            <img src={loadingGif} alt="loading gif"/>
           </div>
 
         )

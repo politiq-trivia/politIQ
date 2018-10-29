@@ -49,16 +49,28 @@
   text-align: center;
 }
 
-.gifStyle {
-  width: 100%;
-  max-height: 100%;
-  padding-bottom: 100%;
-  position: relative;
+
+.showQuiz {
+  padding-top: 3vh;
+  padding-bottom: 3vh;
+  padding-left: 5vw;
+  padding-right: 5vw;
+  width: 70vw;
   margin-left: auto;
   margin-right: auto;
+  margin-top: 2vh;
+  overflow: scroll;
+  height: 55vh;
 }
 
-.gifStyle > img {
-  width: inherit;
-  max-height: 30vh;
+.showQuiz > h1 {
+  text-align: center;
+}
+
+.correct {
+  color: green;
+}
+
+.incorrect {
+  color: black;
 }

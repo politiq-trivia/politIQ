@@ -65,3 +65,18 @@ code {
 h1 {
   margin-top: 0;
 }
+
+.gifStyle {
+  width: 100%;
+  max-height: 100%;
+  padding-bottom: 100%;
+  position: relative;
+  margin-left: auto;
+  margin-right: auto;
+  max-width: 300px;
+}
+
+.gifStyle > img {
+  width: inherit;
+  max-height: 30vh;
+}
