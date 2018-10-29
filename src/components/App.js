@@ -17,6 +17,7 @@ import ProfilePage from './Profile';
 import Footer from './Footer';
 import AdminDashboard from './AdminDashboard/AdminDashboard';
 import QuizArchive from './QuizArchive';
+import Quiz from './Quiz';
 
 import * as routes from '../constants/routes';
 import { firebase } from '../firebase';
@@ -89,6 +90,10 @@ class App extends Component {
             <Route
               exact path={routes.QUIZ_ARCHIVE}
               component={QuizArchive}
+            />
+            <Route
+              exact path={routes.QUIZ}
+              component={Quiz}
             />
 
             <Footer />

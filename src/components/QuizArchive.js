@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
-import { db} from '../firebase';
+import { Link, withRouter } from 'react-router-dom';
+import { db } from '../firebase';
+import * as routes from '../constants/routes';
 
 import loadingGif from '../loadingGif.gif';
 
@@ -9,6 +11,8 @@ import TableCell from '@material-ui/core/TableCell';
 import Table from '@material-ui/core/Table';
 import TableHead from '@material-ui/core/TableHead';
 import TableBody from '@material-ui/core/TableBody';
+import Button from '@material-ui/core/Button';
+import './quiz.css';
 
 class QuizArchive extends Component {
   constructor(props) {
@@ -42,17 +46,24 @@ class QuizArchive extends Component {
       })
   }
 
+  handleClick = (event) => {
+    console.log(event.target.parentNode.id)
+    const id = event.target.parentNode.id;
+    this.props.history.push('/quiz/' + id)
+  }
+
   render() {
     console.log(this.state, 'this is state')
+    console.log(this.props, 'this props')
     const List = this.state.dateArray.map((date, i) => {
       let id = date;
       let title = this.state.titleArray[i]
       return (
         <TableRow id={date} key={id}>
-          <TableCell>
+          <TableCell onClick={this.handleClick}>
             {date}
           </TableCell>
-          <TableCell>
+          <TableCell onClick={this.handleClick}>
             {title}
           </TableCell>
         </TableRow>
@@ -91,7 +102,11 @@ class QuizArchive extends Component {
     }
     return (
       <Paper className="home" style={{ paddingLeft: '8vw', paddingRight: '8vw'}}>
-        <h1>Quiz Archive</h1>
+        <div className="archive-header">
+          <Link to={routes.HOME} style={{ textDecoration: 'none' }}><Button variant="contained" color="primary">Home</Button></Link>
+          <h1 style={{ display: 'inline'}}>Quiz Archive</h1>
+          <Link to={routes.LEADERBOARD} style={{ textDecoration: 'none' }}><Button variant="contained" color="primary">Leaderboard</Button></Link>
+        </div>
         {isLoading()}
       </Paper>
     )
@@ -99,4 +114,4 @@ class QuizArchive extends Component {
 }
 
 
-export default QuizArchive;
+export default withRouter(QuizArchive);

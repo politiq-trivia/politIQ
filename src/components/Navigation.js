@@ -108,7 +108,7 @@ class NavigationAuth extends Component {
         <AppBar position="static" className={styles.appBar}>
           <Toolbar>
             <Link to={routes.HOME}>
-              <h3 style={{ color: 'white' }}>
+              <h3 style={{ color: 'white', textDecoration: 'none' }}>
                 PolitIQ
               </h3>
             </Link>
@@ -195,7 +195,7 @@ class NavigationNonAuth extends Component {
         <AppBar position="static" className={styles.appBar}>
           <Toolbar>
             <Link to={routes.LANDING}>
-              <h3 style={{ color: 'white' }} href="/">
+              <h3 style={{ color: 'white', textDecoration: 'none' }} href="/">
                 PolitIQ
               </h3>
             </Link>
