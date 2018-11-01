@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import * as routes from '../constants/routes';
 
 import AuthUserContext from './AuthUserContext';
-import { auth } from '../firebase';
+import { auth, db } from '../firebase';
 
 // UI stuff
 import SwipeableDrawer from '@material-ui/core/SwipeableDrawer';
@@ -62,13 +62,35 @@ class NavigationAuth extends Component {
 
     this.state = {
       top: false,
+      mostRecentQuizURL: "",
     };
+  }
+
+  componentDidMount = () => {
+    this.getMostRecentQuizId();
   }
 
   toggleDrawer = (side, open) => () => {
     this.setState({
       [side]: open,
     })
+  }
+
+  getMostRecentQuizId = async () => {
+    await db.getQuizzes()
+      .then(response => {
+        const data = response.val();
+        const dateArray = Object.keys(data);
+        const mostRecent = dateArray[dateArray.length-1]
+        this.setState({
+          mostRecentQuizURL: "quiz/" + mostRecent
+        })
+      })
+  }
+
+  signOut = () => {
+    auth.doSignOut()
+    window.location.replace('/')
   }
 
   render() {
@@ -81,7 +103,7 @@ class NavigationAuth extends Component {
           <ListItem button component="a" href="/home">
             <ListItemText primary="Home" />
           </ListItem>
-          <ListItem button component="a" href="/play-game">
+          <ListItem button>
             <ListItemText primary="Play Game" />
           </ListItem>
           <ListItem button component="a" href="/quiz-archive">
@@ -96,7 +118,7 @@ class NavigationAuth extends Component {
           <ListItem button component="a" href="/about">
             <ListItemText primary="About" />
           </ListItem>
-          <ListItem button component="a" onClick={auth.doSignOut}>
+          <ListItem button component="a" onClick={this.signOut}>
             <ListItemText primary="Sign Out" />
           </ListItem>
         </List>
@@ -180,7 +202,7 @@ class NavigationNonAuth extends Component {
           <ListItem button component="a" href="/signin">
             <ListItemText primary="Sign In" />
           </ListItem>
-          <ListItem button component="a" href="/play-game">
+          <ListItem button>
             <ListItemText primary="Play Game" />
           </ListItem>
           <ListItem button component="a" href="/about">

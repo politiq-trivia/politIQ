@@ -47,14 +47,11 @@ class QuizArchive extends Component {
   }
 
   handleClick = (event) => {
-    console.log(event.target.parentNode.id)
     const id = event.target.parentNode.id;
     this.props.history.push('/quiz/' + id)
   }
 
   render() {
-    console.log(this.state, 'this is state')
-    console.log(this.props, 'this props')
     const List = this.state.dateArray.map((date, i) => {
       let id = date;
       let title = this.state.titleArray[i]
@@ -83,7 +80,6 @@ class QuizArchive extends Component {
           </div>
         )
       } else {
-        console.log(List, 'this is list')
         return (
           <Table>
             <TableHead>

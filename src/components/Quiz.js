@@ -1,12 +1,3 @@
-// this component will:
-// 1. grab the date id from the url
-// 2. render a screen that first says are you ready to play today's quiz? or nah, idk
-// 3. grab that quiz from the db
-// 4. save all the questions in state
-// 5. display the questions on the screen one at a time
-// 6. store the user's answers in state
-// 7. want to show them right away if they got the question right or wrong?
-
 import React, { Component } from 'react';
 import loadingGif from '../loadingGif.gif';
 import { Link } from 'react-router-dom';
@@ -196,9 +187,6 @@ class Quiz extends Component {
   }
 
   submitScore = (score, uid) => {
-    // send your score and the quiz id to the db.
-    // TO DO THAT:
-    // need uid, score, and quiz id (date)
     db.setScore(uid, this.state.selectedQuizId, score)
   }
 
