@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
+// import * as moment from 'moment';
 
 import withAuthorization from './withAuthorization';
 import { db } from '../firebase';
@@ -14,25 +15,38 @@ class HomePage extends Component {
     super(props);
 
     this.state = {
-      users: null,
+      mostRecentQuizURL: ""
     };
   }
 
   componentDidMount() {
-    db.onceGetUsers().then(snapshot =>
-      this.setState({ users: snapshot.val() })
-    );
+    this.getMostRecentQuizId()
+
+  }
+
+  getMostRecentQuizId = async () => {
+    await db.getQuizzes()
+      .then(response => {
+        const data = response.val();
+        const dateArray = Object.keys(data);
+        const mostRecent = dateArray[dateArray.length-1]
+        this.setState({
+          mostRecentQuizURL: "quiz/" + mostRecent
+        })
+      })
   }
 
   render() {
-    const { users } = this.state;
-
     return (
       <Paper className="pageStyle home">
         <h1>Did you watch today's news? Do you think you know politics?</h1>
         <h1>Click below to find out!</h1>
 
-        <Button color="primary" variant="outlined" size="large" id="today">Take Today's Quiz</Button>
+        <Link to={this.state.mostRecentQuizURL} style={{ textDecoration: "none" }}>
+          <Button color="primary" variant="outlined" size="large" id="today">
+            Take Today's Quiz
+          </Button>
+        </Link>
 
         <Link to={routes.QUIZ_ARCHIVE} style={{ textDecoration: 'none', color: '#a54ee8' }}>
           <Button color="primary" variant="outlined" id="archive-link">
@@ -42,21 +56,12 @@ class HomePage extends Component {
 
         <h4>The more you play, the better you score!</h4>
 
-        { !!users && <UserList users={users} /> }
       </Paper>
     );
   }
 }
 
-const UserList = ({ users }) =>
-  <div>
-    <h2>List of Usernames of Users</h2>
-    <p>(Saved on Sign Up in Firebase Database)</p>
 
-    {Object.keys(users).map(key =>
-      <div key={key}>{users[key].username}</div>
-    )}
-  </div>
 
 const authCondition = (authUser) => !!authUser;
 

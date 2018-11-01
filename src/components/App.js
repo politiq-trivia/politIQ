@@ -4,7 +4,7 @@ import {
   BrowserRouter as Router,
   Route
 } from 'react-router-dom';
-import logo from './logo.png';
+// import logo from './logo.png';
 import './App.css';
 
 import Navigation from './Navigation';

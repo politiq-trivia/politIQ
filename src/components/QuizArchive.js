@@ -66,6 +66,9 @@ class QuizArchive extends Component {
           <TableCell onClick={this.handleClick}>
             {title}
           </TableCell>
+          <TableCell onClick={this.handleClick}>
+            --
+          </TableCell>
         </TableRow>
       )
     })
@@ -90,6 +93,9 @@ class QuizArchive extends Component {
                 </TableCell>
                 <TableCell>
                   Quiz Title
+                </TableCell>
+                <TableCell>
+                  Your Score
                 </TableCell>
               </TableRow>
             </TableHead>
