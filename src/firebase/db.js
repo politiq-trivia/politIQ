@@ -62,7 +62,6 @@ export const addQuestion = (date, questionID, qtext, a1text, a1correct, a2text,
 // get a list of all the quizzes
 export const getQuizzes = () => {
   const quizzes = db.ref().child('quizzes').once('value')
-  // console.log(quizzes, 'this is quizzes from the db file')
   return quizzes;
 }
 
@@ -71,4 +70,14 @@ export const getQuizzes = () => {
 export const getQuiz = (date) => {
   const quiz = db.ref().child('quizzes/' + date).once('value')
   return quiz;
+}
+
+// -----------------------------------------------
+
+// SCORES
+
+// -------------------------------------------------
+
+export const setScore = (uid, date, score) => {
+  db.ref().child('scores/' + uid).child(date).set(score);
 }
