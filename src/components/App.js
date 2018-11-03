@@ -18,6 +18,7 @@ import Footer from './Footer';
 import AdminDashboard from './AdminDashboard/AdminDashboard';
 import QuizArchive from './QuizArchive';
 import Quiz from './Quiz';
+import Leaderboard from './Leaderboard/Leaderboard';
 
 import * as routes from '../constants/routes';
 import { firebase } from '../firebase';
@@ -94,6 +95,10 @@ class App extends Component {
             <Route
               exact path={routes.QUIZ}
               component={Quiz}
+            />
+            <Route
+              exact path={routes.LEADERBOARD}
+              component={Leaderboard}
             />
 
             <Footer />

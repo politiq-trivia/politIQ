@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { db } from '../../firebase';
 
 import Paper from '@material-ui/core/Paper';
 import Button from '@material-ui/core/Button';
@@ -7,6 +8,7 @@ import FormControlLabel from '@material-ui/core/FormControlLabel';
 import RadioGroup from '@material-ui/core/RadioGroup';
 import Radio from '@material-ui/core/Radio';
 import FormLabel from '@material-ui/core/FormLabel';
+import Close from '@material-ui/icons/Close';
 
 import './quizEngine.css';
 
@@ -15,68 +17,91 @@ class ShowQuiz extends Component {
     super(props);
     this.state = {
       quizLength: 0,
+      quizQs: [],
+      quiz: {},
     }
   }
   componentDidMount = () => {
-    this.renderQs()
-  }
-  renderQs = () => {
     const quiz = this.props.quiz;
     const quizQs = Object.keys(quiz);
     quizQs.pop()
     const quizLength = quizQs.length;
     this.setState({
       quizLength,
+      quizQs,
+      quiz
+    })
+  }
+
+  handleDeleteQuestion = (event) => {
+    const id = event.target.parentNode.id;
+    console.log(id, 'this is id')
+    const date = this.props.quizId;
+    const quiz = this.state.quiz;
+
+    console.log(quiz[id] , 'this is quiz[id]')
+    delete quiz[id]
+    console.log(quiz, 'this is quiz')
+    if (id) {
+      db.deleteQuestion(date, id)
+    }
+    this.setState({
+      quiz: quiz,
     })
   }
 
   render() {
-    const quiz = this.props.quiz;
-    const quizQs = Object.keys(quiz);
-    const quizLength = quizQs.length - 1;
-
-    if (quizLength !== -1) {
-      quizQs.pop();
+    let quizArray = []
+    if (this.state.quiz) {
+      const quiz = this.state.quiz;
+      const result = Object.keys(quiz).map(function(key) {
+        return [key, quiz[key]]
+      });
+      result.pop();
+      quizArray = [...result]
     }
-    let counter = 1;
-    const renderQs = quizQs.map((q, i) => {
-      let qtext = quiz[counter]["q1"]
-      let a1text = quiz[counter]["a1text"]
-      let a2text = quiz[counter]["a2text"]
-      let a3text = quiz[counter]["a3text"]
-      let a4text = quiz[counter]["a4text"]
-      let a1correct = quiz[counter]["a1correct"]
-      let a2correct = quiz[counter]["a2correct"]
-      let a3correct = quiz[counter]["a3correct"]
-      let a4correct = quiz[counter]["a4correct"]
-      console.log(a1correct, 'this is a1correct')
-      counter++;
+
+    const renderQs = quizArray.map((q, i) => {
+      const currentquestion = q[1]["q1"]
+      console.log(q[0], 'this is q[0]')
       return (
-        <FormControl key={i} style={{ display: 'block'}}>
-          <FormLabel>{i + 1}. {qtext}</FormLabel>
+        <FormControl key={i} id={q[0]} style={{ display: 'block'}}>
+          <FormLabel>{i+1}. {q[1]["q1"]}</FormLabel>
+          <div style={{ float: 'right', color: 'gray'}}  id={q[0]} onClick={this.handleDeleteQuestion}>
+            Remove Question
+            <Close
+              aria-label="close"
+              color="inherit"
+              style={{
+                height: '2vh'
+              }}
+            />
+          </div>
           <RadioGroup
-            aria-label={qtext}
+            aria-label={q[1]["q1"]}
           >
             <div style={{ display: 'flex'}}>
-              <FormControlLabel value={a1text} control={<Radio />} label={a1text}/>
-              {a1correct ? <p style={{ color: 'green'}}>Correct Answer</p> : null}
+              <FormControlLabel value={q[1]["a1text"]} control={<Radio />} label={q[1]["a1text"]}/>
+              {q[1]["a1correct"] ? <p style={{ color: 'green' }}>Correct Answer</p> : null}
             </div>
             <div style={{ display: 'flex'}}>
-              <FormControlLabel value={a2text} control={<Radio />} label={a2text}/>
-              {a2correct ? <p style={{ color: 'green'}}>Correct Answer</p> : null}
+              <FormControlLabel value={q[1]["a2text"]} control={<Radio />} label={q[1]["a2text"]}/>
+              {q[1]["a2correct"] ? <p style={{ color: 'green' }}>Correct Answer</p> : null}
             </div>
             <div style={{ display: 'flex'}}>
-              <FormControlLabel value={a3text} control={<Radio />} label={a3text}/>
-              {a3correct ? <p style={{ color: 'green'}}>Correct Answer</p> : null}
+              <FormControlLabel value={q[1]["a3text"]} control={<Radio />} label={q[1]["a3text"]}/>
+              {q[1]["a3correct"] ? <p style={{ color: 'green' }}>Correct Answer</p> : null}
             </div>
             <div style={{ display: 'flex'}}>
-              <FormControlLabel value={a4text} control={<Radio />} label={a4text}/>
-              {a4correct ? <p style={{ color: 'green'}}>Correct Answer</p> : null}
+              <FormControlLabel value={q[1]["a4text"]} control={<Radio />} label={q[1]["a4text"]}/>
+              {q[1]["a4correct"] ? <p style={{ color: 'green' }}>Correct Answer</p> : null}
             </div>
           </RadioGroup>
         </FormControl>
       )
     })
+
+
 
 
     return (
@@ -86,8 +111,8 @@ class ShowQuiz extends Component {
         </Button>
         <Button variant="contained" color="primary" style={{ float: 'right'}}>
             Edit Quiz
-          </Button>
-        <h1>{quiz['quiz-title']}</h1>
+        </Button>
+        {this.state.quiz ? <h1>{this.state.quiz['quiz-title']}</h1> : null}
         {renderQs}
       </Paper>
     )

@@ -68,13 +68,11 @@ class AdminDashboard extends Component {
     })
   }
 
-  toggleQuizShow = (date) => {
-    this.getQuiz(date)
+  toggleQuizShow = () => {
     this.setState({
       addingQuiz: false,
       showDash: false,
       showQuiz: true,
-      selectedQuizId: date,
     })
   }
 
@@ -85,7 +83,9 @@ class AdminDashboard extends Component {
         const quiz = response.val()
         this.setState({
           selectedQuiz: quiz,
+          selectedQuizId: date,
         })
+        this.toggleQuizShow();
       })
   }
 
@@ -94,6 +94,7 @@ class AdminDashboard extends Component {
   };
 
   render() {
+    console.log(this.state, 'this is state in admin dashboard')
     const { value } = this.state;
 
     const isLoaded = () => {
@@ -107,7 +108,7 @@ class AdminDashboard extends Component {
 
       } else {
         return (
-          <QuizList quizDates={this.state.dateArray} quizTitles={this.state.titleArray} toggleQuizShow={this.toggleQuizShow}/>
+          <QuizList quizDates={this.state.dateArray} quizTitles={this.state.titleArray} toggleQuizShow={this.getQuiz}/>
         )
       }
     }
@@ -124,7 +125,7 @@ class AdminDashboard extends Component {
         </AppBar>
         { this.state.addingQuiz ? <AddQuiz toggleAddQuiz={this.toggleAddQuiz}/>
           : <div>
-          { this.state.showQuiz ? <ShowQuiz toggleDashboard={this.toggleDashboard} quiz={this.state.selectedQuiz}/> :
+          { this.state.showQuiz ? <ShowQuiz toggleDashboard={this.toggleDashboard} quiz={this.state.selectedQuiz} quizId={this.state.selectedQuizId}/> :
             <div className="dashboard">
               <Paper className="dashContainer">
                 <h3>Available Quizzes</h3>

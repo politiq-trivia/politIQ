@@ -72,6 +72,16 @@ export const getQuiz = (date) => {
   return quiz;
 }
 
+// delete a question
+
+export const deleteQuestion = (date, qNum) => {
+  console.log(date, qNum, "db")
+  const question = db.ref().child('quizzes/' + date).child(qNum).remove()
+  return question;
+}
+
+// delete a quiz
+
 // -----------------------------------------------
 
 // SCORES
@@ -80,4 +90,14 @@ export const getQuiz = (date) => {
 
 export const setScore = (uid, date, score) => {
   db.ref().child('scores/' + uid).child(date).set(score);
+}
+
+export const getScores = () => {
+  const scores = db.ref().child('scores').once('value')
+  return scores;
+}
+
+export const getDisplayNames = (username) => {
+  const displayName = db.ref().child('users/' + username).once('value')
+  return displayName;
 }
