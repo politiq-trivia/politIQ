@@ -17,6 +17,8 @@ import MenuIcon from '@material-ui/icons/Menu';
 import AccountCircle from '@material-ui/icons/AccountCircle';
 import Button from '@material-ui/core/Button';
 
+import Logo from './logo.png';
+
 const Navigation = ({ authUser }) => {
   return (
     <AuthUserContext.Consumer>
@@ -41,6 +43,7 @@ const styles = theme => ({
   },
   appBar: {
     zIndex: theme.zIndex.drawer + 1,
+    // marginBottom: '-17vh',
   },
   drawerPaper: {
     position: 'relative',
@@ -97,27 +100,41 @@ class NavigationAuth extends Component {
     const fullList = (
       <div>
         <List component="nav">
-          <ListItem button component="a" href="/admin">
-            <ListItemText primary="Admin Dashboard" />
-          </ListItem>
-          <ListItem button component="a" href="/home">
-            <ListItemText primary="Home" />
-          </ListItem>
-          <ListItem button>
-            <ListItemText primary="Play Game" />
-          </ListItem>
-          <ListItem button component="a" href="/quiz-archive">
-            <ListItemText primary="Quiz Archive" />
-          </ListItem>
-          <ListItem button component="a" href="/leaderboard">
-            <ListItemText primary="Leaderboard" />
-          </ListItem>
-          <ListItem button component="a" href="/profile">
-            <ListItemText primary="Profile" />
-          </ListItem>
-          <ListItem button component="a" href="/about">
-            <ListItemText primary="About" />
-          </ListItem>
+          <Link to={routes.ADMIN_DASHBOARD} style={{ textDecoration: 'none'}}>
+            <ListItem button>
+              <ListItemText primary="Admin Dashboard" />
+            </ListItem>
+          </Link>
+          <Link to={routes.HOME} style={{ textDecoration: 'none'}}>
+            <ListItem button>
+              <ListItemText primary="Home" />
+            </ListItem>
+          </Link>
+          <Link to={this.state.mostRecentQuizURL} style={{ textDecoration: 'none'}}>
+            <ListItem button>
+              <ListItemText primary="Play Game" />
+            </ListItem>
+          </Link>
+          <Link to={routes.QUIZ_ARCHIVE} style={{ textDecoration: 'none'}}>
+            <ListItem button>
+              <ListItemText primary="Quiz Archive" />
+            </ListItem>
+          </Link>
+          <Link to={routes.LEADERBOARD} style={{ textDecoration: 'none'}}>
+            <ListItem button component="a" href="/leaderboard">
+              <ListItemText primary="Leaderboard" />
+            </ListItem>
+          </Link>
+          <Link to={routes.PROFILE} style={{ textDecoration: 'none'}}>
+            <ListItem button>
+              <ListItemText primary="Profile" />
+            </ListItem>
+          </Link>
+          <Link to={routes.ABOUT} style={{ textDecoration: 'none'}}>
+            <ListItem button>
+              <ListItemText primary="About" />
+            </ListItem>
+          </Link>
           <ListItem button component="a" onClick={this.signOut}>
             <ListItemText primary="Sign Out" />
           </ListItem>
@@ -127,12 +144,10 @@ class NavigationAuth extends Component {
 
     return (
       <div className={styles.root}>
-        <AppBar position="static" className={styles.appBar}>
+        <AppBar position="fixed" className={styles.appBar}>
           <Toolbar>
-            <Link to={routes.HOME}>
-              <h3 style={{ color: 'white', textDecoration: 'none' }}>
-                PolitIQ
-              </h3>
+            <Link to={routes.HOME} style={{ textDecoration: 'none' }}>
+              <img src={Logo} alt="PolitIQ" style={{ height: '7vh', marginTop: '3px'}}/>
             </Link>
             <div>
               <SwipeableDrawer
@@ -157,13 +172,14 @@ class NavigationAuth extends Component {
               </SwipeableDrawer>
             </div>
             <div style={{ marginLeft: 'auto', marginRight: '0' }}>
-            <IconButton
-              aria-haspopup='true'
-              color="inherit"
-              href="/profile"
-            >
-              <AccountCircle />
-            </IconButton>
+            <Link to={routes.PROFILE} style={{ textDecoration: 'none', color: 'white'}}>
+              <IconButton
+                aria-haspopup='true'
+                color="inherit"
+              >
+                <AccountCircle />
+              </IconButton>
+            </Link>
             <IconButton aria-label="Menu" color="inherit" onClick={this.toggleDrawer('top', true)} >
               <MenuIcon />
             </IconButton>
@@ -196,30 +212,36 @@ class NavigationNonAuth extends Component {
     const fullList = (
       <div>
         <List component="nav">
-          <ListItem button component="a" href="/">
-            <ListItemText primary="Home" />
-          </ListItem>
-          <ListItem button component="a" href="/signin">
-            <ListItemText primary="Sign In" />
-          </ListItem>
-          <ListItem button>
-            <ListItemText primary="Play Game" />
-          </ListItem>
-          <ListItem button component="a" href="/about">
-            <ListItemText primary="About" />
-          </ListItem>
+          <Link to={routes.LANDING} style={{ textDecoration: 'none'}}>
+            <ListItem button>
+              <ListItemText primary="Home" />
+            </ListItem>
+          </Link>
+          <Link to={routes.SIGN_IN} style={{ textDecoration: 'none'}}>
+            <ListItem button>
+              <ListItemText primary="Sign In" />
+            </ListItem>
+          </Link>
+          <Link to={this.state.mostRecentQuizURL} style={{ textDecoration: 'none'}}>
+            <ListItem button>
+              <ListItemText primary="Play Game" />
+            </ListItem>
+          </Link>
+          <Link to={routes.ABOUT} style={{ textDecoration: 'none' }}>
+            <ListItem button>
+              <ListItemText primary="About" />
+            </ListItem>
+          </Link>
         </List>
       </div>
     );
 
     return (
       <div className={styles.root}>
-        <AppBar position="static" className={styles.appBar}>
+        <AppBar position="fixed" className={styles.appBar}>
           <Toolbar>
-            <Link to={routes.LANDING}>
-              <h3 style={{ color: 'white', textDecoration: 'none' }} href="/">
-                PolitIQ
-              </h3>
+            <Link to={routes.LANDING} style={{ textDecoration: 'none'}}>
+              <img src={Logo} alt="PolitIQ" style={{ height: '7vh', marginTop: '3px'}}/>
             </Link>
             <div>
               <SwipeableDrawer
@@ -243,14 +265,15 @@ class NavigationNonAuth extends Component {
                 </div>
               </SwipeableDrawer>
             </div>
-            <Button
-              aria-haspopup='true'
-              color="inherit"
-              href="/signin"
-              style={{ marginLeft: 'auto', marginRight: '0' }}
-            >
-              Login
-            </Button>
+            <Link to={routes.SIGN_IN} style={{ textDecoration: 'none', marginLeft: 'auto', marginRight: '0', color: 'white'}}>
+              <Button
+                aria-haspopup='true'
+                color="inherit"
+                href="/signin"
+              >
+                Login
+              </Button>
+            </Link>
             <IconButton aria-label="Menu" color="inherit" onClick={this.toggleDrawer('top', true)}>
               <MenuIcon />
             </IconButton>

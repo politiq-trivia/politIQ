@@ -14,7 +14,7 @@ import MenuItem from '@material-ui/core/MenuItem';
 import './Auth.css';
 
 const SignUpPage = ({ history }) =>
-  <Paper className="authCard">
+  <Paper className="authCard signUp">
     <h1>Sign Up</h1>
     <SignUpForm history={history} />
     <SignInLink />

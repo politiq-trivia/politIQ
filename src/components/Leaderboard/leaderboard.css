@@ -4,8 +4,11 @@
   margin-right: auto;
   padding-left: 2vw;
   padding-right: 2vw;
-  margin-top: 2vh;
+  margin-top: 10vh;
+  margin-bottom: 3vh;
   text-align: center;
   padding-top: 3vh;
   overflow: scroll;
+  height: auto;
+  min-height: 62vh;
 }

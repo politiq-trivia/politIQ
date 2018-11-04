@@ -7,9 +7,18 @@
   padding-left: 5vw;
   padding-right: 5vw;
   text-align: center;
-  margin-top: 5vh;
+  margin-top: 15vh;
+  height: auto;
 }
 
+.signIn {
+  margin-bottom: 21.5vh;
+}
+
+.signUp {
+  margin-top: 12vh;
+  margin-bottom: 6vh;
+}
 /* .authButton {
   margin-top: 3vh;
 } */

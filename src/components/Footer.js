@@ -35,6 +35,9 @@ const Footer = () =>
 
     <div className="links">
       <h3>Quick Links</h3>
+      <Link to={routes.HOME} style={{ color: 'white', textDecoration: 'none', marginTop: '1vh', display: 'block' }}>Home</Link>
+      <Link to={routes.ABOUT} style={{ color: 'white', textDecoration: 'none', marginTop: '1vh', display: 'block' }}>About</Link>
+      <Link to={routes.SIGN_UP} style={{ color: 'white', textDecoration: 'none', marginTop: '1vh', display: 'block' }}>Sign Up</Link>
     </div>
 
     <div className="sharing">

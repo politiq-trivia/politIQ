@@ -48,10 +48,11 @@
 }
 
 .home-holder {
+  margin-top: 7.5vh;
   text-align: center;
   padding-top: 5vh;
   padding-bottom: 5vh;
-  height: 59vh;
+  height: 61vh;
 }
 
 #today {
@@ -84,7 +85,9 @@ h4 {
 /* ABOUT */
 .about-holder {
   text-align: center;
-  height: 76vh;
+  /* height: 76vh; */
+  padding-bottom: 5vh;
+  margin-top: 7.5vh;
 }
 
 .text {

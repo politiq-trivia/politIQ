@@ -27,7 +27,8 @@ code {
 .home {
   text-align: center;
   padding-top: 5vh;
-  height: 63vh;
+  height: 65vh;
+  margin-top: 8vh;
 }
 
 /* profile page styles */
@@ -56,8 +57,8 @@ code {
 }
 
 .profile {
-  margin-top: 5vh;
-  margin-bottom: 5vh;
+  margin-top: 12vh;
+  margin-bottom: 9vh;
   width: 85vw;
   height: 50vh;
 }

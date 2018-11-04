@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 
 import { db } from '../../firebase';
 
@@ -8,9 +9,13 @@ import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
+import Button from '@material-ui/core/Button';
+
+import * as routes from '../../constants/routes';
 
 import './leaderboard.css';
 import loadingGif from '../../loadingGif.gif';
+import logo from '../logo.png';
 
 
 
@@ -118,8 +123,18 @@ class Leaderboard extends Component {
 
     return (
       <Paper className="leaderboard">
-        <h1>Leaderboard</h1>
-
+        <div style={{ display: 'flex', justifyContent: 'space-evenly', width: 'auto'}}>
+          <Link to={routes.HOME} style={{ textDecoration: 'none', float: 'left'}}>
+            <Button variant="contained" color="primary">Home</Button>
+          </Link>
+          <div style={{ marginLeft: '6vw'}}>
+            <h1>Leaderboard</h1>
+            <img src={logo} alt="politIQ" style={{ height: '10vh'}}/>
+          </div>
+          <Link to={routes.QUIZ_ARCHIVE} style={{ textDecoration: 'none', float: 'right'}}>
+            <Button variant="contained" color="primary">Build Your Score</Button>
+          </Link>
+        </div>
         <h2>Weekly</h2>
         {isLoading()}
         <h2>Monthly</h2>

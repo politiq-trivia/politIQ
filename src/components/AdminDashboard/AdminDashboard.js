@@ -165,7 +165,7 @@ class AdminDashboard extends Component {
     return (
       <div>
         <AppBar position="static" color="default">
-          <Tabs fullWidth value={value} onChange={this.handleChange}>
+          <Tabs fullWidth value={value} onChange={this.handleChange} style={{ marginTop: '8.5vh'}}>
             <Tab label="Dashboard" onClick={this.toggleDashboard} />
             <Tab label="Create New Quiz" onClick={this.toggleAddQuiz} />
             <Tab label="Manage Users" />

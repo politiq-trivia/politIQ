@@ -15,7 +15,7 @@ import './Auth.css';
 
 const SignInPage = ({ history }) => {
   return (
-    <Paper className="authCard">
+    <Paper className="authCard signIn">
       <h1>Sign In</h1>
       <SignInForm  history={history}/>
       <PasswordForgetLink />

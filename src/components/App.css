@@ -31,9 +31,9 @@ body {
 }
 
 .footer {
-  position: fixed;
+  /* position: fixed; */
   bottom: 0;
-  height: 23vh;
+  height: 20vh;
   background-color: black;
   width: 100%;
   display: flex;
@@ -42,7 +42,7 @@ body {
 }
 
 .description {
-  width: 35%;
+  width: 40%;
   margin-left: 8vw;
 }
 
@@ -51,7 +51,7 @@ body {
 }
 
 .links {
-  margin-right: 15vw;
+  margin-right: 5vw;
 }
 
 h3 {
@@ -61,7 +61,7 @@ h3 {
 
 .description > p {
   color: white;
-  font-size: 12px;
+  font-size: 14px;
   margin-bottom: 1vh;
 }
 
@@ -126,6 +126,6 @@ h3 {
 
 @media (min-width: 1000px) {
   .footer {
-    height: 16vh;
+    height: 22vh;
   }
 }
