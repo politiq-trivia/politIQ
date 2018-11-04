@@ -75,12 +75,17 @@ export const getQuiz = (date) => {
 // delete a question
 
 export const deleteQuestion = (date, qNum) => {
-  console.log(date, qNum, "db")
   const question = db.ref().child('quizzes/' + date).child(qNum).remove()
   return question;
 }
 
 // delete a quiz
+
+export const deleteQuiz = (date) => {
+  console.log(date, 'working')
+  const quiz = db.ref().child('quizzes/' + date).remove()
+  return quiz;
+}
 
 // -----------------------------------------------
 

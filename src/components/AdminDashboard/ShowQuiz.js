@@ -35,13 +35,10 @@ class ShowQuiz extends Component {
 
   handleDeleteQuestion = (event) => {
     const id = event.target.parentNode.id;
-    console.log(id, 'this is id')
     const date = this.props.quizId;
     const quiz = this.state.quiz;
 
-    console.log(quiz[id] , 'this is quiz[id]')
     delete quiz[id]
-    console.log(quiz, 'this is quiz')
     if (id) {
       db.deleteQuestion(date, id)
     }
@@ -62,8 +59,6 @@ class ShowQuiz extends Component {
     }
 
     const renderQs = quizArray.map((q, i) => {
-      const currentquestion = q[1]["q1"]
-      console.log(q[0], 'this is q[0]')
       return (
         <FormControl key={i} id={q[0]} style={{ display: 'block'}}>
           <FormLabel>{i+1}. {q[1]["q1"]}</FormLabel>

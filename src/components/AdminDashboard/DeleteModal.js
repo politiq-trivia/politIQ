@@ -8,30 +8,20 @@ class DeleteModal extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      open: true,
+      open: true
     }
   }
-
-  handleOpen = () => {
-    this.setState({ open: true })
-  }
-
-  handleClose = () => {
-    this.setState({ open: false });
-  }
-
   handleDelete = () => {
     // delete function from previous component
-    this.setState({
-      open: false
-    })
+    this.props.deleteQuiz(this.props.selected)
+    this.props.toggleDeleteModal()
   }
 
 
   render() {
     const List = this.props.selected.map((date, i) => {
       return (
-        <p>{date}</p>
+        <p key={i}>{date}</p>
       )
     })
     return (
@@ -42,14 +32,22 @@ class DeleteModal extends Component {
         open={this.state.open}
         onClose={this.handleClose}
       >
-        <h3 className="deleteText">Are you sure you want to delete the following quizzes?</h3>
-        <div className="dateList">
-          {List}
-        </div>
-        <div style={{ display: 'flex', flexDirection: 'row'}}>
-          <Button onClick={this.props.toggleDeleteModal} className="deleteButton">Cancel</Button>
-          <Button onClick={this.props.toggleDeleteModal} className="deleteButton"><span style={{ color: 'red' }}>Delete</span></Button>
-        </div>
+        {this.props.selected.length !== 0
+          ? <div>
+            <h3 className="deleteText">Are you sure you want to delete the following quizzes?</h3>
+            <div className="dateList">
+              {List}
+            </div>
+            <div style={{ display: 'flex', flexDirection: 'row'}}>
+              <Button onClick={this.props.toggleDeleteModal} className="deleteButton">Cancel</Button>
+              <Button onClick={this.handleDelete} className="deleteButton"><span style={{ color: 'red' }}>Delete</span></Button>
+            </div>
+          </div>
+        : <div>
+            <h3 className="deleteText">You have not selected any quizzes to delete.</h3>
+            <Button onClick={this.props.toggleDeleteModal} style={{ width: '100%', padding: '2vh'}}>Close</Button>
+          </div>
+      }
       </Dialog>
     )
   }

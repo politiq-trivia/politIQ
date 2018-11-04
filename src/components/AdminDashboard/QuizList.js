@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 
+import { db } from '../../firebase';
+
 import Table from '@material-ui/core/Table';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
@@ -73,6 +75,16 @@ class QuizList extends Component {
     })
   }
 
+  deleteQuiz = (selected) => {
+    for (let i = 0; i < selected.length; i++) {
+      this.props.removeQuizzes(selected[i])
+      db.deleteQuiz(selected[i])
+    }
+    this.setState({
+      selected: [],
+    })
+  }
+
   render () {
     const List = this.props.quizDates.map((date, i) => {
       let id = date;
@@ -98,7 +110,7 @@ class QuizList extends Component {
     return (
       <div>
         { this.state.showDeleteModal
-          ? <DeleteModal selected={this.state.selected} toggleDeleteModal={this.toggleDeleteModal}/>
+          ? <DeleteModal selected={this.state.selected} deleteQuiz={this.deleteQuiz} toggleDeleteModal={this.toggleDeleteModal}/>
           :
 
           <Table>

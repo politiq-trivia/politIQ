@@ -35,6 +35,9 @@ class AdminDashboard extends Component {
   }
 
   toggleAddQuiz = () => {
+    if (this.state.addingQuiz) {
+      this.getQuizzesFromDb()
+    }
     this.setState({
       addingQuiz: !this.state.addingQuiz,
       showDash: false,
@@ -89,12 +92,23 @@ class AdminDashboard extends Component {
       })
   }
 
+  removeQuizzes = (date) => {
+    const index = this.state.dateArray.indexOf(date)
+    const dates = this.state.dateArray
+    dates.splice(index, 1)
+    const titles = this.state.titleArray
+    titles.splice(index, 1)
+    this.setState({
+      dateArray: [...dates],
+      titleArray: [...titles]
+    })
+  }
+
   handleChange = (event, value) => {
    this.setState({ value });
   };
 
   render() {
-    console.log(this.state, 'this is state in admin dashboard')
     const { value } = this.state;
 
     const isLoaded = () => {
@@ -108,7 +122,7 @@ class AdminDashboard extends Component {
 
       } else {
         return (
-          <QuizList quizDates={this.state.dateArray} quizTitles={this.state.titleArray} toggleQuizShow={this.getQuiz}/>
+          <QuizList quizDates={this.state.dateArray} quizTitles={this.state.titleArray} toggleQuizShow={this.getQuiz} removeQuizzes={this.removeQuizzes}/>
         )
       }
     }
