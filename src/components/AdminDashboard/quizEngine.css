@@ -74,3 +74,28 @@
 .incorrect {
   color: black;
 }
+
+/* delete modal styles */
+
+.deleteModal {
+  width: 50vw;
+  margin-left: 25vw !important;
+}
+
+.deleteText{
+  padding: 3vh;
+  padding-top: 0;
+  padding-bottom: 1vh;
+  text-align: center;
+}
+
+.deleteButton {
+  padding-bottom: 2vh !important;
+  padding-top: 2vh !important;
+  display: inline-block;
+  width: 50%;
+}
+
+.dateList {
+  text-align: center;
+}

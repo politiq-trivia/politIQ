@@ -6,6 +6,9 @@ import TableRow from '@material-ui/core/TableRow';
 import TableCell from '@material-ui/core/TableCell';
 import Checkbox from '@material-ui/core/Checkbox';
 import TableBody from '@material-ui/core/TableBody';
+import Delete from '@material-ui/icons/Delete';
+
+import DeleteModal from './DeleteModal';
 
 class QuizList extends Component {
   constructor(props) {
@@ -16,46 +19,58 @@ class QuizList extends Component {
       page: 0,
       rowsPerPage: 10,
       selected: [],
+      selectAll: false,
+      showDeleteModal: false,
     }
   }
 
   handleSelectAllClick = event => {
     if (event.target.checked) {
-      console.log('fix thie slsect all thing later')
-      // this.setState(state => ({ selected: state.data.map(n => n.id ) }));
-      return;
+      this.setState({
+        selected: [...this.props.quizDates],
+        selectAll: true,
+      })
+      // return;
+    } else {
+      this.setState({
+        selected: [],
+        selectAll: false,
+      })
     }
-    this.setState({
-      selected: []
-    });
   };
 
-  handleCheck = (event, id) => {
-    const { selected } = this.state;
-    const selectedIndex = selected.indexOf(id);
-    let newSelected = [];
-
-    if (selectedIndex === 1){
-      newSelected = newSelected.concat(selected, id);
-    } else if (selectedIndex === 0) {
-      newSelected = newSelected.concat(selected.slice(1));
-    } else if (selectedIndex === selected.length - 1) {
-      newSelected = newSelected.concat(selected.slice(0, -1));
-    } else if (selectedIndex > 0) {
-      newSelected = newSelected.concat(
-        selected.slice(0, selectedIndex),
-        selected.slice(selectedIndex + 1),
-      );
+  handleCheck = (event) => {
+    const id = event.target.id;
+    let selected = [...this.state.selected];
+    if (selected.includes(id)) {
+      const index = selected.indexOf(id)
+      selected.splice(index, 1)
+    } else {
+      selected.push(id)
     }
+    this.setState({
+      selected: [...selected]
+    })
+  }
 
-    this.setState({ selected: newSelected })
+  toggleCheck = (id) => {
+    if (this.state.selected.includes(id)) {
+      return true;
+    } else {
+      return false;
+    }
   }
 
   // open up the selected quiz in a new component
   handleClick = (event) => {
     const id = event.target.parentNode.id;
-    // console.log(id)
     this.props.toggleQuizShow(id)
+  }
+
+  toggleDeleteModal = () => {
+    this.setState({
+      showDeleteModal: !this.state.showDeleteModal
+    })
   }
 
   render () {
@@ -66,7 +81,9 @@ class QuizList extends Component {
         <TableRow id={date} key={id}>
           <TableCell padding="checkbox">
             <Checkbox
+              id={date}
               onClick={this.handleCheck}
+              checked={this.state.selected.indexOf(id) !== -1 ? true : false}
             />
           </TableCell>
           <TableCell onClick={this.handleClick}>
@@ -79,26 +96,34 @@ class QuizList extends Component {
       )
     })
     return (
-      <Table>
-        <TableHead>
-          <TableRow>
-            <TableCell padding="checkbox">
-              <Checkbox
-                onClick={this.handleSelectAllClick}
-              />
-            </TableCell>
-            <TableCell>
-              Quiz Date
-            </TableCell>
-            <TableCell>
-              Quiz Title
-            </TableCell>
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {List}
-        </TableBody>
-      </Table>
+      <div>
+        { this.state.showDeleteModal
+          ? <DeleteModal selected={this.state.selected} toggleDeleteModal={this.toggleDeleteModal}/>
+          :
+
+          <Table>
+            <TableHead>
+              <TableRow>
+                <TableCell padding="checkbox">
+                  <Checkbox
+                    onClick={this.handleSelectAllClick}
+                  />
+                </TableCell>
+                <TableCell>
+                  Quiz Date
+                </TableCell>
+                <TableCell>
+                  Quiz Title
+                  <Delete onClick={this.toggleDeleteModal} style={{ float: 'right'}}/>
+                </TableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {List}
+            </TableBody>
+          </Table>
+        }
+      </div>
     )
   }
 }
