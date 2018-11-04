@@ -11,6 +11,7 @@ import Tab from '@material-ui/core/Tab';
 import AddQuiz from './AddQuiz';
 import QuizList from './QuizList';
 import ShowQuiz from './ShowQuiz';
+import EditQuiz from './EditQuiz';
 
 import loadingGif from '../../loadingGif.gif';
 
@@ -20,6 +21,7 @@ class AdminDashboard extends Component {
 
     this.state = {
       addingQuiz: false,
+      editingQuiz: false,
       showDash: true,
       showQuiz: false,
       dateArray: [],
@@ -27,6 +29,7 @@ class AdminDashboard extends Component {
       value: 0,
       selectedQuizId: '',
       selectedQuiz: {},
+      showDeleteModal: false,
     }
   }
 
@@ -39,8 +42,10 @@ class AdminDashboard extends Component {
       this.getQuizzesFromDb()
     }
     this.setState({
-      addingQuiz: !this.state.addingQuiz,
+      addingQuiz: true,
       showDash: false,
+      editingQuiz: false,
+      showQuiz: false,
     })
   }
 
@@ -72,10 +77,14 @@ class AdminDashboard extends Component {
   }
 
   toggleQuizShow = () => {
+    if(this.state.editingQuiz) {
+      this.getQuiz()
+    }
     this.setState({
       addingQuiz: false,
       showDash: false,
       showQuiz: true,
+      editingQuiz: false,
     })
   }
 
@@ -90,6 +99,31 @@ class AdminDashboard extends Component {
         })
         this.toggleQuizShow();
       })
+  }
+
+  toggleEditQuiz = () => {
+    this.setState({
+      addingQuiz: false,
+      editingQuiz: true,
+      showDash: false,
+      showQuiz: false,
+    })
+  }
+
+  toggleDeleteModal = () => {
+    this.setState({
+      showDeleteModal: !this.state.showDeleteModal
+    })
+  }
+
+  deleteQuiz = (selected) => {
+    for (let i = 0; i < selected.length; i++) {
+      this.removeQuizzes(selected[i])
+      db.deleteQuiz(selected[i])
+    }
+    this.setState({
+      selected: [],
+    })
   }
 
   removeQuizzes = (date) => {
@@ -122,7 +156,7 @@ class AdminDashboard extends Component {
 
       } else {
         return (
-          <QuizList quizDates={this.state.dateArray} quizTitles={this.state.titleArray} toggleQuizShow={this.getQuiz} removeQuizzes={this.removeQuizzes}/>
+          <QuizList quizDates={this.state.dateArray} quizTitles={this.state.titleArray} toggleQuizShow={this.getQuiz} removeQuizzes={this.removeQuizzes} toggleDeleteModal={this.toggleDeleteModal} deleteQuiz={this.deleteQuiz} showDeleteModal={this.state.showDeleteModal}/>
         )
       }
     }
@@ -139,22 +173,23 @@ class AdminDashboard extends Component {
         </AppBar>
         { this.state.addingQuiz ? <AddQuiz toggleAddQuiz={this.toggleAddQuiz}/>
           : <div>
-          { this.state.showQuiz ? <ShowQuiz toggleDashboard={this.toggleDashboard} quiz={this.state.selectedQuiz} quizId={this.state.selectedQuizId}/> :
-            <div className="dashboard">
-              <Paper className="dashContainer">
-                <h3>Available Quizzes</h3>
-                  {isLoaded()}
-              </Paper>
-              <Paper className="dashContainer">
-                <h3>Other Stuff</h3>
-                Maybe we'll also have a counter or nav of user submitted questions or something
-                idk some other stuff will go here
-              </Paper>
-
-            </div>
+          { this.state.showQuiz ? <ShowQuiz toggleDashboard={this.toggleDashboard} quiz={this.state.selectedQuiz} quizId={this.state.selectedQuizId} toggleEditQuiz={this.toggleEditQuiz}/>
+          : <div>
+            {this.state.editingQuiz ? <EditQuiz toggleQuizShow={this.toggleQuizShow} quiz={this.state.selectedQuiz} quizId={this.state.selectedQuizId}/>
+            : <div className="dashboard">
+                <Paper className="dashContainer">
+                  <h3>Available Quizzes</h3>
+                    {isLoaded()}
+                </Paper>
+                <Paper className="dashContainer">
+                  <h3>Other Stuff</h3>
+                  Maybe we'll also have a counter or nav of user submitted questions or something
+                  idk some other stuff will go here
+                </Paper>
+              </div>
+            }</div>
           }</div>
         }
-
       </div>
     )
   }

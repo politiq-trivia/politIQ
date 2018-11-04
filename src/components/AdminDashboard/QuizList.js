@@ -1,7 +1,5 @@
 import React, { Component } from 'react';
 
-import { db } from '../../firebase';
-
 import Table from '@material-ui/core/Table';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
@@ -69,21 +67,7 @@ class QuizList extends Component {
     this.props.toggleQuizShow(id)
   }
 
-  toggleDeleteModal = () => {
-    this.setState({
-      showDeleteModal: !this.state.showDeleteModal
-    })
-  }
 
-  deleteQuiz = (selected) => {
-    for (let i = 0; i < selected.length; i++) {
-      this.props.removeQuizzes(selected[i])
-      db.deleteQuiz(selected[i])
-    }
-    this.setState({
-      selected: [],
-    })
-  }
 
   render () {
     const List = this.props.quizDates.map((date, i) => {
@@ -109,8 +93,8 @@ class QuizList extends Component {
     })
     return (
       <div>
-        { this.state.showDeleteModal
-          ? <DeleteModal selected={this.state.selected} deleteQuiz={this.deleteQuiz} toggleDeleteModal={this.toggleDeleteModal}/>
+        { this.props.showDeleteModal
+          ? <DeleteModal selected={this.state.selected} deleteQuiz={this.props.deleteQuiz} toggleDeleteModal={this.props.toggleDeleteModal}/>
           :
 
           <Table>
@@ -126,7 +110,7 @@ class QuizList extends Component {
                 </TableCell>
                 <TableCell>
                   Quiz Title
-                  <Delete onClick={this.toggleDeleteModal} style={{ float: 'right'}}/>
+                  <Delete onClick={this.props.toggleDeleteModal} style={{ float: 'right'}}/>
                 </TableCell>
               </TableRow>
             </TableHead>

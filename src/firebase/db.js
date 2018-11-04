@@ -82,8 +82,14 @@ export const deleteQuestion = (date, qNum) => {
 // delete a quiz
 
 export const deleteQuiz = (date) => {
-  console.log(date, 'working')
   const quiz = db.ref().child('quizzes/' + date).remove()
+  return quiz;
+}
+
+// edit quiz
+
+export const editQuiz = (date, updates) => {
+  const quiz = db.ref().child('quizzes/' + date).update(updates)
   return quiz;
 }
 

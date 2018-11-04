@@ -104,7 +104,7 @@ class ShowQuiz extends Component {
         <Button onClick={this.props.toggleDashboard} variant="contained" color="primary">
             Back
         </Button>
-        <Button variant="contained" color="primary" style={{ float: 'right'}}>
+        <Button variant="contained" color="primary" style={{ float: 'right'}} onClick={this.props.toggleEditQuiz}>
             Edit Quiz
         </Button>
         {this.state.quiz ? <h1>{this.state.quiz['quiz-title']}</h1> : null}
