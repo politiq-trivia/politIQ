@@ -192,6 +192,7 @@ class Quiz extends Component {
 
   render() {
     const isLoading = (authUser) => {
+      console.log(authUser)
       if (this.state.questionsArray.length === 0) {
         return (
           <img src={loadingGif} alt="loading gif"/>
