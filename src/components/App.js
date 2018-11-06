@@ -1,7 +1,6 @@
 
 import React, { Component } from 'react';
 import {
-  BrowserRouter as Router,
   Route
 } from 'react-router-dom';
 // import logo from './logo.png';
@@ -59,8 +58,8 @@ class App extends Component {
 
   render() {
     return (
-      <Router>
-        <MuiThemeProvider theme={theme}>
+      <MuiThemeProvider theme={theme}>
+
           <div>
             <Navigation authUser={this.state.authUser} />
 
@@ -72,7 +71,10 @@ class App extends Component {
               exact path={routes.SIGN_UP}
               component={SignUpPage}
             />
-            <Route exact path={routes.SIGN_IN} component={SignInPage} />
+            <Route
+              exact path={routes.SIGN_IN}
+              component={SignInPage}
+            />
             <Route
               exact path={routes.PASSWORD_FORGET}
               component={PasswordForgetPage}
@@ -108,8 +110,8 @@ class App extends Component {
 
             <Footer />
           </div>
-        </MuiThemeProvider>
-      </Router>
+      </MuiThemeProvider>
+
     );
   }
 }

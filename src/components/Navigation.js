@@ -121,7 +121,7 @@ class NavigationAuth extends Component {
             </ListItem>
           </Link>
           <Link to={routes.LEADERBOARD} style={{ textDecoration: 'none'}}>
-            <ListItem button component="a" href="/leaderboard">
+            <ListItem button>
               <ListItemText primary="Leaderboard" />
             </ListItem>
           </Link>
@@ -269,7 +269,6 @@ class NavigationNonAuth extends Component {
               <Button
                 aria-haspopup='true'
                 color="inherit"
-                href="/signin"
               >
                 Login
               </Button>
