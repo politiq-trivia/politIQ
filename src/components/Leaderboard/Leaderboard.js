@@ -47,50 +47,45 @@ class Leaderboard extends Component {
                 username: response.val().username,
                 score: sumScores
               })
-              return userScores;
+              const rankedScores = userScores.sort(function(a,b){
+                return a.score > b.score
+              })
+              this.setState({
+                rankedScores: rankedScores,
+                weeklyScoresLoaded: true,
+              })
             })
         })
       })
-    const rankedScores = () => {
-      console.log('rankedScores is being called')
-      return (
-        userScores.sort(function(a,b){
-          return a.score > b.score
-        })
-      )
-    }
-    this.setState({
-      rankedScores: rankedScores(),
-      weeklyScoresLoaded: true,
-    })
-  }
-
-  renderScoreList = () => {
-    console.log(typeof(this.state.rankedScores))
-    // for(let i = 0; i <  )
-    //   console.log(score, 'scoreList is being called')
-    //   return(
-    //     <TableRow>
-    //       <TableCell>
-    //         {i}.
-    //       </TableCell>
-    //       <TableCell>
-    //         {score.username}
-    //       </TableCell>
-    //       <TableCell>
-    //         {score.score}
-    //       </TableCell>
-    //     </TableRow>
-    //   )
-    // })
   }
 
 
   render() {
-    // const scoreList = () => {
-    //   console.log('scoreList is being called')
-    //
-    // }
+
+    let rankingArray = [];
+    if (Array.isArray(this.state.rankedScores)) {
+      const ranking = this.state.rankedScores;
+      const result = ranking.map((stat, i) => {
+        return [stat.username, stat.score]
+      });
+      rankingArray = [...result]
+    }
+
+    const renderWeeklyLeaders = rankingArray.map((stat, i) => {
+      return (
+        <TableRow key={i}>
+          <TableCell>
+            {i + 1}.
+          </TableCell>
+          <TableCell>
+            {stat[0]}
+          </TableCell>
+          <TableCell>
+            {stat[1]}
+          </TableCell>
+        </TableRow>
+      )
+    })
 
     const isLoading = () => {
       if (!this.state.weeklyScoresLoaded) {
@@ -114,7 +109,7 @@ class Leaderboard extends Component {
               </TableRow>
             </TableHead>
             <TableBody>
-              {this.renderScoreList()}
+              {renderWeeklyLeaders}
             </TableBody>
           </Table>
         )
