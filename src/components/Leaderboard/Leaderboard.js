@@ -14,6 +14,7 @@ import * as routes from '../../constants/routes';
 import './leaderboard.css';
 import logo from '../logo.png';
 import WeeklyLeaderboard from './Weekly';
+import MonthlyLeaderboard from './Monthly';
 
 
 
@@ -33,24 +34,7 @@ const Leaderboard = () => {
         </Link>
       </div>
       <WeeklyLeaderboard />
-        <h2>Monthly</h2>
-        <Table>
-          <TableHead>
-            <TableRow>
-              <TableCell>
-                Ranking
-              </TableCell>
-              <TableCell>
-                User
-              </TableCell>
-              <TableCell>
-                Score
-              </TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-          </TableBody>
-        </Table>
+      <MonthlyLeaderboard />
         <div style={{ display: 'flex', width: "100%", justifyContent: 'space-between'}}>
           <div>
             <h2>Democrats</h2>
