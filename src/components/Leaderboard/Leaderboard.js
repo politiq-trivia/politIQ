@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
+import moment from 'moment';
 
 import { db } from '../../firebase';
 
@@ -16,6 +17,7 @@ import * as routes from '../../constants/routes';
 import './leaderboard.css';
 import loadingGif from '../../loadingGif.gif';
 import logo from '../logo.png';
+import WeeklyLeaderboard from './Weekly';
 
 
 
@@ -42,16 +44,28 @@ class Leaderboard extends Component {
           db.getDisplayNames(usernames[i])
             .then(response => {
               const scores = Object.values(data[usernames[i]])
-              const sumScores = scores.reduce((a,b) =>  a + b, 0)
+              // get all the scores within the last week from this data array
+              const quizDates = Object.keys(data[usernames[i]])
+              const lastWeek = []
+              let scoreCounter = 0;
+              for (let j = 0; j < quizDates.length; j++) {
+                if (quizDates[j] > moment().subtract(1, 'week').format('YYYY-MM-DD')) {
+                  lastWeek.push(quizDates[j])
+                  if (data[usernames[i]][quizDates[j]]) {
+                    scoreCounter += data[usernames[i]][quizDates[j]]
+                  }
+                }
+              }
               userScores.push({
-                username: response.val().username,
-                score: sumScores
+                username: response.val().displayName,
+                score: scoreCounter,
               })
               const rankedScores = userScores.sort(function(a,b){
-                return a.score > b.score
+                return a.score - b.score
               })
+              const rankReverse = rankedScores.reverse()
               this.setState({
-                rankedScores: rankedScores,
+                rankedScores: rankReverse,
                 weeklyScoresLoaded: true,
               })
             })
@@ -61,6 +75,7 @@ class Leaderboard extends Component {
 
 
   render() {
+    console.log(moment().subtract(7, 'days').format('YYYY-MM-DD'))
 
     let rankingArray = [];
     if (Array.isArray(this.state.rankedScores)) {
@@ -130,6 +145,7 @@ class Leaderboard extends Component {
             <Button variant="contained" color="primary">Build Your Score</Button>
           </Link>
         </div>
+        <WeeklyLeaderboard />
         <h2>Weekly</h2>
         {isLoading()}
         <h2>Monthly</h2>

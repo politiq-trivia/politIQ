@@ -31,7 +31,7 @@
     "not op_mini all"
   ],
   "main": "index.js",
-  "homepage": "http://politiq-fc0e3.firebaseapp.com",  
+  "homepage": "http://politiq-fc0e3.firebaseapp.com",
   "repository": "git@github.com:hanna2895/politIQ.git",
   "author": "Hannah Werman <hanna.w28@gmail.com>",
   "license": "MIT"
