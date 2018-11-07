@@ -2,11 +2,6 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 
 import Paper from '@material-ui/core/Paper';
-import Table from '@material-ui/core/Table';
-import TableBody from '@material-ui/core/TableBody';
-import TableCell from '@material-ui/core/TableCell';
-import TableHead from '@material-ui/core/TableHead';
-import TableRow from '@material-ui/core/TableRow';
 import Button from '@material-ui/core/Button';
 
 import * as routes from '../../constants/routes';
@@ -15,8 +10,9 @@ import './leaderboard.css';
 import logo from '../logo.png';
 import WeeklyLeaderboard from './Weekly';
 import MonthlyLeaderboard from './Monthly';
-
-
+import DemLeaderboard from './Democrats';
+import RepLeaderboard from './Republicans';
+import IndLeaderboard from './Independent';
 
 const Leaderboard = () => {
   return (
@@ -37,64 +33,13 @@ const Leaderboard = () => {
       <MonthlyLeaderboard />
         <div style={{ display: 'flex', width: "100%", justifyContent: 'space-between'}}>
           <div>
-            <h2>Democrats</h2>
-            <Table>
-              <TableHead>
-                <TableRow>
-                  <TableCell>
-                    Ranking
-                  </TableCell>
-                  <TableCell>
-                    User
-                  </TableCell>
-                  <TableCell>
-                    Score
-                  </TableCell>
-                </TableRow>
-              </TableHead>
-              <TableBody>
-              </TableBody>
-            </Table>
+            <DemLeaderboard />
           </div>
           <div>
-            <h2>Republicans</h2>
-            <Table>
-              <TableHead>
-                <TableRow>
-                  <TableCell>
-                    Ranking
-                  </TableCell>
-                  <TableCell>
-                    User
-                  </TableCell>
-                  <TableCell>
-                    Score
-                  </TableCell>
-                </TableRow>
-              </TableHead>
-              <TableBody>
-              </TableBody>
-            </Table>
+            <RepLeaderboard />
           </div>
           <div>
-            <h2>Independent</h2>
-            <Table>
-              <TableHead>
-                <TableRow>
-                  <TableCell>
-                    Ranking
-                  </TableCell>
-                  <TableCell>
-                    User
-                  </TableCell>
-                  <TableCell>
-                    Score
-                  </TableCell>
-                </TableRow>
-              </TableHead>
-              <TableBody>
-              </TableBody>
-            </Table>
+            <IndLeaderboard />
           </div>
         </div>
       </Paper>

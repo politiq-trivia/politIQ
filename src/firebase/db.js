@@ -112,3 +112,19 @@ export const getDisplayNames = (username) => {
   const displayName = db.ref().child('users/' + username).once('value')
   return displayName;
 }
+
+export const getUserByAffiliation = (affiliation) => {
+  let partyUids = []
+  const users = db.ref().child('users/').once('value').then(function(snapshot) {
+    const snap = snapshot.val()
+    const data = Object.values(snap)
+    const uids = Object.keys(snap)
+    for (let i = 0; i < data.length; i++) {
+      if (data[i].affiliation === affiliation) {
+        partyUids.push(uids[i])
+      }
+    }
+    return partyUids;
+  })
+  return users;
+}

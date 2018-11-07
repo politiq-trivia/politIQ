@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
 
-import moment from 'moment';
-
 import { db } from '../../firebase';
+import moment from 'moment';
 
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
@@ -11,9 +10,8 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 
 import loadingGif from '../../loadingGif.gif';
-import './leaderboard.css';
 
-class MonthlyLeaderboard extends Component {
+class DemLeaderboard extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -21,22 +19,22 @@ class MonthlyLeaderboard extends Component {
       rankedScores: {},
     }
   }
-
   componentDidMount = () => {
-    this.monthlyLeaders();
+    this.getDemScores()
   }
 
-  monthlyLeaders = async () => {
+  getDems = async (data) => {
     const userScores = []
-    await db.getScores()
-      .then(response => {
-        const data = response.val()
-        const usernames = Object.keys(data)
+    await db.getUserByAffiliation('Democrat')
+      .then(usernames => {
         usernames.forEach((user, i) => {
           db.getDisplayNames(usernames[i])
             .then(response => {
-              // get all the scores within the last week from this data array
-              const quizDates = Object.keys(data[usernames[i]])
+              let quizDates = []
+              const dateObject = data[usernames[i]]
+              if (dateObject !== undefined) {
+                quizDates = Object.keys(dateObject)
+              }
               let scoreCounter = 0;
               for (let j = 0; j < quizDates.length; j++) {
                 if (quizDates[j] > moment().subtract(1, 'month').format('YYYY-MM-DD')) {
@@ -62,6 +60,14 @@ class MonthlyLeaderboard extends Component {
       })
   }
 
+  getDemScores = async () => {
+    await db.getScores()
+      .then(response => {
+        const data = response.val()
+        this.getDems(data)
+      })
+  }
+
   render() {
 
     let rankingArray = [];
@@ -73,7 +79,7 @@ class MonthlyLeaderboard extends Component {
       rankingArray = [...result]
     }
 
-    const renderMonthlyLeaders = rankingArray.map((stat, i) => {
+    const renderDemLeaders = rankingArray.map((stat, i) => {
       return (
         <TableRow key={i}>
           <TableCell>
@@ -111,7 +117,7 @@ class MonthlyLeaderboard extends Component {
               </TableRow>
             </TableHead>
             <TableBody>
-              {renderMonthlyLeaders}
+              {renderDemLeaders}
             </TableBody>
           </Table>
         )
@@ -120,11 +126,11 @@ class MonthlyLeaderboard extends Component {
 
     return (
       <div>
-        <h2>Monthly</h2>
+        <h2>Democrats</h2>
         {isLoading()}
       </div>
     )
   }
 }
 
-export default MonthlyLeaderboard;
+export default DemLeaderboard;

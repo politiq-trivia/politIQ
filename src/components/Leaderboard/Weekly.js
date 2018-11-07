@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-
 import moment from 'moment';
 
 import { db } from '../../firebase';
@@ -12,8 +11,6 @@ import TableRow from '@material-ui/core/TableRow';
 
 import loadingGif from '../../loadingGif.gif';
 import './leaderboard.css';
-
-
 
 class WeeklyLeaderboard extends Component {
   constructor(props) {
@@ -34,7 +31,7 @@ class WeeklyLeaderboard extends Component {
       .then(response => {
         const data = response.val()
         const usernames = Object.keys(data)
-        usernames.map((user, i) => {
+        usernames.forEach((user, i) => {
           db.getDisplayNames(usernames[i])
             .then(response => {
               // get all the scores within the last week from this data array
@@ -66,9 +63,7 @@ class WeeklyLeaderboard extends Component {
       })
   }
 
-
   render() {
-
     let rankingArray = [];
     if (Array.isArray(this.state.rankedScores)) {
       const ranking = this.state.rankedScores;
@@ -122,7 +117,6 @@ class WeeklyLeaderboard extends Component {
         )
       }
     }
-
 
     return (
       <div>
