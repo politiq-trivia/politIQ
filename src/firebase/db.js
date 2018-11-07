@@ -108,10 +108,6 @@ export const getScores = () => {
   return scores;
 }
 
-export const getWeeklyScores = () => {
-  // const scores = 
-}
-
 export const getDisplayNames = (username) => {
   const displayName = db.ref().child('users/' + username).once('value')
   return displayName;
