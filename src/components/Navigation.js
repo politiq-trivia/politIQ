@@ -19,11 +19,11 @@ import Button from '@material-ui/core/Button';
 
 import Logo from './logo.png';
 
-const Navigation = ({ authUser }) => {
+const Navigation = ({ authUser, signedInUser }) => {
   return (
     <AuthUserContext.Consumer>
       {authUser => authUser
-        ? <NavigationAuth />
+        ? <NavigationAuth signedInUser={signedInUser} />
         : <NavigationNonAuth />
       }
     </AuthUserContext.Consumer>
@@ -66,11 +66,15 @@ class NavigationAuth extends Component {
     this.state = {
       top: false,
       mostRecentQuizURL: "",
+      isAdmin: false,
     };
   }
 
   componentDidMount = () => {
     this.getMostRecentQuizId();
+    if (this.props.signedInUser) {
+      this.isAdmin(this.props.signedInUser);
+    }
   }
 
   toggleDrawer = (side, open) => () => {
@@ -91,6 +95,22 @@ class NavigationAuth extends Component {
       })
   }
 
+  isAdmin = async (uid) => {
+    await db.checkAdmin(uid)
+      .then(response => {
+        const isAdmin = response.val().isAdmin;
+        if (isAdmin) {
+          this.setState({
+            isAdmin: true,
+          })
+        } else {
+          this.setState({
+            isAdmin: false,
+          })
+        }
+      })
+  }
+
   signOut = () => {
     auth.doSignOut()
     window.location.replace('/')
@@ -100,11 +120,13 @@ class NavigationAuth extends Component {
     const fullList = (
       <div>
         <List component="nav">
+          {this.state.isAdmin ?
           <Link to={routes.ADMIN_DASHBOARD} style={{ textDecoration: 'none'}}>
             <ListItem button>
               <ListItemText primary="Admin Dashboard" />
             </ListItem>
           </Link>
+          : null }
           <Link to={routes.HOME} style={{ textDecoration: 'none'}}>
             <ListItem button>
               <ListItemText primary="Home" />

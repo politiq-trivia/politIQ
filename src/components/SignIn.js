@@ -13,11 +13,11 @@ import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import './Auth.css';
 
-const SignInPage = ({ history }) => {
+const SignInPage = ({ history, getSignedInUser }) => {
   return (
     <Paper className="authCard signIn">
       <h1>Sign In</h1>
-      <SignInForm  history={history}/>
+      <SignInForm  history={history} getSignedInUser={getSignedInUser}/>
       <PasswordForgetLink />
       <SignUpLink />
     </Paper>
@@ -65,6 +65,7 @@ class SignInForm extends Component {
       .then((authUser) => {
         const userID = authUser.user.uid;
         this.isAdmin(userID);
+        this.props.getSignedInUser(userID)
       })
       .catch(error => {
         this.setState(byPropKey('error', error));

@@ -1,7 +1,7 @@
 
 import React, { Component } from 'react';
 import {
-  Route
+  Route,
 } from 'react-router-dom';
 // import logo from './logo.png';
 import './App.css';
@@ -38,13 +38,13 @@ const theme = createMuiTheme({
   },
 });
 
-
 class App extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
       authUser: null,
+      signedInUser: "",
     };
   }
 
@@ -56,12 +56,20 @@ class App extends Component {
     })
   }
 
+
+
+  getSignedInUser = (uid) => {
+    this.setState({
+      signedInUser: uid,
+    })
+  }
+
   render() {
     return (
       <MuiThemeProvider theme={theme}>
 
           <div>
-            <Navigation authUser={this.state.authUser} />
+            <Navigation authUser={this.state.authUser} signedInUser={this.state.signedInUser}/>
 
             <Route
               exact path={routes.LANDING}
@@ -73,7 +81,7 @@ class App extends Component {
             />
             <Route
               exact path={routes.SIGN_IN}
-              component={SignInPage}
+              render={(props) => <SignInPage {...props} getSignedInUser={this.getSignedInUser} someProp={100} />}
             />
             <Route
               exact path={routes.PASSWORD_FORGET}
