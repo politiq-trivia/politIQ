@@ -3,7 +3,6 @@ import React, { Component } from 'react';
 import {
   Route,
 } from 'react-router-dom';
-// import logo from './logo.png';
 import './App.css';
 
 import Navigation from './Navigation';
@@ -19,6 +18,7 @@ import QuizArchive from './QuizArchive';
 import Quiz from './Quiz';
 import Leaderboard from './Leaderboard/Leaderboard';
 import About from './About';
+import QuestionSubmitForm from './QuestionSubmit/QuestionSubmitForm';
 
 import * as routes from '../constants/routes';
 import { firebase } from '../firebase';
@@ -114,6 +114,11 @@ class App extends Component {
             <Route
               exact path={routes.ABOUT}
               component={About}
+            />
+            <Route
+              exact path={routes.SUBMIT_QUESTION}
+              render={(props) => <QuestionSubmitForm {...props} signedInUser={this.state.signedInUser} />}
+
             />
 
             <Footer />

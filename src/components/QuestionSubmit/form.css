@@ -1,0 +1,56 @@
+.submitForm {
+  height: 55vh;
+  margin-top: 12vh;
+  margin-bottom: 6vh;
+  width: 55vw;
+  margin-left: auto;
+  margin-right: auto;
+  overflow: scroll;
+  padding-left: 5vw;
+  padding-right: 5vw;
+  padding-bottom: 5vh;
+}
+
+.formHeader > h1 {
+  text-align: center;
+  width: 100%;
+  margin-top: 3vh;
+  margin-bottom: 0;
+}
+
+#form-back {
+  margin-left: 2vw;
+  margin-top: 3vh;
+}
+
+#form-about {
+  margin-right: 2vw;
+  margin-top: 3vh;
+  height: auto;
+}
+
+#form-submit {
+  margin-top: 3vh;
+}
+
+.formHeader {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 3vh;
+}
+
+.afterSubmit {
+  text-align: center;
+  margin-top: 20vh;
+  margin-bottom: auto;
+  height: 25vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.submittedButtons {
+  width: auto;
+  max-width: 25vw;
+  align-self: center;
+  margin-top: 1vh !important;
+}

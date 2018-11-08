@@ -128,3 +128,24 @@ export const getUserByAffiliation = (affiliation) => {
   })
   return users;
 }
+
+// ----------------------------------------------------------
+
+// USER SUBMITTED QUESTIONS
+
+// ----------------------------------------------------------
+
+export const submitQuestion = (uid, date, qtext, a1text, a1correct, a2text, a2correct, a3text, a3correct, a4text, a4correct, source) => {
+  const question = db.ref().child('q4review').child(date)
+  question.child('q1').set(qtext)
+  question.child('a1text').set(a1text)
+  question.child('a2text').set(a2text)
+  question.child('a3text').set(a3text)
+  question.child('a4text').set(a4text)
+  question.child('a1correct').set(a1correct)
+  question.child('a2correct').set(a2correct)
+  question.child('a3correct').set(a3correct)
+  question.child('a4correct').set(a4correct)
+  question.child('source').set(source)
+  question.child('fromUser').set(uid)
+}
