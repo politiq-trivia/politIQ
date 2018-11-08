@@ -11,6 +11,8 @@ import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
+import Tooltip from '@material-ui/core/Tooltip';
+import ClickAwayListener from '@material-ui/core/ClickAwayListener';
 import './form.css';
 
 const byPropKey = (propertyName, value) => () => ({
@@ -34,12 +36,25 @@ class QuestionSubmitForm extends Component {
       a4correct: false,
       source: '',
       done: false,
+      tooltipOpen: false,
     }
   }
 
   componentDidMount = () => {
     this.setState({
       uid: this.props.signedInUser
+    })
+  }
+
+  handleTooltipClose = () => {
+    this.setState({
+      tooltipOpen: false
+    })
+  }
+
+  handleTooltipOpen = () => {
+    this.setState({
+      tooltipOpen: true
     })
   }
 
@@ -84,10 +99,28 @@ class QuestionSubmitForm extends Component {
       a4correct: false,
       source: '',
       done: false,
+      tooltipOpen: false,
     })
   }
 
+
+
   render() {
+    const isDisabled = () => {
+      if (
+        this.state.qtext === "" ||
+        this.state.a1text === "" ||
+        this.state.a2text === "" ||
+        this.state.a3text === "" ||
+        this.state.a4text === "" ||
+        this.state.sources === ""
+      ) {
+        return true;
+      } else {
+        return false;
+      }
+    }
+
     return (
       <Paper className="pageStyle submitForm">
         { this.state.done
@@ -104,7 +137,16 @@ class QuestionSubmitForm extends Component {
                   <Button color="primary" variant="contained">Back</Button>
                 </Link>
                 <h1>Submit a Question</h1>
-                <Button id="form-about">About</Button>
+                <ClickAwayListener onClickAway={this.handleTooltipClose}>
+                  <Tooltip
+                    title="Did you find a piece of news that everyone should know about? Increase your score by dropping it below. We'll review it and add it to the quiz. Make sure to verify your information with reliable sources!"
+                    placement="bottom-end"
+                    onClose={this.handleTooltipClose}
+                    open={this.state.open}
+                  >
+                    <Button id="form-about" onClick={this.handleTooltipOpen}>About</Button>
+                  </Tooltip>
+                </ClickAwayListener>
               </div>
             <form>
               <TextField
@@ -209,7 +251,7 @@ class QuestionSubmitForm extends Component {
                 style={{ marginTop: '5vh'}}
               />
             </form>
-            <Button onClick={this.handleSubmit} color="primary" variant="contained" id="form-submit">Submit</Button>
+            <Button onClick={this.handleSubmit} disabled={isDisabled()} color="primary" variant="contained" id="form-submit">Submit</Button>
           </div>
         }
       </Paper>
