@@ -72,12 +72,12 @@ class QuestionSubmitForm extends Component {
       date,
       this.state.qtext,
       this.state.a1text,
-      this.state.a2text,
-      this.state.a3text,
-      this.state.a4text,
       this.state.a1correct,
+      this.state.a2text,
       this.state.a2correct,
+      this.state.a3text,
       this.state.a3correct,
+      this.state.a4text,
       this.state.a4correct,
       this.state.source
     )

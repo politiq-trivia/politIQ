@@ -19,6 +19,7 @@ import Quiz from './Quiz';
 import Leaderboard from './Leaderboard/Leaderboard';
 import About from './About';
 import QuestionSubmitForm from './QuestionSubmit/QuestionSubmitForm';
+import ReviewQuestions from './AdminDashboard/ReviewQuestions';
 
 import * as routes from '../constants/routes';
 import { firebase } from '../firebase';
@@ -118,7 +119,10 @@ class App extends Component {
             <Route
               exact path={routes.SUBMIT_QUESTION}
               render={(props) => <QuestionSubmitForm {...props} signedInUser={this.state.signedInUser} />}
-
+            />
+            <Route
+              exact path={routes.REVIEW}
+              component={ReviewQuestions}
             />
 
             <Footer />

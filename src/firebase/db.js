@@ -135,6 +135,7 @@ export const getUserByAffiliation = (affiliation) => {
 
 // ----------------------------------------------------------
 
+// save a user-submitted question
 export const submitQuestion = (uid, date, qtext, a1text, a1correct, a2text, a2correct, a3text, a3correct, a4text, a4correct, source) => {
   const question = db.ref().child('q4review').child(date)
   question.child('q1').set(qtext)
@@ -148,4 +149,10 @@ export const submitQuestion = (uid, date, qtext, a1text, a1correct, a2text, a2co
   question.child('a4correct').set(a4correct)
   question.child('source').set(source)
   question.child('fromUser').set(uid)
+}
+
+// retrieve one user submitted question from the db for review
+export const getOneQuestion = () => {
+  const question = db.ref().child('q4review').once('value');
+  return question;
 }

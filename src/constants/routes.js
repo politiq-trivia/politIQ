@@ -16,3 +16,4 @@ export const QUIZ = '/quiz/:id';
 
 // admn routes
 export const ADMIN_DASHBOARD = '/admin';
+export const REVIEW = '/review';
