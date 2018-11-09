@@ -16,7 +16,9 @@ class ReviewQuestions extends Component {
 
     this.state = {
       questions: [],
-      firstQ: {},
+      selectedQ: {},
+      index: 0,
+      noQuestionsRemaining: false,
     }
   }
 
@@ -37,7 +39,8 @@ class ReviewQuestions extends Component {
           const firstQ = allQuestions[dates[0]]
           this.setState({
             questions: allQuestions,
-            firstQ: firstQ,
+            selectedQ: firstQ,
+            dateArray: dates
           })
         }
       })
@@ -51,9 +54,21 @@ class ReviewQuestions extends Component {
   }
 
   skipQ = () => {
-    console.log('skip clicked')
-    // if the user clicks skip, the question is left in the db and the next one is rendered.
-    // if there are no more questions remaining, the user will see a no questions to review screen.
+    let index = this.state.index;
+    index++;
+    if (index > (this.state.dateArray.length - 1)) {
+      this.setState({
+        noQuestionsRemaining: true,
+      })
+      return;
+    } else {
+      const selectedDate = this.state.dateArray[index];
+      const nextQ = this.state.questions[selectedDate]
+      this.setState({
+        selectedQ: nextQ,
+        index: index,
+      })
+    }
   }
 
   acceptQ = () => {
@@ -66,8 +81,8 @@ class ReviewQuestions extends Component {
 
   render() {
     let q = {}
-    if (this.state.firstQ) {
-      q = this.state.firstQ
+    if (this.state.selectedQ) {
+      q = this.state.selectedQ
     }
     const question = () => {
       return (
@@ -102,13 +117,21 @@ class ReviewQuestions extends Component {
         <Link to={ADMIN_DASHBOARD} id="reviewBackButton">
           <Button variant="contained" color="primary">Back to Dashboard</Button>
         </Link>
-        <h1>User-Submitted Questions</h1>
-        {question()}
-        <div className="reviewButtonHolder">
-          <Button onClick={this.rejectQ}><span style={{ color: 'red', marginRight: '2vw' }}>Reject</span></Button>
-          <Button onClick={this.skipQ}>Skip</Button>
-          <Button onClick={this.acceptQ}><span style={{ color: 'purple', marginLeft: '2vw'}}>Accept</span></Button>
-        </div>
+        {this.state.noQuestionsRemaining
+          ? <div>
+              <h1 id="noQs">No Questions Remaining</h1>
+            </div>
+          : <div>
+              <h1 id="reviewHeading">User-Submitted Questions</h1>
+                  {question()}
+              <div className="reviewButtonHolder">
+                <Button onClick={this.rejectQ}><span style={{ color: 'red', marginRight: '2vw' }}>Reject</span></Button>
+                <Button onClick={this.skipQ}>Skip</Button>
+                <Button onClick={this.acceptQ}><span style={{ color: 'purple', marginLeft: '2vw'}}>Accept</span></Button>
+              </div>
+            </div>
+        }
+
       </Paper>
     )
   }
