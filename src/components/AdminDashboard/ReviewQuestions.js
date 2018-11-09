@@ -36,18 +36,23 @@ class ReviewQuestions extends Component {
           return;
         } else {
           const dates = Object.keys(response.val())
+          const selectedDate = dates[0]
           const firstQ = allQuestions[dates[0]]
           this.setState({
             questions: allQuestions,
             selectedQ: firstQ,
-            dateArray: dates
+            dateArray: dates,
+            selectedDate: selectedDate,
           })
         }
       })
   }
 
   rejectQ = () => {
-    console.log('reject clicked')
+    db.deleteUserQuestion(this.state.selectedDate)
+    this.skipQ();
+    // console.log(this.state.index)
+    // console.log(this.state.questions[])
     // if the user clicks on reject q, the question is deleted from the questions to review object in the database
     // if there are more questions remaining, then the next question will be displayed.
     // if there are no questions remaining, the user will see a no questions to review screen
@@ -67,6 +72,7 @@ class ReviewQuestions extends Component {
       this.setState({
         selectedQ: nextQ,
         index: index,
+        selectedDate: selectedDate,
       })
     }
   }

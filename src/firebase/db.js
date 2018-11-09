@@ -156,3 +156,8 @@ export const getOneQuestion = () => {
   const question = db.ref().child('q4review').once('value');
   return question;
 }
+
+// deleteUserQuestion
+export const deleteUserQuestion = (date) => {
+  const question = db.ref().child('q4review').child(date).remove();
+}
