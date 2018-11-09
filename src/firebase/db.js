@@ -161,3 +161,18 @@ export const getOneQuestion = () => {
 export const deleteUserQuestion = (date) => {
   const question = db.ref().child('q4review').child(date).remove();
 }
+
+// move question from q4review to qBank
+export const acceptQuestion = (date, selectedQ) => {
+  deleteUserQuestion(date)
+  const question = db.ref().child('qbank').child(date);
+  question.child('q1').set(selectedQ.q1)
+  question.child('a1text').set(selectedQ.a1text)
+  question.child('a2text').set(selectedQ.a2text)
+  question.child('a3text').set(selectedQ.a3text)
+  question.child('a4text').set(selectedQ.a4text)
+  question.child('a1correct').set(selectedQ.a1correct)
+  question.child('a2correct').set(selectedQ.a2correct)
+  question.child('a3correct').set(selectedQ.a3correct)
+  question.child('a4correct').set(selectedQ.a4correct)
+}
