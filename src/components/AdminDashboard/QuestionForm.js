@@ -94,114 +94,117 @@ class QuestionForm extends Component {
     const qNum = "Question " + this.state.counter;
 
     return (
-      <form onSubmit={this.handleSubmit} className="quizEngine">
-        <h2>New Question</h2>
-        <TextField
-          margin="normal"
-          fullWidth
-          value={this.state.qtext}
-          onChange={event => this.setState(byPropKey('qtext', event.target.value))}
-          type="text"
-          placeholder={qNum}
-        />
-        <h3>Answer Choices</h3>
-        <TextField
-          margin="normal"
-          fullWidth
-          value={this.state.a1text}
-          onChange={event => this.setState(byPropKey('a1text', event.target.value))}
-          type="text"
-          placeholder="Answer 1"
-        />
-        <FormControlLabel
-          control={
-            <Checkbox
-              checked={this.state.a1correct}
-              onChange={this.handleCheck}
-              color="primary"
-              id="a1"
-            />
-          }
-          label="Correct Answer"
-          labelPlacement="start"
-          style={{ marginLeft: '0'}}
-        />
-        <TextField
-          margin="normal"
-          fullWidth
-          value={this.state.a2text}
-          onChange={event => this.setState(byPropKey('a2text', event.target.value))}
-          type="text"
-          placeholder="Answer 2"
-        />
-        <FormControlLabel
-          control={
-            <Checkbox
-              checked={this.state.a2correct}
-              onChange={this.handleCheck}
-              color="primary"
-              id="a2"
-            />
-          }
-          label="Correct Answer"
-          labelPlacement="start"
-          style={{ marginLeft: '0'}}
-        />
-        <TextField
-          margin="normal"
-          fullWidth
-          value={this.state.a3text}
-          onChange={event => this.setState(byPropKey('a3text', event.target.value))}
-          type="text"
-          placeholder="Answer 3"
-        />
-        <FormControlLabel
-          control={
-            <Checkbox
-              checked={this.state.a3correct}
-              onChange={this.handleCheck}
-              color="primary"
-              id="a3"
-            />
-          }
-          label="Correct Answer"
-          labelPlacement="start"
-          style={{ marginLeft: '0'}}
-        />
-        <TextField
-          margin="normal"
-          fullWidth
-          value={this.state.a4text}
-          onChange={event => this.setState(byPropKey('a4text', event.target.value))}
-          type="text"
-          placeholder="Answer 4"
-        />
-        <FormControlLabel
-          control={
-            <Checkbox
-              checked={this.state.a4correct}
-              onChange={this.handleCheck}
-              color="primary"
-              id="a4"
-            />
-          }
-          label="Correct Answer"
-          labelPlacement="start"
-          style={{ marginLeft: '0'}}
-        />
-        <div className="quizButtonHolder">
-          <Button color="primary" variant="contained" onClick={this.handleQuit}>
-            Exit Without Saving
-          </Button>
-          <Button onClick={this.handleSubmit} color="primary" variant="contained">
-            Save & Add New Question
-          </Button>
-          <Button color="primary" variant="contained" onClick={this.handleReturn}>
-            Save & Complete Quiz
-          </Button>
+      <div>
+        <Button onClick={this.props.goBack} color="primary" variant="contained" style={{ float: 'left'}}>Back</Button>
+        <h2 style={{ textAlign: 'center'}}>New Question</h2>
+        <form onSubmit={this.handleSubmit}>
+          <TextField
+            margin="normal"
+            fullWidth
+            value={this.state.qtext}
+            onChange={event => this.setState(byPropKey('qtext', event.target.value))}
+            type="text"
+            placeholder={qNum}
+          />
+          <h3>Answer Choices</h3>
+          <TextField
+            margin="normal"
+            fullWidth
+            value={this.state.a1text}
+            onChange={event => this.setState(byPropKey('a1text', event.target.value))}
+            type="text"
+            placeholder="Answer 1"
+          />
+          <FormControlLabel
+            control={
+              <Checkbox
+                checked={this.state.a1correct}
+                onChange={this.handleCheck}
+                color="primary"
+                id="a1"
+              />
+            }
+            label="Correct Answer"
+            labelPlacement="start"
+            style={{ marginLeft: '0'}}
+          />
+          <TextField
+            margin="normal"
+            fullWidth
+            value={this.state.a2text}
+            onChange={event => this.setState(byPropKey('a2text', event.target.value))}
+            type="text"
+            placeholder="Answer 2"
+          />
+          <FormControlLabel
+            control={
+              <Checkbox
+                checked={this.state.a2correct}
+                onChange={this.handleCheck}
+                color="primary"
+                id="a2"
+              />
+            }
+            label="Correct Answer"
+            labelPlacement="start"
+            style={{ marginLeft: '0'}}
+          />
+          <TextField
+            margin="normal"
+            fullWidth
+            value={this.state.a3text}
+            onChange={event => this.setState(byPropKey('a3text', event.target.value))}
+            type="text"
+            placeholder="Answer 3"
+          />
+          <FormControlLabel
+            control={
+              <Checkbox
+                checked={this.state.a3correct}
+                onChange={this.handleCheck}
+                color="primary"
+                id="a3"
+              />
+            }
+            label="Correct Answer"
+            labelPlacement="start"
+            style={{ marginLeft: '0'}}
+          />
+          <TextField
+            margin="normal"
+            fullWidth
+            value={this.state.a4text}
+            onChange={event => this.setState(byPropKey('a4text', event.target.value))}
+            type="text"
+            placeholder="Answer 4"
+          />
+          <FormControlLabel
+            control={
+              <Checkbox
+                checked={this.state.a4correct}
+                onChange={this.handleCheck}
+                color="primary"
+                id="a4"
+              />
+            }
+            label="Correct Answer"
+            labelPlacement="start"
+            style={{ marginLeft: '0'}}
+          />
+          <div className="quizButtonHolder">
+            <Button color="primary" variant="contained" onClick={this.handleQuit}>
+              Exit Without Saving
+            </Button>
+            <Button onClick={this.handleSubmit} color="primary" variant="contained">
+              Save & Add New Question
+            </Button>
+            <Button color="primary" variant="contained" onClick={this.handleReturn}>
+              Save & Complete Quiz
+            </Button>
 
-        </div>
-      </form>
+          </div>
+        </form>
+      </div>
     )
   }
 }

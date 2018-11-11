@@ -18,6 +18,12 @@ class QuestionsToReview extends Component {
     this.numToReview()
   }
 
+  componentWillUnmount = () => {
+    this.setState({
+      undefined
+    })
+  }
+
   numToReview = async () => {
     // let num;
     await db.getOneQuestion()
@@ -34,7 +40,6 @@ class QuestionsToReview extends Component {
   }
 
   render() {
-    // console.log(this.state.num)
     return (
       <Link to={REVIEW} style={{ textDecoration: 'none' }}>
         <div className="reviewWidget">

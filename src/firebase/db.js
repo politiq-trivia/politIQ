@@ -176,3 +176,12 @@ export const acceptQuestion = (date, selectedQ) => {
   question.child('a3correct').set(selectedQ.a3correct)
   question.child('a4correct').set(selectedQ.a4correct)
 }
+
+export const getQBank = () => {
+  const questions = db.ref().child('qbank').once('value');
+  return questions;
+}
+
+export const removeFromQBank = (date) => {
+  const question = db.ref().child('qbank').child(date).remove()
+}

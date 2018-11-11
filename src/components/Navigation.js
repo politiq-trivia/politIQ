@@ -86,12 +86,14 @@ class NavigationAuth extends Component {
   getMostRecentQuizId = async () => {
     await db.getQuizzes()
       .then(response => {
-        const data = response.val();
-        const dateArray = Object.keys(data);
-        const mostRecent = dateArray[dateArray.length-1]
-        this.setState({
-          mostRecentQuizURL: "quiz/" + mostRecent
-        })
+        if (response.val() !== null) {
+          const data = response.val();
+          const dateArray = Object.keys(data);
+          const mostRecent = dateArray[dateArray.length-1]
+          this.setState({
+            mostRecentQuizURL: "quiz/" + mostRecent
+          })
+        }
       })
   }
 

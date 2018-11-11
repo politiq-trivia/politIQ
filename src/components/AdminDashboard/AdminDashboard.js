@@ -44,8 +44,8 @@ class AdminDashboard extends Component {
       this.getQuizzesFromDb()
     }
     this.setState({
-      addingQuiz: true,
-      showDash: false,
+      addingQuiz: !this.state.addingQuiz,
+      showDash: !this.state.showDash,
       editingQuiz: false,
       showQuiz: false,
     })
@@ -55,18 +55,20 @@ class AdminDashboard extends Component {
   getQuizzesFromDb = async () => {
     await db.getQuizzes()
       .then(response => {
-        const data = response.val();
-        const dateArray = Object.keys(data);
-        let titleArray = [];
-        for (let i = 0; i < dateArray.length; i++) {
-          let date = dateArray[i]
-          const title = data[date]["quiz-title"]
-          titleArray.push(title)
+        if (response.val() !== null) {
+          const data = response.val();
+          const dateArray = Object.keys(data);
+          let titleArray = [];
+          for (let i = 0; i < dateArray.length; i++) {
+            let date = dateArray[i]
+            const title = data[date]["quiz-title"]
+            titleArray.push(title)
+          }
+          this.setState({
+            dateArray: dateArray,
+            titleArray: titleArray,
+          })
         }
-        this.setState({
-          dateArray: dateArray,
-          titleArray: titleArray,
-        })
       })
   }
 
