@@ -238,6 +238,18 @@ class NavigationNonAuth extends Component {
   }
 
   render() {
+    const playLink = () => {
+      if (this.state.mostRecentQuizURL) {
+        return (
+          <Link to={this.state.mostRecentQuizURL} style={{ textDecoration: 'none'}}>
+            <ListItem button>
+              <ListItemText primary="Play Game" />
+            </ListItem>
+          </Link>
+        )
+      }
+    }
+
     const fullList = (
       <div>
         <List component="nav">
@@ -251,11 +263,7 @@ class NavigationNonAuth extends Component {
               <ListItemText primary="Sign In" />
             </ListItem>
           </Link>
-          <Link to={this.state.mostRecentQuizURL} style={{ textDecoration: 'none'}}>
-            <ListItem button>
-              <ListItemText primary="Play Game" />
-            </ListItem>
-          </Link>
+          {playLink()}
           <Link to={routes.ABOUT} style={{ textDecoration: 'none' }}>
             <ListItem button>
               <ListItemText primary="About" />

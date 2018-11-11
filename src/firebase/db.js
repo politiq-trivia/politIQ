@@ -159,7 +159,7 @@ export const getOneQuestion = () => {
 
 // deleteUserQuestion
 export const deleteUserQuestion = (date) => {
-  const question = db.ref().child('q4review').child(date).remove();
+  db.ref().child('q4review').child(date).remove();
 }
 
 // move question from q4review to qBank
@@ -183,5 +183,5 @@ export const getQBank = () => {
 }
 
 export const removeFromQBank = (date) => {
-  const question = db.ref().child('qbank').child(date).remove()
+  db.ref().child('qbank').child(date).remove()
 }

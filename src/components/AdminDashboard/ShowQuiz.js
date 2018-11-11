@@ -75,7 +75,7 @@ class ShowQuiz extends Component {
           <RadioGroup
             aria-label={q[1]["q1"]}
           >
-            <div style={{ display: 'flex'}}>
+            <div style={{ display: 'flex'}} inputref="none">
               <FormControlLabel value={q[1]["a1text"]} control={<Radio />} label={q[1]["a1text"]}/>
               {q[1]["a1correct"] ? <p style={{ color: 'green' }}>Correct Answer</p> : null}
             </div>

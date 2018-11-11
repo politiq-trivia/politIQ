@@ -13,7 +13,7 @@ import QuizList from './QuizList';
 import ShowQuiz from './ShowQuiz';
 import EditQuiz from './EditQuiz';
 import QuestionsToReview from './QuestionsToReview';
-import TeamScoreboard from '../TeamScoreboard';
+import Scoreboard from '../Leaderboard/Scoreboard';
 
 import loadingGif from '../../loadingGif.gif';
 
@@ -186,11 +186,8 @@ class AdminDashboard extends Component {
                     {isLoaded()}
                 </Paper>
                 <div className="dashContainer2">
-                  <TeamScoreboard />
+                  <Scoreboard />
                   <QuestionsToReview />
-                  <h3>Other Stuff</h3>
-                  Maybe we'll also have a counter or nav of user submitted questions or something
-                  idk some other stuff will go here
                 </div>
               </div>
             }</div>
