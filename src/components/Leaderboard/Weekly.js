@@ -39,7 +39,7 @@ class WeeklyLeaderboard extends Component {
               const lastWeek = []
               let scoreCounter = 0;
               for (let j = 0; j < quizDates.length; j++) {
-                if (quizDates[j] > moment().subtract(1, 'week').format('YYYY-MM-DD')) {
+                if (quizDates[j] > moment().startOf('week').format('YYYY-MM-DD')) {
                   lastWeek.push(quizDates[j])
                   if (data[usernames[i]][quizDates[j]]) {
                     scoreCounter += data[usernames[i]][quizDates[j]]

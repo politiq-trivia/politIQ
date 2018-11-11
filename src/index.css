@@ -29,7 +29,11 @@ code {
   padding-top: 5vh;
   height: 65vh;
   margin-top: 8vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
+
 
 /* profile page styles */
 .profile-header{

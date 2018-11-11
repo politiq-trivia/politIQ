@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 
 import { db } from '../../firebase';
+import { LEADERBOARD } from '../../constants/routes';
 
 import Paper from '@material-ui/core/Paper';
 import AppBar from '@material-ui/core/AppBar';
@@ -186,7 +188,9 @@ class AdminDashboard extends Component {
                     {isLoaded()}
                 </Paper>
                 <div className="dashContainer2">
-                  <Scoreboard />
+                  <Link to={LEADERBOARD} style={{textDecoration: 'none'}}>
+                    <Scoreboard />
+                  </Link>
                   <QuestionsToReview />
                 </div>
               </div>

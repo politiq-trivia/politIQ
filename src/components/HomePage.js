@@ -9,6 +9,7 @@ import * as routes from '../constants/routes';
 
 import Paper from '@material-ui/core/Paper';
 import Button from '@material-ui/core/Button';
+import Scoreboard from './Leaderboard/Scoreboard'
 
 class HomePage extends Component {
   constructor(props) {
@@ -53,6 +54,7 @@ class HomePage extends Component {
             Past Quizzes
           </Button>
         </Link>
+
 
         <h4>The more you play, the better you score!</h4>
 
