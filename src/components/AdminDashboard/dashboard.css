@@ -88,3 +88,18 @@
   margin-right: 30%;
   width: 40%;
 }
+
+.userShow {
+  width: 85vw;
+  height: 53vh;
+  overflow: scroll;
+  padding-left: 5vw;
+  padding-right: 5vw;
+  padding-top: 3vh;
+  padding-bottom: 3vh;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 3vh;
+  margin-bottom: 3vh;
+  text-align: center;
+}

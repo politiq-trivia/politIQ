@@ -9,7 +9,6 @@ import * as routes from '../constants/routes';
 
 import Paper from '@material-ui/core/Paper';
 import Button from '@material-ui/core/Button';
-import Scoreboard from './Leaderboard/Scoreboard'
 
 class HomePage extends Component {
   constructor(props) {

@@ -16,6 +16,7 @@ import ShowQuiz from './ShowQuiz';
 import EditQuiz from './EditQuiz';
 import QuestionsToReview from './QuestionsToReview';
 import Scoreboard from '../Leaderboard/Scoreboard';
+import UserShow from './UserShow/UserShow';
 
 import loadingGif from '../../loadingGif.gif';
 
@@ -26,8 +27,9 @@ class AdminDashboard extends Component {
     this.state = {
       addingQuiz: false,
       editingQuiz: false,
-      showDash: true,
+      showDash: false,
       showQuiz: false,
+      showUsers: true,
       dateArray: [],
       titleArray: [],
       value: 0,
@@ -79,6 +81,16 @@ class AdminDashboard extends Component {
       addingQuiz: false,
       showDash: true,
       showQuiz: false,
+      showUsers: false,
+    })
+  }
+
+  toggleUserShow = () => {
+    this.setState({
+      addingQuiz: false,
+      showDash: false,
+      showQuiz: false,
+      showUsers: true,
     })
   }
 
@@ -91,6 +103,7 @@ class AdminDashboard extends Component {
       showDash: false,
       showQuiz: true,
       editingQuiz: false,
+      showUsers: false,
     })
   }
 
@@ -113,6 +126,7 @@ class AdminDashboard extends Component {
       editingQuiz: true,
       showDash: false,
       showQuiz: false,
+      showUsers: false,
     })
   }
 
@@ -174,7 +188,7 @@ class AdminDashboard extends Component {
           <Tabs fullWidth value={value} onChange={this.handleChange} style={{ marginTop: '8.5vh'}}>
             <Tab label="Dashboard" onClick={this.toggleDashboard} />
             <Tab label="Create New Quiz" onClick={this.toggleAddQuiz} />
-            <Tab label="Manage Users" />
+            <Tab label="Manage Users" onClick={this.toggleUserShow}/>
           </Tabs>
         </AppBar>
         { this.state.addingQuiz ? <AddQuiz toggleAddQuiz={this.toggleAddQuiz}/>
@@ -182,18 +196,21 @@ class AdminDashboard extends Component {
           { this.state.showQuiz ? <ShowQuiz toggleDashboard={this.toggleDashboard} quiz={this.state.selectedQuiz} quizId={this.state.selectedQuizId} toggleEditQuiz={this.toggleEditQuiz}/>
           : <div>
             {this.state.editingQuiz ? <EditQuiz toggleQuizShow={this.toggleQuizShow} quiz={this.state.selectedQuiz} quizId={this.state.selectedQuizId}/>
-            : <div className="dashboard">
-                <Paper className="dashContainer">
-                  <h3>Available Quizzes</h3>
+            : <div>
+            { this.state.showUsers ? <UserShow />
+              : <div className="dashboard">
+                  <Paper className="dashContainer">
+                    <h3>Available Quizzes</h3>
                     {isLoaded()}
-                </Paper>
-                <div className="dashContainer2">
-                  <Link to={LEADERBOARD} style={{textDecoration: 'none'}}>
-                    <Scoreboard />
-                  </Link>
-                  <QuestionsToReview />
+                  </Paper>
+                  <div className="dashContainer2">
+                    <Link to={LEADERBOARD} style={{textDecoration: 'none'}}>
+                      <Scoreboard />
+                    </Link>
+                    <QuestionsToReview />
+                  </div>
                 </div>
-              </div>
+              }</div>
             }</div>
           }</div>
         }
