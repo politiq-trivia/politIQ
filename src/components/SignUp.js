@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Link, withRouter } from 'react-router-dom';
+import moment from 'moment';
 
 import { auth, db } from '../firebase';
 import { SignInLink } from './SignIn';
@@ -73,6 +74,8 @@ class SignUpForm extends Component {
         // add in the additional information (to the state in this component)
         db.doCreateUser(authUser.user.uid, username, email, affiliation, isAdmin)
           .then(() => {
+            const date = moment().format('YYYY-MM-DD')
+            db.lastActive(authUser.user.uid, date)
             this.setState({ ...INITIAL_STATE });
             history.push(routes.HOME);
           })

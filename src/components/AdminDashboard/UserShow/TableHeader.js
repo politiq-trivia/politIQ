@@ -10,6 +10,7 @@ import TableSortLabel from '@material-ui/core/TableSortLabel';
 const rows = [
   { id: 'username', numeric: false, disablePadding: true, label: 'Username' },
   { id: 'email', numeric: false, disablePadding: true, label: 'Email Address' },
+  { id: 'affiliation', numeric: false, disablePadding: true, label: "Affiliation" },
   { id: 'monthlyscore', numeric: true, disablePadding: false, label: 'Monthly Score' },
   { id: 'alltimescore', numeric: true, disablePadding: false, label: 'All Time Score' },
   { id: 'lastactive', numeric: true, disablePadding: false, label: 'Last Active' },
@@ -26,7 +27,11 @@ class TableHeader extends Component {
       <TableHead>
         <TableRow>
           <TableCell padding="checkbox">
-            <Checkbox />
+            <Checkbox
+              indeterminate={numSelected > 0 && numSelected < rowCount}
+              checked={numSelected === rowCount}
+              onChange={onSelectAllClick}
+            />
           </TableCell>
           {rows.map(row => {
             return (

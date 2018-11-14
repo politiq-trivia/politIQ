@@ -1,25 +1,21 @@
 import React, { Component } from 'react';
 
+import { db } from '../../../firebase';
+import moment from 'moment';
+
 import Paper from '@material-ui/core/Paper';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
 import TablePagination from '@material-ui/core/TablePagination';
 import TableRow from '@material-ui/core/TableRow';
-import TableSortLabel from '@material-ui/core/TableSortLabel';
 import Checkbox from '@material-ui/core/Checkbox';
-import DeleteIcon from '@material-ui/icons/Delete';
-import Tooltip from '@material-ui/core/Tooltip';
 
 import '../dashboard.css';
 import TableHeader from './TableHeader';
 import TableToolbar from './TableToolbar';
 
 let counter = 0;
-function createData(username, email, monthlyscore, alltimescore, lastactive) {
-  counter += 1;
-  return { id: counter, username, email, monthlyscore, alltimescore, lastactive };
-}
 
 function desc(a, b, orderBy) {
   if (b[orderBy] < a[orderBy]) {
@@ -52,13 +48,73 @@ class UserShow extends Component {
       order: 'asc',
       orderBy: 'username',
       selected: [],
-      data: [
-        createData('Hanna', 'hanna@hanna.com', 30, 300, '2018-11-12'),
-        createData('Thomas', 'thomas@thomas.com', 25, 200, '2018-11-10')
-      ],
+      data: [],
       page: 0,
       rowsPerPage: 5,
     }
+  }
+
+  componentDidMount = () => {
+    this.getData()
+  }
+  // get data from db - need users, email addresses, scores, and last active dates
+  getData = async () => {
+    await db.onceGetUsers()
+      .then(response => {
+        const data = response.val()
+        const uidList = Object.keys(response.val())
+        const componentData = this.state.data
+        db.getScores()
+          .then(response => {
+            const scoreData = response.val()
+            uidList.forEach((user, i) => {
+              let index = data[uidList[i]]
+
+              // get the date last active
+              let lastactive;
+              if (index.lastActive) {
+                lastactive = index.lastActive
+              } else {
+                lastactive = ''
+              }
+
+              // get the scores
+              let monthlyscore, alltimescore;
+              if (scoreData[uidList[i]]) {
+                const scores = Object.values(scoreData[uidList[i]])
+                alltimescore = scores.reduce((a,b) => a + b, 0)
+
+                const quizDates = Object.keys(scoreData[uidList[i]])
+                let scoreCounter = 0;
+                for (let j = 0; j < quizDates.length; j++) {
+                  if (quizDates[j] > moment().startOf('month').format('YYYY-MM-DD')) {
+                    if (scoreData[uidList[i]][quizDates[j]]) {
+                      scoreCounter += scoreData[uidList[i]][quizDates[j]]
+                    }
+                  }
+                }
+                monthlyscore = scoreCounter;
+              } else {
+                monthlyscore = 0;
+                alltimescore = 0;
+              }
+              let userInfo = {
+                id: counter,
+                username: index["displayName"],
+                email: index["email"],
+                affiliation: index["affiliation"],
+                monthlyscore: monthlyscore,
+                alltimescore: alltimescore,
+                lastactive: lastactive
+              }
+              counter += 1;
+              componentData.push(userInfo)
+            })
+            this.setState({
+              data: componentData
+            })
+          })
+      })
   }
 
   handleSelectAllClick = event => {
@@ -150,6 +206,9 @@ class UserShow extends Component {
                     <TableCell component="th" scope="row" padding="none">
                       {n.email}
                     </TableCell>
+                    <TableCell component="th" scope="row" padding="none">
+                      {n.affiliation}
+                    </TableCell>
                     <TableCell numeric>{n.monthlyscore}</TableCell>
                     <TableCell numeric>{n.alltimescore}</TableCell>
                     <TableCell numeric>{n.lastactive}</TableCell>
@@ -168,7 +227,7 @@ class UserShow extends Component {
           count={data.length}
           rowsPerPage={rowsPerPage}
           page={page}
-          backButtonIconProps={{
+          backbuttoniconprops={{
             'aria-label': 'Previous Page',
           }}
           nextIconButtonProps={{

@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Link, withRouter } from 'react-router-dom';
+import moment from 'moment';
 
 import { SignUpLink } from './SignUp';
 import { PasswordForgetLink } from './PasswordForget';
@@ -64,8 +65,10 @@ class SignInForm extends Component {
     auth.doSignInWithEmailAndPassword(email, password)
       .then((authUser) => {
         const userID = authUser.user.uid;
+        const date = moment().format('YYYY-MM-DD')
         this.isAdmin(userID);
         this.props.getSignedInUser(userID)
+        db.lastActive(userID, date)
       })
       .catch(error => {
         this.setState(byPropKey('error', error));

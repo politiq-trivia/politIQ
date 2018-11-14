@@ -10,8 +10,10 @@ export const doCreateUser = (id, displayName, email, affiliation, isAdmin) =>
     isAdmin,
   });
 
-export const onceGetUsers = () =>
-  db.ref('users').once('value');
+export const onceGetUsers = () => {
+  const users = db.ref('users').once('value');
+  return users;
+}
 
 // Other Entity APIs ...
 
@@ -27,6 +29,10 @@ export const checkAdmin = (uid) => {
     return snapshot.val().isAdmin;
   });
   return user;
+}
+
+export const lastActive = (uid, date) => {
+  db.ref('users').child(uid).child('lastActive').set(date)
 }
 
 // -------------------------------------------------------------------------
