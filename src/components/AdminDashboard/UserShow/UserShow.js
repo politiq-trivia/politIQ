@@ -48,6 +48,7 @@ class UserShow extends Component {
       order: 'asc',
       orderBy: 'username',
       selected: [],
+      selectedIndex: [],
       data: [],
       page: 0,
       rowsPerPage: 5,
@@ -105,7 +106,8 @@ class UserShow extends Component {
                 affiliation: index["affiliation"],
                 monthlyscore: monthlyscore,
                 alltimescore: alltimescore,
-                lastactive: lastactive
+                lastactive: lastactive,
+                uid: uidList[i]
               }
               counter += 1;
               componentData.push(userInfo)
@@ -136,25 +138,53 @@ class UserShow extends Component {
     this.setState({ order, orderBy });
   };
 
-  handleClick = (event, id) => {
-    const { selected } = this.state;
-    const selectedIndex = selected.indexOf(id);
-    let newSelected = [];
-
-    if (selectedIndex === -1) {
-      newSelected = newSelected.concat(selected, id);
-    } else if (selectedIndex === 0) {
-      newSelected = newSelected.concat(selected.slice(1));
-    } else if (selectedIndex === selected.length - 1) {
-      newSelected = newSelected.concat(selected.slice(0, -1));
-    } else if (selectedIndex > 0) {
-      newSelected = newSelected.concat(
-        selected.slice(0, selectedIndex),
-        selected.slice(selectedIndex + 1),
-      );
+  handleClick = (event, uid, id) => {
+    // const { selected } = this.state;
+    // const selectedIndex = selected.indexOf(id);
+    // let newSelected = [];
+    //
+    // if (selectedIndex === -1) {
+    //   newSelected = newSelected.concat(selected, id);
+    // } else if (selectedIndex === 0) {
+    //   newSelected = newSelected.concat(selected.slice(1));
+    // } else if (selectedIndex === selected.length - 1) {
+    //   newSelected = newSelected.concat(selected.slice(0, -1));
+    // } else if (selectedIndex > 0) {
+    //   newSelected = newSelected.concat(
+    //     selected.slice(0, selectedIndex),
+    //     selected.slice(selectedIndex + 1),
+    //   );
+    // }
+    // console.log(newSelected, 'newSelected')
+    // this.setState({ selected: newSelected });
+    // if (this.state.selected.includes(uid)) {
+    //   return true;
+    // } else {
+    //   return false;
+    // }
+    let selected = [...this.state.selected];
+    if (selected.includes(uid)) {
+      const index = selected.indexOf(uid)
+      selected.splice(index, 1)
+    } else {
+      selected.push(uid)
     }
 
-    this.setState({ selected: newSelected });
+    let selectedIndex = [...this.state.selectedIndex];
+    if (selectedIndex.includes(id)) {
+      const index = selectedIndex.indexOf(id)
+      selectedIndex.splice(index, 1)
+      console.log(selectedIndex, 'selectedIndex in if')
+    } else {
+      console.log(id)
+      selectedIndex.push(id)
+      console.log(selectedIndex, 'selectedIndex in else')
+    }
+
+    this.setState({
+      selected: [...selected],
+      selectedIndex: [...selectedIndex]
+    })
   };
 
   handleChangePage = (event, page) => {
@@ -165,14 +195,38 @@ class UserShow extends Component {
     this.setState({ rowsPerPage: event.target.value });
   };
 
-  isSelected = id => this.state.selected.indexOf(id) !== -1;
+  handleDeleteUser = (event) => {
+    const selected = [...this.state.selected]
+    const selectedIndex = this.state.selectedIndex
+    selected.forEach((user, i) => {
+      db.deleteUser(selected[i])
+    })
+    const data = this.state.data
+    for (let i = 0; i < selectedIndex.length; i++) {
+      const index = selectedIndex[i]
+      delete data[index]
+    }
+    this.setState({
+      data: data,
+      selected: [],
+      selectedIndex: [],
+    })
+  }
+
+  isSelected = (uid) => {
+    if (this.state.selected.includes(uid)) {
+      return true;
+    } else {
+      return false;
+    }
+  }
 
   render() {
     const { data, order, orderBy, selected, rowsPerPage, page } = this.state;
     const emptyRows = this.state.rowsPerPage - Math.min(rowsPerPage, data.length - page * rowsPerPage);
     return (
       <Paper className="userShow">
-        <TableToolbar numSelected={selected.length}/>
+        <TableToolbar numSelected={selected.length} handleDeleteUser={this.handleDeleteUser}/>
         <Table>
           <TableHeader
             numSelected={selected.length}
@@ -186,15 +240,16 @@ class UserShow extends Component {
             {stableSort(data, getSorting(order, orderBy))
               .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
               .map(n => {
-                const isSelected = this.isSelected(n.id);
+                const isSelected = this.isSelected(n.uid);
                 return (
                   <TableRow
+                    id={n.id}
                     hover
-                    onClick={event => this.handleClick(event, n.id)}
+                    onClick={event => this.handleClick(event, n.uid, n.id)}
                     role="checkbox"
                     aria-checked={isSelected}
                     tabIndex={-1}
-                    key={n.id}
+                    key={n.uid}
                     selected={isSelected}
                   >
                     <TableCell padding="checkbox">

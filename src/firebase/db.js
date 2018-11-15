@@ -15,6 +15,12 @@ export const onceGetUsers = () => {
   return users;
 }
 
+// delete the user and the stored score data
+export const deleteUser = (uid) => {
+  db.ref('users').child(uid).remove()
+  db.ref('scores').child(uid).remove()
+}
+
 // Other Entity APIs ...
 
 // -------------------------------------------------------------------------

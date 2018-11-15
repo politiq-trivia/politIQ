@@ -38,7 +38,7 @@ const TableToolbar = props => {
 
   return (
     <Toolbar>
-      <div className={toolbarStyles.title}>
+      <div className={toolbarStyles.title} >
         {numSelected > 0 ? (
           <p>{numSelected} selected</p>
         ) : (
@@ -50,16 +50,10 @@ const TableToolbar = props => {
         {numSelected > 0 ? (
           <Tooltip title="Delete">
             <IconButton aria-label="Delete">
-              <DeleteIcon />
+              <DeleteIcon onClick={props.handleDeleteUser}/>
             </IconButton>
           </Tooltip>
-        ) : (
-          <Tooltip title="Filter list">
-            <IconButton aria-label="Filter list">
-              <FilterListIcon />
-            </IconButton>
-          </Tooltip>
-        )}
+        ) : null }
       </div>
     </Toolbar>
 
