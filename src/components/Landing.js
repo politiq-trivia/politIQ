@@ -45,10 +45,10 @@ const LandingPage = () =>
           <h6>Get Awarded</h6>
           <p>Players with highest scores eligible to compete in challenge for cash prize!</p>
         </div>
-
-        <Link to="/signup" style={{ textDecoration: 'none' }}><Button size="large" variant="contained" color="secondary" className="home-button" style={{ textTransform: 'none', fontSize: '20px', fontWeight: '300', letterSpacing: '0.5px'}}>Sign Up and Find Out</Button></Link>
-
       </div>
+
+      <Link to="/signup" style={{ textDecoration: 'none' }}><Button size="large" variant="contained" color="secondary" className="home-button" style={{ textTransform: 'none', fontSize: '20px', fontWeight: '300', letterSpacing: '0.5px'}}>Sign Up and Find Out</Button></Link>
+
 
     </div>
 

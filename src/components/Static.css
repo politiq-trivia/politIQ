@@ -12,6 +12,18 @@
   font-weight: 300;
   max-width: 400px;
 }
+@media screen and (max-width: 1024px) {
+  .home-button {
+    width: 40vw !important;
+    max-width: none;
+  }
+}
+@media screen and (max-width: 790px) {
+  .home-button {
+    width: 80vw !important;
+    max-width: none;
+  }
+}
 
 #bg-image {
   margin-left: auto;
@@ -117,6 +129,9 @@ h4 {
 .home-description h4 {
   color: white;
   margin-top: 0;
+  width: 80vw;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .home-description p {
@@ -178,6 +193,16 @@ h4 {
   margin: 2vw;
   margin-bottom: 0;
   padding-bottom: 0;
+}
+@media screen and (max-width: 1024px) {
+  .icon-div {
+    width: 35vw;
+  }
+}
+@media screen and (max-width: 420px) {
+  .icon-div {
+    width: 80vw;
+  }
 }
 .icon-holder {
   display: flex;

@@ -92,13 +92,16 @@ h3 {
     margin-right: auto;
   }
   .bottom-nav > a {
-    color: #BB7AEE;
+    color: white;
     text-decoration: none;
     padding-left: 2vw;
     padding-right: 2vw;
     margin-top: 1vh;
     margin-bottom: 1vh;
     border-left: 1px solid #BB7AEE;
+  }
+  .bottom-nav > a:hover {
+    text-decoration: underline;
   }
   #play {
     border-left: none;
