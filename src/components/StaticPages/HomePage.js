@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
+import { Helmet } from 'react-helmet';
 // import * as moment from 'moment';
 
-import withAuthorization from './withAuthorization';
-import { db } from '../firebase';
+import withAuthorization from '../Auth/withAuthorization';
+import { db } from '../../firebase';
 
-import * as routes from '../constants/routes';
+import * as routes from '../../constants/routes';
 
 import Paper from '@material-ui/core/Paper';
 import Button from '@material-ui/core/Button';
@@ -39,6 +40,9 @@ class HomePage extends Component {
   render() {
     return (
       <Paper className="pageStyle home">
+        <Helmet>
+          <title>Home | politIQ </title>
+        </Helmet>
         <h1>Did you watch today's news? Do you think you know politics?</h1>
         <h1>Click below to find out!</h1>
 

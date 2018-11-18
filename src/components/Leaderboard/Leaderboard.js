@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { Helmet } from 'react-helmet';
 
 import Paper from '@material-ui/core/Paper';
 import Button from '@material-ui/core/Button';
@@ -17,6 +18,9 @@ import IndLeaderboard from './Independent';
 const Leaderboard = () => {
   return (
     <Paper className="leaderboard">
+      <Helmet>
+        <title>Leaderboard | politIQ</title>
+      </Helmet>
       <div style={{ display: 'flex', justifyContent: 'space-evenly', width: 'auto'}}>
         <Link to={routes.HOME} style={{ textDecoration: 'none', float: 'left'}}>
           <Button variant="contained" color="primary">Home</Button>

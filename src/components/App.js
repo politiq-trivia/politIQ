@@ -6,24 +6,24 @@ import {
 import './App.css';
 
 import Navigation from './Navigation';
-import LandingPage from './Landing';
-import SignUpPage from './SignUp';
-import SignInPage from './SignIn';
-import PasswordForgetPage from './PasswordForget';
-import HomePage from './HomePage';
-import ProfilePage from './Profile';
+import LandingPage from './StaticPages/Landing';
+import SignUpPage from './Auth/SignUp';
+import SignInPage from './Auth/SignIn';
+import PasswordForgetPage from './Auth/PasswordForget';
+import HomePage from './StaticPages/HomePage';
+import ProfilePage from './Profile/Profile';
 import Footer from './Footer';
 import AdminDashboard from './AdminDashboard/AdminDashboard';
-import QuizArchive from './QuizArchive';
-import Quiz from './Quiz';
+import QuizArchive from './QuizEngine/QuizArchive';
+import Quiz from './QuizEngine/Quiz';
 import Leaderboard from './Leaderboard/Leaderboard';
-import About from './About';
+import About from './StaticPages/About';
 import QuestionSubmitForm from './QuestionSubmit/QuestionSubmitForm';
 import ReviewQuestions from './AdminDashboard/ReviewQuestions';
 
 import * as routes from '../constants/routes';
 import { firebase } from '../firebase';
-import withAuthentication from './withAuthentication';
+import withAuthentication from './Auth/withAuthentication';
 
 import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 

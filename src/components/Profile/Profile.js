@@ -1,10 +1,11 @@
 import React from 'react';
+import { Helmet } from 'react-helmet';
 
 import ProfilePhoto from './ProfilePhoto';
 
-import AuthUserContext from './AuthUserContext';
-import PasswordChangeForm from './PasswordChange';
-import withAuthorization from './withAuthorization';
+import AuthUserContext from '../Auth/AuthUserContext';
+import PasswordChangeForm from '../Auth/PasswordChange';
+import withAuthorization from '../Auth/withAuthorization';
 
 import Paper from '@material-ui/core/Paper';
 
@@ -15,6 +16,9 @@ const ProfilePage = () => {
     <AuthUserContext.Consumer>
       {authUser =>
         <Paper className="page-style profile">
+          <Helmet>
+            <title>Profile | politIQ</title>
+          </Helmet>
           <div className="profile-header">
             <ProfilePhoto authUser={authUser} />
             <div className="profile-info">

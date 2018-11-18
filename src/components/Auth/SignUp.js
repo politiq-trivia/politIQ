@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
 import { Link, withRouter } from 'react-router-dom';
+import { Helmet } from 'react-helmet';
 import moment from 'moment';
 
-import { auth, db } from '../firebase';
+import { auth, db } from '../../firebase';
 import { SignInLink } from './SignIn';
 
-import * as routes from '../constants/routes';
+import * as routes from '../../constants/routes';
 
 //UI
 import Paper from '@material-ui/core/Paper';
@@ -16,6 +17,9 @@ import './Auth.css';
 
 const SignUpPage = ({ history }) =>
   <Paper className="authCard signUp">
+    <Helmet>
+      <title>Sign Up | politIQ</title>
+    </Helmet>
     <h1>Sign Up</h1>
     <SignUpForm history={history} />
     <SignInLink />

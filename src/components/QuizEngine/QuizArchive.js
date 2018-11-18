@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
 import { Link, withRouter } from 'react-router-dom';
-import { db } from '../firebase';
-import * as routes from '../constants/routes';
+import { Helmet } from 'react-helmet';
+import { db } from '../../firebase';
+import * as routes from '../../constants/routes';
 
-import loadingGif from '../loadingGif.gif';
+import loadingGif from '../../loadingGif.gif';
 
 import Paper from '@material-ui/core/Paper';
 import TableRow from '@material-ui/core/TableRow';
@@ -104,6 +105,9 @@ class QuizArchive extends Component {
     }
     return (
       <Paper className="home" style={{ paddingLeft: '8vw', paddingRight: '8vw'}}>
+        <Helmet>
+          <title>Quiz Archive | politIQ</title>
+        </Helmet>
         <div className="archive-header">
           <Link to={routes.HOME} style={{ textDecoration: 'none' }}><Button variant="contained" color="primary">Home</Button></Link>
           <h1 style={{ display: 'inline'}}>Quiz Archive</h1>

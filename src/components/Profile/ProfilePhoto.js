@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-import { storage } from '../firebase';
+import { storage } from '../../firebase';
 import FileUploader from 'react-firebase-file-uploader';
 
 import Button from '@material-ui/core/Button';

@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
+import { Helmet } from 'react-helmet';
 import moment from 'moment';
 
 import { db } from '../../firebase';
@@ -123,6 +124,9 @@ class QuestionSubmitForm extends Component {
 
     return (
       <Paper className="pageStyle submitForm">
+        <Helmet>
+          <title>Submit Question</title>
+        </Helmet>
         { this.state.done
           ? <div className="afterSubmit">
               <h2>Thank you for your submission.</h2>

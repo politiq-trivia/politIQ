@@ -1,10 +1,14 @@
 import React from 'react';
+import { Helmet } from 'react-helmet';
 
 import Paper from '@material-ui/core/Paper';
 
 const About = () => {
   return (
     <Paper className="about-holder">
+      <Helmet>
+        <title>About | politIQ </title>
+      </Helmet>
       <div className="heading">
         <h1>About Us</h1>
         <h2>Fixing politics through friendly competition</h2>

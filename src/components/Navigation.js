@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import * as routes from '../constants/routes';
 
-import AuthUserContext from './AuthUserContext';
+import AuthUserContext from './Auth/AuthUserContext';
 import { auth, db } from '../firebase';
 
 // UI stuff

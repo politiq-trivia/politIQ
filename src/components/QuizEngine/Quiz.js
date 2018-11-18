@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
-import loadingGif from '../loadingGif.gif';
+import loadingGif from '../../loadingGif.gif';
 import { Link } from 'react-router-dom';
-import AuthUserContext from './AuthUserContext';
+import { Helmet } from 'react-helmet';
+import AuthUserContext from '../Auth/AuthUserContext';
 
 
 import Button from '@material-ui/core/Button';
@@ -11,8 +12,8 @@ import FormControlLabel from '@material-ui/core/FormControlLabel';
 import RadioGroup from '@material-ui/core/RadioGroup';
 import Radio from '@material-ui/core/Radio';
 
-import { db } from '../firebase';
-import * as routes from '../constants/routes';
+import { db } from '../../firebase';
+import * as routes from '../../constants/routes';
 
 import './quiz.css';
 
@@ -217,6 +218,9 @@ class Quiz extends Component {
       <AuthUserContext.Consumer>
         {authUser =>
           <Paper className="quiz-body">
+            <Helmet>
+              <title>Play | politIQ</title>
+            </Helmet>
             {isLoading(authUser)}
           </Paper>
         }
