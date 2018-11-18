@@ -53,6 +53,9 @@ body {
 .links {
   margin-right: 5vw;
 }
+.links > a:hover {
+  color: #a54ee8;
+}
 
 h3 {
   color: #a54ee8;
