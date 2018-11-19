@@ -25,8 +25,29 @@ const getHref = () => {
   return (window.location.href).toString();
 }
 
+const isFixed = () => {
+  const path = window.location.pathname;
+  if (path === '/signin' || path === '/signup' || path === '/admin' || path === '/home' || path === '/profile') {
+    return {
+      position: 'fixed'
+    }
+  } else {
+    return {
+      position: 'relative'
+    }
+  }
+
+}
+
+// const style = {
+//   footerStyle: {
+//     position: isFixed()
+//   }
+// }
+
+
 const Footer = () =>
-  <div className="footer">
+  <div className="footer" style={isFixed()}>
     <div className="description">
       <h3>About Us</h3>
       <p>In an effort to combat polarization and improve the dialogue around politics, I created this site as a platform for generating a common consensus of current events and political realities through a friendly competition. I mean, everyone loves a fun and informative game, right?</p>

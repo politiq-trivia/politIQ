@@ -93,6 +93,13 @@
   line-height: 80%;
   padding-top: 3vh;
 }
+@media screen and (max-width: 480px) {
+  #today {
+    width: 80vw;
+    font-size: 2em;
+    margin-top: 3vh;
+  }
+}
 
 #archive-link {
   display: block;
@@ -105,6 +112,11 @@
   font-family: "Baloo Bhaina", cursive;
   line-height: 80%;
   padding-top: 2.5vh;
+}
+@media screen and (max-width: 480px) {
+  #archive-link {
+    width: 60vw;
+  }
 }
 
 h4 {
@@ -221,7 +233,7 @@ h6 {
 /* ABOUT */
 .about-holder {
   text-align: center;
-  /* height: 76vh; */
+  /* height: 100vh; */
   padding-bottom: 5vh;
   margin-top: 7.5vh;
 }
@@ -237,12 +249,15 @@ h6 {
   margin-top: 7vh;
   letter-spacing: 1px;
   font-weight: 500;
+  height: auto;
+  padding-bottom: 5vh;
 }
 
 .heading {
   background: linear-gradient(45deg, #673191, #150A1D);
   color: white;
   height: 30vh;
+  min-height: 200px;
 }
 
 .heading > h1 {
@@ -252,4 +267,7 @@ h6 {
 .heading > h2 {
   font-weight: 400;
   font-size: 1.2em;
+  width: 80vw;
+  margin-left: auto;
+  margin-right: auto;
 }

@@ -10,6 +10,11 @@
   margin-left: 3vw;
 }
 
+.archive-holder {
+  padding: 5vh 3vw 15vh 3vw;
+  justify-content: flex-start;
+}
+
 .quiz-body {
   padding-left: 5vw;
   padding-right: 5vw;

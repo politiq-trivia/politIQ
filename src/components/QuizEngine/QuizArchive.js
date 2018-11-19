@@ -104,13 +104,13 @@ class QuizArchive extends Component {
       }
     }
     return (
-      <Paper className="home" style={{ paddingLeft: '8vw', paddingRight: '8vw'}}>
+      <Paper className="home archive-holder">
         <Helmet>
           <title>Quiz Archive | politIQ</title>
         </Helmet>
+        <h1 style={{ display: 'block'}}>Past Quizzes</h1>
         <div className="archive-header">
           <Link to={routes.HOME} style={{ textDecoration: 'none' }}><Button variant="contained" color="primary">Home</Button></Link>
-          <h1 style={{ display: 'inline'}}>Quiz Archive</h1>
           <Link to={routes.LEADERBOARD} style={{ textDecoration: 'none' }}><Button variant="contained" color="primary">Leaderboard</Button></Link>
         </div>
         {isLoading()}
