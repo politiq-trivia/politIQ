@@ -9,6 +9,7 @@ import RadioGroup from '@material-ui/core/RadioGroup';
 import Radio from '@material-ui/core/Radio';
 import FormLabel from '@material-ui/core/FormLabel';
 import Close from '@material-ui/icons/Close';
+import MediaQuery from 'react-responsive';
 
 import './quizEngine.css';
 
@@ -60,34 +61,36 @@ class ShowQuiz extends Component {
 
     const renderQs = quizArray.map((q, i) => {
       return (
-        <FormControl key={i} id={q[0]} style={{ display: 'block'}}>
+        <FormControl className="showQuestion" key={i} id={q[0]} style={{ display: 'block'}}>
           <FormLabel>{i+1}. {q[1]["q1"]}</FormLabel>
-          <div style={{ float: 'right', color: 'gray'}}  id={q[0]} onClick={this.handleDeleteQuestion}>
-            Remove Question
-            <Close
-              aria-label="close"
-              color="inherit"
-              style={{
-                height: '2vh'
-              }}
-            />
-          </div>
+            <div className="delete-x" id={q[0]} onClick={this.handleDeleteQuestion}>
+              <p className="delete-text">Remove Question</p>
+              <Close
+                aria-label="close"
+                color="inherit"
+                style={{
+                  height: '4vh'
+                }}
+              />
+            </div>
+
           <RadioGroup
             aria-label={q[1]["q1"]}
+            inputref="none"
           >
-            <div style={{ display: 'flex'}} inputref="none">
+            <div className="show" style={{ display: 'flex'}} inputref="none">
               <FormControlLabel value={q[1]["a1text"]} control={<Radio />} label={q[1]["a1text"]}/>
               {q[1]["a1correct"] ? <p style={{ color: 'green' }}>Correct Answer</p> : null}
             </div>
-            <div style={{ display: 'flex'}}>
+            <div className="show" style={{ display: 'flex'}}>
               <FormControlLabel value={q[1]["a2text"]} control={<Radio />} label={q[1]["a2text"]}/>
               {q[1]["a2correct"] ? <p style={{ color: 'green' }}>Correct Answer</p> : null}
             </div>
-            <div style={{ display: 'flex'}}>
+            <div className="show" style={{ display: 'flex'}}>
               <FormControlLabel value={q[1]["a3text"]} control={<Radio />} label={q[1]["a3text"]}/>
               {q[1]["a3correct"] ? <p style={{ color: 'green' }}>Correct Answer</p> : null}
             </div>
-            <div style={{ display: 'flex'}}>
+            <div className="show" style={{ display: 'flex'}}>
               <FormControlLabel value={q[1]["a4text"]} control={<Radio />} label={q[1]["a4text"]}/>
               {q[1]["a4correct"] ? <p style={{ color: 'green' }}>Correct Answer</p> : null}
             </div>
@@ -101,14 +104,24 @@ class ShowQuiz extends Component {
 
     return (
       <Paper className="showQuiz">
-        <Button onClick={this.props.toggleDashboard} variant="contained" color="primary">
-            Back
-        </Button>
-        <Button variant="contained" color="primary" style={{ float: 'right'}} onClick={this.props.toggleEditQuiz}>
-            Edit Quiz
-        </Button>
+        <div className="showQuizButtons">
+          <Button onClick={this.props.toggleDashboard} variant="contained" color="primary">
+              Back
+          </Button>
+          <Button variant="contained" color="primary" style={{ float: 'right'}} onClick={this.props.toggleEditQuiz}>
+              Edit Quiz
+          </Button>
+        </div>
         {this.state.quiz ? <h1>{this.state.quiz['quiz-title']}</h1> : null}
         {renderQs}
+        <div className="showQuizButtons-mobile">
+          <Button onClick={this.props.toggleDashboard} color="primary">
+              Back
+          </Button>
+          <Button color="primary" style={{ float: 'right'}} onClick={this.props.toggleEditQuiz}>
+              Edit Quiz
+          </Button>
+        </div>
       </Paper>
     )
   }

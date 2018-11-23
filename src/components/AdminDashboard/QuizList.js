@@ -74,7 +74,7 @@ class QuizList extends Component {
       let id = date;
       let title = this.props.quizTitles[i]
       return (
-        <TableRow id={date} key={id}>
+        <TableRow id={date} key={id} className="tableItem">
           <TableCell padding="checkbox">
             <Checkbox
               id={date}
@@ -82,7 +82,7 @@ class QuizList extends Component {
               checked={this.state.selected.indexOf(id) !== -1 ? true : false}
             />
           </TableCell>
-          <TableCell onClick={this.handleClick}>
+          <TableCell onClick={this.handleClick} style={{ minWidth: '60px'}} padding="none">
             {date}
           </TableCell>
           <TableCell onClick={this.handleClick}>
@@ -105,13 +105,13 @@ class QuizList extends Component {
                     onClick={this.handleSelectAllClick}
                   />
                 </TableCell>
-                <TableCell>
+                <TableCell style={{ minWidth: '60px' }} padding="none">
                   Quiz Date
                 </TableCell>
-                <TableCell>
+                <TableCell style={{ minWidth: '60px'}} padding="default">
                   Quiz Title
-                  <Delete onClick={this.props.toggleDeleteModal} style={{ float: 'right'}}/>
                 </TableCell>
+                <Delete onClick={this.props.toggleDeleteModal} style={{ float: 'right', marginTop: '15px'}}/>
               </TableRow>
             </TableHead>
             <TableBody>

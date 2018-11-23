@@ -57,14 +57,14 @@ class QuizArchive extends Component {
       let id = date;
       let title = this.state.titleArray[i]
       return (
-        <TableRow id={date} key={id}>
+        <TableRow id={date} key={id} className="tableItem">
           <TableCell onClick={this.handleClick}>
             {date}
           </TableCell>
-          <TableCell onClick={this.handleClick}>
+          <TableCell onClick={this.handleClick} padding="none">
             {title}
           </TableCell>
-          <TableCell onClick={this.handleClick}>
+          <TableCell onClick={this.handleClick} style={{ paddingLeft: '8vw'}}>
             --
           </TableCell>
         </TableRow>
@@ -82,16 +82,16 @@ class QuizArchive extends Component {
         )
       } else {
         return (
-          <Table>
+          <Table className="archive-table">
             <TableHead>
               <TableRow>
-                <TableCell>
+                <TableCell style={{ minWidth: '66px'}} padding="default">
                   Quiz Date
                 </TableCell>
-                <TableCell>
+                <TableCell style={{ minWidth: '85px'}} padding="none">
                   Quiz Title
                 </TableCell>
-                <TableCell>
+                <TableCell style={{ minWidth: '40px'}} padding="default">
                   Your Score
                 </TableCell>
               </TableRow>
@@ -108,10 +108,13 @@ class QuizArchive extends Component {
         <Helmet>
           <title>Quiz Archive | politIQ</title>
         </Helmet>
-        <h1 style={{ display: 'block'}}>Past Quizzes</h1>
         <div className="archive-header">
           <Link to={routes.HOME} style={{ textDecoration: 'none' }}><Button variant="contained" color="primary">Home</Button></Link>
           <Link to={routes.LEADERBOARD} style={{ textDecoration: 'none' }}><Button variant="contained" color="primary">Leaderboard</Button></Link>
+        </div>
+        <div className="mobile-archive-header">
+          <Link to={routes.HOME} style={{ textDecoration: 'none'}} className="mobile-back"><Button color="primary">Back</Button></Link>
+          <h1 style={{ display: 'inline'}}>Past Quizzes</h1>
         </div>
         {isLoading()}
       </Paper>

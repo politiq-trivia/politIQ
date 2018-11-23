@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { ADMIN_DASHBOARD } from '../../constants/routes';
 import { db } from '../../firebase';
+import MediaQuery from 'react-responsive'
 
 import Paper from '@material-ui/core/Paper';
 import Button from '@material-ui/core/Button';
@@ -128,12 +129,19 @@ class ReviewQuestions extends Component {
 
     return (
       <Paper className="review">
-        <Link to={ADMIN_DASHBOARD} id="reviewBackButton">
-          <Button variant="contained" color="primary">Back to Dashboard</Button>
-        </Link>
+        <MediaQuery minWidth={416}>
+          <Link to={ADMIN_DASHBOARD} id="reviewBackButton">
+            <Button variant="contained" color="primary">Back to Dashboard</Button>
+          </Link>
+        </MediaQuery>
         {this.state.noQuestionsRemaining
-          ? <div>
+          ? <div style={{ display: 'flex', justifyContent: 'center', flexDirection: 'column'}}>
               <h1 id="noQs">No Questions To Review</h1>
+              <MediaQuery maxWidth={415}>
+                <Link to={ADMIN_DASHBOARD} id="reviewBackButtonMobile" style={{ textDecoration: 'none'}}>
+                  <Button color="primary">Back to Dashboard</Button>
+                </Link>
+              </MediaQuery>
             </div>
           : <div>
               <h1 id="reviewHeading">User-Submitted Questions</h1>

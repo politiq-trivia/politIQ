@@ -10,14 +10,43 @@
   padding-top: 3vh;
   overflow: scroll;
   height: auto;
-  min-height: 62vh;
+  min-height: 60vh;
+}
+@media screen and (max-width: 415px) {
+  .leaderboard {
+    /* height: 60vh; */
+    /* max-height: unset; */
+    margin-bottom: 2vh;
+  }
 }
 
+.leaderboard-header {
+  margin-left: 6vw;
+  display: flex;
+}
+
+@media screen and (max-width: 415px) {
+  .leaderboard-tabs {
+    width: 100vw;
+    margin-top: 2vh;
+  }
+}
+
+@media screen and (max-width: 415px) {
+  .leaderboard-mobile-loading {
+    width: 73vw !important;
+  }
+}
 .scoreboard {
   display: flex;
   text-align: center;
   width: 43vw;
   height: 10vh;
+}
+@media screen and (max-width: 416px) {
+  .scoreboard {
+    width: 97vw;
+  }
 }
 
 #demScore {
@@ -71,6 +100,13 @@
   width: 43vw;
   margin-right: auto;
   margin-left: auto;
+}
+@media screen and (max-width: 416px) {
+  .scoreboardHolder {
+    width: 97vw;
+    margin-left: auto;
+    margin-right: auto;
+  }
 }
 
 .scoreboardHolder > h2 {

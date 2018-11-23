@@ -11,6 +11,21 @@
   margin-top: 3vh;
   margin-bottom: 3vh;
 }
+@media screen and (max-width: 415px) {
+  .quizEngine {
+    width: 85vw;
+    height: 67vh;
+  }
+  #newQuiz {
+    text-align: center;
+  }
+  .quizButtonHolder {
+    flex-direction: column;
+  }
+  .quizButtonHolder button {
+    margin-bottom: 2vh;
+  }
+}
 
 .quizEngine > h1 {
   text-align: center;
@@ -40,12 +55,26 @@
   justify-content: space-around;
   height: 65vh;
 }
+@media screen and (max-width: 416px) {
+  .dashboard {
+    height: auto;
+    flex-direction: column-reverse;
+  }
+}
 
 .dashContainer {
   width: 43vw;
   margin-top: 2vh;
-  height: auto;
+  height: 53vh;
   padding: 3vh;
+}
+@media screen and (max-width: 416px) {
+  .dashContainer {
+    width: 85vw;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 7vh;
+  }
 }
 
 .dashContainer > h3 {
@@ -65,6 +94,41 @@
   margin-top: 2vh;
   overflow: scroll;
   height: 55vh;
+}
+.delete-x {
+  float: right;
+  color: gray;
+}
+.showQuizButtons-mobile {
+  display: none;
+}
+@media screen and (max-width: 416px) {
+  .showQuiz {
+    width: 85vw;
+    height: auto;
+    margin-bottom: 7vh;
+  }
+  .delete-text {
+    display: none;
+  }
+  .delete-x {
+    color: red;
+  }
+  .showQuestion {
+    margin-bottom: 5vh !important;
+  }
+  .showQuizButtons {
+    display: none;
+  }
+  .showQuizButtons-mobile {
+    display: block;
+  }
+}
+
+@media screen and (max-width: 416px) {
+  .show {
+    width: 90vw;
+  }
 }
 
 .showQuiz > h1 {

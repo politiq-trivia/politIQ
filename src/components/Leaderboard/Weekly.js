@@ -76,10 +76,10 @@ class WeeklyLeaderboard extends Component {
     const renderWeeklyLeaders = rankingArray.map((stat, i) => {
       return (
         <TableRow key={i}>
-          <TableCell>
+          <TableCell style={{ width: '30px'}} padding="default">
             {i + 1}.
           </TableCell>
-          <TableCell>
+          <TableCell style={{ width: '50px'}} padding="none">
             {stat[0]}
           </TableCell>
           <TableCell>
@@ -92,20 +92,20 @@ class WeeklyLeaderboard extends Component {
     const isLoading = () => {
       if (!this.state.isLoaded) {
         return (
-          <img src={loadingGif} alt="loadingGif"/>
+          <img src={loadingGif} alt="loadingGif" className="leaderboard-mobile-loading"/>
         )
       } else {
         return (
           <Table>
             <TableHead>
               <TableRow>
-                <TableCell>
+                <TableCell style={{ minWidth: '30px'}} padding="default">
                   Ranking
                 </TableCell>
-                <TableCell>
+                <TableCell style={{ minWidth: '50px' }} padding="none">
                   User
                 </TableCell>
-                <TableCell>
+                <TableCell style={{ minWidth: '30px'}} padding="default">
                   Score
                 </TableCell>
               </TableRow>
@@ -120,7 +120,6 @@ class WeeklyLeaderboard extends Component {
 
     return (
       <div>
-        <h2>Weekly</h2>
         {isLoading()}
       </div>
     )

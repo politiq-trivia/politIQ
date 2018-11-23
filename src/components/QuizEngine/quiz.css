@@ -1,9 +1,14 @@
 .archive-header {
   display: flex;
   justify-content: space-between;
-  /* width: 80vw; */
+  width: 80vw;
   margin-left: auto;
   margin-right: auto;
+}
+@media screen and (max-width: 480px) {
+  .archive-header {
+    display: none;
+  }
 }
 
 .archive-header > h1 {
@@ -13,6 +18,37 @@
 .archive-holder {
   padding: 5vh 3vw 15vh 3vw;
   justify-content: flex-start;
+  margin-top: 10vh;
+}
+@media screen and (min-width: 480px) {
+  .archive-holder {
+    height: 46vh;
+  }
+}
+
+.archive-table {
+  width: 90% !important;
+  margin-left: auto;
+  margin-right: auto;
+}
+.tableItem:hover {
+  background-color: lightgray;
+  cursor: pointer;
+}
+.tableItem {
+}
+.mobile-back {
+  display: none;
+}
+@media screen and (max-width: 480px) {
+  .mobile-back {
+    display: inline;
+    float: left;
+    margin-left: 2vh;
+  }
+  .mobile-archive-header h1 {
+    margin-left: -10vh;
+  }
 }
 
 .quiz-body {

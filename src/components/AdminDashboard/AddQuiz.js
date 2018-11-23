@@ -126,7 +126,7 @@ class AddQuiz extends Component {
           } </div>
         :
           <div>
-            <h1>Create New Quiz</h1>
+            <h1 id="newQuiz">Create New Quiz</h1>
             <form onSubmit={this.handleSubmit}>
               <TextField
                 margin="normal"
