@@ -3,13 +3,11 @@ import { Link } from 'react-router-dom';
 import { Helmet } from 'react-helmet';
 import MediaQuery from 'react-responsive';
 
-import { withStyles } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
 import Button from '@material-ui/core/Button';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import AppBar from '@material-ui/core/AppBar';
-import SwipeableViews from 'react-swipeable-views';
 
 import * as routes from '../../constants/routes';
 
@@ -17,9 +15,6 @@ import './leaderboard.css';
 import logo from '../logo.png';
 import WeeklyLeaderboard from './Weekly';
 import MonthlyLeaderboard from './Monthly';
-import DemLeaderboard from './Democrats';
-import RepLeaderboard from './Republicans';
-import IndLeaderboard from './Independent';
 import Scoreboard from './Scoreboard';
 
 class Leaderboard extends Component {

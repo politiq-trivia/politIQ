@@ -9,7 +9,6 @@ import RadioGroup from '@material-ui/core/RadioGroup';
 import Radio from '@material-ui/core/Radio';
 import FormLabel from '@material-ui/core/FormLabel';
 import Close from '@material-ui/icons/Close';
-import MediaQuery from 'react-responsive';
 
 import './quizEngine.css';
 

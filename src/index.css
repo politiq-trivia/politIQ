@@ -60,6 +60,11 @@ code {
   padding: 5vh;
   padding-top: 3vh;
 }
+@media screen and (max-width: 415px) {
+  .profile-header {
+    padding: 2vh;
+  }
+}
 
 .profile-header > form {
   width: 36vw;
@@ -78,12 +83,33 @@ code {
 .profile-info {
   width: 40vw;
 }
+@media screen and (max-width: 415px) {
+  .profile-info {
+    width: 100%;
+  }
+}
 
 .profile {
-  margin-top: 12vh;
+  margin-top: 10vh;
   margin-bottom: 9vh;
   width: 85vw;
-  height: 50vh;
+  height: auto;
+  overflow: scroll;
+}
+@media screen and (max-width: 415px) {
+  .profile {
+    height: auto;
+  }
+}
+.profile-button-holder {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+@media screen and (max-width: 415px) {
+  .profile-button-holder {
+    flex-direction: column;
+  }
 }
 
 h1 {

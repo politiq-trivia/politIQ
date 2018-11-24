@@ -76,10 +76,10 @@ class WeeklyLeaderboard extends Component {
     const renderWeeklyLeaders = rankingArray.map((stat, i) => {
       return (
         <TableRow key={i}>
-          <TableCell style={{ width: '30px'}} padding="default">
+          <TableCell style={{ width: '30%'}} padding="default">
             {i + 1}.
           </TableCell>
-          <TableCell style={{ width: '50px'}} padding="none">
+          <TableCell style={{ width: '40%'}} padding="none">
             {stat[0]}
           </TableCell>
           <TableCell>

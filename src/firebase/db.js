@@ -41,6 +41,11 @@ export const lastActive = (uid, date) => {
   db.ref('users').child(uid).child('lastActive').set(date)
 }
 
+export const getOneUser = (uid) => {
+  const user = db.ref('users').child(uid).once('value')
+  return user;
+}
+
 // -------------------------------------------------------------------------
 
 // QUIZZES

@@ -17,6 +17,7 @@ import EditQuiz from './EditQuiz';
 import QuestionsToReview from './QuestionsToReview';
 import Scoreboard from '../Leaderboard/Scoreboard';
 import UserShow from './UserShow/UserShow';
+import PartyLeaders from '../Leaderboard/PartyLeaders';
 
 import loadingGif from '../../loadingGif.gif';
 
@@ -27,9 +28,10 @@ class AdminDashboard extends Component {
     this.state = {
       addingQuiz: false,
       editingQuiz: false,
-      showDash: true,
+      showDash: false,
       showQuiz: false,
       showUsers: false,
+      showLeaders: true,
       dateArray: [],
       titleArray: [],
       value: 0,
@@ -52,6 +54,7 @@ class AdminDashboard extends Component {
       showDash: !this.state.showDash,
       editingQuiz: false,
       showQuiz: false,
+      showLeaders: false,
     })
   }
 
@@ -82,6 +85,7 @@ class AdminDashboard extends Component {
       showDash: true,
       showQuiz: false,
       showUsers: false,
+      showLeaders: false,
     })
   }
 
@@ -91,6 +95,7 @@ class AdminDashboard extends Component {
       showDash: false,
       showQuiz: false,
       showUsers: true,
+      showLeaders: false,
     })
   }
 
@@ -104,6 +109,7 @@ class AdminDashboard extends Component {
       showQuiz: true,
       editingQuiz: false,
       showUsers: false,
+      showLeaders: false,
     })
   }
 
@@ -127,6 +133,7 @@ class AdminDashboard extends Component {
       showDash: false,
       showQuiz: false,
       showUsers: false,
+      showLeaders: false,
     })
   }
 
@@ -162,6 +169,17 @@ class AdminDashboard extends Component {
    this.setState({ value });
   };
 
+  toggleLeaderShow = () => {
+    this.setState({
+      addingQuiz: false,
+      editingQuiz: false,
+      showDash: false,
+      showQuiz: false,
+      showUsers: false,
+      showLeaders: true,
+    })
+  }
+
   render() {
     const { value } = this.state;
 
@@ -189,6 +207,7 @@ class AdminDashboard extends Component {
             <Tab label="Dashboard" onClick={this.toggleDashboard} />
             <Tab label="Create New Quiz" onClick={this.toggleAddQuiz} />
             <Tab label="Manage Users" onClick={this.toggleUserShow}/>
+            <Tab label="Leaders" onClick={this.toggleLeaderShow} />
           </Tabs>
         </AppBar>
         { this.state.addingQuiz ? <AddQuiz toggleAddQuiz={this.toggleAddQuiz}/>
@@ -198,18 +217,22 @@ class AdminDashboard extends Component {
             {this.state.editingQuiz ? <EditQuiz toggleQuizShow={this.toggleQuizShow} quiz={this.state.selectedQuiz} quizId={this.state.selectedQuizId}/>
             : <div>
             { this.state.showUsers ? <UserShow />
-              : <div className="dashboard">
-                  <Paper className="dashContainer">
-                    <h3>Available Quizzes</h3>
-                    {isLoaded()}
-                  </Paper>
-                  <div className="dashContainer2">
-                    <Link to={LEADERBOARD} style={{textDecoration: 'none'}}>
-                      <Scoreboard />
-                    </Link>
-                    <QuestionsToReview />
+              : <div>
+              {this.state.showLeaders ? <PartyLeaders />
+                : <div className="dashboard">
+                    <Paper className="dashContainer">
+                      <h3>Available Quizzes</h3>
+                      {isLoaded()}
+                    </Paper>
+                    <div className="dashContainer2">
+                      <Link to={LEADERBOARD} style={{textDecoration: 'none'}}>
+                        <Scoreboard />
+                      </Link>
+                      <QuestionsToReview />
+                    </div>
+
                   </div>
-                </div>
+                } </div>
               }</div>
             }</div>
           }</div>

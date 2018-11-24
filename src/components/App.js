@@ -45,7 +45,7 @@ class App extends Component {
 
     this.state = {
       authUser: null,
-      signedInUser: "",
+      signedInUser: "Wrl9XmpKHdh1xRQFrElTu6G3VbD2",
     };
   }
 
@@ -82,7 +82,7 @@ class App extends Component {
             />
             <Route
               exact path={routes.SIGN_IN}
-              render={(props) => <SignInPage {...props} getSignedInUser={this.getSignedInUser} someProp={100} />}
+              render={(props) => <SignInPage {...props} getSignedInUser={this.getSignedInUser} />}
             />
             <Route
               exact path={routes.PASSWORD_FORGET}
@@ -90,7 +90,7 @@ class App extends Component {
             />
             <Route
               exact path={routes.PROFILE}
-              component={ProfilePage}
+              render={(props) => <ProfilePage {...props} signedInUser={this.state.signedInUser} />}
             />
             <Route
               exact path={routes.HOME}
