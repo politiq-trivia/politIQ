@@ -6,7 +6,6 @@ import moment from 'moment';
 import { SignUpLink } from './SignUp';
 import { PasswordForgetLink } from './PasswordForget';
 import { auth, db } from '../../firebase';
-// import * as firebase from '../firebase';
 import * as routes from '../../constants/routes';
 
 // UI
@@ -14,6 +13,8 @@ import Paper from '@material-ui/core/Paper';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import './Auth.css';
+import FacebookAuth from './FacebookAuth';
+
 
 const SignInPage = ({ history, getSignedInUser }) => {
   return (
@@ -23,6 +24,7 @@ const SignInPage = ({ history, getSignedInUser }) => {
       </Helmet>
       <h1>Sign In</h1>
       <SignInForm  history={history} getSignedInUser={getSignedInUser}/>
+      <FacebookAuth />
       <PasswordForgetLink />
       <SignUpLink />
     </Paper>
@@ -37,6 +39,7 @@ const INITIAL_STATE = {
   email: '',
   password: '',
   error: null,
+  isSignedIn: false,
 };
 
 class SignInForm extends Component {

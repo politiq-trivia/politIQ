@@ -31,17 +31,17 @@ const LandingPage = () =>
           <p>Sign up and create your user profile, it’s very easy.</p>
         </div>
         <div className="icon-div">
-          <i class="fas fa-pen-square icon"></i>
+          <i className="fas fa-pen-square icon"></i>
           <h6>Start Playing</h6>
           <p>Answer on your own time. New questions added daily and never expire.</p>
         </div>
         <div className="icon-div">
-          <i class="fas fa-clipboard icon"></i>
+          <i className="fas fa-clipboard icon"></i>
           <h6>Increase Score</h6>
           <p><span style={{ fontWeight: 'bold' }}>1 point</span> for correct answers, <span style={{ fontWeight: 'bold' }}>0 points</span> for incorrect answers.</p>
         </div>
         <div className="icon-div">
-          <i class="fas fa-gift icon"></i>
+          <i className="fas fa-gift icon"></i>
           <h6>Get Awarded</h6>
           <p>Players with highest scores eligible to compete in challenge for cash prize!</p>
         </div>

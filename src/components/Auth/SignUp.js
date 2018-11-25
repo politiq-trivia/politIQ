@@ -15,6 +15,8 @@ import Button from '@material-ui/core/Button';
 import MenuItem from '@material-ui/core/MenuItem';
 import './Auth.css';
 
+import FacebookAuth from './FacebookAuth'
+
 const SignUpPage = ({ history }) =>
   <Paper className="authCard signUp">
     <Helmet>
@@ -22,6 +24,7 @@ const SignUpPage = ({ history }) =>
     </Helmet>
     <h1>Sign Up</h1>
     <SignUpForm history={history} />
+    <FacebookAuth />
     <SignInLink />
   </Paper>
 
