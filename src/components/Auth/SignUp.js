@@ -13,6 +13,7 @@ import Paper from '@material-ui/core/Paper';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import MenuItem from '@material-ui/core/MenuItem';
+import FormHelperText from '@material-ui/core/FormHelperText';
 import './Auth.css';
 
 import FacebookAuth from './FacebookAuth'
@@ -35,6 +36,7 @@ const INITIAL_STATE = {
   passwordTwo: '',
   affiliation: '',
   isAdmin: false,
+  bio: '',
   error: null
 };
 
@@ -68,6 +70,7 @@ class SignUpForm extends Component {
       passwordOne,
       affiliation,
       isAdmin,
+      bio,
     } = this.state;
 
     const {
@@ -79,7 +82,7 @@ class SignUpForm extends Component {
 
         // this one creates the user in the firebase database and is where I'll
         // add in the additional information (to the state in this component)
-        db.doCreateUser(authUser.user.uid, username, email, affiliation, isAdmin)
+        db.doCreateUser(authUser.user.uid, username, email, affiliation, isAdmin, bio)
           .then(() => {
             const date = moment().format('YYYY-MM-DD')
             db.lastActive(authUser.user.uid, date)
@@ -102,6 +105,7 @@ class SignUpForm extends Component {
     const {
       username,
       email,
+      affiliation,
       passwordOne,
       passwordTwo,
       error,
@@ -111,7 +115,8 @@ class SignUpForm extends Component {
       passwordOne !== passwordTwo ||
       passwordOne === '' ||
       email === '' ||
-      username === '';
+      username === '' ||
+      affiliation === '';
 
     return (
       <form onSubmit={this.onSubmit}>
@@ -161,7 +166,20 @@ class SignUpForm extends Component {
             </MenuItem>
           ))}
         </TextField>
-        <Button disabled={isInvalid} type="submit" variant="contained" color="primary" style={{ marginTop: '2vh'}}>
+        <FormHelperText>Affiliation will not be shared publicly.</FormHelperText>
+        <TextField
+          id="standard-multiline-flexible"
+          label="Add a short bio (optional)"
+          multiline
+          rowsMax="4"
+          value={this.state.bio}
+          onChange={event => this.setState(byPropKey('bio', event.target.value))}
+          margin="normal"
+          fullWidth
+        />
+        <FormHelperText>This will be visible to other PolitIQ users.</FormHelperText>
+
+        <Button disabled={isInvalid} type="submit" variant="contained" color="primary" style={{ marginTop: '4vh'}}>
           Sign Up
         </Button>
 
