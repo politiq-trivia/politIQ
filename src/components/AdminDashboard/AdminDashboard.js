@@ -219,7 +219,6 @@ class AdminDashboard extends Component {
               {this.state.showLeaders ? <PartyLeaders />
                 : <div className="dashboard">
                     <Paper className="dashContainer">
-                      <h3>Available Quizzes</h3>
                       {isLoaded()}
                     </Paper>
                     <div className="dashContainer2">

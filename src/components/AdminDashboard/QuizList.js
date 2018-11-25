@@ -4,11 +4,42 @@ import Table from '@material-ui/core/Table';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import TableCell from '@material-ui/core/TableCell';
+import TablePagination from '@material-ui/core/TablePagination';
+import { lighten } from '@material-ui/core/styles/colorManipulator';
+import Toolbar from '@material-ui/core/Toolbar';
+import Tooltip from '@material-ui/core/Tooltip';
+import IconButton from '@material-ui/core/IconButton';
+import DeleteIcon from '@material-ui/icons/Delete';
 import Checkbox from '@material-ui/core/Checkbox';
 import TableBody from '@material-ui/core/TableBody';
 import Delete from '@material-ui/icons/Delete';
 
 import DeleteModal from './DeleteModal';
+
+const toolbarStyles = theme => ({
+  root: {
+    paddingRight: theme.spacing.unit,
+  },
+  highlight:
+    theme.palette.type === 'light'
+      ? {
+          color: theme.palette.secondary.main,
+          backgroundColor: lighten(theme.palette.secondary.light, 0.85),
+        }
+      : {
+          color: theme.palette.text.primary,
+          backgroundColor: theme.palette.secondary.dark,
+        },
+  spacer: {
+    flex: '1 1 100%',
+  },
+  actions: {
+    color: theme.palette.text.secondary,
+  },
+  title: {
+    flex: '0 0 auto',
+  },
+});
 
 class QuizList extends Component {
   constructor(props) {
@@ -67,6 +98,13 @@ class QuizList extends Component {
     this.props.toggleQuizShow(id)
   }
 
+  handleChangePage = (event, page) => {
+    this.setState({ page });
+  };
+
+  handleChangeRowsPerPage = event => {
+    this.setState({ rowsPerPage: event.target.value });
+  };
 
 
   render () {
@@ -95,29 +133,63 @@ class QuizList extends Component {
       <div>
         { this.props.showDeleteModal
           ? <DeleteModal selected={this.state.selected} deleteQuiz={this.props.deleteQuiz} toggleDeleteModal={this.props.toggleDeleteModal}/>
-          :
-
-          <Table>
-            <TableHead>
-              <TableRow>
-                <TableCell padding="checkbox">
-                  <Checkbox
-                    onClick={this.handleSelectAllClick}
-                  />
-                </TableCell>
-                <TableCell style={{ minWidth: '60px' }} padding="none">
-                  Quiz Date
-                </TableCell>
-                <TableCell style={{ minWidth: '60px'}} padding="default">
-                  Quiz Title
-                </TableCell>
-                <Delete onClick={this.props.toggleDeleteModal} style={{ float: 'right', marginTop: '15px'}}/>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {List}
-            </TableBody>
-          </Table>
+          : <div>
+              <Toolbar>
+                <div className={toolbarStyles.title}>
+                  {this.state.selected.length > 0 ? (
+                    <p>{this.state.selected.length} selected </p>
+                  ) : (
+                    <h3 style={{ marginTop: '0', marginBottom: '0'}}>All Quizzes</h3>
+                  )}
+                </div>
+                <div className={toolbarStyles.spacer} />
+                <div className={toolbarStyles.actions}>
+                  {this.state.selected.length > 0 ? (
+                    <div>
+                      <Tooltip title="Delete">
+                        <IconButton aria-label="Delete">
+                          <DeleteIcon onClick={this.props.toggleDeleteModal} />
+                        </IconButton>
+                      </Tooltip>
+                    </div>
+                  ) : null }
+                </div>
+              </Toolbar>
+              <Table>
+                <TableHead>
+                  <TableRow>
+                    <TableCell padding="checkbox">
+                      <Checkbox
+                        onClick={this.handleSelectAllClick}
+                      />
+                    </TableCell>
+                    <TableCell style={{ minWidth: '60px' }} padding="none">
+                      Quiz Date
+                    </TableCell>
+                    <TableCell style={{ minWidth: '60px'}} padding="default">
+                      Quiz Title
+                    </TableCell>
+                  </TableRow>
+                </TableHead>
+                <TableBody>
+                  {List}
+                </TableBody>
+              </Table>
+              <TablePagination
+                component="div"
+                count={this.props.quizDates.length}
+                rowsPerPage={10}
+                page={this.state.page}
+                backbuttoniconprops={{
+                  'aria-label': 'Previous Page',
+                }}
+                nextIconButtonProps={{
+                  'aria-label': 'Next Page'
+                }}
+                onChangePage={this.handleChangePage}
+                onChangeRowsPerPage={this.handleChangeRowsPerPage}
+              />
+            </div>
         }
       </div>
     )
