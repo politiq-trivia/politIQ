@@ -6,20 +6,22 @@ import ProfilePhoto from './ProfilePhoto';
 import MediaQuery from 'react-responsive';
 
 import Button from '@material-ui/core/Button';
+import './profile.css';
 
 import AuthUserContext from '../Auth/AuthUserContext';
 import PasswordChangeForm from '../Auth/PasswordChange';
 import withAuthorization from '../Auth/withAuthorization';
+import EditProfile from './EditProfile';
 
 import Paper from '@material-ui/core/Paper';
-
-// displayName doesn't work yet
 
 class ProfilePage extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      userInfo: {}
+      userInfo: {},
+      editingProfile: false,
+      showPasswordReset: false,
     }
   }
 
@@ -32,9 +34,25 @@ class ProfilePage extends Component {
       .then(response => {
         const userInfo = response.val()
         this.setState({
+          uid: this.props.signedInUser,
           userInfo: userInfo,
         })
       })
+  }
+
+  toggleEditProfile = () => {
+    if (this.state.editingProfile) {
+      this.getUserInfo()
+    }
+    this.setState({
+      editingProfile: !this.state.editingProfile,
+    })
+  }
+
+  toggleResetPassword = () => {
+    this.setState({
+      showPasswordReset: !this.state.showPasswordReset,
+    })
   }
 
   render() {
@@ -50,21 +68,35 @@ class ProfilePage extends Component {
                 <ProfilePhoto authUser={authUser} />
               </MediaQuery>
               <div className="profile-info">
-                <h1> User Information</h1>
+                <div>
+                  <Button onClick={this.toggleResetPassword} variant="contained" color="primary" style={{ width: '230px', float: 'right'}}>Reset Your Password</Button>
+                  <h1> User Information</h1>
+                </div>
                 <MediaQuery maxWidth={415}>
                   <ProfilePhoto authUser={authUser}/>
                 </MediaQuery>
-                <p> <span style={{ fontWeight: 'bold'}}>Display Name:</span> {this.state.userInfo.displayName}</p>
-                <p> <span style={{ fontWeight: 'bold'}}>Email Address:</span> {authUser.email}</p>
-                <p> <span style={{ fontWeight: 'bold'}}>Bio:</span> {this.state.userInfo.bio} </p>
-                <div className="profile-button-holder">
-                  <Button color="primary">Edit Information</Button>
-                  <Button color="primary">Preview Public Profile</Button>
-                </div>
-                <br/>
+                {this.state.editingProfile
+                  ? <EditProfile toggleEditProfile={this.toggleEditProfile} displayName={this.state.userInfo.displayName} email={authUser.email} bio={this.state.userInfo.bio} uid={this.state.uid}/>
+                  : <div>
+                      <p> <span style={{ fontWeight: 'bold'}}>Display Name:</span> {this.state.userInfo.displayName}</p>
+                      <p> <span style={{ fontWeight: 'bold'}}>Email Address:</span> {authUser.email}</p>
+                      <p> <span style={{ fontWeight: 'bold'}}>Bio:</span> {this.state.userInfo.bio} </p>
 
-                <p> <span style={{ fontWeight: 'bold'}}>Reset Your Password:</span> </p>
-                <PasswordChangeForm />
+                      <div className="profile-button-holder">
+                        <Button color="primary" onClick={this.toggleEditProfile}>Edit Information</Button>
+                        <Button color="primary">View Public Profile</Button>
+                      </div>
+                      <br/>
+                    </div>
+                }
+
+                {this.state.showPasswordReset
+                  ? <div>
+                      <p> <span style={{ fontWeight: 'bold'}}>Reset Your Password:</span> </p>
+                      <PasswordChangeForm toggleResetPassword={this.toggleResetPassword}/>
+                    </div>
+                  : null
+                }
               </div>
             </div>
           </Paper>

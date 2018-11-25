@@ -1,0 +1,64 @@
+/* profile page styles */
+.profile-header{
+  display: flex;
+  padding: 5vh;
+  padding-top: 3vh;
+}
+@media screen and (max-width: 415px) {
+  .profile-header {
+    padding: 2vh;
+  }
+}
+
+.profile-header > form {
+  width: 36vw;
+  margin-right: 5vw;
+  display: flex;
+  flex-direction: column;
+}
+
+.profile-photo {
+  max-width: 36vw;
+  max-height: 40vh;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.profile-info {
+  width: 75vw;
+  display: flex;
+  flex-direction: column;
+}
+@media screen and (max-width: 415px) {
+  .profile-info {
+    width: 100%;
+  }
+}
+
+.profile {
+  margin-top: 10vh;
+  margin-bottom: 9vh;
+  width: 85vw;
+  height: auto;
+  overflow: scroll;
+}
+@media screen and (max-width: 415px) {
+  .profile {
+    height: auto;
+  }
+}
+.profile-button-holder {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  margin-top: auto;
+  margin-left: auto;
+  margin-right: auto;
+  align-self: end;
+  padding-top: 2vh;
+}
+@media screen and (max-width: 415px) {
+  .profile-button-holder {
+    flex-direction: column;
+  }
+}

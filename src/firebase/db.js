@@ -47,6 +47,11 @@ export const getOneUser = (uid) => {
   return user;
 }
 
+export const editUser = (uid, updates) => {
+  const user = db.ref('users').child(uid).update(updates)
+  return user;
+}
+
 // -------------------------------------------------------------------------
 
 // QUIZZES

@@ -34,6 +34,7 @@ class PasswordChangeForm extends Component {
       });
 
     event.preventDefault();
+    this.props.toggleResetPassword()
   }
 
   render() {
