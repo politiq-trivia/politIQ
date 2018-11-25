@@ -131,6 +131,10 @@ export const getScores = () => {
   return scores;
 }
 
+export const resetScores = (uid, date) => {
+  db.ref().child('scores').child(uid).child(date).remove()
+}
+
 export const getDisplayNames = (username) => {
   const displayName = db.ref().child('users/' + username).once('value')
   return displayName;

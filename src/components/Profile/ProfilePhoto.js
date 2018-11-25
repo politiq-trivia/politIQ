@@ -56,6 +56,8 @@ class ProfilePhoto extends Component {
               set()
               // Unknown error occurred, inspect the server response
               break;
+            default:
+              break;
           }
         })
 
@@ -102,14 +104,14 @@ class ProfilePhoto extends Component {
       if (this.state.loading) {
         return (
           <div className="profile-photo">
-            <img src={loadingGif} alt="loading" style={{ width: '25vw', marginLeft: '6vw'}}/>
+            <img src={loadingGif} alt="loading" style={{ width: '25vw', marginLeft: '5vw'}}/>
           </div>
         )
       } else {
         return (
           <form>
             { this.state.avatarURL ?
-              <img src={this.state.avatarURL} alt="user avatar" className="profile-photo"/>
+              <img src={this.state.avatarURL} alt="user avatar" className="profile-photo" style={{ paddingRight: '5vw'}}/>
              : <div>
                 <img src={placeHolderImg} alt="placeholder" className="profile-photo" />
                 <Button

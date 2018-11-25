@@ -119,6 +119,15 @@ class UserShow extends Component {
       })
   }
 
+  refreshTable = () => {
+    this.setState({
+      data: [],
+      selected: [],
+      selectedIndex: [],
+    })
+    this.getData()
+  }
+
   handleSelectAllClick = event => {
     if (event.target.checked) {
       this.setState(state => ({ selected: state.data.map(n => n.id) }));
@@ -139,29 +148,6 @@ class UserShow extends Component {
   };
 
   handleClick = (event, uid, id) => {
-    // const { selected } = this.state;
-    // const selectedIndex = selected.indexOf(id);
-    // let newSelected = [];
-    //
-    // if (selectedIndex === -1) {
-    //   newSelected = newSelected.concat(selected, id);
-    // } else if (selectedIndex === 0) {
-    //   newSelected = newSelected.concat(selected.slice(1));
-    // } else if (selectedIndex === selected.length - 1) {
-    //   newSelected = newSelected.concat(selected.slice(0, -1));
-    // } else if (selectedIndex > 0) {
-    //   newSelected = newSelected.concat(
-    //     selected.slice(0, selectedIndex),
-    //     selected.slice(selectedIndex + 1),
-    //   );
-    // }
-    // console.log(newSelected, 'newSelected')
-    // this.setState({ selected: newSelected });
-    // if (this.state.selected.includes(uid)) {
-    //   return true;
-    // } else {
-    //   return false;
-    // }
     let selected = [...this.state.selected];
     if (selected.includes(uid)) {
       const index = selected.indexOf(uid)
@@ -174,11 +160,8 @@ class UserShow extends Component {
     if (selectedIndex.includes(id)) {
       const index = selectedIndex.indexOf(id)
       selectedIndex.splice(index, 1)
-      console.log(selectedIndex, 'selectedIndex in if')
     } else {
-      console.log(id)
       selectedIndex.push(id)
-      console.log(selectedIndex, 'selectedIndex in else')
     }
 
     this.setState({
@@ -226,7 +209,7 @@ class UserShow extends Component {
     const emptyRows = this.state.rowsPerPage - Math.min(rowsPerPage, data.length - page * rowsPerPage);
     return (
       <Paper className="userShow">
-        <TableToolbar numSelected={selected.length} handleDeleteUser={this.handleDeleteUser}/>
+        <TableToolbar numSelected={selected.length} handleDeleteUser={this.handleDeleteUser} selected={this.state.selected} refreshTable={this.refreshTable}/>
         <Table>
           <TableHeader
             numSelected={selected.length}
