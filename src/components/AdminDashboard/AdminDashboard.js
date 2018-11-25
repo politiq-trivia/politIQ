@@ -9,7 +9,6 @@ import AppBar from '@material-ui/core/AppBar';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 // import TabContainer from '@material-ui/core/TabContainer';
-
 import AddQuiz from './AddQuiz';
 import QuizList from './QuizList';
 import ShowQuiz from './ShowQuiz';
@@ -189,7 +188,6 @@ class AdminDashboard extends Component {
           <div className="gifStyle">
             <img src={loadingGif} alt="loading gif"/>
           </div>
-
         )
 
       } else {
