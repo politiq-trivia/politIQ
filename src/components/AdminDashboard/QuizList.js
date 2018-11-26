@@ -12,7 +12,6 @@ import IconButton from '@material-ui/core/IconButton';
 import DeleteIcon from '@material-ui/icons/Delete';
 import Checkbox from '@material-ui/core/Checkbox';
 import TableBody from '@material-ui/core/TableBody';
-import Delete from '@material-ui/icons/Delete';
 
 import DeleteModal from './DeleteModal';
 

@@ -54,18 +54,25 @@
 .quiz-body {
   padding-left: 5vw;
   padding-right: 5vw;
-  padding-top: 10vh;
+  padding-top: 5vh;
   padding-bottom: 5vh;
   width: 85vw;
-  height: 48vh;
+  height: 53vh;
   margin-left: auto;
   margin-right: auto;
   margin-top: 11vh;
   margin-bottom: 4vh;
-  text-align: center;
 }
 
 .question {
-  width: 65%;
+  width: 90%;
+  height: 100%;
+}
+
+.quiz-loading-gif {
   height: 80%;
+  padding: 3vw;
+  width: 40vw;
+  margin-left: 20vw;
+  margin-right: 20vw;
 }

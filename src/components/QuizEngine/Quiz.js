@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import loadingGif from '../../loadingGif.gif';
 import { Link } from 'react-router-dom';
 import { Helmet } from 'react-helmet';
@@ -11,6 +11,7 @@ import FormControl from '@material-ui/core/FormControl';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import RadioGroup from '@material-ui/core/RadioGroup';
 import Radio from '@material-ui/core/Radio';
+import LinearProgress from '@material-ui/core/LinearProgress';
 
 import { db } from '../../firebase';
 import * as routes from '../../constants/routes';
@@ -18,7 +19,7 @@ import * as routes from '../../constants/routes';
 import './quiz.css';
 
 
-class Quiz extends Component {
+class Quiz extends PureComponent {
   constructor(props) {
     super(props);
 
@@ -27,13 +28,18 @@ class Quiz extends Component {
       selectedQuizId: "",
       selectedQuiz: {},
       playing: false,
-      currentQ: 0,
+      currentQ: 1,
       selectedValue: '',
       score: 0,
       wrong: false,
       correctAnswer: '',
+      completed: 0,
+      finished: false,
+      firstRender: true,
     }
   }
+
+
 
   componentDidMount = () => {
     const url = window.location.href;
@@ -42,6 +48,16 @@ class Quiz extends Component {
       selectedQuizId: date
     })
     this.getQuiz(date)
+    this.timer = window.setTimeout(() => {
+      this.progressBar = window.setInterval(() => {
+        this.progress(30)
+      }, 500)
+    }, 3000)
+  }
+
+  componentWillUnmount = () => {
+    window.clearTimeout(this.timer)
+    window.clearInterval(this.progressBar)
   }
 
   getQuiz = (date) => {
@@ -63,6 +79,8 @@ class Quiz extends Component {
   }
 
   nextQ = () => {
+    clearTimeout(this.timer)
+    clearInterval(this.progressBar)
     const qNum = this.state.currentQ + 1;
     this.setState({
       currentQ: qNum,
@@ -71,7 +89,19 @@ class Quiz extends Component {
       wrong: false,
       correctAnswer: '',
     })
+    if (this.state.selectedQuiz[qNum]) {
+      this.setState({
+        completed: 0,
+      })
+      this.timer = window.setTimeout(() => {
+        this.handleSubmit()
+      }, 30000)
+      this.progressBar = window.setInterval(() => {
+        this.progress(30)
+      }, 500)
+    }
   }
+
 
   renderQ = (qNum, uid) => {
     if (qNum > 0 && this.state.selectedQuiz[qNum]) {
@@ -87,7 +117,7 @@ class Quiz extends Component {
           <RadioGroup aria-label={qtext}>
             <FormControlLabel value={a1text} control={
               <Radio
-                onChange={this.handleChange}
+                onChange={this.handleSubmit}
                 checked={this.state.selectedValue === "1"}
                 value="1"
                 aria-label="1"
@@ -95,7 +125,7 @@ class Quiz extends Component {
             } label={a1text}/>
             <FormControlLabel value={a2text} control={
               <Radio
-                onChange={this.handleChange}
+                onChange={this.handleSubmit}
                 checked={this.state.selectedValue === "2"}
                 value="2"
                 aria-label="2"
@@ -103,7 +133,7 @@ class Quiz extends Component {
             } label={a2text}/>
             <FormControlLabel value={a3text} control={
               <Radio
-                onChange={this.handleChange}
+                onChange={this.handleSubmit}
                 checked={this.state.selectedValue === "3"}
                 value="3"
                 aria-label="3"
@@ -111,7 +141,7 @@ class Quiz extends Component {
             } label={a3text}/>
             <FormControlLabel value={a4text} control={
               <Radio
-                onChange={this.handleChange}
+                onChange={this.handleSubmit}
                 checked={this.state.selectedValue === "4"}
                 value="4"
                 aria-label="4"
@@ -120,17 +150,20 @@ class Quiz extends Component {
           </RadioGroup>
           <div>
           {this.state.wrong
-            ? <div>
+            ? <div style={{ marginTop: '3vh'}}>
                 <Button variant="contained" color="primary" onClick={this.nextQ}>Continue</Button>
                 <p>INCORRECT - The correct answer was <span style={{ color: 'green' }}>{this.state.correctAnswer}</span>.</p>
               </div>
-            : <Button variant="contained" color="primary" onClick={this.handleSubmit}>Submit</Button>
+            : null
           }
           </div>
 
         </FormControl>
       )
     } else if (!this.state.selectedQuiz[qNum]) {
+      this.setState({
+        finished: true,
+      })
       return (
         <div>
           {this.finishQuiz(uid)}
@@ -141,6 +174,8 @@ class Quiz extends Component {
   }
 
   checkCorrect = () => {
+    window.clearTimeout(this.timer)
+    window.clearInterval(this.progressBar)
     const selected = this.state.selectedValue;
     const question = this.state.questionsArray[this.state.currentQ - 1];
     const str = "a" + selected + "correct"
@@ -163,7 +198,14 @@ class Quiz extends Component {
       this.setState({
         wrong: true,
         correctAnswer: correctAnswer,
+        completed: 0,
       })
+      this.timer = window.setTimeout(() => {
+        this.nextQ()
+      }, 15000)
+      this.progressBar = window.setInterval(() => {
+        this.progress(15)
+      }, 500)
     }
   }
 
@@ -171,8 +213,13 @@ class Quiz extends Component {
     this.setState({ selectedValue: event.target.value });
   }
 
-  handleSubmit = () => {
-    this.checkCorrect()
+  handleSubmit = (event) => {
+    if (event !== undefined) {
+      this.setState({ selectedValue: event.target.value });
+      this.checkCorrect()
+    } else {
+      this.checkCorrect()
+    }
   }
 
   finishQuiz = (uid) => {
@@ -191,25 +238,43 @@ class Quiz extends Component {
     db.setScore(uid, this.state.selectedQuizId, score)
   }
 
+  progress = (num) => {
+    let { completed } = this.state;
+    if (completed === 100) {
+      this.setState({ completed: 0 });
+    } else if (completed === 0) {
+      completed += (100/num)
+    } else {
+      completed = completed + ((100 / num) / 2)
+    }
+    this.setState({ completed: completed });
+  };
+
+  cancelTimeout = () => {
+    if (this.state.firstRender === true) {
+      this.setState({
+        firstRender: false,
+      })
+    }
+  }
+
   render() {
     const isLoading = (authUser) => {
       if (this.state.questionsArray.length === 0) {
         return (
-          <img src={loadingGif} alt="loading gif"/>
+          <img src={loadingGif} alt="loading gif" className="quiz-loading-gif"/>
         )
       } else {
         const userID = authUser.uid
+        if (this.state.currentQ === 1 && this.state.firstRender === true) {
+          this.timer = window.setTimeout(() => {
+            this.handleSubmit()
+          }, 30000)
+          this.cancelTimeout()
+        }
         return (
-          <div>
-          {this.state.playing
-            ? <div>
-                {this.renderQ(this.state.currentQ, userID)}
-              </div>
-            : <div>
-                <h1>Are you ready?</h1>
-                <Button onClick={this.nextQ} variant="contained" color="primary">Begin</Button>
-              </div>
-          }
+          <div style={{ height: '100%'}}>
+            {this.renderQ(this.state.currentQ, userID)}
           </div>
         )
       }
@@ -222,6 +287,10 @@ class Quiz extends Component {
               <title>Play | politIQ</title>
             </Helmet>
             {isLoading(authUser)}
+            {this.state.finished
+              ? null
+              : <LinearProgress variant="determinate" value={this.state.completed} />
+            }
           </Paper>
         }
       </AuthUserContext.Consumer>
