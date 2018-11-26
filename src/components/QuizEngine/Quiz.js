@@ -173,10 +173,10 @@ class Quiz extends PureComponent {
     }
   }
 
-  checkCorrect = () => {
+  checkCorrect = (value) => {
     window.clearTimeout(this.timer)
     window.clearInterval(this.progressBar)
-    const selected = this.state.selectedValue;
+    const selected = value;
     const question = this.state.questionsArray[this.state.currentQ - 1];
     const str = "a" + selected + "correct"
     const isCorrect = question[str]
@@ -186,7 +186,9 @@ class Quiz extends PureComponent {
       this.setState({
         score: score,
       })
-      this.nextQ();
+      this.timer = window.setTimeout(() => {
+        this.nextQ();
+      }, 1000)
     } else {
       for (let i = 1; i <= 4; i++) {
         const str2 = "a" + i + "correct"
@@ -215,8 +217,9 @@ class Quiz extends PureComponent {
 
   handleSubmit = (event) => {
     if (event !== undefined) {
-      this.setState({ selectedValue: event.target.value });
-      this.checkCorrect()
+      const value = event.target.value
+      this.setState({ selectedValue: value });
+      this.checkCorrect(value)
     } else {
       this.checkCorrect()
     }
