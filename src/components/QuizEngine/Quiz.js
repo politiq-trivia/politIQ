@@ -277,6 +277,10 @@ class Quiz extends PureComponent {
         }
         return (
           <div style={{ height: '100%'}}>
+            <div className="quiz-header">
+              <h3>{this.state.selectedQuiz["quiz-title"]} ({this.state.selectedQuizId})</h3>
+              <h5>Question {this.state.currentQ} of {this.state.quizLength}</h5>
+            </div>
             {this.renderQ(this.state.currentQ, userID)}
           </div>
         )
