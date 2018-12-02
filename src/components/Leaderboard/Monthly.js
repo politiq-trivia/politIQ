@@ -80,6 +80,7 @@ class MonthlyLeaderboard extends Component {
     }
 
     const renderMonthlyLeaders = rankingArray.map((stat, i) => {
+      if (i > 5) { return; }
       return (
         <TableRow key={i} onClick={() => this.handleClickUser(stat[2])}>
           <TableCell style={{ width: '30%'}} padding="default">

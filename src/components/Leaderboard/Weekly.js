@@ -79,6 +79,7 @@ class WeeklyLeaderboard extends Component {
       rankingArray = [...result]
     }
     const renderWeeklyLeaders = rankingArray.map((stat, i) => {
+      if (i > 10) {return;}
       return (
         <TableRow key={i} onClick={() => this.handleClickUser(stat[2])}>
           <TableCell style={{ width: '30%'}} padding="default">
