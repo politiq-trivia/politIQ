@@ -12,6 +12,7 @@ import AuthUserContext from '../Auth/AuthUserContext';
 import PasswordChangeForm from '../Auth/PasswordChange';
 import withAuthorization from '../Auth/withAuthorization';
 import EditProfile from './EditProfile';
+import UserScoreboard from '../Leaderboard/UserScoreboard';
 
 import Paper from '@material-ui/core/Paper';
 
@@ -70,17 +71,24 @@ class ProfilePage extends Component {
               <div className="profile-info">
                 <div>
                   <Button onClick={this.toggleResetPassword} variant="contained" color="primary" style={{ width: '230px', float: 'right'}}>Reset Your Password</Button>
-                  <h1> User Information</h1>
+                  <h1>Your Profile</h1>
                 </div>
                 <MediaQuery maxWidth={415}>
                   <ProfilePhoto authUser={authUser}/>
                 </MediaQuery>
                 {this.state.editingProfile
-                  ? <EditProfile toggleEditProfile={this.toggleEditProfile} displayName={this.state.userInfo.displayName} email={authUser.email} bio={this.state.userInfo.bio} uid={this.state.uid}/>
+                  ? <EditProfile
+                      toggleEditProfile={this.toggleEditProfile}
+                      displayName={this.state.userInfo.displayName}
+                      email={authUser.email}
+                      bio={this.state.userInfo.bio}
+                      uid={this.state.uid}
+                    />
                   : <div>
                       <p> <span style={{ fontWeight: 'bold'}}>Display Name:</span> {this.state.userInfo.displayName}</p>
                       <p> <span style={{ fontWeight: 'bold'}}>Email Address:</span> {authUser.email}</p>
                       <p> <span style={{ fontWeight: 'bold'}}>Bio:</span> {this.state.userInfo.bio} </p>
+                      <UserScoreboard uid={authUser.uid}/>
 
                       <div className="profile-button-holder">
                         <Button color="primary" onClick={this.toggleEditProfile}>Edit Information</Button>

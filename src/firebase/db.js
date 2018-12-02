@@ -156,6 +156,11 @@ export const getUserByAffiliation = (affiliation) => {
   return users;
 }
 
+export const getScoresByUid = (uid) => {
+  const scores = db.ref().child('scores/').child(uid).once('value')
+  return scores;
+}
+
 // ----------------------------------------------------------
 
 // USER SUBMITTED QUESTIONS
