@@ -238,18 +238,18 @@ class UserShow extends Component {
                     <TableCell padding="checkbox">
                       <Checkbox checked={isSelected} />
                     </TableCell>
-                    <TableCell component="th" scope="row" padding="none">
+                    <TableCell component="th" scope="row" padding="none" className="hidden">
                       {n.username}
                     </TableCell>
                     <TableCell component="th" scope="row" padding="none">
                       {n.email}
                     </TableCell>
-                    <TableCell component="th" scope="row" padding="none">
+                    <TableCell component="th" scope="row" padding="none" className="hidden">
                       {n.affiliation}
                     </TableCell>
-                    <TableCell numeric>{n.monthlyscore}</TableCell>
-                    <TableCell numeric>{n.alltimescore}</TableCell>
-                    <TableCell numeric>{n.lastactive}</TableCell>
+                    <TableCell numeric style={{ minWidth: '10px', padding: '4px 0 4px 10px'}}>{n.monthlyscore}</TableCell>
+                    <TableCell numeric style={{ width: '20px'}} className="toggleMargins">{n.alltimescore}</TableCell>
+                    <TableCell numeric className="hidden" style={{ paddingLeft: '0'}}>{n.lastactive}</TableCell>
                   </TableRow>
                 );
               })}

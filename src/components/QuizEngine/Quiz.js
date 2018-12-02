@@ -112,7 +112,7 @@ class Quiz extends PureComponent {
       let a3text = questionObj["a3text"];
       let a4text = questionObj["a4text"];
       return (
-        <FormControl className="question">
+        <FormControl className="question" style={{ marginBottom: '5vh'}}>
           <h1>{qNum}. {qtext}</h1>
           <RadioGroup aria-label={qtext}>
             <FormControlLabel value={a1text} control={
@@ -228,8 +228,8 @@ class Quiz extends PureComponent {
   finishQuiz = (uid) => {
     this.submitScore(this.state.score, uid)
     return (
-      <div>
-        <div>Your score: {this.state.score} out of {this.state.quizLength} points.</div>
+      <div className="finish-quiz">
+        <div style={{ marginTop: '2vh'}}>Your score: {this.state.score} out of {this.state.quizLength} points.</div>
         <Link to={routes.QUIZ_ARCHIVE} style={{textDecoration: "none"}}><Button color="primary" variant="contained">Take Another Quiz</Button></Link>
         <Link to={routes.LEADERBOARD} style={{textDecoration: "none"}}><Button color="primary" variant="contained">View Leaderboard</Button></Link>
         <Link to={routes.HOME} style={{textDecoration: "none"}}><Button color="primary" variant="contained">Back to Dashboard</Button></Link>
@@ -294,9 +294,10 @@ class Quiz extends PureComponent {
               <title>Play | politIQ</title>
             </Helmet>
             {isLoading(authUser)}
+            <LinearProgress className="progressBar-mobile"variant="determinate" value={this.state.completed} />
             {this.state.finished
               ? null
-              : <LinearProgress variant="determinate" value={this.state.completed} />
+              : <LinearProgress className="progressBar-full"variant="determinate" value={this.state.completed} />
             }
           </Paper>
         }

@@ -8,12 +8,12 @@ import Tooltip from '@material-ui/core/Tooltip';
 import TableSortLabel from '@material-ui/core/TableSortLabel';
 
 const rows = [
-  { id: 'username', numeric: false, disablePadding: true, label: 'Username' },
+  { id: 'username', numeric: false, disablePadding: true, label: 'Username', className: "hidden" },
   { id: 'email', numeric: false, disablePadding: true, label: 'Email Address' },
-  { id: 'affiliation', numeric: false, disablePadding: true, label: "Affiliation" },
-  { id: 'monthlyscore', numeric: true, disablePadding: false, label: 'Monthly Score' },
-  { id: 'alltimescore', numeric: true, disablePadding: false, label: 'All Time Score' },
-  { id: 'lastactive', numeric: true, disablePadding: false, label: 'Last Active' },
+  { id: 'affiliation', numeric: false, disablePadding: true, label: "Affiliation", className: 'hidden' },
+  { id: 'monthlyscore', numeric: true, disablePadding: false, label: 'Monthly Score', style: 'true' },
+  { id: 'alltimescore', numeric: true, disablePadding: false, label: 'All Time Score', className: 'toggleMargins' },
+  { id: 'lastactive', numeric: true, disablePadding: false, label: 'Last Active', className: 'hidden' },
 ];
 
 class TableHeader extends Component {
@@ -40,6 +40,8 @@ class TableHeader extends Component {
                 numeric={row.numeric}
                 padding={row.disablePadding ? 'none' : 'default'}
                 sortDirection={orderBy === row.id ? order : false}
+                style={row.style ? { minWidth: '10px', padding: '4px 0 4px 10px'} : { minWidth: '20px'}}
+                className={row.className ? row.className : null}
               >
                 <Tooltip
                   title="Sort"

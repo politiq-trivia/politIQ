@@ -126,3 +126,18 @@
   margin-bottom: 3vh;
   text-align: center;
 }
+.toggleMargins {
+  padding: 4px 0px 4px 0px !important;
+}
+@media screen and (max-width: 415px) {
+  .userShow {
+    height: auto;
+  }
+  .hidden {
+    display: none !important;
+  }
+  .toggleMargins {
+    padding: 4px 24px 4px 10px !important;
+  }
+
+}
