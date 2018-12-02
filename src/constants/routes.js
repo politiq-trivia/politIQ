@@ -13,6 +13,7 @@ export const SUBMIT_QUESTION = '/submit-question';
 export const LEADERBOARD = '/leaderboard';
 export const ABOUT = '/about';
 export const QUIZ = '/quiz/:id';
+export const USER_PROFILES = '/profile/:uid'
 
 // admn routes
 export const ADMIN_DASHBOARD = '/admin';

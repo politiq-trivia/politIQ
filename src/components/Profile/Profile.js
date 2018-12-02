@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Helmet } from 'react-helmet';
 import { db } from '../../firebase';
+import { Link } from 'react-router-dom';
 
 import ProfilePhoto from './ProfilePhoto';
 import MediaQuery from 'react-responsive';
@@ -94,7 +95,9 @@ class ProfilePage extends Component {
 
                       <div className="profile-button-holder">
                         <Button color="primary" onClick={this.toggleEditProfile}>Edit Information</Button>
-                        <Button color="primary">View Public Profile</Button>
+                        <Link to={`/profile/${authUser.uid}`} style={{ textDecoration: 'none', display: 'flex', justifyContent: 'center'}}>
+                          <Button color="primary">View Public Profile</Button>
+                        </Link>
                       </div>
                       <br/>
                     </div>

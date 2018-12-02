@@ -20,6 +20,7 @@ import Leaderboard from './Leaderboard/Leaderboard';
 import About from './StaticPages/About';
 import QuestionSubmitForm from './QuestionSubmit/QuestionSubmitForm';
 import ReviewQuestions from './AdminDashboard/ReviewQuestions';
+import PublicProfile from './Profile/PublicProfile';
 
 import * as routes from '../constants/routes';
 import { firebase } from '../firebase';
@@ -123,6 +124,10 @@ class App extends Component {
             <Route
               exact path={routes.REVIEW}
               component={ReviewQuestions}
+            />
+            <Route
+              exact path={routes.USER_PROFILES}
+              component={PublicProfile}
             />
 
             <Footer />
