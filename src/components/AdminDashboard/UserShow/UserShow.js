@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { withRouter } from 'react-router-dom';
 
 import { db } from '../../../firebase';
 import moment from 'moment';
@@ -212,6 +213,10 @@ class UserShow extends Component {
     })
   }
 
+  handleViewUser = (uid) => {
+    this.props.history.push(`/profile/${uid}`)
+  }
+
   render() {
     const { data, order, orderBy, selected, rowsPerPage, page } = this.state;
     const emptyRows = this.state.rowsPerPage - Math.min(rowsPerPage, data.length - page * rowsPerPage);
@@ -226,6 +231,7 @@ class UserShow extends Component {
           selected={this.state.selected}
           refreshTable={this.refreshTable}
           toggleDeleteModal={this.toggleDeleteModal}
+          handleViewUser={this.handleViewUser}
         />
         <Table>
           <TableHeader
@@ -296,4 +302,4 @@ class UserShow extends Component {
   }
 }
 
-export default UserShow;
+export default withRouter(UserShow);

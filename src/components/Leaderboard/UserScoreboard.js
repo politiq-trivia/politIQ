@@ -17,6 +17,13 @@ class UserScoreboard extends Component {
     await db.getScoresByUid(this.props.uid)
       .then(response => {
         const data = response.val()
+        if (data === null) {
+          this.setState({
+            monthlyScore: 0,
+            allTimeScore: 0,
+          })
+          return;
+        }
         const quizDates = Object.keys(data)
         let monthlyScore = 0;
         let allTimeScore = 0;

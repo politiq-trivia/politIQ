@@ -85,6 +85,12 @@ class TableToolbar extends Component {
       this.resetScore("monthly")
     } else if (this.state.action === "Reset All Time Score") {
       this.resetScore('alltime')
+    } else if (this.state.action === "View User") {
+      if (this.props.selected.length > 1) {
+        console.log('replace this with an alert or modal or message later, but tell the user they cant view more than one at a time')
+      } else {
+        this.props.handleViewUser(this.props.selected[0])
+      }
     }
   }
 
@@ -124,6 +130,7 @@ class TableToolbar extends Component {
                     }}
                   >
                     <option value="" />
+                    <option value="View User">View User</option>
                     <option value="Delete User">Delete User</option>
                     <option value="Reset Monthly Score">Reset Monthly Score</option>
                     <option value="Reset All Time Score">Reset All Time Score</option>

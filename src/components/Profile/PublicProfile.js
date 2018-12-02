@@ -42,7 +42,6 @@ class PublicProfile extends Component {
   }
 
   render () {
-    console.log(this.state)
     // get the username to display correctly in the helmet
     let displayName;
     if (this.state.userData) {

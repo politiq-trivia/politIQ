@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { withRouter } from 'react-router-dom';
 
 import moment from 'moment';
 
@@ -48,6 +49,7 @@ class MonthlyLeaderboard extends Component {
               userScores.push({
                 username: response.val().displayName,
                 score: scoreCounter,
+                uid: usernames[i]
               })
               const rankedScores = userScores.sort(function(a,b){
                 return a.score - b.score
@@ -62,20 +64,24 @@ class MonthlyLeaderboard extends Component {
       })
   }
 
+  handleClickUser = (uid) => {
+    this.props.history.push(`/profile/${uid}`)
+  }
+
   render() {
 
     let rankingArray = [];
     if (Array.isArray(this.state.rankedScores)) {
       const ranking = this.state.rankedScores;
       const result = ranking.map((stat, i) => {
-        return [stat.username, stat.score]
+        return [stat.username, stat.score, stat.uid]
       });
       rankingArray = [...result]
     }
 
     const renderMonthlyLeaders = rankingArray.map((stat, i) => {
       return (
-        <TableRow key={i}>
+        <TableRow key={i} onClick={() => this.handleClickUser(stat[2])}>
           <TableCell style={{ width: '30%'}} padding="default">
             {i + 1}.
           </TableCell>
@@ -126,4 +132,4 @@ class MonthlyLeaderboard extends Component {
   }
 }
 
-export default MonthlyLeaderboard;
+export default withRouter(MonthlyLeaderboard);
