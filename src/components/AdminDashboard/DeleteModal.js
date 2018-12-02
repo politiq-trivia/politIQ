@@ -15,10 +15,14 @@ class DeleteModal extends Component {
     // delete function from previous component
     this.props.deleteQuiz(this.props.selected)
     this.props.toggleDeleteModal()
+    if (this.props.fromEditQuiz === "true") {
+      this.props.toggleDashboard()
+    }
   }
 
 
   render() {
+    console.log(this.props.fromEditQuiz)
     const List = this.props.selected.map((date, i) => {
       return (
         <p key={i}>{date}</p>

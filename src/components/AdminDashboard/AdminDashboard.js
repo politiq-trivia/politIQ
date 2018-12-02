@@ -85,6 +85,7 @@ class AdminDashboard extends Component {
       showQuiz: false,
       showUsers: false,
       showLeaders: false,
+      editingQuiz: false,
     })
   }
 
@@ -138,7 +139,7 @@ class AdminDashboard extends Component {
 
   toggleDeleteModal = () => {
     this.setState({
-      showDeleteModal: !this.state.showDeleteModal
+      showDeleteModal: !this.state.showDeleteModal,
     })
   }
 
@@ -212,7 +213,7 @@ class AdminDashboard extends Component {
           : <div>
           { this.state.showQuiz ? <ShowQuiz toggleDashboard={this.toggleDashboard} quiz={this.state.selectedQuiz} quizId={this.state.selectedQuizId} toggleEditQuiz={this.toggleEditQuiz}/>
           : <div>
-            {this.state.editingQuiz ? <EditQuiz toggleQuizShow={this.toggleQuizShow} quiz={this.state.selectedQuiz} quizId={this.state.selectedQuizId}/>
+            {this.state.editingQuiz ? <EditQuiz toggleQuizShow={this.toggleQuizShow} quiz={this.state.selectedQuiz} quizId={this.state.selectedQuizId} toggleDeleteModal={this.toggleDeleteModal} deleteQuiz={this.deleteQuiz} showDeleteModal={this.state.showDeleteModal} toggleDashboard={this.toggleDashboard}/>
             : <div>
             { this.state.showUsers ? <UserShow />
               : <div>

@@ -150,6 +150,13 @@
   width: 50vw;
   margin-left: 25vw !important;
 }
+@media screen and (max-width: 415px) {
+  .deleteModal {
+    width: 100vw;
+    margin-left: auto !important;
+    margin-right: auto;
+  }
+}
 
 .deleteText{
   padding: 3vh;
@@ -177,4 +184,16 @@
 
 #newQ {
   text-align: center;
+}
+
+.edit-delete-quiz-button-mobile {
+  display: none;
+}
+@media screen and (max-width: 415px) {
+  .edit-delete-quiz-button {
+    display: none !important;
+  }
+  .edit-display-quiz-button-mobile {
+    display: inline;
+  }
 }

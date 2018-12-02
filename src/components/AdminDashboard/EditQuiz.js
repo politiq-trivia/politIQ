@@ -11,6 +11,8 @@ import TextField from '@material-ui/core/TextField';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
 
+import DeleteModal from './DeleteModal';
+
 import './quizEngine.css';
 
 class EditQuiz extends Component {
@@ -176,12 +178,17 @@ class EditQuiz extends Component {
     })
     return (
       <Paper className="showQuiz">
+        {this.props.showDeleteModal
+          ? <DeleteModal fromEditQuiz="true" selected={[this.props.quizId]} deleteQuiz={this.props.deleteQuiz} toggleDeleteModal={this.props.toggleDeleteModal} toggleDashboard={this.props.toggleDashboard}/>
+          : null
+        }
         <div>
           <Button onClick={this.props.toggleQuizShow} variant="contained" color="primary" style={{ float: 'left'}}>Cancel</Button>
-          <Button onClick={this.props.handleDelete} variant="contained" color="primary" style={{ float: 'right'}}>Delete this Quiz</Button>
+          <Button onClick={this.props.toggleDeleteModal} variant="contained" color="primary" style={{ float: 'right'}} className="edit-delete-quiz-button">Delete this Quiz</Button>
         </div>
         {this.state.quiz? <h1>{this.state.quiz['quiz-title']}</h1> : null }
         {renderQs}
+        <Button onClick={this.props.toggleDeleteModal} color="primary" style={{ float: 'right'}} className="edit-delete-quiz-button-mobile">Delete this Quiz</Button>
         <Button variant="contained" color="primary" style={{ float: 'center'}} onClick={this.handleSubmit}>Save Changes</Button>
       </Paper>
     )
