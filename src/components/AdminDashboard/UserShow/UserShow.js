@@ -14,6 +14,7 @@ import Checkbox from '@material-ui/core/Checkbox';
 import '../dashboard.css';
 import TableHeader from './TableHeader';
 import TableToolbar from './TableToolbar';
+import DeleteModal from '../DeleteModal';
 
 let counter = 0;
 
@@ -52,6 +53,7 @@ class UserShow extends Component {
       data: [],
       page: 0,
       rowsPerPage: 5,
+      showDeleteModal: false,
     }
   }
 
@@ -204,12 +206,27 @@ class UserShow extends Component {
     }
   }
 
+  toggleDeleteModal = () => {
+    this.setState({
+      showDeleteModal: !this.state.showDeleteModal
+    })
+  }
+
   render() {
     const { data, order, orderBy, selected, rowsPerPage, page } = this.state;
     const emptyRows = this.state.rowsPerPage - Math.min(rowsPerPage, data.length - page * rowsPerPage);
     return (
       <Paper className="userShow">
-        <TableToolbar numSelected={selected.length} handleDeleteUser={this.handleDeleteUser} selected={this.state.selected} refreshTable={this.refreshTable}/>
+        {this.state.showDeleteModal
+          ? <DeleteModal handleDeleteUser={this.handleDeleteUser} toggleDeleteModal={this.toggleDeleteModal} selected={this.state.selected} users="true"/>
+          : null
+        }
+        <TableToolbar
+          numSelected={selected.length}
+          selected={this.state.selected}
+          refreshTable={this.refreshTable}
+          toggleDeleteModal={this.toggleDeleteModal}
+        />
         <Table>
           <TableHeader
             numSelected={selected.length}

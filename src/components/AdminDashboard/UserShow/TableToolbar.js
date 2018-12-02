@@ -46,8 +46,7 @@ class TableToolbar extends Component {
       action: ''
     }
   }
-  resetScore = (event) => {
-    const time = event.target.parentNode.id
+  resetScore = (time) => {
     const selected = this.props.selected
 
     db.getScores()
@@ -79,9 +78,18 @@ class TableToolbar extends Component {
     this.setState({ [name]: event.target.value });
   }
 
+  handleSubmit = () => {
+    if (this.state.action === "Delete User") {
+      this.props.toggleDeleteModal()
+    } else if (this.state.action === "Reset Monthly Score") {
+      this.resetScore("monthly")
+    } else if (this.state.action === "Reset All Time Score") {
+      this.resetScore('alltime')
+    }
+  }
+
   render() {
     const { numSelected } = this.props;
-    console.log(this.state, 'state')
     return (
       <Toolbar style={{ padding: '0 0 0 1vw'}}>
         <div className={toolbarStyles.title} >
@@ -98,11 +106,11 @@ class TableToolbar extends Component {
               <MediaQuery minWidth={416}>
                 <Tooltip title="Delete">
                   <IconButton aria-label="Delete">
-                    <DeleteIcon onClick={this.props.handleDeleteUser}/>
+                    <DeleteIcon onClick={this.props.toggleDeleteModal}/>
                   </IconButton>
                 </Tooltip>
-                <Button color="primary" onClick={this.resetScore} id="monthly">Reset Monthly Score</Button>
-                <Button color="primary" onClick={this.resetScore} id="alltime">Reset All Time Score</Button>
+                <Button color="primary" onClick={() => this.resetScore("monthly")}>Reset Monthly Score</Button>
+                <Button color="primary" onClick={() => this.resetScore("alltime")}>Reset All Time Score</Button>
               </MediaQuery>
               <MediaQuery maxWidth={415}>
                 <FormControl style={{ marginLeft: '3vw', marginBottom: '2vh'}}>
@@ -121,7 +129,12 @@ class TableToolbar extends Component {
                     <option value="Reset All Time Score">Reset All Time Score</option>
                   </Select>
                 </FormControl>
-                <IconButton aria-label="Submit" disabled={this.state.action === ""} color="primary">
+                <IconButton
+                  aria-label="Submit"
+                  disabled={this.state.action === ""}
+                  color="primary"
+                  onClick={this.handleSubmit}
+                >
                   <SendIcon style={{ marginTop: '1vh'}}/>
                 </IconButton>
               </MediaQuery>
