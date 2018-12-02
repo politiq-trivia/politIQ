@@ -82,11 +82,13 @@ class ProfilePage extends Component {
                       displayName={this.state.userInfo.displayName}
                       email={authUser.email}
                       bio={this.state.userInfo.bio}
+                      affiliation={this.state.userInfo.affiliation}
                       uid={this.state.uid}
                     />
                   : <div>
                       <p> <span style={{ fontWeight: 'bold'}}>Display Name:</span> {this.state.userInfo.displayName}</p>
                       <p> <span style={{ fontWeight: 'bold'}}>Email Address:</span> {authUser.email}</p>
+                      <p> <span style={{ fontWeight: 'bold'}}>Affiliation:</span> {this.state.userInfo.affiliation} </p>
                       <p> <span style={{ fontWeight: 'bold'}}>Bio:</span> {this.state.userInfo.bio} </p>
                       <UserScoreboard uid={authUser.uid}/>
 

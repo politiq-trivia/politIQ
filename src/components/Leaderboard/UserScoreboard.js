@@ -16,21 +16,16 @@ class UserScoreboard extends Component {
   getMyScore = async () => {
     await db.getScoresByUid(this.props.uid)
       .then(response => {
-        console.log(response.val())
         const data = response.val()
         const quizDates = Object.keys(data)
-        console.log(quizDates)
         let monthlyScore = 0;
         let allTimeScore = 0;
         for (let i = 0; i < quizDates.length; i++) {
           if (quizDates[i] > moment().startOf('month').format('YYYY-MM-DD')) {
             monthlyScore += data[quizDates[i]]
-            console.log(data[quizDates[i]])
           }
           allTimeScore += data[quizDates[i]]
         }
-        console.log(monthlyScore, allTimeScore)
-
         this.setState({
           monthlyScore,
           allTimeScore,
@@ -39,7 +34,6 @@ class UserScoreboard extends Component {
   }
 
   render() {
-    console.log(this.state, 'state')
     return (
       <div className="small-scoreboardHolder">
         <h2>My Scores</h2>

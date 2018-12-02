@@ -4,6 +4,8 @@ import firebase from 'firebase/app';
 
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
+import Select from '@material-ui/core/Select';
+import InputLabel from '@material-ui/core/InputLabel';
 
 class EditProfile extends Component {
   constructor(props) {
@@ -11,6 +13,7 @@ class EditProfile extends Component {
     this.state = {
       displayName: '',
       email: '',
+      affiliation: '',
       bio: '',
     }
   }
@@ -21,6 +24,7 @@ class EditProfile extends Component {
       email: this.props.email,
       bio: this.props.bio,
       uid: this.props.uid,
+      affiliation: this.props.affiliation,
     })
   }
 
@@ -34,6 +38,7 @@ class EditProfile extends Component {
     const updates = {
       displayName: this.state.displayName,
       email: this.state.email,
+      affiliation: this.state.affiliation,
       bio: this.state.bio,
     }
     await db.editUser(this.props.uid, updates)
@@ -73,6 +78,22 @@ class EditProfile extends Component {
               fullWidth
               label="Email Address"
             />
+            <InputLabel>Affiliation</InputLabel>
+            <Select
+              native
+              fullWidth
+              value={this.state.affiliation}
+              label="Affiliation"
+              onChange={event => this.handleChange('affiliation', event.target.value)}
+              inputProps={{
+                name: 'affiliation'
+              }}
+            >
+              <option value="" />
+              <option value="Democrat">Democrat</option>
+              <option value="Republican">Republican</option>
+              <option value="Independent">Independent</option>
+            </Select>
             <TextField
               margin="normal"
               multiline
