@@ -18,13 +18,13 @@ import './Auth.css';
 
 import FacebookAuth from './FacebookAuth'
 
-const SignUpPage = ({ history }) =>
+const SignUpPage = ({ history, getSignedInUser }) =>
   <Paper className="authCard signUp">
     <Helmet>
       <title>Sign Up | politIQ</title>
     </Helmet>
     <h1>Sign Up</h1>
-    <SignUpForm history={history} />
+    <SignUpForm history={history} getSignedInUser={getSignedInUser}/>
     <FacebookAuth />
     <SignInLink />
   </Paper>
@@ -86,6 +86,7 @@ class SignUpForm extends Component {
           .then(() => {
             const date = moment().format('YYYY-MM-DD')
             db.lastActive(authUser.user.uid, date)
+            this.props.getSignedInUser(authUser.user.uid)
             this.setState({ ...INITIAL_STATE });
             history.push(routes.HOME);
           })

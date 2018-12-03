@@ -26,6 +26,13 @@
   max-height: 40vh;
   min-width: 270px;
 }
+@media screen and (max-width: 415px) {
+  .public-photo {
+    max-height: 250px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+}
 
 .profile-info {
   width: 75vw;

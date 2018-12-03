@@ -58,6 +58,8 @@ class ProfilePage extends Component {
   }
 
   render() {
+    console.log(this.props)
+    console.log(this.state, 'state in profile component')
     return (
       <AuthUserContext.Consumer>
         {authUser =>

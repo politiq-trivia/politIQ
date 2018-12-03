@@ -46,7 +46,7 @@ class App extends Component {
 
     this.state = {
       authUser: null,
-      signedInUser: "Wrl9XmpKHdh1xRQFrElTu6G3VbD2",
+      signedInUser: "",
     };
   }
 
@@ -67,6 +67,7 @@ class App extends Component {
   }
 
   render() {
+    console.log(this.state, 'state in app.js')
     return (
       <MuiThemeProvider theme={theme}>
 
@@ -79,7 +80,7 @@ class App extends Component {
             />
             <Route
               exact path={routes.SIGN_UP}
-              component={SignUpPage}
+              render={(props) => <SignUpPage {...props} getSignedInUser={this.getSignedInUser} /> }
             />
             <Route
               exact path={routes.SIGN_IN}

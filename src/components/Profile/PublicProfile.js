@@ -7,6 +7,7 @@ import Paper from '@material-ui/core/Paper';
 
 import loadingGif from '../../loadingGif.gif';
 import UserScoreboard from '../Leaderboard/UserScoreboard';
+import PublicProfilePhoto from './PublicProfilePhoto';
 import './profile.css';
 
 const Placeholder = "https://via.placeholder.com/150"
@@ -62,7 +63,7 @@ class PublicProfile extends Component {
                 <h1>{this.state.userData.displayName}</h1>
 
                 {/* need to write a component that just gets the profile photo without giving the option to upload one */}
-                <img src={Placeholder} />
+                <PublicProfilePhoto uid={this.state.uid}/>
 
                 <div>
                   <p><span style={{ fontWeight: 'bold'}}>Affiliation: </span>{this.state.userData.affiliation}</p>
