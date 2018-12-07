@@ -63,22 +63,17 @@ class ProfilePage extends Component {
     return (
       <AuthUserContext.Consumer>
         {authUser =>
-          <Paper className="page-style profile">
+          <Paper className="profile">
             <Helmet>
               <title>Profile | politIQ</title>
             </Helmet>
-            <div className="profile-header">
-              <MediaQuery minWidth={416}>
-                <ProfilePhoto authUser={authUser} />
-              </MediaQuery>
-              <div className="profile-info">
+            <div className="public-profile-top">
+              <ProfilePhoto authUser={authUser} />
+            </div>
+              <div>
                 <div>
-                  <Button onClick={this.toggleResetPassword} variant="contained" color="primary" style={{ width: '230px', float: 'right'}}>Reset Your Password</Button>
                   <h1>Your Profile</h1>
                 </div>
-                <MediaQuery maxWidth={415}>
-                  <ProfilePhoto authUser={authUser}/>
-                </MediaQuery>
                 {this.state.editingProfile
                   ? <EditProfile
                       toggleEditProfile={this.toggleEditProfile}
@@ -89,10 +84,12 @@ class ProfilePage extends Component {
                       uid={this.state.uid}
                     />
                   : <div>
-                      <p> <span style={{ fontWeight: 'bold'}}>Display Name:</span> {this.state.userInfo.displayName}</p>
-                      <p> <span style={{ fontWeight: 'bold'}}>Email Address:</span> {authUser.email}</p>
-                      <p> <span style={{ fontWeight: 'bold'}}>Affiliation:</span> {this.state.userInfo.affiliation} </p>
-                      <p> <span style={{ fontWeight: 'bold'}}>Bio:</span> {this.state.userInfo.bio} </p>
+                      <div className="profile-info">
+                        <p> <span style={{ fontWeight: 'bold'}}>Display Name:</span> {this.state.userInfo.displayName}</p>
+                        <p> <span style={{ fontWeight: 'bold'}}>Email Address:</span> {authUser.email}</p>
+                        <p> <span style={{ fontWeight: 'bold'}}>Affiliation:</span> {this.state.userInfo.affiliation} </p>
+                        <p> <span style={{ fontWeight: 'bold', marginBottom: '5vh'}}>Bio:</span> {this.state.userInfo.bio} </p>
+                      </div>
                       <UserScoreboard uid={authUser.uid}/>
 
                       <div className="profile-button-holder">
@@ -100,6 +97,8 @@ class ProfilePage extends Component {
                         <Link to={`/profile/${authUser.uid}`} style={{ textDecoration: 'none', display: 'flex', justifyContent: 'center'}}>
                           <Button color="primary">View Public Profile</Button>
                         </Link>
+                        <Button onClick={this.toggleResetPassword}>Reset Password</Button>
+                        <Button><span style={{color: 'red'}}>Delete Account</span></Button>
                       </div>
                       <br/>
                     </div>
@@ -113,7 +112,6 @@ class ProfilePage extends Component {
                   : null
                 }
               </div>
-            </div>
           </Paper>
         }
       </AuthUserContext.Consumer>

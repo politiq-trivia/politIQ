@@ -58,7 +58,6 @@ class PublicProfilePhoto extends Component {
   }
 
   render () {
-    console.log(this.state, 'state')
     return (
       <div style={{ display: 'flex', justifyContent: 'center', flexDirection: 'column'}}>
         <img src={this.state.avatarUrl} alt="Profile" className="public-photo"/>

@@ -42,7 +42,7 @@ class UserScoreboard extends Component {
 
   render() {
     return (
-      <div className={this.props.public ? "small-scoreboardHolder user-scoreboard-public" : "small-scoreboardHolder"}>
+      <div className="small-scoreboardHolder user-scoreboard-public">
         <h2>{this.props.public ? `${this.props.name}'s`: "My"} Scores</h2>
         <div className="small-scoreboard">
           <div id="userScore">Monthly Score<span className="score">{this.state.monthlyScore}</span></div>

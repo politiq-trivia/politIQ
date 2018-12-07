@@ -25,13 +25,16 @@
   height: 25vh;
   width: 100%;
 }
-.public-profile h1 {
+.public-profile h1, .profile h1 {
   text-align: center;
   margin-top: 10vh;
 }
 @media screen and (max-width: 415px) {
   .public-profile h1 {
     margin-top: 5vh;
+  }
+  .profile h1 {
+    margin-top: 8vh;
   }
 }
 .public-profile p, h3 {
@@ -58,13 +61,13 @@
   }
 }
 
-.profile-photo {
+/* .profile-photo {
   max-width: 36vw;
   max-height: 40vh;
   min-width: 270px;
-}
+} */
 
-.public-photo {
+.public-photo, .profile-photo {
   border-radius: 50%;
   max-width: 20vw;
   max-height: 28vh;
@@ -77,7 +80,7 @@
   box-shadow: 5px 5px 20px 0px rgba(0,0,0,0.56);
 }
 @media screen and (max-width: 415px) {
-  .public-photo {
+  .public-photo, .profile-photo {
     max-height: 25vh;
     max-width: 30vw;
     margin-left: auto;
@@ -86,30 +89,44 @@
 }
 
 .profile-info {
-  width: 75vw;
+  width: 70vw;
   display: flex;
   flex-direction: column;
+  margin-bottom: 5vh;
+  margin-left: auto;
+  margin-right: auto;
+  text-align: left;
+}
+.profile-info p {
+  margin: 1vh;
 }
 @media screen and (max-width: 415px) {
   .profile-info {
-    width: 100%;
+    width: 90%;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: left;
+  }
+  .profile-info p {
+    margin: 0.5vh;
   }
 }
 
 .profile {
   margin-top: 10vh;
-  margin-bottom: 9vh;
+  margin-bottom: 25vh;
   width: 85vw;
   height: auto;
   overflow: scroll;
   margin-left: auto;
   margin-right: auto;
-  padding-bottom: 10vh;
+  padding-bottom: 5vh;
   text-align: center;
 }
 @media screen and (max-width: 415px) {
   .profile {
     height: auto;
+    margin-bottom: 10vh;
   }
 }
 .profile-button-holder {
@@ -125,5 +142,31 @@
 @media screen and (max-width: 415px) {
   .profile-button-holder {
     flex-direction: column;
+  }
+}
+
+.edit-profile {
+  width: 85%;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+@media screen and (min-width: 416px) {
+  .upload-holder {
+    display: flex;
+    flex-direction: row-reverse;
+  }
+}
+.upload-button {
+  margin-top: auto !important;
+  margin-bottom: auto !important;
+  height: 3vh;
+  margin-right: 10vw !important;
+}
+@media screen and (max-width: 415px) {
+  .upload-button {
+    margin-top: 1vh !important;
+    margin-bottom: 0;
+    margin-right: 0 !important;
   }
 }

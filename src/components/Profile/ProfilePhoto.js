@@ -100,49 +100,34 @@ class ProfilePhoto extends Component {
   }
 
   render() {
-    const isLoading = () => {
-      if (this.state.loading) {
-        return (
-          <div className="profile-photo">
-            <img src={loadingGif} alt="loading" style={{ width: '25vw', marginLeft: '5vw'}}/>
-          </div>
-        )
-      } else {
-        return (
-          <form>
-            { this.state.avatarURL ?
-              <img src={this.state.avatarURL} alt="user avatar" className="profile-photo" style={{ paddingRight: '5vw'}}/>
-             : <div>
-                <img src={placeHolderImg} alt="placeholder" className="profile-photo" />
-                <Button
-                  color="primary"
-                  variant="contained"
-                >
-                  <FileUploader
-                    accept="image/*"
-                    name="avatar"
-                    filename={this.state.userID}
-                    storageRef={storage.imageRef}
-                    onUploadStart={this.handleUploadStart}
-                    onUploadError={this.handleUploadError}
-                    onUploadSuccess={this.handleUploadSuccess}
-                    onProgress={this.handleProgress}
-                  />
-                </Button>
-              </div>
-            }
-            {this.state.isUploading &&
-              <p>Progress: {this.state.progress}</p>
-            }
-          </form>
-        )
-      }
-    }
-
     return (
-      <div>
-        {isLoading()}
-      </div>
+      <form>
+        { this.state.avatarURL ?
+          <img src={this.state.avatarURL} alt="user avatar" className="profile-photo"/>
+         : <div className="upload-holder">
+            <Button
+              color="primary"
+              variant="contained"
+              className="upload-button"
+            >
+              <FileUploader
+                accept="image/*"
+                name="avatar"
+                filename={this.state.userID}
+                storageRef={storage.imageRef}
+                onUploadStart={this.handleUploadStart}
+                onUploadError={this.handleUploadError}
+                onUploadSuccess={this.handleUploadSuccess}
+                onProgress={this.handleProgress}
+              />
+            </Button>
+            <img src={placeHolderImg} alt="placeholder" className="profile-photo" style={{ marginTop: '2vh'}}/>
+          </div>
+        }
+        {this.state.isUploading &&
+          <p>Progress: {this.state.progress}</p>
+        }
+      </form>
     )
   }
 }

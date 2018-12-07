@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { db } from '../../firebase';
 import firebase from 'firebase/app';
+import { withRouter } from 'react-router-dom';
 
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
@@ -15,6 +16,7 @@ class EditProfile extends Component {
       email: '',
       affiliation: '',
       bio: '',
+      uid: '',
     }
   }
 
@@ -54,15 +56,30 @@ class EditProfile extends Component {
     this.props.toggleEditProfile()
   }
 
-  handleSaveAndView = () => {
-    // function to save info to db
-    // function to toggle public profile
-    console.log('handlesaveandview called')
+  handleSaveAndView = async () => {
+    const updates = {
+      displayName: this.state.displayName,
+      email: this.state.email,
+      affiliation: this.state.affiliation,
+      bio: this.state.bio,
+    }
+    await db.editUser(this.props.uid, updates)
+
+    if (this.props.email !== this.state.email) {
+      const user = firebase.auth().currentUser
+      await user.updateEmail(this.state.email).then(function() {
+        console.log("success")
+      }).catch(function(error){
+        console.error(error)
+      })
+    }
+
+    this.props.history.push(`/profile/${this.state.uid}`)
   }
 
   render() {
     return (
-      <div>
+      <div className="edit-profile">
         <form>
             <TextField
               margin="normal"
@@ -113,4 +130,4 @@ class EditProfile extends Component {
   }
 }
 
-export default EditProfile;
+export default withRouter(EditProfile);

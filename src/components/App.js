@@ -46,7 +46,7 @@ class App extends Component {
 
     this.state = {
       authUser: null,
-      signedInUser: "",
+      signedInUser: "Wrl9XmpKHdh1xRQFrElTu6G3VbD2",
     };
   }
 
