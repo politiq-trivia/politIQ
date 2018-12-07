@@ -14,7 +14,7 @@ class DeleteModal extends Component {
   handleDelete = () => {
     if (this.props.users === "true") {
       // user delete functions will go here
-      // this.props.handleDeleteUser()
+      this.props.handleDeleteUser()
       this.props.toggleDeleteModal()
     } else {
       this.props.deleteQuiz(this.props.selected)
@@ -26,7 +26,6 @@ class DeleteModal extends Component {
   }
 
   render() {
-    console.log(this.props.fromEditQuiz)
     const List = this.props.selected.map((date, i) => {
       return (
         <p key={i}>{date}</p>

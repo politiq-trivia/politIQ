@@ -1,10 +1,6 @@
 import React, { Component } from 'react';
 
 import { storage } from '../../firebase';
-import loadingGif from '../../loadingGif.gif';
-
-const Placeholder = "https://via.placeholder.com/250x150"
-
 
 class PublicProfilePhoto extends Component {
   constructor(props) {
@@ -65,7 +61,7 @@ class PublicProfilePhoto extends Component {
     console.log(this.state, 'state')
     return (
       <div style={{ display: 'flex', justifyContent: 'center', flexDirection: 'column'}}>
-        <img src={this.state.avatarUrl} alt="Profile Photo" className="public-photo"/>
+        <img src={this.state.avatarUrl} alt="Profile" className="public-photo"/>
       </div>
     )
   }

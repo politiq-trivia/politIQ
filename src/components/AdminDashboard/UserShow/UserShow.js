@@ -190,7 +190,7 @@ class UserShow extends Component {
     const data = this.state.data
     for (let i = 0; i < selectedIndex.length; i++) {
       const index = selectedIndex[i]
-      delete data[index]
+      data.splice(index, 1)
     }
     this.setState({
       data: data,

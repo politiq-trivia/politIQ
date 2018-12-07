@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { auth, db } from '../../firebase';
+import { db } from '../../firebase';
 import { Helmet } from 'react-helmet';
 import MediaQuery from 'react-responsive';
 
@@ -72,10 +72,10 @@ class PublicProfile extends Component {
 
               <h3>Comments: </h3>
               <MediaQuery minWidth={416}>
-                <img src={BigPlaceholder} />
+                <img src={BigPlaceholder} alt="CommentPlaceholder"/>
               </MediaQuery>
               <MediaQuery maxWidth={415}>
-                <img src={Placeholder} style={{marginTop: '3vh'}}/>
+                <img src={Placeholder} style={{marginTop: '3vh'}} alt="CommentPlaceholder"/>
               </MediaQuery>
             </div>
           </div>

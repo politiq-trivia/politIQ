@@ -6,7 +6,7 @@ import FileUploader from 'react-firebase-file-uploader';
 import Button from '@material-ui/core/Button';
 import loadingGif from '../../loadingGif.gif';
 
-const placeHolderImg = 'https://via.placeholder.com/270x290.png?text=Profile+Photo'
+const placeHolderImg = '//style.anu.edu.au/_anu/4/images/placeholders/person_6x8.png'
 
 class ProfilePhoto extends Component {
   constructor(props) {
