@@ -141,3 +141,11 @@
   }
 
 }
+.toolbar-title {
+  width: 15vw;
+}
+@media screen and (max-width: 415px) {
+  .toolbar-title {
+    width: 24vw;
+  }
+}

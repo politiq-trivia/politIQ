@@ -2,8 +2,10 @@ import React, { Component } from 'react';
 import { db } from '../../firebase';
 import { Helmet } from 'react-helmet';
 import MediaQuery from 'react-responsive';
+import { withRouter } from 'react-router-dom';
 
 import Paper from '@material-ui/core/Paper';
+import Button from '@material-ui/core/Button';
 
 import loadingGif from '../../loadingGif.gif';
 import UserScoreboard from '../Leaderboard/UserScoreboard';
@@ -61,6 +63,8 @@ class PublicProfile extends Component {
             </Helmet>
             <div className="public-profile">
               <div className="public-profile-top">
+                <Button className="back-button" onClick={this.props.history.goBack}>Back</Button>
+
                 <PublicProfilePhoto uid={this.state.uid}/>
               </div>
 
@@ -98,4 +102,4 @@ class PublicProfile extends Component {
   }
 }
 
-export default PublicProfile;
+export default withRouter(PublicProfile);

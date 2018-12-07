@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { db } from '../../../firebase';
 import moment from 'moment';
+import { Link } from 'react-router-dom';
 
 import Toolbar from '@material-ui/core/Toolbar';
 import Button from '@material-ui/core/Button';
@@ -86,11 +87,7 @@ class TableToolbar extends Component {
     } else if (this.state.action === "Reset All Time Score") {
       this.resetScore('alltime')
     } else if (this.state.action === "View User") {
-      if (this.props.selected.length > 1) {
-        console.log('replace this with an alert or modal or message later, but tell the user they cant view more than one at a time')
-      } else {
         this.props.handleViewUser(this.props.selected[0])
-      }
     }
   }
 
@@ -98,7 +95,7 @@ class TableToolbar extends Component {
     const { numSelected } = this.props;
     return (
       <Toolbar style={{ padding: '0 0 0 1vw'}}>
-        <div className={toolbarStyles.title} >
+        <div className='toolbar-title'>
           {numSelected > 0 ? (
             <p>{numSelected} selected</p>
           ) : (
@@ -110,13 +107,16 @@ class TableToolbar extends Component {
           {numSelected > 0 ? (
             <div>
               <MediaQuery minWidth={416}>
+                <Link to={`/profile/${this.props.selected[0]}`} style={{ textDecoration: 'none'}}>
+                  <Button color="primary" disabled={this.props.selected.length > 1}>View Profile</Button>
+                </Link>
+                <Button color="primary" onClick={() => this.resetScore("monthly")}>Reset Monthly Score</Button>
+                <Button color="primary" onClick={() => this.resetScore("alltime")}>Reset All Time Score</Button>
                 <Tooltip title="Delete">
                   <IconButton aria-label="Delete">
                     <DeleteIcon onClick={this.props.toggleDeleteModal}/>
                   </IconButton>
                 </Tooltip>
-                <Button color="primary" onClick={() => this.resetScore("monthly")}>Reset Monthly Score</Button>
-                <Button color="primary" onClick={() => this.resetScore("alltime")}>Reset All Time Score</Button>
               </MediaQuery>
               <MediaQuery maxWidth={415}>
                 <FormControl style={{ marginLeft: '3vw', marginBottom: '2vh'}}>
@@ -130,7 +130,7 @@ class TableToolbar extends Component {
                     }}
                   >
                     <option value="" />
-                    <option value="View User">View User</option>
+                    <option value="View User" disabled={this.props.selected.length > 1}>View User</option>
                     <option value="Delete User">Delete User</option>
                     <option value="Reset Monthly Score">Reset Monthly Score</option>
                     <option value="Reset All Time Score">Reset All Time Score</option>
