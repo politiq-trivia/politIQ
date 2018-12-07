@@ -10,7 +10,7 @@ class PublicProfilePhoto extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      avatarUrl: "",
+      avatarUrl: "//style.anu.edu.au/_anu/4/images/placeholders/person_6x8.png",
       uid: '',
       loading: true,
     }
@@ -24,7 +24,7 @@ class PublicProfilePhoto extends Component {
     const set = () => {
       this.setState({
         loading: false,
-        avatarUrl: `${Placeholder}`
+        // avatarUrl: `${Placeholder}`
       })
     }
     if (this.props.uid !== "") {
