@@ -20,15 +20,66 @@
 .public-profile {
   flex-direction: column;
 }
+.public-profile-top {
+  background-color: #C790F1;
+  height: 25vh;
+  width: 100%;
+}
+.public-profile h1 {
+  text-align: center;
+  margin-top: 10vh;
+}
+@media screen and (max-width: 415px) {
+  .public-profile h1 {
+    margin-top: 5vh;
+  }
+}
+.public-profile p, h3 {
+  width: 80%;
+  margin-left: auto;
+  margin-right: auto;
+  text-align: left;
+}
+@media screen and (max-width: 415px) {
+  .public-profile h3, .public-profile p {
+    width: 90%;
+  }
+}
+.user-scoreboard-public {
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 10vh;
+  margin-bottom: 10vh;
+}
+@media screen and (max-width: 415px) {
+  .user-scoreboard-public {
+    margin-top: 5vh;
+    margin-bottom: 5vh;
+  }
+}
 
 .profile-photo {
   max-width: 36vw;
   max-height: 40vh;
   min-width: 270px;
 }
+
+.public-photo {
+  border-radius: 50%;
+  max-width: 20vw;
+  max-height: 28vh;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 4vh;
+  border: 5px solid white;
+  -webkit-box-shadow: 5px 5px 20px 0px rgba(0,0,0,0.56);
+  -moz-box-shadow: 5px 5px 20px 0px rgba(0,0,0,0.56);
+  box-shadow: 5px 5px 20px 0px rgba(0,0,0,0.56);
+}
 @media screen and (max-width: 415px) {
   .public-photo {
-    max-height: 250px;
+    max-height: 25vh;
+    max-width: 30vw;
     margin-left: auto;
     margin-right: auto;
   }
@@ -51,6 +102,10 @@
   width: 85vw;
   height: auto;
   overflow: scroll;
+  margin-left: auto;
+  margin-right: auto;
+  padding-bottom: 10vh;
+  text-align: center;
 }
 @media screen and (max-width: 415px) {
   .profile {

@@ -10,7 +10,8 @@ import UserScoreboard from '../Leaderboard/UserScoreboard';
 import PublicProfilePhoto from './PublicProfilePhoto';
 import './profile.css';
 
-const Placeholder = "https://via.placeholder.com/150"
+const Placeholder = "https://via.placeholder.com/300x150"
+const BigPlaceholder = "https://via.placeholder.com/700x200"
 
 class PublicProfile extends Component {
   constructor(props) {
@@ -58,26 +59,25 @@ class PublicProfile extends Component {
             <Helmet>
               <title>{displayName} Profile</title>
             </Helmet>
-            <MediaQuery maxWidth={415}>
-              <div className="profile-header public-profile">
-                <h1>{this.state.userData.displayName}</h1>
-
-                {/* need to write a component that just gets the profile photo without giving the option to upload one */}
+            <div className="public-profile">
+              <div className="public-profile-top">
                 <PublicProfilePhoto uid={this.state.uid}/>
-
-                <div>
-                  <p><span style={{ fontWeight: 'bold'}}>Affiliation: </span>{this.state.userData.affiliation}</p>
-                  <p>{this.state.userData.bio}</p>
-                  <UserScoreboard uid={this.state.uid} />
-                </div>
-
-                <h4>Comments: </h4>
-                <img src={Placeholder} />
               </div>
-            </MediaQuery>
-            <MediaQuery minWidth={416}>
-              <div>big screen size</div>
-            </MediaQuery>
+
+              <h1>{this.state.userData.displayName}</h1>
+
+              <h3>About {this.state.userData.displayName.split(' ')[0]}</h3>
+              <p>{this.state.userData.bio}</p>
+              <UserScoreboard uid={this.state.uid} public="true" name={this.state.userData.displayName.split(" ")[0]}/>
+
+              <h3>Comments: </h3>
+              <MediaQuery minWidth={416}>
+                <img src={BigPlaceholder} />
+              </MediaQuery>
+              <MediaQuery maxWidth={415}>
+                <img src={Placeholder} style={{marginTop: '3vh'}}/>
+              </MediaQuery>
+            </div>
           </div>
         )
       } else {
@@ -91,7 +91,7 @@ class PublicProfile extends Component {
 
     // gotta get a loading gif or something in here
     return (
-      <Paper className="page-style profile">
+      <Paper className="profile">
         {isLoading()}
       </Paper>
     )
