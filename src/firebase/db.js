@@ -161,6 +161,16 @@ export const getScoresByUid = (uid) => {
   return scores;
 }
 
+// separate score holder for points the user earns by getting or submitting scores
+export const getSubmittedOrContestedScoreByUid = (uid) => {
+  const score = db.ref().child("/scores/").child(uid).child('submitted').once('value')
+  return score;
+}
+
+export const setSubmittedOrContestedScoreByUid = (uid, date, score) => {
+  db.ref().child('/scores/').child(uid).child('submitted').child(date).set(score)
+}
+
 // ----------------------------------------------------------
 
 // USER SUBMITTED QUESTIONS

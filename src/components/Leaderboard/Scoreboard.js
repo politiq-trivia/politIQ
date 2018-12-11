@@ -34,8 +34,14 @@ class Scoreboard extends Component {
         usernames.forEach((user, i) => {
           const dateObject = data[usernames[i]]
           let quizDates = []
+          let submitted = []
           if (dateObject !== undefined) {
             quizDates = Object.keys(dateObject)
+            // submitted scores don't get counted in the original monthly score
+            if (quizDates[quizDates.length -1] === 'submitted') {
+              submitted = dateObject["submitted"]
+              quizDates.pop()
+            }
           }
           let scoreCounter = 0;
           for (let j = 0; j < quizDates.length; j++) {
@@ -45,8 +51,16 @@ class Scoreboard extends Component {
               }
             }
           }
+          // getting the submitted scores from the last month and adding them to the total user score
+          if (submitted !== []) {
+            const dates = Object.keys(submitted)
+            for (let j = 0; j < dates.length; j++) {
+              if (dates[j].slice(10) > moment().startOf('month').format('YYYY-MM-DD')) {
+                scoreCounter += 1
+              }
+            }
+          }
           userScores.push(scoreCounter)
-
         })
         const totalScore = userScores.reduce((a, b) => a + b, 0);
         this.setState({

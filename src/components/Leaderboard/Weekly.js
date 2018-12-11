@@ -37,6 +37,11 @@ class WeeklyLeaderboard extends Component {
             .then(response => {
               // get all the scores within the last week from this data array
               const quizDates = Object.keys(data[usernames[i]])
+              let submitted;
+              if(quizDates[quizDates.length - 1] === 'submitted') {
+                submitted = data["submitted"]
+                quizDates.pop()
+              }
               const lastWeek = []
               let scoreCounter = 0;
               for (let j = 0; j < quizDates.length; j++) {
@@ -44,6 +49,16 @@ class WeeklyLeaderboard extends Component {
                   lastWeek.push(quizDates[j])
                   if (data[usernames[i]][quizDates[j]]) {
                     scoreCounter += data[usernames[i]][quizDates[j]]
+                  }
+                }
+              }
+              if (submitted !== undefined) {
+                console.log(submitted,' this is submitted')
+                const dates = Object.keys(submitted)
+                for (let j = 0; j < dates.length; j++) {
+                  if (dates[j].slice(10) > moment().startOf('week').format('YYYY-MM-DD')) {
+                    scoreCounter += 1
+                    console.log(scoreCounter, 'scoreCounter increased')
                   }
                 }
               }

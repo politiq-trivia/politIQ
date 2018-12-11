@@ -39,7 +39,7 @@
     margin-top: 8vh;
   }
 }
-.public-profile p, h3 {
+.public-profile p, .public-profile h3 {
   width: 80%;
   margin-left: auto;
   margin-right: auto;

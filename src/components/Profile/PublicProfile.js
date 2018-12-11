@@ -22,11 +22,7 @@ class PublicProfile extends Component {
       uid: ''
     }
   }
-  // grab the uid from the query string
-  // use that uid to make a db all and get that user's Information
-  // display that information on the page
-  // if the uid matches the logged in user, also show a button to edit their profile
-
+  
   componentDidMount = () => {
     const uid = window.location.href.split('/')[4]
     this.getUserInfo(uid)

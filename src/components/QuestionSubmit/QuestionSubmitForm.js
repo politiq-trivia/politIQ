@@ -14,6 +14,7 @@ import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
 import Tooltip from '@material-ui/core/Tooltip';
 import ClickAwayListener from '@material-ui/core/ClickAwayListener';
+import FormHelperText from '@material-ui/core/FormHelperText';
 import './form.css';
 
 const byPropKey = (propertyName, value) => () => ({
@@ -111,9 +112,6 @@ class QuestionSubmitForm extends Component {
       if (
         this.state.qtext === "" ||
         this.state.a1text === "" ||
-        this.state.a2text === "" ||
-        this.state.a3text === "" ||
-        this.state.a4text === "" ||
         this.state.sources === ""
       ) {
         return true;
@@ -160,7 +158,9 @@ class QuestionSubmitForm extends Component {
                 onChange={event => this.setState(byPropKey('qtext', event.target.value))}
                 type="text"
                 placeholder="Question"
+                id="standard-required"
               />
+              <FormHelperText htmlFor="standard-required" style={{ color: 'red', marginBottom: '1vh' }}>Required *</FormHelperText>
               <TextField
                 margin="normal"
                 fullWidth
@@ -168,7 +168,9 @@ class QuestionSubmitForm extends Component {
                 onChange={event => this.setState(byPropKey('a1text', event.target.value))}
                 type="text"
                 placeholder="Answer 1"
+                id="standard-required"
               />
+              <FormHelperText htmlFor="standard-required" style={{ color: 'red', marginBottom: '1vh' }}>Required *</FormHelperText>
               <FormControlLabel
                 control={
                   <Checkbox
@@ -253,7 +255,9 @@ class QuestionSubmitForm extends Component {
                 type="text"
                 placeholder="Please provide a link to a source verifying that this information is correct."
                 style={{ marginTop: '5vh'}}
+                id="standard-required"
               />
+              <FormHelperText htmlFor="standard-required" style={{ color: 'red', marginBottom: '1vh' }}>Required *</FormHelperText>
             </form>
             <Button onClick={this.handleSubmit} disabled={isDisabled()} color="primary" variant="contained" id="form-submit">Submit</Button>
           </div>

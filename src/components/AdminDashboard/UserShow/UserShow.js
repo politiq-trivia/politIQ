@@ -84,12 +84,29 @@ class UserShow extends Component {
 
               // get the scores
               let monthlyscore, alltimescore;
+              let scoreCounter = 0;
+            
               if (scoreData[uidList[i]]) {
                 const scores = Object.values(scoreData[uidList[i]])
+                let submittedScores;
+                if (Object.keys(scoreData[uidList[i]])[scores.length - 1] === "submitted") {
+                  submittedScores = scoreData[uidList[i]]["submitted"]
+                  scores.pop()
+                }
                 alltimescore = scores.reduce((a,b) => a + b, 0)
-
+                if (submittedScores !== undefined) {
+                  const dates = Object.keys(submittedScores)
+                  alltimescore += dates.length
+                  for (let j = 0; j < dates.length; j++) {
+                    if (dates[j].slice(10) > moment().startOf('month').format('YYYY-MM-DD')) {
+                      scoreCounter += 1
+                    }
+                  }
+                }
                 const quizDates = Object.keys(scoreData[uidList[i]])
-                let scoreCounter = 0;
+                if (quizDates[quizDates.length - 1] === "submitted") {
+                  quizDates.pop()
+                }
                 for (let j = 0; j < quizDates.length; j++) {
                   if (quizDates[j] > moment().startOf('month').format('YYYY-MM-DD')) {
                     if (scoreData[uidList[i]][quizDates[j]]) {

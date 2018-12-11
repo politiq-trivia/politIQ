@@ -77,8 +77,15 @@ class ReviewQuestions extends Component {
     }
   }
 
-  acceptQ = () => {
+  acceptQ = async () => {
     db.acceptQuestion(this.state.selectedDate, this.state.selectedQ)
+    await db.getSubmittedOrContestedScoreByUid(this.state.selectedQ.fromUser)
+      .then(response => {
+        const data = response.val()
+        const scoreArray = Object.keys(data)
+        const score = scoreArray.length + 1 
+        db.setSubmittedOrContestedScoreByUid(this.state.selectedQ.fromUser, this.state.selectedDate, score)
+      })
     this.skipQ()
   }
 

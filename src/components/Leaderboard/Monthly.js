@@ -38,11 +38,24 @@ class MonthlyLeaderboard extends Component {
             .then(response => {
               // get all the scores within the last week from this data array
               const quizDates = Object.keys(data[usernames[i]])
+              let submitted;
+              if(quizDates[quizDates.length - 1] === 'submitted') {
+                submitted = data[usernames[i]]["submitted"]
+                quizDates.pop()
+              }
               let scoreCounter = 0;
               for (let j = 0; j < quizDates.length; j++) {
                 if (quizDates[j] > moment().startOf('month').format('YYYY-MM-DD')) {
                   if (data[usernames[i]][quizDates[j]]) {
                     scoreCounter += data[usernames[i]][quizDates[j]]
+                  }
+                }
+              }
+              if (submitted !== undefined) {
+                const dates = Object.keys(submitted)
+                for (let j = 0; j < dates.length; j++) {
+                  if (dates[j].slice(10) > moment().startOf('month').format('YYYY-MM-DD')) {
+                    scoreCounter += 1
                   }
                 }
               }

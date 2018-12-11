@@ -26,7 +26,6 @@ class Leaderboard extends Component {
   }
 
   handleChange = (event, value) => {
-    console.log(value, 'value')
     this.setState({ value });
   }
 
