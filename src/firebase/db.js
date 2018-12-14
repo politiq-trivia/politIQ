@@ -227,3 +227,18 @@ export const getQBank = () => {
 export const removeFromQBank = (date) => {
   db.ref().child('qbank').child(date).remove()
 }
+
+// --------------------------------------------------------
+
+// CONTESTED QUESTIONS 
+
+// --------------------------------------------------------
+
+export const contestQuestion = (date, qID, uid, issue, source) => {
+  console.log(date, qID, uid, issue, source, 'input data')
+  const contested = db.ref('contestedQ').child(date).child(qID).child(uid)
+  // contested.child('qID').set(qID)
+  // contested.child('uid').set(uid)
+  contested.child('issue').set(issue)
+  contested.child('source').set(source)
+}

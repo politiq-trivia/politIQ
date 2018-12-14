@@ -12,6 +12,7 @@ import FormControlLabel from '@material-ui/core/FormControlLabel';
 import RadioGroup from '@material-ui/core/RadioGroup';
 import Radio from '@material-ui/core/Radio';
 import LinearProgress from '@material-ui/core/LinearProgress';
+import ContestAQuestion from './ContestAQuestion';
 
 import { db } from '../../firebase';
 import * as routes from '../../constants/routes';
@@ -34,8 +35,9 @@ class Quiz extends PureComponent {
       wrong: false,
       correctAnswer: '',
       completed: 0,
-      finished: false,
+      finished: true,
       firstRender: true,
+      contestQuestion: true,
     }
   }
 
@@ -102,6 +104,11 @@ class Quiz extends PureComponent {
     }
   }
 
+  toggleContest = () => {
+    this.setState({
+      contestQuestion: !this.state.contestQuestion,
+    })
+  }
 
   renderQ = (qNum, uid) => {
     if (qNum > 0 && this.state.selectedQuiz[qNum]) {
@@ -160,6 +167,10 @@ class Quiz extends PureComponent {
 
         </FormControl>
       )
+    } else if (this.state.finished === true && this.state.contestQuestion === true) {
+      return (
+        <ContestAQuestion quiz={this.state.selectedQuiz} quizID={this.state.selectedQuizId} uid={uid} back={this.toggleContest}/>
+      )
     } else if (!this.state.selectedQuiz[qNum]) {
       this.setState({
         finished: true,
@@ -169,8 +180,8 @@ class Quiz extends PureComponent {
           {this.finishQuiz(uid)}
         </div>
       )
-
     }
+
   }
 
   checkCorrect = (value) => {
@@ -231,6 +242,7 @@ class Quiz extends PureComponent {
       <div className="finish-quiz">
         <div style={{ marginTop: '2vh'}}>Your score: {this.state.score} out of {this.state.quizLength} points.</div>
         <Link to={routes.QUIZ_ARCHIVE} style={{textDecoration: "none"}}><Button color="primary" variant="contained">Take Another Quiz</Button></Link>
+        <Button color="primary" variant="contained" onClick={this.toggleContest}>Contest a Question</Button>
         <Link to={routes.LEADERBOARD} style={{textDecoration: "none"}}><Button color="primary" variant="contained">View Leaderboard</Button></Link>
         <Link to={routes.HOME} style={{textDecoration: "none"}}><Button color="primary" variant="contained">Back to Dashboard</Button></Link>
       </div>
@@ -279,7 +291,7 @@ class Quiz extends PureComponent {
           <div style={{ height: '100%'}}>
             <div className="quiz-header">
               <h3>{this.state.selectedQuiz["quiz-title"]} ({this.state.selectedQuizId})</h3>
-              <h5>Question {this.state.currentQ} of {this.state.quizLength}</h5>
+              {this.state.currentQ <= this.state.quizLength ? <h5>Question {this.state.currentQ} of {this.state.quizLength}</h5> : null }
             </div>
             {this.renderQ(this.state.currentQ, userID)}
           </div>

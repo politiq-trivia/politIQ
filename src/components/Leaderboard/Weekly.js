@@ -58,7 +58,6 @@ class WeeklyLeaderboard extends Component {
                 for (let j = 0; j < dates.length; j++) {
                   if (dates[j].slice(10) > moment().startOf('week').format('YYYY-MM-DD')) {
                     scoreCounter += 1
-                    console.log(scoreCounter, 'scoreCounter increased')
                   }
                 }
               }
