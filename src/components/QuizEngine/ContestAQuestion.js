@@ -70,7 +70,6 @@ class ContestAQuestion extends Component {
                 </option>
             )
         })
-        console.log(this.state, 'state')
 
         return (
             <div>

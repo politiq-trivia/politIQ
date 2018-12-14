@@ -26,6 +26,10 @@
   padding-top: 1.25vh;
 }
 
+.contestWidget {
+  background-color: #91E84E;
+}
+
 .dashContainer2 {
   width: 43vw;
   margin-top: 2vh;

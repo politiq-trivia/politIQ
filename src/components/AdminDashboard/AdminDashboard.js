@@ -14,6 +14,7 @@ import QuizList from './QuizList';
 import ShowQuiz from './ShowQuiz';
 import EditQuiz from './EditQuiz';
 import QuestionsToReview from './QuestionsToReview';
+import ContestedQuestions from './ContestedQuestions';
 import Scoreboard from '../Leaderboard/Scoreboard';
 import UserShow from './UserShow/UserShow';
 import PartyLeaders from '../Leaderboard/PartyLeaders';
@@ -27,9 +28,9 @@ class AdminDashboard extends Component {
     this.state = {
       addingQuiz: false,
       editingQuiz: false,
-      showDash: false,
+      showDash: true,
       showQuiz: false,
-      showUsers: true,
+      showUsers: false,
       showLeaders: false,
       dateArray: [],
       titleArray: [],
@@ -227,6 +228,7 @@ class AdminDashboard extends Component {
                         <Scoreboard />
                       </Link>
                       <QuestionsToReview />
+                      <ContestedQuestions />
                     </div>
 
                   </div>

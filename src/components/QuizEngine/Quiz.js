@@ -35,9 +35,9 @@ class Quiz extends PureComponent {
       wrong: false,
       correctAnswer: '',
       completed: 0,
-      finished: true,
+      finished: false,
       firstRender: true,
-      contestQuestion: true,
+      contestQuestion: false,
     }
   }
 

@@ -18,3 +18,4 @@ export const USER_PROFILES = '/profile/:uid'
 // admn routes
 export const ADMIN_DASHBOARD = '/admin';
 export const REVIEW = '/review';
+export const CONTEST = '/contest';

@@ -4,7 +4,6 @@ import { db } from '../../firebase';
 import { Link } from 'react-router-dom';
 
 import ProfilePhoto from './ProfilePhoto';
-import MediaQuery from 'react-responsive';
 
 import Button from '@material-ui/core/Button';
 import './profile.css';
