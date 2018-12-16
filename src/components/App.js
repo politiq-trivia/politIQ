@@ -20,6 +20,7 @@ import Leaderboard from './Leaderboard/Leaderboard';
 import About from './StaticPages/About';
 import QuestionSubmitForm from './QuestionSubmit/QuestionSubmitForm';
 import ReviewQuestions from './AdminDashboard/ReviewQuestions';
+import ReviewContestedQuestions from './AdminDashboard/ReviewContestedQuestions';
 import PublicProfile from './Profile/PublicProfile';
 
 import * as routes from '../constants/routes';
@@ -124,6 +125,10 @@ class App extends Component {
             <Route
               exact path={routes.REVIEW}
               component={ReviewQuestions}
+            />
+            <Route 
+              exact path={routes.CONTEST}
+              component={ReviewContestedQuestions}
             />
             <Route
               exact path={routes.USER_PROFILES}
