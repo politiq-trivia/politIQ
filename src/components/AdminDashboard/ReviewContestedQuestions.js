@@ -23,6 +23,7 @@ class ReviewContestedQuestions extends Component {
             loaded: false,
             selectedQuizId: '',
             selectedQuiz: {},
+            qNum: 0,
         }
     }
 
@@ -40,7 +41,6 @@ class ReviewContestedQuestions extends Component {
                 } else {
                     const data = response.val()
                     const quizzes = Object.keys(data)
-                    console.log(data)
                     this.setState({
                         quizzes,
                         data,
@@ -67,6 +67,46 @@ class ReviewContestedQuestions extends Component {
             })
     }
 
+    skip = () => {
+        // the original page renders the first key in the object
+        // maybe I need to set that array of keys in state and then remove them and push them to the end
+        // or just continue incrementing the index. 
+        // once I get to the end of the array, it will go back to the page with all the quizzes with contests.
+        // when the user deletes a question, it should still display the next one in the original data set. 
+
+        // challenge: when there are multiple users contesting the same question, we'll need to iterate through all of those before increasing the question
+
+        let qNum = this.state.qNum;
+        qNum ++
+    
+        const contestedQsForThisQuiz = this.state.data[this.state.selectedQuizId] 
+        console.log(contestedQsForThisQuiz, 'length')
+        if (qNum > Object.keys(contestedQsForThisQuiz).length - 1){ 
+            this.getContest()
+            this.setState({
+                selectedQuiz: {},
+                selectedQuizId: "",
+                qNum: 0,
+            })
+            return;
+        }
+        this.getContest()
+        this.setState({
+            qNum,
+        })
+    }
+
+    reject = () => {
+        const contestedQs = Object.values(this.state.data)[0]
+        const selected = Object.keys(contestedQs)[0]
+
+        db.deleteContest(this.state.selectedQuizId, selected)
+        console.log(this.state.qNum)
+        console.log(this.state.data[this.state.selectedQuizId])
+        this.skip()
+    }
+
+
     // 
     renderContest = () => {
         // this function will go through and pull up the current contested question for each quiz. 
@@ -76,12 +116,19 @@ class ReviewContestedQuestions extends Component {
 
         // get the first key from each contest object
         const contestedQsForThisQuiz = this.state.data[this.state.selectedQuizId]
+        console.log(contestedQsForThisQuiz, 'contestedQsForThisQuiz')
 
         // gets the first contested question
-        const questionNum = Object.keys(contestedQsForThisQuiz)[0]
+        const questionNum = Object.keys(contestedQsForThisQuiz)[this.state.qNum]
+        console.log(questionNum, 'this is questionNum')
         const question = this.state.selectedQuiz[questionNum]
-
-        const contestedData = Object.values(contestedQsForThisQuiz[questionNum])[0]
+        
+        let contestedData;
+        if (questionNum !== undefined) {
+            contestedData = Object.values(contestedQsForThisQuiz[questionNum])[0];
+        } else if (questionNum === undefined) {
+            return;
+        }
 
         if (question) {
         return (
@@ -92,25 +139,25 @@ class ReviewContestedQuestions extends Component {
                     control={<Radio
                         checked={question["a1correct"]}
                     />}
-                /><span style={{ color: 'green'}}>{question["a1correct"] ? "Correct Answer" : null }</span>
+                /><span style={{ color: 'green', marginRight: '1vw'}}>{question["a1correct"] ? "Correct Answer" : null }</span>
                 <FormControlLabel 
                     label={question["a2text"]}
                     control={<Radio
                         checked={question["a2correct"]}
                     />}
-                /><span style={{ color: 'green'}}>{question["a2correct"] ? "Correct Answer" : null }</span>
+                /><span style={{ color: 'green', marginRight: '1vw'}}>{question["a2correct"] ? "Correct Answer" : null }</span>
                 <FormControlLabel 
                     label={question["a3text"]}
                     control={<Radio
                         checked={question["a3correct"]}
                     />}
-                /><span style={{ color: 'green'}}>{question["a3correct"] ? "Correct Answer" : null }</span>
+                /><span style={{ color: 'green', marginRight: '1vw'}}>{question["a3correct"] ? "Correct Answer" : null }</span>
                 <FormControlLabel 
                     label={question["a4text"]}
                     control={<Radio
                         checked={question["a4correct"]}
                     />}
-                /><span style={{ color: 'green'}}>{question["a4correct"] ? "Correct Answer" : null }</span>
+                /><span style={{ color: 'green', marginRight: '1vw'}}>{question["a4correct"] ? "Correct Answer" : null }</span>
                 <hr />
                 <p style={{ fontWeight: 'bold' }}>From user:</p>
                 <p><span style={{ fontWeight: 'bold' }}>Issue:</span> {contestedData.issue}</p>
@@ -125,7 +172,6 @@ class ReviewContestedQuestions extends Component {
 
         if (this.state.loaded) {
             quizzes = this.state.quizzes.map((quiz, i) => {
-                console.log(quiz, 'this is quiz')
                 return (
                     <h4 onClick={this.selectQuiz} key={i} id={quiz}>{quiz}</h4>
                 )
@@ -134,26 +180,6 @@ class ReviewContestedQuestions extends Component {
         
         if (this.state.loaded && this.state.selectedQuiz !== {} && this.state.selectedQuizId !== "") {
             question = this.renderContest()
-            // I want to go through all the contested questions for each quiz. 
-            // console.log(this.state.data[this.state.selectedQuizId], Object.keys(this.state.data[this.state.selectedQuizId]))
-            // const questions = Object.keys(this.state.data[this.state.selectedQuizId])
-            // question = questions.map((contest, i) => {
-            //     console.log(this.state.data, 'data')
-            //     // console.log(Object.values(this.state.data[contest]))
-            //     [""2018-12-08""][3].Wrl9XmpKHdh1xRQFrElTu6G3VbD2.issue
-            //     if (this.state.selectedQuiz[contest]) {
-            //         return (
-            //             <div key={i}>
-            //                 <p style={{ fontWeight: 'bold'}}>{this.state.selectedQuiz[contest]['q1']}</p>
-            //                 <p>{this.state.selectedQuiz[contest]["a1text"]} <span style={{ color: 'green' }}>{this.state.selectedQuiz[contest]["a1correct"] ? "Correct Answer" : null}</span></p>
-            //                 <p>{this.state.selectedQuiz[contest]["a2text"]} <span style={{ color: 'green' }}>{this.state.selectedQuiz[contest]["a2correct"] ? "Correct Answer" : null}</span></p>
-            //                 <p>{this.state.selectedQuiz[contest]["a3text"]} <span style={{ color: 'green' }}>{this.state.selectedQuiz[contest]["a3correct"] ? "Correct Answer" : null}</span></p>
-            //                 <p>{this.state.selectedQuiz[contest]["a4text"]} <span style={{ color: 'green' }}>{this.state.selectedQuiz[contest]["a4correct"] ? "Correct Answer" : null}</span></p>
-            //                 {/* <p>{this.state.</p> */}
-            //             </div>
-            //         )
-            //     }
-            // })
         }
 
         
@@ -185,9 +211,9 @@ class ReviewContestedQuestions extends Component {
                             <div className="questionHolder">
                                 {question}
                                 <div style={{ display: 'flex', width: '100%', justifyContent: 'space-between'}}>
-                                    <Button color="primary"><span style={{ color: 'red' }}>Reject Issue</span></Button>
-                                    <Button color="primary">Skip</Button>
-                                    <Button color="primary">Accept Issue</Button>
+                                    <Button color="primary"><span style={{ color: 'red' }} onClick={this.reject}>Reject Issue</span></Button>
+                                    <Button color="primary" onClick={this.skip}>Skip</Button>
+                                    <Button color="primary" disabled>Accept Issue</Button>
                                 </div>
                             </div>
                          </div>
