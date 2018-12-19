@@ -8,8 +8,6 @@ import Paper from '@material-ui/core/Paper';
 import Button from '@material-ui/core/Button';
 import Radio from '@material-ui/core/Radio';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
-import RadioButtonUncheckedIcon from '@material-ui/icons/RadioButtonUnchecked';
-import RadioButtonCheckedIcon from '@material-ui/icons/RadioButtonChecked';
 
 import './dashboard.css';
 
@@ -80,7 +78,6 @@ class ReviewContestedQuestions extends Component {
         qNum ++
     
         const contestedQsForThisQuiz = this.state.data[this.state.selectedQuizId] 
-        console.log(contestedQsForThisQuiz, 'length')
         if (qNum > Object.keys(contestedQsForThisQuiz).length - 1){ 
             this.getContest()
             this.setState({
@@ -101,9 +98,7 @@ class ReviewContestedQuestions extends Component {
         const selected = Object.keys(contestedQs)[0]
 
         db.deleteContest(this.state.selectedQuizId, selected)
-        console.log(this.state.qNum)
-        console.log(this.state.data[this.state.selectedQuizId])
-        this.skip()
+        this.getContest()
     }
 
 
@@ -116,17 +111,18 @@ class ReviewContestedQuestions extends Component {
 
         // get the first key from each contest object
         const contestedQsForThisQuiz = this.state.data[this.state.selectedQuizId]
-        console.log(contestedQsForThisQuiz, 'contestedQsForThisQuiz')
 
         // gets the first contested question
         const questionNum = Object.keys(contestedQsForThisQuiz)[this.state.qNum]
-        console.log(questionNum, 'this is questionNum')
         const question = this.state.selectedQuiz[questionNum]
         
         let contestedData;
         if (questionNum !== undefined) {
             contestedData = Object.values(contestedQsForThisQuiz[questionNum])[0];
         } else if (questionNum === undefined) {
+            this.setState({
+                noQuestionsRemaining: true
+            })
             return;
         }
 
@@ -178,7 +174,7 @@ class ReviewContestedQuestions extends Component {
             })
         }
         
-        if (this.state.loaded && this.state.selectedQuiz !== {} && this.state.selectedQuizId !== "") {
+        if (this.state.loaded && this.state.selectedQuiz !== {} && this.state.selectedQuizId !== "" && this.state.noQuestionsRemaining === false) {
             question = this.renderContest()
         }
 
