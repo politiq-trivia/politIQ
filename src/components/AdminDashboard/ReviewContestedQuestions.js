@@ -22,6 +22,7 @@ class ReviewContestedQuestions extends Component {
             selectedQuizId: '',
             selectedQuiz: {},
             qNum: 0,
+            qVal: 0,
         }
     }
 
@@ -66,49 +67,60 @@ class ReviewContestedQuestions extends Component {
     }
 
     skip = () => {
-        // the original page renders the first key in the object
-        // maybe I need to set that array of keys in state and then remove them and push them to the end
-        // or just continue incrementing the index. 
-        // once I get to the end of the array, it will go back to the page with all the quizzes with contests.
-        // when the user deletes a question, it should still display the next one in the original data set. 
-
-        // challenge: when there are multiple users contesting the same question, we'll need to iterate through all of those before increasing the question
-
+        // this qNum is the index 
         let qNum = this.state.qNum;
-        qNum ++
-    
         const contestedQsForThisQuiz = this.state.data[this.state.selectedQuizId] 
-        if (qNum > Object.keys(contestedQsForThisQuiz).length - 1){ 
+
+        // qVal is the value
+        const userKeys = this.state.data[this.state.selectedQuizId][Object.keys(contestedQsForThisQuiz)[qNum]]
+
+        if (Object.keys(userKeys).length === 1) {
+            qNum ++
+
+            if (qNum > Object.keys(contestedQsForThisQuiz).length - 1){ 
+                this.getContest()
+                this.setState({
+                    selectedQuiz: {},
+                    selectedQuizId: "",
+                    qNum: 0,
+                })
+                return;
+            }
             this.getContest()
             this.setState({
-                selectedQuiz: {},
-                selectedQuizId: "",
-                qNum: 0,
+                qNum,
             })
-            return;
+        } else if (Object.keys(userKeys).length > 1) {
+
+            let qVal = this.state.qVal
+            if (qVal === Object.keys(userKeys)) {
+                qNum ++
+                this.setState({
+                    qVal: 0,
+                    qNum,
+                })
+            } else {
+                qVal ++
+                this.setState({
+                    qVal,
+                })
+            }
         }
-        this.getContest()
-        this.setState({
-            qNum,
-        })
     }
 
     reject = () => {
         const contestedQs = Object.values(this.state.data)[0]
-        const selected = Object.keys(contestedQs)[0]
+        const selected = Object.keys(contestedQs)[this.state.qNum]
 
-        db.deleteContest(this.state.selectedQuizId, selected)
+        const uid = Object.keys(Object.values(contestedQs)[this.state.qNum])[this.state.qVal]
+
+        db.deleteContest(this.state.selectedQuizId, selected, uid)
         this.getContest()
     }
 
 
     // 
     renderContest = () => {
-        // this function will go through and pull up the current contested question for each quiz. 
-        // the data is stored in an object with dates for each quiz as the keys. 
-        // to get to this screen ,the date is already selected. 
-        // we want the object now to be each question. 
-
         // get the first key from each contest object
         const contestedQsForThisQuiz = this.state.data[this.state.selectedQuizId]
 
@@ -118,7 +130,17 @@ class ReviewContestedQuestions extends Component {
         
         let contestedData;
         if (questionNum !== undefined) {
-            contestedData = Object.values(contestedQsForThisQuiz[questionNum])[0];
+            if (this.state.qVal >= Object.values(contestedQsForThisQuiz).length) {
+                let qNum = this.state.qNum
+                qNum ++
+                this.setState({
+                    qNum,
+                    qVal: 0,
+                })
+                return;
+            } else {
+                contestedData = Object.values(contestedQsForThisQuiz[questionNum])[this.state.qVal];
+            }
         } else if (questionNum === undefined) {
             this.setState({
                 noQuestionsRemaining: true
@@ -127,39 +149,39 @@ class ReviewContestedQuestions extends Component {
         }
 
         if (question) {
-        return (
-            <div>
-                <p style={{ fontWeight: 'bold' }}>{questionNum}. {question["q1"]}</p>
-                <FormControlLabel 
-                    label={question["a1text"]}
-                    control={<Radio
-                        checked={question["a1correct"]}
-                    />}
-                /><span style={{ color: 'green', marginRight: '1vw'}}>{question["a1correct"] ? "Correct Answer" : null }</span>
-                <FormControlLabel 
-                    label={question["a2text"]}
-                    control={<Radio
-                        checked={question["a2correct"]}
-                    />}
-                /><span style={{ color: 'green', marginRight: '1vw'}}>{question["a2correct"] ? "Correct Answer" : null }</span>
-                <FormControlLabel 
-                    label={question["a3text"]}
-                    control={<Radio
-                        checked={question["a3correct"]}
-                    />}
-                /><span style={{ color: 'green', marginRight: '1vw'}}>{question["a3correct"] ? "Correct Answer" : null }</span>
-                <FormControlLabel 
-                    label={question["a4text"]}
-                    control={<Radio
-                        checked={question["a4correct"]}
-                    />}
-                /><span style={{ color: 'green', marginRight: '1vw'}}>{question["a4correct"] ? "Correct Answer" : null }</span>
-                <hr />
-                <p style={{ fontWeight: 'bold' }}>From user:</p>
-                <p><span style={{ fontWeight: 'bold' }}>Issue:</span> {contestedData.issue}</p>
-                <p><span style={{ fontWeight: 'bold' }}>Source: </span>{contestedData.source}</p>
-            </div>
-        )
+            return (
+                <div>
+                    <p style={{ fontWeight: 'bold' }}>{questionNum}. {question["q1"]}</p>
+                    <FormControlLabel 
+                        label={question["a1text"]}
+                        control={<Radio
+                            checked={question["a1correct"]}
+                        />}
+                    /><span style={{ color: 'green', marginRight: '1vw'}}>{question["a1correct"] ? "Correct Answer" : null }</span>
+                    <FormControlLabel 
+                        label={question["a2text"]}
+                        control={<Radio
+                            checked={question["a2correct"]}
+                        />}
+                    /><span style={{ color: 'green', marginRight: '1vw'}}>{question["a2correct"] ? "Correct Answer" : null }</span>
+                    <FormControlLabel 
+                        label={question["a3text"]}
+                        control={<Radio
+                            checked={question["a3correct"]}
+                        />}
+                    /><span style={{ color: 'green', marginRight: '1vw'}}>{question["a3correct"] ? "Correct Answer" : null }</span>
+                    <FormControlLabel 
+                        label={question["a4text"]}
+                        control={<Radio
+                            checked={question["a4correct"]}
+                        />}
+                    /><span style={{ color: 'green', marginRight: '1vw'}}>{question["a4correct"] ? "Correct Answer" : null }</span>
+                    <hr />
+                    <p style={{ fontWeight: 'bold' }}>From user:</p>
+                    <p><span style={{ fontWeight: 'bold' }}>Issue:</span> {contestedData.issue}</p>
+                    <p><span style={{ fontWeight: 'bold' }}>Source: </span>{contestedData.source}</p>
+                </div>
+            )
         }
     }
 

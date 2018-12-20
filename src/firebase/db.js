@@ -245,6 +245,6 @@ export const getContestedQuiz = () => {
   return quiz
 }
 
-export const deleteContest = (date, qID, selected) => {
-  db.ref('contestedQ').child(date).child(qID).remove()
+export const deleteContest = (date, qID, uid) => {
+  db.ref('contestedQ').child(date).child(qID).child(uid).remove()
 }
