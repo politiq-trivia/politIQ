@@ -21,11 +21,15 @@ class QuizArchive extends Component {
 
     this.state = {
       dateArray: [],
-      titleArray: []
+      titleArray: [],
+      scoreObject: {},
     }
   }
 
   componentDidMount = () => {
+    this.setState({
+      signedInUser: this.props.signedInUser
+    })
     this.getQuizzesFromDb();
   }
 
@@ -44,28 +48,61 @@ class QuizArchive extends Component {
           dateArray: dateArray,
           titleArray: titleArray,
         })
+        this.getTheLoggedInUsersScores()
       })
   }
 
+  getTheLoggedInUsersScores = () => {
+    const uid = this.state.signedInUser
+    console.log(uid, 'this is uid')
+    db.getScoresByUid(uid)
+      .then(response => {
+        if (response.val() === null) {
+          return;
+        }
+        const data = response.val()
+        console.log(data)
+
+        this.setState({
+          scoreObject: data
+        })
+      })
+    // need the uid of the loggedIn user 
+    // make a db call to get the scores
+    // store those scores in state and figure out how to line them up with the correct quizzes
+  }
+
   handleClick = (event) => {
+    console.log('clicked')
     const id = event.target.parentNode.id;
-    this.props.history.push('/quiz/' + id)
+    // this.props.history.push('/quiz/' + id)
   }
 
   render() {
+    console.log(this.state, 'this is state')
     const List = this.state.dateArray.map((date, i) => {
       let id = date;
       let title = this.state.titleArray[i]
+      let score;
+      if (this.state.scoreObject[date]) {
+        console.log(date)
+        console.log(this.state.scoreObject[date])
+        console.log('this exists -------------')
+        score = this.state.scoreObject[date]
+      } else {
+        score = "--"
+      }
+      
       return (
-        <TableRow id={date} key={id} className="tableItem">
-          <TableCell onClick={this.handleClick}>
+        <TableRow id={date} key={id} className={ score !== "--" ? "taken" : "tableItem" }>
+          <TableCell onClick={score === "--" ? this.handleClick : null}>
             {date}
           </TableCell>
-          <TableCell onClick={this.handleClick} padding="none">
+          <TableCell onClick={score === "--" ? this.handleClick : null} padding="none">
             {title}
           </TableCell>
-          <TableCell onClick={this.handleClick} style={{ paddingLeft: '8vw'}}>
-            --
+          <TableCell onClick={score === "--" ? this.handleClick : null} style={{ paddingLeft: '8vw'}}>
+            {score}
           </TableCell>
         </TableRow>
       )
@@ -82,24 +119,27 @@ class QuizArchive extends Component {
         )
       } else {
         return (
-          <Table className="archive-table">
-            <TableHead>
-              <TableRow>
-                <TableCell style={{ minWidth: '66px'}} padding="default">
-                  Quiz Date
-                </TableCell>
-                <TableCell style={{ minWidth: '85px'}} padding="none">
-                  Quiz Title
-                </TableCell>
-                <TableCell style={{ minWidth: '40px'}} padding="default">
-                  Your Score
-                </TableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {List}
-            </TableBody>
-          </Table>
+          <div>
+            <Table className="archive-table">
+              <TableHead>
+                <TableRow>
+                  <TableCell style={{ minWidth: '66px'}} padding="default">
+                    Quiz Date
+                  </TableCell>
+                  <TableCell style={{ minWidth: '85px'}} padding="none">
+                    Quiz Title
+                  </TableCell>
+                  <TableCell style={{ minWidth: '40px'}} padding="default">
+                    Your Score
+                  </TableCell>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {List}
+              </TableBody>
+            </Table>
+            { Object.keys(this.state.scoreObject).length === this.state.dateArray.length ? null : <p className="archive-warning">You have taken all of the available quizzes. Check back tomorrow for the latest challenge!</p>}
+          </div>
         )
       }
     }

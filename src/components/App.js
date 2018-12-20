@@ -104,7 +104,7 @@ class App extends Component {
             />
             <Route
               exact path={routes.QUIZ_ARCHIVE}
-              component={QuizArchive}
+              render={(props) => <QuizArchive {...props} signedInUser={this.state.signedInUser} />}
             />
             <Route
               exact path={routes.QUIZ}

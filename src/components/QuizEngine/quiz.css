@@ -15,6 +15,13 @@
   margin-left: 3vw;
 }
 
+.archive-warning {
+  color: red;
+  width: 90%;
+  margin-left: auto;
+  margin-right: auto;
+}
+
 .archive-holder {
   padding: 5vh 3vw 15vh 3vw;
   justify-content: flex-start;
@@ -34,8 +41,6 @@
 .tableItem:hover {
   background-color: lightgray;
   cursor: pointer;
-}
-.tableItem {
 }
 .mobile-back {
   display: none;
@@ -108,4 +113,8 @@
 .quiz-header {
   display: flex;
   justify-content: space-between;
+}
+
+.taken {
+  background-color: lightgray;
 }
