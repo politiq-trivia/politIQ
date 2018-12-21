@@ -12,6 +12,9 @@ import TableCell from '@material-ui/core/TableCell';
 import Table from '@material-ui/core/Table';
 import TableHead from '@material-ui/core/TableHead';
 import TableBody from '@material-ui/core/TableBody';
+import TableFooter from '@material-ui/core/TableFooter';
+import TablePagination from '@material-ui/core/TableFooter';
+import TablePaginationActions from './TablePaginationActions';
 import Button from '@material-ui/core/Button';
 import './quiz.css';
 
@@ -23,6 +26,8 @@ class QuizArchive extends Component {
       dateArray: [],
       titleArray: [],
       scoreObject: {},
+      rowsPerPage: 5,
+      page: 0,
     }
   }
 
@@ -54,40 +59,43 @@ class QuizArchive extends Component {
 
   getTheLoggedInUsersScores = () => {
     const uid = this.state.signedInUser
-    console.log(uid, 'this is uid')
     db.getScoresByUid(uid)
       .then(response => {
         if (response.val() === null) {
           return;
         }
         const data = response.val()
-        console.log(data)
 
         this.setState({
           scoreObject: data
         })
       })
-    // need the uid of the loggedIn user 
-    // make a db call to get the scores
-    // store those scores in state and figure out how to line them up with the correct quizzes
   }
 
   handleClick = (event) => {
-    console.log('clicked')
     const id = event.target.parentNode.id;
-    // this.props.history.push('/quiz/' + id)
+    this.props.history.push('/quiz/' + id)
+  }
+
+  handleChangePage = (event, page) => {
+    this.setState({ page })
+  }
+
+  handleChangeRowsPerPage = event => {
+    this.setState({
+      rowsPerPage: event.target.value
+    })
   }
 
   render() {
-    console.log(this.state, 'this is state')
-    const List = this.state.dateArray.map((date, i) => {
+    const {dateArray, rowsPerPage, page } = this.state;
+    const emptyRows = rowsPerPage - Math.min(rowsPerPage, dateArray.length - page * rowsPerPage)
+
+    const List = dateArray.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((date, i) => {
       let id = date;
       let title = this.state.titleArray[i]
       let score;
       if (this.state.scoreObject[date]) {
-        console.log(date)
-        console.log(this.state.scoreObject[date])
-        console.log('this exists -------------')
         score = this.state.scoreObject[date]
       } else {
         score = "--"
@@ -136,7 +144,30 @@ class QuizArchive extends Component {
               </TableHead>
               <TableBody>
                 {List}
+                {emptyRows > 0 && (
+                  <TableRow style={{ height: 48 * emptyRows }}>
+                    <TableCell colSpan={6} />
+                  </TableRow>
+                )}
               </TableBody>
+              <TableFooter>
+                <TableRow>
+                  <TablePaginationActions
+                    rowsPerPageOptions={[ 5, 10, 25]}
+                    colSpan={3}
+                    count={dateArray.length === undefined ?  0 : dateArray.length }
+                    rowsPerPage={rowsPerPage}
+                    page={page}
+                    selectprops={{
+                      native: true
+                    }}
+                    onChangePage={this.handleChangePage}
+                    onChangeRowsPerPage={this.handleChangeRowsPerPage}
+                  />
+                </TableRow>
+
+              </TableFooter>
+
             </Table>
             { Object.keys(this.state.scoreObject).length === this.state.dateArray.length ? null : <p className="archive-warning">You have taken all of the available quizzes. Check back tomorrow for the latest challenge!</p>}
           </div>

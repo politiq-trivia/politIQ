@@ -39,7 +39,7 @@
   margin-right: auto;
 }
 .tableItem:hover {
-  background-color: lightgray;
+  background-color: #C790F1;
   cursor: pointer;
 }
 .mobile-back {
