@@ -96,7 +96,7 @@ class App extends Component {
             />
             <Route
               exact path={routes.HOME}
-              component={HomePage}
+              render={(props) => <HomePage {...props} signedInUser={this.state.signedInUser}/>}
             />
             <Route
               exact path={routes.ADMIN_DASHBOARD}

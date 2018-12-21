@@ -25,6 +25,10 @@
   }
 }
 
+.home-taken {
+  color: #a54ee8;
+}
+
 #bg-image {
   margin-left: auto;
   margin-right: auto;
@@ -92,6 +96,8 @@
   font-family: "Baloo Bhaina", cursive;
   line-height: 80%;
   padding-top: 3vh;
+  margin-left: auto;
+  margin-right: auto;
 }
 @media screen and (max-width: 480px) {
   #today {
