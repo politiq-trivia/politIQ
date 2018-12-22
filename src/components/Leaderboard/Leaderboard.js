@@ -16,6 +16,7 @@ import logo from '../logo.png';
 import WeeklyLeaderboard from './Weekly';
 import MonthlyLeaderboard from './Monthly';
 import Scoreboard from './Scoreboard';
+import BarChart from './BarChart';
 
 class Leaderboard extends Component {
   constructor(props) {
@@ -77,7 +78,7 @@ class Leaderboard extends Component {
           {this.state.value === 1 ? <MonthlyLeaderboard /> : null }
         </Paper>
         <div style={{ marginTop: '3vh', marginBottom: '5vh', marginLeft: '-2vw'}}>
-          <Scoreboard />
+          <BarChart />
         </div>
         </Paper>
       )

@@ -95,7 +95,7 @@ class WeeklyLeaderboard extends Component {
     const renderWeeklyLeaders = rankingArray.map((stat, i) => {
       if (i > 10) {return null;}
       return (
-        <TableRow key={i} onClick={() => this.handleClickUser(stat[2])}>
+        <TableRow key={i} hover onClick={() => this.handleClickUser(stat[2])}>
           <TableCell style={{ width: '30%'}} padding="default">
             {i + 1}.
           </TableCell>
