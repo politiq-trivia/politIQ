@@ -46,13 +46,21 @@ const isFixed = () => {
 // }
 
 
-const Footer = () =>
+const Footer = ({ signedInUser }) =>
   <div className="footer" style={isFixed()}>
-    <div className="description">
-      <h3>About Us</h3>
-      <p>In an effort to combat polarization and improve the dialogue around politics, I created this site as a platform for generating a common consensus of current events and political realities through a friendly competition. I mean, everyone loves a fun and informative game, right?</p>
-      <Link to={routes.ABOUT}>Read More</Link>
-    </div>
+    { signedInUser === ""
+      ? <div className="description">
+          <h3>About Us</h3>
+          <p>In an effort to combat polarization and improve the dialogue around politics, I created this site as a platform for generating a common consensus of current events and political realities through a friendly competition. I mean, everyone loves a fun and informative game, right?</p>
+        <Link to={routes.ABOUT}>Read More</Link>
+        </div>
+      : <div className="description">
+          <h3>Find some news we should include?</h3>
+          <p>Increase your score by clicking the link below to submit your own question. We'll review it and, if accepted, we'll add it to the quiz. Make sure to include a reliable source for your information!</p>
+          <Link to={routes.SUBMIT_QUESTION}>Submit a Question Now</Link>
+        </div>
+    }
+
 
     <div className="links">
       <h3>Quick Links</h3>
@@ -64,7 +72,7 @@ const Footer = () =>
     <div className="sharing">
       <h3>Share on Social Media</h3>
 
-      <div className="socials" style={{ display: 'flex' }}>
+      <div className="socials" style={{ display: 'flex', marginTop: '1vh' }}>
 
         <FacebookShareButton url={ getHref() }>
           <FacebookIcon round={true} size={32} />

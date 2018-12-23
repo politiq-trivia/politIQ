@@ -1,5 +1,5 @@
 .submitForm {
-  height: 55vh;
+  height: 57vh;
   margin-top: 12vh;
   margin-bottom: 6vh;
   width: 55vw;
@@ -9,6 +9,14 @@
   padding-left: 5vw;
   padding-right: 5vw;
   padding-bottom: 5vh;
+}
+@media screen and (max-width: 415px) {
+  .submitForm {
+    height: auto;
+    width: 80vw;
+    margin-bottom: 7vh;
+    margin-top: 10vh;
+  }
 }
 
 .formHeader > h1 {

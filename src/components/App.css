@@ -44,6 +44,9 @@ body {
   width: 40%;
   margin-left: 8vw;
 }
+.description > h3, .links > h3, .sharing > h3 {
+  font-size: 16px;
+}
 
 .sharing {
   margin-right: 8vw;
@@ -52,19 +55,23 @@ body {
 .links {
   margin-right: 5vw;
 }
+.links > a {
+  font-size: 14px;
+}
 .links > a:hover {
   color: #a54ee8;
 }
 
 h3 {
   color: #a54ee8;
-  margin-bottom: 1.5vh;
+  margin-bottom: 1vh;
 }
 
 .description > p {
   color: white;
-  font-size: 14px;
+  font-size: 13px;
   margin-bottom: 1vh;
+  margin-top: 0;
 }
 
 .description > a {
@@ -86,6 +93,7 @@ h3 {
   }
   .footer {
     height: 5vh;
+    position: fixed;
   }
   .bottom-nav {
     display: flex;

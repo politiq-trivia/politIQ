@@ -47,7 +47,7 @@ class App extends Component {
 
     this.state = {
       authUser: null,
-      signedInUser: "Wrl9XmpKHdh1xRQFrElTu6G3VbD2",
+      signedInUser: "",
     };
   }
 
@@ -135,7 +135,7 @@ class App extends Component {
               component={PublicProfile}
             />
 
-            <Footer />
+            <Footer signedInUser={this.state.signedInUser}/>
           </div>
       </MuiThemeProvider>
 
