@@ -105,8 +105,19 @@ export const deleteQuestion = (date, qNum) => {
 // delete a quiz
 
 export const deleteQuiz = (date) => {
-  const quiz = db.ref().child('quizzes/' + date).remove()
-  return quiz;
+  db.ref().child('quizzes/' + date).remove()
+  db.ref().child('scores').once('value', function(snapshot) {
+    snapshot.forEach(function(childSnapshot) {
+      const childKey = childSnapshot.key;
+      const childData = childSnapshot.val();
+      console.log(Object.keys(childData))
+      const dates = Object.keys(childData)
+      if (dates.includes(date)) {
+        console.log(childKey, 'has a score')
+        db.ref().child('scores').child(childKey).child(date).remove()
+      }
+    })
+  })
 }
 
 // edit quiz
