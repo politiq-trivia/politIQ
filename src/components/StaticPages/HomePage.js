@@ -10,73 +10,26 @@ import * as routes from '../../constants/routes';
 
 import Paper from '@material-ui/core/Paper';
 import Button from '@material-ui/core/Button';
+import TodaysQuizButton from './TodaysQuizButton';
 
 import './Static.css';
 
 class HomePage extends Component {
   constructor(props) {
     super(props);
-
     this.state = {
-      mostRecentQuizURL: "",
       noAvailableQuizzes: false,
     };
   }
-
-  componentDidMount() {
-   
-    db.getScoresByUid(this.props.signedInUser)
-      .then(response => {
-        const scoreData = response.val()
-        this.setState({
-          signedInUser: this.props.signedInUser,
-          scoreData,
-        })
-        this.getMostRecentQuizId()
-      })
-  }
-
-  componentWillUnmount = () => {
+  
+  showErrorMessage = () => {
     this.setState({
-      undefined
+      noAvailableQuizzes: true,
     })
   }
 
-  getMostRecentQuizId = async () => {
-    await db.getQuizzes()
-      .then(response => {
-        const data = response.val();
-        const dateArray = Object.keys(data);
-        let counter = 1;
-        let mostRecent = dateArray[dateArray.length-counter]
-        if (this.state.scoreData[mostRecent]) {
-
-          while (this.state.scoreData[mostRecent] && counter < dateArray.length) {
-            counter++
-            mostRecent = dateArray[dateArray.length-counter]
-            if (this.state.scoreData[mostRecent] === undefined) {
-              break;
-            }
-          }
-          if (counter > dateArray.length) {
-            this.setState({
-              noAvailableQuizzes: true,
-            })
-          }
-        }
-
-        this.setState({
-          mostRecentQuizURL: "quiz/" + mostRecent
-        })
-      })
-      
-  }
-
-  redirectToQuiz = () => {
-    this.props.history.push(`/${this.state.mostRecentQuizURL}`)
-  }
-
   render() {
+    console.log(this.state, 'state')
     return (
       <Paper className="pageStyle home">
         <Helmet>
@@ -87,9 +40,7 @@ class HomePage extends Component {
 
         { this.state.noAvailableQuizzes ? <p className="home-taken">You've taken all the quizzes we have available! Check back tomorrow for the next challenge.</p> : null }
 
-        <Button color="primary" variant="outlined" size="large" id="today" disabled={this.state.noAvailableQuizzes} onClick={this.redirectToQuiz}>
-          Take Today's Quiz
-        </Button>
+        <TodaysQuizButton buttonText="Take Today's Quiz" id="today" disabled={this.state.noAvailableQuizzes} showErrorMessage={this.showErrorMessage} signedInUser={this.props.signedInUser}/>
 
         <Link to={routes.QUIZ_ARCHIVE} style={{ textDecoration: 'none', color: '#a54ee8' }}>
           <Button color="primary" variant="outlined" id="archive-link">

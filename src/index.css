@@ -28,13 +28,12 @@ code {
 
 .home {
   text-align: center;
-  padding-top: 5vh;
   height: 63vh;
   margin-top: 8vh;
   display: flex;
   flex-direction: column;
   justify-content: center;
-  padding: 10vh 3vw 10vh 3vw;
+  padding: 5vh 3vw 10vh 3vw;
   margin-left: 2vw;
   margin-right: 2vw;
   margin-bottom: 2vh;
