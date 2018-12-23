@@ -1,7 +1,7 @@
 
 import React, { Component } from 'react';
 import {
-  Route,
+  Route, Switch
 } from 'react-router-dom';
 import './App.css';
 
@@ -22,6 +22,7 @@ import QuestionSubmitForm from './QuestionSubmit/QuestionSubmitForm';
 import ReviewQuestions from './AdminDashboard/ReviewQuestions';
 import ReviewContestedQuestions from './AdminDashboard/ReviewContestedQuestions';
 import PublicProfile from './Profile/PublicProfile';
+import NoMatch from './StaticPages/NoMatch';
 
 import * as routes from '../constants/routes';
 import { firebase } from '../firebase';
@@ -74,66 +75,72 @@ class App extends Component {
           <div>
             <Navigation authUser={this.state.authUser} signedInUser={this.state.signedInUser}/>
 
-            <Route
-              exact path={routes.LANDING}
-              component={LandingPage}
-            />
-            <Route
-              exact path={routes.SIGN_UP}
-              render={(props) => <SignUpPage {...props} getSignedInUser={this.getSignedInUser} /> }
-            />
-            <Route
-              exact path={routes.SIGN_IN}
-              render={(props) => <SignInPage {...props} getSignedInUser={this.getSignedInUser} />}
-            />
-            <Route
-              exact path={routes.PASSWORD_FORGET}
-              component={PasswordForgetPage}
-            />
-            <Route
-              exact path={routes.PROFILE}
-              render={(props) => <ProfilePage {...props} signedInUser={this.state.signedInUser} />}
-            />
-            <Route
-              exact path={routes.HOME}
-              render={(props) => <HomePage {...props} signedInUser={this.state.signedInUser}/>}
-            />
-            <Route
-              exact path={routes.ADMIN_DASHBOARD}
-              component={AdminDashboard}
-            />
-            <Route
-              exact path={routes.QUIZ_ARCHIVE}
-              render={(props) => <QuizArchive {...props} signedInUser={this.state.signedInUser} />}
-            />
-            <Route
-              exact path={routes.QUIZ}
-              component={Quiz}
-            />
-            <Route
-              exact path={routes.LEADERBOARD}
-              component={Leaderboard}
-            />
-            <Route
-              exact path={routes.ABOUT}
-              component={About}
-            />
-            <Route
-              exact path={routes.SUBMIT_QUESTION}
-              render={(props) => <QuestionSubmitForm {...props} signedInUser={this.state.signedInUser} />}
-            />
-            <Route
-              exact path={routes.REVIEW}
-              component={ReviewQuestions}
-            />
-            <Route 
-              exact path={routes.CONTEST}
-              component={ReviewContestedQuestions}
-            />
-            <Route
-              exact path={routes.USER_PROFILES}
-              component={PublicProfile}
-            />
+              <Switch>
+                <Route
+                  exact path={routes.LANDING}
+                  component={LandingPage}
+                />
+                <Route
+                  exact path={routes.SIGN_UP}
+                  render={(props) => <SignUpPage {...props} getSignedInUser={this.getSignedInUser} /> }
+                />
+                <Route
+                  exact path={routes.SIGN_IN}
+                  render={(props) => <SignInPage {...props} getSignedInUser={this.getSignedInUser} />}
+                />
+                <Route
+                  exact path={routes.PASSWORD_FORGET}
+                  component={PasswordForgetPage}
+                />
+                <Route
+                  exact path={routes.PROFILE}
+                  render={(props) => <ProfilePage {...props} signedInUser={this.state.signedInUser} />}
+                />
+                <Route
+                  exact path={routes.HOME}
+                  render={(props) => <HomePage {...props} signedInUser={this.state.signedInUser}/>}
+                />
+                <Route
+                  exact path={routes.ADMIN_DASHBOARD}
+                  component={AdminDashboard}
+                />
+                <Route
+                  exact path={routes.QUIZ_ARCHIVE}
+                  render={(props) => <QuizArchive {...props} signedInUser={this.state.signedInUser} />}
+                />
+                <Route
+                  exact path={routes.QUIZ}
+                  component={Quiz}
+                />
+                <Route
+                  exact path={routes.LEADERBOARD}
+                  component={Leaderboard}
+                />
+                <Route
+                  exact path={routes.ABOUT}
+                  component={About}
+                />
+                <Route
+                  exact path={routes.SUBMIT_QUESTION}
+                  render={(props) => <QuestionSubmitForm {...props} signedInUser={this.state.signedInUser} />}
+                />
+                <Route
+                  exact path={routes.REVIEW}
+                  component={ReviewQuestions}
+                />
+                <Route 
+                  exact path={routes.CONTEST}
+                  component={ReviewContestedQuestions}
+                />
+                <Route
+                  exact path={routes.USER_PROFILES}
+                  component={PublicProfile}
+                />
+                <Route path="*" component={NoMatch}/>
+
+              </Switch>
+
+
 
             <Footer signedInUser={this.state.signedInUser}/>
           </div>
