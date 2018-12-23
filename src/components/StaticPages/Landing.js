@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import Paper from '@material-ui/core/Paper';
 import Button from '@material-ui/core/Button';
 
+import TodaysQuizButton from './TodaysQuizButton';
 import bg from './politIQ-bg.png';
 
 import './Static.css';
@@ -15,7 +16,7 @@ const LandingPage = () =>
 
     <img src={bg} id="bg-image" alt="democrats and republicans face off"/>
 
-    <Link to="/signup" style={{ textDecoration: 'none' }}><Button size="large" variant="contained" color="secondary" className="home-button" style={{ textTransform: 'none', fontSize: '20px', fontWeight: '300', letterSpacing: '0.5px'}}>Sign Up and Find Out</Button></Link>
+    <TodaysQuizButton buttonText="Take Today's Quiz Now" id="home-button" disabled={false} />
 
     <div className="home-description">
       <h4> INTERESTED IN POLITICS AND CONSTANTLY CONSUMED BY THE NEWS?</h4>

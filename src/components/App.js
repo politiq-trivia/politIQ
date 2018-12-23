@@ -49,6 +49,7 @@ class App extends Component {
     this.state = {
       authUser: null,
       signedInUser: "Wrl9XmpKHdh1xRQFrElTu6G3VbD2",
+      scoreObject: {},
     };
   }
 
@@ -60,11 +61,16 @@ class App extends Component {
     })
   }
 
-
-
   getSignedInUser = (uid) => {
     this.setState({
       signedInUser: uid,
+    })
+  }
+
+  // stores the score object for a non-signed in user so that they can save their score by signing up
+  storeScore = (scoreObject) => {
+    this.setState({
+      scoreObject
     })
   }
 
@@ -82,7 +88,7 @@ class App extends Component {
                 />
                 <Route
                   exact path={routes.SIGN_UP}
-                  render={(props) => <SignUpPage {...props} getSignedInUser={this.getSignedInUser} /> }
+                  render={(props) => <SignUpPage {...props} getSignedInUser={this.getSignedInUser} scoreObject={this.state.scoreObject}/> }
                 />
                 <Route
                   exact path={routes.SIGN_IN}
@@ -110,7 +116,7 @@ class App extends Component {
                 />
                 <Route
                   exact path={routes.QUIZ}
-                  component={Quiz}
+                  render={(props) => <Quiz {...props} storeScore={this.storeScore} />}
                 />
                 <Route
                   exact path={routes.LEADERBOARD}

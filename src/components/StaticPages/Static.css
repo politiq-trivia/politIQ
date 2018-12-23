@@ -1,7 +1,7 @@
-.home-button {
-  /* background-color: black; */
+#home-button {
+  background-color: black;
   margin-top: 5vh !important;
-  width: 30vw;
+  width: 35vw;
   text-transform: none;
   color: white;
   text-decoration: none;
@@ -10,6 +10,11 @@
   height: 8vh;
   font-weight: 300;
   max-width: 400px;
+  font-size: 20px;
+  letter-spacing: 0.5px;
+}
+#home-button > span {
+  color: white;
 }
 @media screen and (max-width: 1024px) {
   .home-button {

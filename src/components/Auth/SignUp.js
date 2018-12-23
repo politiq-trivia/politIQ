@@ -103,6 +103,7 @@ class SignUpForm extends Component {
   }
 
   render() {
+    console(this.props, 'props in sign up')
     const {
       username,
       email,

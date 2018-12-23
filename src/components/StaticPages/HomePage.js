@@ -4,7 +4,6 @@ import { Helmet } from 'react-helmet';
 // import * as moment from 'moment';
 
 import withAuthorization from '../Auth/withAuthorization';
-import { db } from '../../firebase';
 
 import * as routes from '../../constants/routes';
 
@@ -29,7 +28,6 @@ class HomePage extends Component {
   }
 
   render() {
-    console.log(this.state, 'state')
     return (
       <Paper className="pageStyle home">
         <Helmet>
