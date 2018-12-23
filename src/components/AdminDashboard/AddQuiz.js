@@ -10,6 +10,8 @@ import './quizEngine.css';
 import QuestionForm from './QuestionForm';
 import QuestionBankSelect from './QuestionBankSelect';
 
+import ErrorModal from './ErrorModal';
+
 
 const byPropKey = (propertyName, value) => () => ({
   [propertyName]: value,
@@ -23,6 +25,7 @@ const INITIAL_STATE = {
   fromQBank: false,
   selectingMethod: false,
   qBankEmpty: false,
+  showErrorModal: false,
 };
 
 class AddQuiz extends Component {
@@ -101,57 +104,77 @@ class AddQuiz extends Component {
     }
   }
 
-  // create option (select) to add from questionBank or create a new question
-  // if the user selects add from questionBank, create a second dropdown of potential questions
-  // option to add from questionbank will only show up if there are questions in the questionbank
-  // when the user selects a question from the dropdown, they can preview the question to make sure it is ok
-  // then, they can click add to quiz, and that question is added to that quiz and removed from the qbank.
-  // ^^ same as add question form - save and add another, or save and complete quiz.
+  checkForExistingQuiz = (event) => {
+    event.preventDefault()
+    db.getQuizzes()
+      .then(response => {
+        if (response === undefined) { return;}
+        const data = response.val()
+        if (Object.keys(data).indexOf(this.state.date) !== -1) {
+          this.toggleErrorModal()
+        } else {
+          this.handleSubmit(event)
+        }
+      })
+  }
+
+  toggleErrorModal = () => {
+    this.setState({
+      showErrorModal: !this.state.showErrorModal,
+    })
+  }
+
   render() {
     return (
-      <Paper className="quizEngine">
-        { this.state.addingQuestion
-          ? <div> {this.state.selectingMethod
-            ? <div>
-                <h1 id="newQ">Add Question</h1>
-                <div className="selectMethodHolder">
-                  <Button onClick={this.toggleQuestionBank} color="primary" variant="contained" style={{ fontSize: '2.5vh'}}>From Question Bank</Button>
-                  <Button onClick={this.toggleNewQ} color="primary" variant="contained" style={{ fontSize: '2.5vh'}}>Create New Question</Button>
-                </div>
-              </div>
-            : <div> {this.state.fromQBank
-                ?  <QuestionBankSelect toggleAddQuiz={this.props.toggleAddQuiz} counter={this.state.questionCounter} incrementCounter={this.incrementCounter} qBank={this.state.qBank} quizId={this.state.date} goBack={this.goBack}/>
-                :  <QuestionForm quizId={this.state.date} counter={this.state.questionCounter} incrementCounter={this.incrementCounter} toggleAddQuiz={this.props.toggleAddQuiz} goBack={this.goBack}/>
-            }</div>
-          } </div>
-        :
-          <div>
-            <h1 id="newQuiz">Create New Quiz</h1>
-            <form onSubmit={this.handleSubmit}>
-              <TextField
-                margin="normal"
-                fullWidth
-                value={this.state.quizTitle}
-                onChange={event => this.setState(byPropKey('quizTitle', event.target.value))}
-                type="text"
-                placeholder="Quiz Title"
-              />
-              <TextField
-                id="date"
-                margin="normal"
-                fullWidth
-                type="date"
-                onChange={event => this.setState(byPropKey('date', event.target.value))}
-              />
-              <div className="quizButtonHolder">
-                <Button onClick={this.props.toggleAddQuiz} variant="contained">Go Back</Button>
-                <Button disabled={this.state.date === "" || this.state.quizTitle === "" ? true : false} type="submit" variant="contained">Create & Add Questions</Button>
-              </div>
-            </form>
-          </div>
+      <div>
+        { this.state.showErrorModal 
+          ? <ErrorModal toggleDashboard={this.props.toggleDashboard} toggleErrorModal={this.toggleErrorModal} handleSubmit={this.handleSubmit}/>
+          : null 
         }
-      </Paper>
-
+          <Paper className="quizEngine">
+              { this.state.addingQuestion
+                ? <div> {this.state.selectingMethod
+                  ? <div>
+                      <h1 id="newQ">Add Question</h1>
+                      <div className="selectMethodHolder">
+                        <Button onClick={this.toggleQuestionBank} color="primary" variant="contained" style={{ fontSize: '2.5vh'}}>From Question Bank</Button>
+                        <Button onClick={this.toggleNewQ} color="primary" variant="contained" style={{ fontSize: '2.5vh'}}>Create New Question</Button>
+                      </div>
+                    </div>
+                  : <div> {this.state.fromQBank
+                      ?  <QuestionBankSelect toggleAddQuiz={this.props.toggleAddQuiz} counter={this.state.questionCounter} incrementCounter={this.incrementCounter} qBank={this.state.qBank} quizId={this.state.date} goBack={this.goBack}/>
+                      :  <QuestionForm quizId={this.state.date} counter={this.state.questionCounter} incrementCounter={this.incrementCounter} toggleAddQuiz={this.props.toggleAddQuiz} goBack={this.goBack}/>
+                  }</div>
+                } </div>
+              :
+                <div>
+                  <h1 id="newQuiz">Create New Quiz</h1>
+                  <form onSubmit={this.checkForExistingQuiz}>
+                    <TextField
+                      margin="normal"
+                      fullWidth
+                      value={this.state.quizTitle}
+                      onChange={event => this.setState(byPropKey('quizTitle', event.target.value))}
+                      type="text"
+                      placeholder="Quiz Title"
+                    />
+                    <TextField
+                      id="date"
+                      margin="normal"
+                      fullWidth
+                      type="date"
+                      onChange={event => this.setState(byPropKey('date', event.target.value))}
+                    />
+                    <div className="quizButtonHolder">
+                      <Button onClick={this.props.toggleAddQuiz} variant="contained">Go Back</Button>
+                      <Button disabled={this.state.date === "" || this.state.quizTitle === "" ? true : false} type="submit" variant="contained">Create & Add Questions</Button>
+                    </div>
+                  </form>
+                </div>
+              }
+            </Paper>
+        
+      </div>
     )
   }
 

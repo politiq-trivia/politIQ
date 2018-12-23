@@ -26,9 +26,9 @@ class AdminDashboard extends Component {
     super(props);
 
     this.state = {
-      addingQuiz: false,
+      addingQuiz: true,
       editingQuiz: false,
-      showDash: true,
+      showDash: false,
       showQuiz: false,
       showUsers: false,
       showLeaders: false,
@@ -210,7 +210,7 @@ class AdminDashboard extends Component {
             <Tab label="Leaders" onClick={this.toggleLeaderShow} />
           </Tabs>
         </AppBar>
-        { this.state.addingQuiz ? <AddQuiz toggleAddQuiz={this.toggleAddQuiz}/>
+        { this.state.addingQuiz ? <AddQuiz toggleAddQuiz={this.toggleAddQuiz} toggleDashboard={this.toggleDashboard}/>
           : <div>
           { this.state.showQuiz ? <ShowQuiz toggleDashboard={this.toggleDashboard} quiz={this.state.selectedQuiz} quizId={this.state.selectedQuizId} toggleEditQuiz={this.toggleEditQuiz}/>
           : <div>

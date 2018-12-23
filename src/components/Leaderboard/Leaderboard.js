@@ -15,7 +15,6 @@ import './leaderboard.css';
 import logo from '../logo.png';
 import WeeklyLeaderboard from './Weekly';
 import MonthlyLeaderboard from './Monthly';
-import Scoreboard from './Scoreboard';
 import BarChart from './BarChart';
 
 class Leaderboard extends Component {

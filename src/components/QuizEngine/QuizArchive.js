@@ -13,7 +13,6 @@ import Table from '@material-ui/core/Table';
 import TableHead from '@material-ui/core/TableHead';
 import TableBody from '@material-ui/core/TableBody';
 import TableFooter from '@material-ui/core/TableFooter';
-import TablePagination from '@material-ui/core/TableFooter';
 import TablePaginationActions from './TablePaginationActions';
 import Button from '@material-ui/core/Button';
 import './quiz.css';
