@@ -34,6 +34,7 @@ class Quiz extends PureComponent {
       firstRender: true,
       contestQuestion: false,
       stopRendering: false,
+      uid: ""
     }
   }
 
@@ -41,7 +42,7 @@ class Quiz extends PureComponent {
     const url = window.location.href;
     const date = url.split('/')[4];
     this.setState({
-      selectedQuizId: date
+      selectedQuizId: date,
     })
     this.getQuiz(date)
     this.timer = window.setTimeout(() => {
@@ -94,14 +95,7 @@ class Quiz extends PureComponent {
       this.progressBar = window.setInterval(() => {
         this.progress(30)
       }, 500)
-    } else if (qNum > this.state.selectedQuiz.length) {
-      this.setState({
-        finished: true
-      })
     } else {     
-      if (this.state.stopRendering) {
-        return;
-      } else {
         this.setState({
           currentQ: qNum,
           playing: true,
@@ -109,12 +103,8 @@ class Quiz extends PureComponent {
           wrong: false,
           correctAnswer: '',
           finished: true,
-          stopRendering: true,
-        })
-        window.clearTimeout(this.timer)
-        window.clearInterval(this.progressBar)
-      }
-
+        })   
+        this.submitScore(this.state.score, this.state.uid)   
     }
   }
 
@@ -147,23 +137,11 @@ class Quiz extends PureComponent {
           back={this.toggleContest}
         />
       )
-    } else if (this.state.finished) {
-      return (
-        <FinishQuiz 
-          uid={uid} 
-          score={this.state.score} 
-          date={this.state.selectedQuizId} 
-          storeScore={this.props.storeScore}
-          quizLength={this.state.quizLength}
-          toggleContest={this.toggleContest}
-        />
-      )
     }
-
   }
 
   checkCorrect = (value) => {
-    if (value !== undefined && this.state.finished) {
+    if (value === undefined && this.state.finished) {
       return;
     } else {
       window.clearTimeout(this.timer)
@@ -224,8 +202,10 @@ class Quiz extends PureComponent {
       score,
     }
     if (uid === "") {
+      console.log(uid, 'empty uid')
       this.props.storeScore(scoreObj)
     } else {
+      console.log('user has uid')
       db.setScore(uid, this.state.selectedQuizId, score)
     }
   }

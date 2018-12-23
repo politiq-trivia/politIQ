@@ -18,13 +18,13 @@ import './Auth.css';
 
 import FacebookAuth from './FacebookAuth'
 
-const SignUpPage = ({ history, getSignedInUser }) =>
+const SignUpPage = ({ history, getSignedInUser, scoreObject }) =>
   <Paper className="authCard signUp">
     <Helmet>
       <title>Sign Up | politIQ</title>
     </Helmet>
     <h1>Sign Up</h1>
-    <SignUpForm history={history} getSignedInUser={getSignedInUser}/>
+    <SignUpForm history={history} getSignedInUser={getSignedInUser} scoreObject={scoreObject}/>
     <FacebookAuth />
     <SignInLink />
   </Paper>
@@ -103,7 +103,7 @@ class SignUpForm extends Component {
   }
 
   render() {
-    console(this.props, 'props in sign up')
+    console.log(this.props, 'props in sign up')
     const {
       username,
       email,

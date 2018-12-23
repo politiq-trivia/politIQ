@@ -75,6 +75,7 @@ class App extends Component {
   }
 
   render() {
+    console.log(this.state, 'state in appj.s')
     return (
       <MuiThemeProvider theme={theme}>
 
@@ -116,7 +117,7 @@ class App extends Component {
                 />
                 <Route
                   exact path={routes.QUIZ}
-                  render={(props) => <Quiz {...props} storeScore={this.storeScore} />}
+                  render={(props) => <Quiz {...props} storeScore={this.storeScore} signedInUser={this.state.signedInUser}/>}
                 />
                 <Route
                   exact path={routes.LEADERBOARD}

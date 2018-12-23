@@ -19,7 +19,6 @@ class FinishQuiz extends Component {
     render() {
         const { uid, score, quizLength, toggleContest } = this.props;
         if (uid !== '') {
-            db.setScore(score, uid)
             return (
                 <div className="finish-quiz">
                     <div style={{ marginTop: '2vh'}}>Your score: {score} out of {quizLength} points.</div>
