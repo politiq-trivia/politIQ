@@ -75,7 +75,6 @@ class App extends Component {
   }
 
   render() {
-    console.log(this.state, 'state in appj.s')
     return (
       <MuiThemeProvider theme={theme}>
 
@@ -93,7 +92,7 @@ class App extends Component {
                 />
                 <Route
                   exact path={routes.SIGN_IN}
-                  render={(props) => <SignInPage {...props} getSignedInUser={this.getSignedInUser} />}
+                  render={(props) => <SignInPage {...props} getSignedInUser={this.getSignedInUser} scoreObject={this.state.scoreObject}/>}
                 />
                 <Route
                   exact path={routes.PASSWORD_FORGET}

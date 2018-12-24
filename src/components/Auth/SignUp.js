@@ -37,7 +37,7 @@ const INITIAL_STATE = {
   affiliation: '',
   isAdmin: false,
   bio: '',
-  error: null
+  error: null, 
 };
 
 const affiliations = [
@@ -75,6 +75,7 @@ class SignUpForm extends Component {
 
     const {
       history,
+      scoreObject
     } = this.props;
 
     auth.doCreateUserWithEmailAndPassword(email, passwordOne)
@@ -94,16 +95,23 @@ class SignUpForm extends Component {
             this.setState(byPropKey('error', error));
           });
 
+
+        if (scoreObject) {
+          db.setScore(authUser.user.uid, scoreObject.date, scoreObject.score)
+            .catch(error => console.log(error))
+        }
+
       })
       .catch(error => {
         this.setState(byPropKey('error', error));
       });
 
+
+
       event.preventDefault();
   }
 
   render() {
-    console.log(this.props, 'props in sign up')
     const {
       username,
       email,

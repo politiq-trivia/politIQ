@@ -71,7 +71,6 @@ class TodaysQuizButton extends Component {
       }
 
     render() {
-        console.log(this.state)
         const { buttonText, id } = this.props;
         return (
             <Button color="primary" variant="outlined" size="large" id={id} disabled={this.state.noAvailableQuizzes} onClick={this.redirectToQuiz}>{buttonText}</Button>

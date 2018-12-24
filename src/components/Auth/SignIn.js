@@ -16,14 +16,14 @@ import './Auth.css';
 import FacebookAuth from './FacebookAuth';
 
 
-const SignInPage = ({ history, getSignedInUser }) => {
+const SignInPage = ({ history, getSignedInUser, scoreObject }) => {
   return (
     <Paper className="authCard signIn">
       <Helmet>
         <title>Sign In | politIQ</title>
       </Helmet>
       <h1>Sign In</h1>
-      <SignInForm  history={history} getSignedInUser={getSignedInUser}/>
+      <SignInForm  history={history} getSignedInUser={getSignedInUser} scoreObject={scoreObject}/>
       <FacebookAuth />
       <PasswordForgetLink />
       <SignUpLink />
@@ -69,6 +69,10 @@ class SignInForm extends Component {
       password,
     } = this.state;
 
+    const {
+      scoreObject
+    } = this.props;
+
     auth.doSignInWithEmailAndPassword(email, password)
       .then((authUser) => {
         const userID = authUser.user.uid;
@@ -76,6 +80,11 @@ class SignInForm extends Component {
         this.isAdmin(userID);
         this.props.getSignedInUser(userID)
         db.lastActive(userID, date)
+
+        if (scoreObject) {
+          db.setScore(authUser.user.uid, scoreObject.date, scoreObject.score)
+            .catch(error => console.log(error))
+        }
       })
       .catch(error => {
         this.setState(byPropKey('error', error));
