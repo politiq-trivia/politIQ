@@ -10,6 +10,7 @@ import Button from '@material-ui/core/Button';
 import loadingGif from '../../loadingGif.gif';
 import UserScoreboard from '../Leaderboard/UserScoreboard';
 import PublicProfilePhoto from './PublicProfilePhoto';
+import CommentWidget from './Comment/CommentWidget';
 import './profile.css';
 
 const Placeholder = "https://via.placeholder.com/300x150"
@@ -72,7 +73,7 @@ class PublicProfile extends Component {
 
               <h3>Comments: </h3>
               <MediaQuery minWidth={416}>
-                <img src={BigPlaceholder} alt="CommentPlaceholder"/>
+                <CommentWidget userName={this.state.userData.displayName}/>
               </MediaQuery>
               <MediaQuery maxWidth={415}>
                 <img src={Placeholder} style={{marginTop: '3vh'}} alt="CommentPlaceholder"/>
