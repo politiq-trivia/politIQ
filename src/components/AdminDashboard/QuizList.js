@@ -179,81 +179,85 @@ class QuizList extends Component {
       <div>
         { this.props.showDeleteModal
           ? <DeleteModal selected={this.state.selected} deleteQuiz={this.props.deleteQuiz} toggleDeleteModal={this.props.toggleDeleteModal}/>
-          : <div>
-              <Toolbar>
-                <div className={toolbarStyles.title}>
-                  {this.state.selected.length > 0 ? (
-                    <p>{this.state.selected.length} selected </p>
-                  ) : (
-                    <h3 style={{ marginTop: '0', marginBottom: '0'}}>All Quizzes</h3>
-                  )}
-                </div>
-                <div className={toolbarStyles.spacer} />
-                <div className={toolbarStyles.actions}>
-                  {this.state.selected.length > 0 ? (
-                    <div>
-                      <Tooltip title="Delete">
-                        <IconButton aria-label="Delete">
-                          <DeleteIcon onClick={this.props.toggleDeleteModal} />
-                        </IconButton>
-                      </Tooltip>
-                    </div>
-                  ) : null }
-                </div>
-              </Toolbar>
-              <Table>
-                <TableHead>
-                  <TableRow>
-                    <TableCell padding="checkbox">
-                      <Checkbox
-                        onClick={this.handleSelectAllClick}
-                      />
-                    </TableCell>
-                    {rows.map(row => {
-                      return (
-                        <TableCell 
-                          key={row.id}
-                          sortDirection={orderBy === row.id ? order : false}
-                          padding={row.disablePadding ? 'none' : 'default'}
-                        >
-                          <Tooltip
-                            title="Sort"
-                            enterDelay={300}
-                          >
-                            <TableSortLabel
-                              active={orderBy === row.id}
-                              direction={order}
-                              onClick={this.createSortHandler(row.id)}
-                            >
-                              {row.label}
-                            </TableSortLabel>
-                          
-                          </Tooltip>
-                        </TableCell>
-                      )
-                    })}
-                  </TableRow>
-                </TableHead>
-                
-                {List}
-  
-              </Table>
-              <TablePagination
-                component="div"
-                count={this.props.quizDates.length}
-                rowsPerPage={10}
-                page={this.state.page}
-                backbuttoniconprops={{
-                  'aria-label': 'Previous Page',
-                }}
-                nextIconButtonProps={{
-                  'aria-label': 'Next Page'
-                }}
-                onChangePage={this.handleChangePage}
-                onChangeRowsPerPage={this.handleChangeRowsPerPage}
-              />
-            </div>
+          : null 
         }
+        <div>
+          <Toolbar>
+            <div className={toolbarStyles.title}>
+              {this.state.selected.length > 0 
+                ? (
+                  <p>{this.state.selected.length} selected </p>
+                ) : (
+                  <h3 style={{ marginTop: '0', marginBottom: '0'}}>All Quizzes</h3>
+                )
+              }
+            </div>
+            <div className={toolbarStyles.spacer} />
+            <div className={toolbarStyles.actions}>
+              {this.state.selected.length > 0 ? (
+                <div>
+                  <Tooltip title="Delete">
+                    <IconButton aria-label="Delete">
+                      <DeleteIcon onClick={this.props.toggleDeleteModal} />
+                    </IconButton>
+                  </Tooltip>
+                </div>
+                ) : null }
+              </div>
+            </Toolbar>
+            <Table>
+              <TableHead>
+                 <TableRow>
+                  <TableCell padding="checkbox">
+                    <Checkbox
+                      onClick={this.handleSelectAllClick}
+                    />
+                  </TableCell>
+                  {rows.map(row => {
+                    return (
+                      <TableCell 
+                        key={row.id}
+                        sortDirection={orderBy === row.id ? order : false}
+                        padding={row.disablePadding ? 'none' : 'default'}
+                      >
+                        <Tooltip
+                          title="Sort"
+                          enterDelay={300}
+                        >
+                          <TableSortLabel
+                            active={orderBy === row.id}
+                            direction={order}
+                            onClick={this.createSortHandler(row.id)}
+                          >
+                            {row.label}
+                          </TableSortLabel>
+                          
+                        </Tooltip>
+                      </TableCell>
+                    )
+                  })}
+                </TableRow>
+              </TableHead>
+                
+              {List}
+  
+            </Table>
+            <TablePagination
+              component="div"
+              count={this.props.quizDates.length}
+              rowsPerPage={10}
+              page={this.state.page}
+              backbuttoniconprops={{
+                'aria-label': 'Previous Page',
+              }}
+              nextIconButtonProps={{
+                'aria-label': 'Next Page'
+              }}
+              onChangePage={this.handleChangePage}
+              onChangeRowsPerPage={this.handleChangeRowsPerPage}
+            />
+          </div>
+        
       </div>
     )
   }

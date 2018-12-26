@@ -26,6 +26,7 @@ class QuestionForm extends Component {
       a4text: "",
       a4correct: false,
       counter: 0,
+      atLeastOneChecked: false,
     }
   }
 
@@ -36,10 +37,27 @@ class QuestionForm extends Component {
   }
 
   handleCheck = (event) => {
+    const newState = {
+      a1correct: this.state.a1correct,
+      a2correct: this.state.a2correct,
+      a3correct: this.state.a3correct,
+      a4correct: this.state.a4correct,
+    }
+
     const id = event.target.id + "correct"
-    this.setState({
-      [id]: event.target.checked
-    })
+    newState[id] = event.target.checked
+
+    if (newState.a1correct === true || newState.a2correct === true || newState.a3correct === true || newState.a4correct === true) {
+      this.setState({
+        atLeastOneChecked: true,
+        [id]: event.target.checked
+      })
+    } else {
+      this.setState({
+        atLeastOneChecked: false,
+        [id]: event.target.checked
+      })
+    }
   }
 
   saveData = () => {
@@ -195,10 +213,10 @@ class QuestionForm extends Component {
             <Button color="primary" variant="contained" onClick={this.handleQuit}>
               Exit Without Saving
             </Button>
-            <Button onClick={this.handleSubmit} color="primary" variant="contained">
+            <Button onClick={this.handleSubmit} color="primary" variant="contained" disabled={ this.state.atLeastOneChecked === true && this.state.qtext !== "" && this.state.a1text !== "" ? false : true }>
               Save & Add New Question
             </Button>
-            <Button color="primary" variant="contained" onClick={this.handleReturn}>
+            <Button color="primary" variant="contained" onClick={this.handleReturn} disabled={ this.state.atLeastOneChecked === true && this.state.qtext !== "" && this.state.a1text !== "" ? false : true }>
               Save & Complete Quiz
             </Button>
 

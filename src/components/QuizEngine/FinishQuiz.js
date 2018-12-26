@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { db } from '../../firebase';
 
 import Button from '@material-ui/core/Button';
 import { Link } from 'react-router-dom';

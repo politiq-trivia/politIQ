@@ -10,6 +10,12 @@ class ErrorModal extends Component {
         }
     }
 
+    handleSubmit = (event) => {
+        event.preventDefault()
+        this.props.handleSubmit(event)
+        this.props.toggleErrorModal()
+    }
+
     render() {
         return(
             <Dialog
@@ -24,7 +30,7 @@ class ErrorModal extends Component {
                     <div className="error-button-holder">
                         <Button color="primary" onClick={this.props.toggleDashboard}>Cancel</Button>
                         <Button color="primary" onClick={this.props.toggleErrorModal}>Choose a Different Date</Button>
-                        <Button color="primary" onClick={this.props.handleSubmit}>Yes, continue</Button>
+                        <Button color="primary" onClick={this.handleSubmit}>Yes, continue</Button>
                     </div>
                 </div>
             </Dialog>

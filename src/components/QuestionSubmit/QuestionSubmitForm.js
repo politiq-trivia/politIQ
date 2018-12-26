@@ -12,8 +12,6 @@ import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
-import Tooltip from '@material-ui/core/Tooltip';
-import ClickAwayListener from '@material-ui/core/ClickAwayListener';
 import FormHelperText from '@material-ui/core/FormHelperText';
 import './form.css';
 
@@ -39,6 +37,7 @@ class QuestionSubmitForm extends Component {
       source: '',
       done: false,
       tooltipOpen: false,
+      atLeastOneChecked: false,
     }
   }
 
@@ -61,10 +60,27 @@ class QuestionSubmitForm extends Component {
   }
 
   handleCheck = (event) => {
-    const id = event.target.id + 'correct'
-    this.setState({
-      [id]: event.target.checked
-    })
+    const newState = {
+      a1correct: this.state.a1correct,
+      a2correct: this.state.a2correct,
+      a3correct: this.state.a3correct,
+      a4correct: this.state.a4correct,
+    }
+
+    const id = event.target.id + "correct"
+    newState[id] = event.target.checked
+
+    if (newState.a1correct === true || newState.a2correct === true || newState.a3correct === true || newState.a4correct === true) {
+      this.setState({
+        atLeastOneChecked: true,
+        [id]: event.target.checked
+      })
+    } else {
+      this.setState({
+        atLeastOneChecked: false,
+        [id]: event.target.checked
+      })
+    }
   }
 
   handleSubmit = () => {
@@ -112,7 +128,8 @@ class QuestionSubmitForm extends Component {
       if (
         this.state.qtext === "" ||
         this.state.a1text === "" ||
-        this.state.sources === ""
+        this.state.sources === "" ||
+        this.state.atLeastOneChecked === false
       ) {
         return true;
       } else {
@@ -135,21 +152,13 @@ class QuestionSubmitForm extends Component {
             </div>
           : <div>
               <div className="formHeader">
-                <Link to={HOME} style={{ textDecoration: 'none'}} id="form-back">
+                <Link to={HOME} style={{ textDecoration: 'none', marginLeft: '0'}} id="form-back">
                   <Button color="primary" variant="contained">Back</Button>
                 </Link>
-                <h1>Submit a Question</h1>
-                <ClickAwayListener onClickAway={this.handleTooltipClose}>
-                  <Tooltip
-                    title="Did you find a piece of news that everyone should know about? Increase your score by dropping it below. We'll review it and add it to the quiz. Make sure to verify your information with reliable sources!"
-                    placement="bottom-end"
-                    onClose={this.handleTooltipClose}
-                    open={this.state.open}
-                  >
-                    <Button id="form-about" onClick={this.handleTooltipOpen}>About</Button>
-                  </Tooltip>
-                </ClickAwayListener>
+                <h1 style={{ marginLeft: '-3vw' }}>Submit a Question</h1>
               </div>
+              <h3 style={{ marginTop: '5vh' }}>Did you find a piece of news that everyone should know about?</h3>
+              <p> Add <span style={{ fontWeight: 'bold'}}>3 points</span> to your score by dropping it below. We'll review it and add it to the quiz if it's accepted. <br/><br/>Make sure to verify your information with reliable sources!"</p>
             <form>
               <TextField
                 margin="normal"

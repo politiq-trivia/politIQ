@@ -149,11 +149,6 @@ class NavigationAuth extends Component {
               <ListItemText primary="Leaderboard" />
             </ListItem>
           </Link>
-          <Link to={routes.SUBMIT_QUESTION} style={{ textDecoration: 'none' }}>
-            <ListItem button>
-              <ListItemText primary="Submit Question"/>
-            </ListItem>
-          </Link>
           <Link to={routes.PROFILE} style={{ textDecoration: 'none'}}>
             <ListItem button>
               <ListItemText primary="Profile" />

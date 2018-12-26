@@ -7,6 +7,7 @@ import FormControl from '@material-ui/core/FormControl';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import RadioGroup from '@material-ui/core/RadioGroup';
 import Radio from '@material-ui/core/Radio';
+import RadioButtonUncheckedIcon from '@material-ui/icons/RadioButtonUnchecked';
 import FormLabel from '@material-ui/core/FormLabel';
 import Close from '@material-ui/icons/Close';
 
@@ -68,7 +69,8 @@ class ShowQuiz extends Component {
                 aria-label="close"
                 color="inherit"
                 style={{
-                  height: '4vh'
+                  height: '4vh',
+                  float: 'right'
                 }}
               />
             </div>
@@ -78,19 +80,31 @@ class ShowQuiz extends Component {
             inputref="none"
           >
             <div className="show" style={{ display: 'flex'}} inputref="none">
-              <FormControlLabel value={q[1]["a1text"]} control={<Radio />} label={q[1]["a1text"]}/>
+              <FormControlLabel value={q[1]["a1text"]} control={<Radio
+                checked={false}
+                icon={<RadioButtonUncheckedIcon />}
+              />} label={q[1]["a1text"]}/>
               {q[1]["a1correct"] ? <p style={{ color: 'green' }}>Correct Answer</p> : null}
             </div>
             <div className="show" style={{ display: 'flex'}}>
-              <FormControlLabel value={q[1]["a2text"]} control={<Radio />} label={q[1]["a2text"]}/>
+              <FormControlLabel value={q[1]["a2text"]} control={<Radio
+                checked={false}
+                icon={<RadioButtonUncheckedIcon />}
+              />} label={q[1]["a2text"]}/>
               {q[1]["a2correct"] ? <p style={{ color: 'green' }}>Correct Answer</p> : null}
             </div>
             <div className="show" style={{ display: 'flex'}}>
-              <FormControlLabel value={q[1]["a3text"]} control={<Radio />} label={q[1]["a3text"]}/>
+              <FormControlLabel value={q[1]["a3text"]} control={<Radio
+                checked={false}
+                icon={<RadioButtonUncheckedIcon />}
+              />} label={q[1]["a3text"]}/>
               {q[1]["a3correct"] ? <p style={{ color: 'green' }}>Correct Answer</p> : null}
             </div>
             <div className="show" style={{ display: 'flex'}}>
-              <FormControlLabel value={q[1]["a4text"]} control={<Radio />} label={q[1]["a4text"]}/>
+              <FormControlLabel value={q[1]["a4text"]} control={<Radio
+                checked={false}
+                icon={<RadioButtonUncheckedIcon />}
+              />} label={q[1]["a4text"]}/>
               {q[1]["a4correct"] ? <p style={{ color: 'green' }}>Correct Answer</p> : null}
             </div>
           </RadioGroup>
