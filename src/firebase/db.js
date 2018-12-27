@@ -260,3 +260,22 @@ export const getContestedQuiz = () => {
 export const deleteContest = (date, qID, uid) => {
   db.ref('contestedQ').child(date).child(qID).child(uid).remove()
 }
+
+// ----------------------------------------------------------
+
+// COMMENTS 
+
+// ----------------------------------------------------------
+
+export const getComments = (uid) => {
+  const commentsObj = db.ref().child('comments').child(uid).once('value');
+  return commentsObj;
+}
+
+export const addComment = (profileID, commentObj) => {
+  const comment = db.ref().child('comments').child(profileID).child(commentObj.date);
+  comment.child('text').set(commentObj.text);
+  comment.child('user').set(commentObj.user);
+  comment.child('userAvatar').set(commentObj.userAvatar);
+  comment.child('uid').set(commentObj.uid);
+}

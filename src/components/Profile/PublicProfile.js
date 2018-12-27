@@ -73,7 +73,7 @@ class PublicProfile extends Component {
 
               <h3>Comments: </h3>
               <MediaQuery minWidth={416}>
-                <CommentWidget userName={this.state.userData.displayName}/>
+                <CommentWidget userName={this.state.userData.displayName} profileID={this.state.uid}/>
               </MediaQuery>
               <MediaQuery maxWidth={415}>
                 <img src={Placeholder} style={{marginTop: '3vh'}} alt="CommentPlaceholder"/>
