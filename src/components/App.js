@@ -4,6 +4,7 @@ import {
   Route, Switch
 } from 'react-router-dom';
 import './App.css';
+import { db } from '../firebase';
 
 import Navigation from './Navigation';
 import LandingPage from './StaticPages/Landing';
@@ -50,6 +51,7 @@ class App extends Component {
       authUser: null,
       signedInUser: "Wrl9XmpKHdh1xRQFrElTu6G3VbD2",
       scoreObject: {},
+      displayName: 'Hanna'
     };
   }
 
@@ -62,9 +64,18 @@ class App extends Component {
   }
 
   getSignedInUser = (uid) => {
-    this.setState({
-      signedInUser: uid,
-    })
+    db.getDisplayNames(uid)
+      .then(response => {
+        console.log(response.val())
+        const data = response.val()
+        const displayName = data.displayName;
+        this.setState({
+          signedInUser: uid,
+          displayName,
+        })
+      })
+
+    
   }
 
   // stores the score object for a non-signed in user so that they can save their score by signing up
@@ -140,7 +151,7 @@ class App extends Component {
                 />
                 <Route
                   exact path={routes.USER_PROFILES}
-                  component={PublicProfile}
+                  render={(props) => <PublicProfile {...props} key={window.location.pathName} signedInUser={this.state.signedInUser} displayName={this.state.displayName}/>}
                 />
                 <Route path="*" component={NoMatch}/>
 

@@ -13,6 +13,10 @@ class UserScoreboard extends Component {
     this.getMyScore()
   }
 
+  componentWillReceiveProps = () => {
+    this.getMyScore()
+  }
+
   getMyScore = async () => {
     await db.getScoresByUid(this.props.uid)
       .then(response => {

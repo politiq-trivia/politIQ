@@ -32,6 +32,14 @@ class PublicProfile extends Component {
     })
   }
 
+  componentWillReceiveProps(nextProps) {
+    const uid = nextProps.location.pathname.split('/')[2]
+    this.setState({
+      uid,
+    })
+    this.getUserInfo(uid)
+  }
+
   getUserInfo = async (uid) => {
     await db.getOneUser(uid)
       .then(response => {
@@ -73,7 +81,7 @@ class PublicProfile extends Component {
 
               <h3>Comments: </h3>
               <MediaQuery minWidth={416}>
-                <CommentWidget userName={this.state.userData.displayName} profileID={this.state.uid}/>
+                <CommentWidget userName={this.state.userData.displayName} profileID={this.state.uid} authUserName={this.props.displayName}/>
               </MediaQuery>
               <MediaQuery maxWidth={415}>
                 <img src={Placeholder} style={{marginTop: '3vh'}} alt="CommentPlaceholder"/>

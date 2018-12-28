@@ -26,7 +26,7 @@ class CommentForm extends Component {
         const date = moment().format('YYYY-MM-DD hh:mm');
         const commentObj = {
             text: this.state.comment,
-            user: this.props.userName,
+            user: this.props.authUserName,
             uid: this.props.uid,
             userAvatar: '',
             date,

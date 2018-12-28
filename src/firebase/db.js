@@ -278,4 +278,5 @@ export const addComment = (profileID, commentObj) => {
   comment.child('user').set(commentObj.user);
   comment.child('userAvatar').set(commentObj.userAvatar);
   comment.child('uid').set(commentObj.uid);
+  comment.child('date').set(commentObj.date)
 }

@@ -11,20 +11,6 @@ class CommentWidget extends Component {
         super(props);
         this.state = {
             dateArray: [],
-            posts: [{
-                text: "Hello World",
-                user: "Hanna",
-                userAvatar: "",
-                dateCreated: '2018-12-26',
-                uid: '',
-            }, {
-                text: "this is my second comment",
-                user: "not Hanna",
-                userAvatar: "",
-                dateCreated: '2018-12-24',
-                uid: '',
-            }
-            ]
         }
     }
 
@@ -32,16 +18,23 @@ class CommentWidget extends Component {
         this.getComments(this.props.profileID)
     }
 
+    componentWillReceiveProps(nextProps) {
+        this.getComments(this.props.profileID)
+    }
+
     getComments = (uid) => {
         db.getComments(uid)
             .then(response => {
-                const commentsObj = response.val()
-
-                const dateArray = Object.keys(commentsObj)
-                this.setState({
-                    dateArray,
-                    commentsObj,
-                })
+                if (response.val() === null) {
+                    return;
+                } else {
+                    const commentsObj = response.val()
+                    const dateArray = Object.keys(commentsObj)
+                    this.setState({
+                        dateArray,
+                        commentsObj,
+                    })
+                }
             })
     }
 
@@ -61,7 +54,7 @@ class CommentWidget extends Component {
             <AuthUserContext.Consumer>
                 {authUser => 
                     <div>
-                        <CommentForm userName={this.props.userName} uid={authUser.uid} profileID={this.props.profileID} getComments={this.getComments}/>
+                        <CommentForm userName={this.props.userName} uid={authUser.uid} profileID={this.props.profileID} getComments={this.getComments} authUserName={this.props.authUserName}/>
                         {comments}
                     </div>
  

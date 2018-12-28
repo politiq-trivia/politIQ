@@ -16,6 +16,10 @@ class PublicProfilePhoto extends Component {
     this.getPhoto()
   }
 
+  componentWillReceiveProps(nextProps) {
+    this.getPhoto()
+  }
+
   getPhoto = () => {
     const set = () => {
       this.setState({
