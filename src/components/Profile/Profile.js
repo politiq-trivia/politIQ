@@ -31,6 +31,7 @@ class ProfilePage extends Component {
   }
 
   getUserInfo = async () => {
+    if (this.props.signedInUser === "") {return;}
     await db.getOneUser(this.props.signedInUser)
       .then(response => {
         const userInfo = response.val()

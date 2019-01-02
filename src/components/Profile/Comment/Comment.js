@@ -4,6 +4,7 @@ import { storage } from '../../../firebase';
 
 import Paper from '@material-ui/core/Paper';
 import Avatar from '@material-ui/core/Avatar';
+import Close from '@material-ui/icons/Close';
 
 class Comment extends Component {
     constructor(props) {
@@ -30,11 +31,19 @@ class Comment extends Component {
             })        
     }
 
+    handleDeleteClick = () => {
+        // trigger the delete comment modal
+        console.log('delete clicked')
+        this.props.toggleDeleteModal(this.props.data.date)
+    }
+
     render() {
-        const { user, text, userAvatar, date, uid } = this.props.data
+        const { user, text, date, uid } = this.props.data
         const shortDate = date.slice(0, 10)
         const userInitial = user[0]
 
+        console.log(this.props.uid, 'authUser uid')
+        console.log(this.props.data.uid, 'DATA.UID')
         return (
             <Paper style={{ width: '78%', marginLeft: 'auto', marginRight: 'auto', textAlign: 'left', padding: '2vh', marginTop: '4vh' }}>
                 <Link to={uid} style={{ textDecoration: 'none' }}>
@@ -46,6 +55,7 @@ class Comment extends Component {
                 <Link to={uid} style={{ textDecoration: 'none'}}>
                     <p style={{ display: 'inline', fontWeight: 'bold'}}>{user}:</p>
                 </Link>
+                { this.props.uid === this.props.data.uid ? <Close onClick={this.handleDeleteClick} style={{ float: 'right', marginTop: '1vh', marginLeft: '1vh' }}/> : null }
                 <p style={{ float: 'right', fontSize: '12px', width: 'auto'}}>{shortDate}</p>
     
                 <p>{text}</p>

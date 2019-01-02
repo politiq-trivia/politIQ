@@ -28,7 +28,6 @@ class CommentForm extends Component {
             text: this.state.comment,
             user: this.props.authUserName,
             uid: this.props.uid,
-            userAvatar: '',
             date,
         }
         const profileID = this.props.profileID;

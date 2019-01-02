@@ -66,7 +66,6 @@ class App extends Component {
   getSignedInUser = (uid) => {
     db.getDisplayNames(uid)
       .then(response => {
-        console.log(response.val())
         const data = response.val()
         const displayName = data.displayName;
         this.setState({

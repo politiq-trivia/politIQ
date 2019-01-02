@@ -276,7 +276,10 @@ export const addComment = (profileID, commentObj) => {
   const comment = db.ref().child('comments').child(profileID).child(commentObj.date);
   comment.child('text').set(commentObj.text);
   comment.child('user').set(commentObj.user);
-  comment.child('userAvatar').set(commentObj.userAvatar);
   comment.child('uid').set(commentObj.uid);
   comment.child('date').set(commentObj.date)
+}
+
+export const deleteComment = (profileID, date) => {
+  db.ref().child('comments').child(profileID).child(date).remove();
 }
