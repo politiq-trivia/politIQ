@@ -69,9 +69,9 @@ class UserScoreboard extends Component {
       <div className="small-scoreboardHolder user-scoreboard-public">
         <h2>{this.props.public ? `${this.props.name}'s`: "My"} Scores</h2>
         <div className="small-scoreboard">
-          <div id="userScore">Monthly Score<span className="score" style={{ marginTop: '1.3vh' }}>{this.state.monthlyScore}</span></div>
-          <div id="userScore">All Time Score<span className="score" style={{ marginTop: '1.3vh' }}>{this.state.allTimeScore}</span></div>
-          <div id="userScore" style={{ fontSize: '14px' }}>Submitted & Contested Question Score<span className="score">{this.state.submittedScore}</span></div>
+          <div className="userScore">Monthly Score<span className="score reg-score">{this.state.monthlyScore}</span></div>
+          <div className="userScore">All Time Score<span className="score reg-score">{this.state.allTimeScore}</span></div>
+          <div className="userScore" id="submittedQScore">Submitted & Contested Q Score<span className="score">{this.state.submittedScore}</span></div>
         </div>
       </div>
     )
