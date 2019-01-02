@@ -6,6 +6,8 @@ import Paper from '@material-ui/core/Paper';
 import Avatar from '@material-ui/core/Avatar';
 import Close from '@material-ui/icons/Close';
 
+import './comment.css';
+
 class Comment extends Component {
     constructor(props) {
         super(props);
@@ -32,8 +34,6 @@ class Comment extends Component {
     }
 
     handleDeleteClick = () => {
-        // trigger the delete comment modal
-        console.log('delete clicked')
         this.props.toggleDeleteModal(this.props.data.date)
     }
 
@@ -42,21 +42,28 @@ class Comment extends Component {
         const shortDate = date.slice(0, 10)
         const userInitial = user[0]
 
-        console.log(this.props.uid, 'authUser uid')
-        console.log(this.props.data.uid, 'DATA.UID')
         return (
             <Paper style={{ width: '78%', marginLeft: 'auto', marginRight: 'auto', textAlign: 'left', padding: '2vh', marginTop: '4vh' }}>
-                <Link to={uid} style={{ textDecoration: 'none' }}>
-                    {this.state.avatarURL === ""
-                        ? <Avatar style={{ display: 'inline-flex', marginRight: '2vw' }}>{userInitial}</Avatar> 
-                        : <Avatar style={{ display: 'inline-flex', marginRight: '2vw' }} src={this.state.avatarURL}></Avatar>
-                    }
-                </Link>
-                <Link to={uid} style={{ textDecoration: 'none'}}>
-                    <p style={{ display: 'inline', fontWeight: 'bold'}}>{user}:</p>
-                </Link>
-                { this.props.uid === this.props.data.uid ? <Close onClick={this.handleDeleteClick} style={{ float: 'right', marginTop: '1vh', marginLeft: '1vh' }}/> : null }
-                <p style={{ float: 'right', fontSize: '12px', width: 'auto'}}>{shortDate}</p>
+                <div style={{ display: 'flex', justifyContent: 'space-between'}}>
+                    <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'center'}}>
+                        <Link to={uid} style={{ textDecoration: 'none' }}>
+                            {this.state.avatarURL === ""
+                                ? <Avatar style={{ display: 'inline-flex', marginRight: '2vw' }}>{userInitial}</Avatar> 
+                                : <Avatar style={{ display: 'inline-flex', marginRight: '2vw' }} src={this.state.avatarURL}></Avatar>
+                            }
+                        </Link>
+                        <Link to={uid} className="profile-link">
+                            <p style={{ display: 'inline', fontWeight: 'bold'}}>{user}:</p>
+                        </Link>
+                    </div>
+                    <div>
+                        { this.props.uid === this.props.data.uid || this.props.isAdmin ? <Close onClick={this.handleDeleteClick} style={{ float: 'right', marginTop: '1vh', marginLeft: '1vh' }}/> : null }
+                        <p style={{ float: 'right', fontSize: '12px', width: 'auto'}}>{shortDate}</p>
+                    </div>
+                    
+
+                </div>
+
     
                 <p>{text}</p>
             </Paper>

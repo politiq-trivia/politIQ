@@ -19,11 +19,11 @@ import Button from '@material-ui/core/Button';
 
 import Logo from './logo.png';
 
-const Navigation = ({ authUser, signedInUser }) => {
+const Navigation = ({ authUser, signedInUser, clearStateOnSignout }) => {
   return (
     <AuthUserContext.Consumer>
       {authUser => authUser
-        ? <NavigationAuth signedInUser={signedInUser} />
+        ? <NavigationAuth signedInUser={signedInUser} clearStateOnSignout={clearStateOnSignout}/>
         : <NavigationNonAuth />
       }
     </AuthUserContext.Consumer>
@@ -115,6 +115,7 @@ class NavigationAuth extends Component {
 
   signOut = () => {
     auth.doSignOut()
+    this.props.clearStateOnSignout()
     window.location.replace('/')
   }
 

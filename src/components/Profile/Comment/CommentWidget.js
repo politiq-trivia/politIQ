@@ -70,7 +70,7 @@ class CommentWidget extends Component {
                 return (
                     <AuthUserContext.Consumer key={i}>
                         {authUser => 
-                            <Comment data={this.state.commentsObj[date]}  uid={authUser.uid} toggleDeleteModal={this.toggleDeleteModal}/>
+                            <Comment data={this.state.commentsObj[date]}  uid={authUser.uid} toggleDeleteModal={this.toggleDeleteModal} isAdmin={this.props.isAdmin}/>
                         }
                     </AuthUserContext.Consumer>
                 )

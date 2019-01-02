@@ -20,7 +20,8 @@ class PublicProfile extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      uid: ''
+      uid: '',
+      showingComments: false,
     }
   }
   
@@ -50,6 +51,12 @@ class PublicProfile extends Component {
       })
   }
 
+  toggleComments = () => {
+    this.setState({
+      showingComments: !this.state.showingComments
+    })
+  }
+
   render () {
     // get the username to display correctly in the helmet
     let displayName;
@@ -64,7 +71,7 @@ class PublicProfile extends Component {
         return (
           <div>
             <Helmet>
-              <title>{displayName} Profile</title>
+              <title>{displayName} Profile | PolitIQ</title>
             </Helmet>
             <div className="public-profile">
               <div className="public-profile-top">
@@ -79,13 +86,16 @@ class PublicProfile extends Component {
               <p>{this.state.userData.bio}</p>
               <UserScoreboard uid={this.state.uid} public="true" name={this.state.userData.displayName.split(" ")[0]}/>
 
-              <h3>Comments: </h3>
-              <MediaQuery minWidth={416}>
-                <CommentWidget userName={this.state.userData.displayName} profileID={this.state.uid} authUserName={this.props.displayName}/>
-              </MediaQuery>
-              <MediaQuery maxWidth={415}>
-                <img src={Placeholder} style={{marginTop: '3vh'}} alt="CommentPlaceholder"/>
-              </MediaQuery>
+              {this.state.showingComments 
+                ? <div>
+                    <Button color="primary" onClick={this.toggleComments}>Hide Comments</Button>
+                    <h3 className="comment-heading">Comments: </h3>
+                    <CommentWidget userName={this.state.userData.displayName} profileID={this.state.uid} authUserName={this.props.displayName} isAdmin={this.props.isAdmin}/>
+                  </div>
+                : <Button color="primary" onClick={this.toggleComments}>Show Comments</Button>
+              }
+              
+
             </div>
           </div>
         )

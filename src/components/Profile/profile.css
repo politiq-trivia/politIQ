@@ -178,3 +178,9 @@
   margin-top: 1vh !important;
   margin-right: 2vw !important;
 }
+
+@media screen and (max-width: 415px) {
+  .comment-heading {
+    margin-left: 6vw;
+  }
+}

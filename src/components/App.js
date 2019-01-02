@@ -51,7 +51,8 @@ class App extends Component {
       authUser: null,
       signedInUser: "Wrl9XmpKHdh1xRQFrElTu6G3VbD2",
       scoreObject: {},
-      displayName: 'Hanna'
+      displayName: 'Hanna',
+      isAdmin: false,
     };
   }
 
@@ -72,9 +73,14 @@ class App extends Component {
           signedInUser: uid,
           displayName,
         })
-      })
+      })    
+  }
 
-    
+  checkAdmin = () => {
+    this.setState({
+      isAdmin: true,
+    })
+    console.log('user is admins')
   }
 
   // stores the score object for a non-signed in user so that they can save their score by signing up
@@ -84,12 +90,22 @@ class App extends Component {
     })
   }
 
+  clearStateOnSignout = () => {
+    this.setState({
+      authUser: null,
+      signedInUser: "",
+      scoreObject: {},
+      displayName: '',
+      isAdmin: false,
+    })
+  }
+
   render() {
     return (
       <MuiThemeProvider theme={theme}>
 
           <div>
-            <Navigation authUser={this.state.authUser} signedInUser={this.state.signedInUser}/>
+            <Navigation authUser={this.state.authUser} signedInUser={this.state.signedInUser} clearStateOnSignout={this.clearStateOnSignout}/>
 
               <Switch>
                 <Route
@@ -102,7 +118,7 @@ class App extends Component {
                 />
                 <Route
                   exact path={routes.SIGN_IN}
-                  render={(props) => <SignInPage {...props} getSignedInUser={this.getSignedInUser} scoreObject={this.state.scoreObject}/>}
+                  render={(props) => <SignInPage {...props} getSignedInUser={this.getSignedInUser} scoreObject={this.state.scoreObject} checkAdmin={this.checkAdmin}/>}
                 />
                 <Route
                   exact path={routes.PASSWORD_FORGET}
@@ -150,7 +166,7 @@ class App extends Component {
                 />
                 <Route
                   exact path={routes.USER_PROFILES}
-                  render={(props) => <PublicProfile {...props} key={window.location.pathName} signedInUser={this.state.signedInUser} displayName={this.state.displayName}/>}
+                  render={(props) => <PublicProfile {...props} key={window.location.pathName} signedInUser={this.state.signedInUser} displayName={this.state.displayName} isAdmin={this.state.isAdmin}/>}
                 />
                 <Route path="*" component={NoMatch}/>
 

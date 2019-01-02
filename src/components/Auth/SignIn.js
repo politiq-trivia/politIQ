@@ -16,14 +16,14 @@ import './Auth.css';
 import FacebookAuth from './FacebookAuth';
 
 
-const SignInPage = ({ history, getSignedInUser, scoreObject }) => {
+const SignInPage = ({ history, getSignedInUser, scoreObject, checkAdmin }) => {
   return (
     <Paper className="authCard signIn">
       <Helmet>
         <title>Sign In | politIQ</title>
       </Helmet>
       <h1>Sign In</h1>
-      <SignInForm  history={history} getSignedInUser={getSignedInUser} scoreObject={scoreObject}/>
+      <SignInForm  history={history} getSignedInUser={getSignedInUser} scoreObject={scoreObject} checkAdmin={checkAdmin}/>
       <FacebookAuth />
       <PasswordForgetLink />
       <SignUpLink />
@@ -55,6 +55,7 @@ class SignInForm extends Component {
       .then(response => {
         const isAdmin = response.val().isAdmin;
         if (isAdmin) {
+          this.props.checkAdmin()
           history.push(routes.ADMIN_DASHBOARD)
         } else {
           this.setState({ ...INITIAL_STATE });
