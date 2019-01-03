@@ -262,5 +262,3 @@ class QuizList extends Component {
     )
   }
 }
-
-export default QuizList;

@@ -26,9 +26,9 @@ class AdminDashboard extends Component {
     super(props);
 
     this.state = {
-      addingQuiz: false,
+      addingQuiz: true,
       editingQuiz: false,
-      showDash: true,
+      showDash: false,
       showQuiz: false,
       showUsers: false,
       showLeaders: false,
