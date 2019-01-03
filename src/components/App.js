@@ -51,7 +51,7 @@ class App extends Component {
       authUser: null,
       signedInUser: "Wrl9XmpKHdh1xRQFrElTu6G3VbD2",
       scoreObject: {},
-      displayName: 'Hanna',
+      displayName: '',
       isAdmin: false,
     };
   }

@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { db } from '../../firebase';
 import { Helmet } from 'react-helmet';
-import MediaQuery from 'react-responsive';
 import { withRouter } from 'react-router-dom';
 
 import Paper from '@material-ui/core/Paper';
@@ -12,9 +11,6 @@ import UserScoreboard from '../Leaderboard/UserScoreboard';
 import PublicProfilePhoto from './PublicProfilePhoto';
 import CommentWidget from './Comment/CommentWidget';
 import './profile.css';
-
-const Placeholder = "https://via.placeholder.com/300x150"
-const BigPlaceholder = "https://via.placeholder.com/700x200"
 
 class PublicProfile extends Component {
   constructor(props) {
