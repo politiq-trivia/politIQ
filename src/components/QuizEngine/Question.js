@@ -6,13 +6,23 @@ import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Radio from '@material-ui/core/Radio';
 import RadioGroup from '@material-ui/core/RadioGroup';
 
+
 class Question extends Component {
     shouldComponentUpdate(nextProps) {
-        if (nextProps.qNum !== this.props.qNum || nextProps.selectedValue !== this.props.selectedValue) {
+        if (nextProps.qNum !== this.props.qNum || nextProps.selectedValue !== this.props.selectedValue || nextProps.wrong !== this.props.wrong) {
             return true;
         } else {
             return false;
         }
+    }
+
+    openNewTab = () => {
+        const newState = this.props.state;
+        newState.contestQuestion = true;
+        const newStateJson = JSON.stringify(newState)
+        localStorage.setItem("state", newStateJson)
+        const url = 'quiz/' + this.props.quizID
+        window.open(`/${url}`);
     }
 
     render() {
@@ -65,6 +75,7 @@ class Question extends Component {
                 ? <div style={{ marginTop: '3vh'}}>
                     <Button variant="contained" color="primary" onClick={nextQ}>Continue</Button>
                     <p>INCORRECT - The correct answer was <span style={{ color: 'green' }}>{correctAnswer}</span>.</p>
+                    <Button variant="contained" onClick={this.openNewTab}>Contest This Question</Button>
                 </div>
                 : null
             }

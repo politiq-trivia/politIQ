@@ -130,11 +130,6 @@ class NavigationAuth extends Component {
             </ListItem>
           </Link>
           : null }
-          <Link to={routes.HOME} style={{ textDecoration: 'none'}}>
-            <ListItem button>
-              <ListItemText primary="Home" />
-            </ListItem>
-          </Link>
           <Link to={this.state.mostRecentQuizURL} style={{ textDecoration: 'none'}}>
             <ListItem button>
               <ListItemText primary="Play Game" />
@@ -153,11 +148,6 @@ class NavigationAuth extends Component {
           <Link to={routes.PROFILE} style={{ textDecoration: 'none'}}>
             <ListItem button>
               <ListItemText primary="Profile" />
-            </ListItem>
-          </Link>
-          <Link to={routes.ABOUT} style={{ textDecoration: 'none'}}>
-            <ListItem button>
-              <ListItemText primary="About" />
             </ListItem>
           </Link>
           <ListItem button component="a" onClick={this.signOut}>
@@ -249,11 +239,6 @@ class NavigationNonAuth extends Component {
     const fullList = (
       <div>
         <List component="nav">
-          <Link to={routes.LANDING} style={{ textDecoration: 'none'}}>
-            <ListItem button>
-              <ListItemText primary="Home" />
-            </ListItem>
-          </Link>
           <Link to={routes.SIGN_IN} style={{ textDecoration: 'none'}}>
             <ListItem button>
               <ListItemText primary="Sign In" />

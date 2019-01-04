@@ -177,17 +177,6 @@ class SignUpForm extends Component {
           ))}
         </TextField>
         <FormHelperText>Affiliation will not be shared publicly.</FormHelperText>
-        <TextField
-          id="standard-multiline-flexible"
-          label="Add a short bio (optional)"
-          multiline
-          rowsMax="4"
-          value={this.state.bio}
-          onChange={event => this.setState(byPropKey('bio', event.target.value))}
-          margin="normal"
-          fullWidth
-        />
-        <FormHelperText>This will be visible to other PolitIQ users.</FormHelperText>
 
         <Button disabled={isInvalid} type="submit" variant="contained" color="primary" style={{ marginTop: '4vh'}}>
           Sign Up

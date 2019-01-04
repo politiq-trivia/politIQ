@@ -41,15 +41,25 @@ class Quiz extends PureComponent {
   componentDidMount = () => {
     const url = window.location.href;
     const date = url.split('/')[4];
-    this.setState({
-      selectedQuizId: date,
-    })
-    this.getQuiz(date)
-    this.timer = window.setTimeout(() => {
-      this.progressBar = window.setInterval(() => {
-        this.progress(30)
-      }, 500)
-    }, 3000)
+
+    if (localStorage.hasOwnProperty('state')) {
+      const newState = JSON.parse(localStorage.state) 
+      console.log(newState, 'this is newState')
+      this.setState(newState);
+      this.renderQ(0, newState.uid)
+      return;
+    } else {
+      this.setState({
+        selectedQuizId: date,
+        contestQuestion: false,
+      })
+      this.getQuiz(date)
+      this.timer = window.setTimeout(() => {
+        this.progressBar = window.setInterval(() => {
+          this.progress(30)
+        }, 500)
+      }, 3000)
+    }
   }
 
   componentWillUnmount = () => {
@@ -88,6 +98,7 @@ class Quiz extends PureComponent {
         wrong: false,
         correctAnswer: '',
         completed: 0,
+        contestQuestion: false,
       })
       this.timer = window.setTimeout(() => {
         this.handleSubmit()
@@ -112,11 +123,18 @@ class Quiz extends PureComponent {
     this.setState({
       contestQuestion: !this.state.contestQuestion,
     })
+    this.renderQ()
+  }
+
+  closeContest = () => {
+    this.setState({
+      contestQuestion: false,
+    })
+    this.nextQ()
   }
 
   renderQ = (qNum, uid) => {
-    if (qNum > 0 && this.state.selectedQuiz[qNum]) {
-
+    if (qNum > 0 && this.state.selectedQuiz[qNum] && this.state.contestQuestion === false) {
       return (
         <Question 
           questionObj={this.state.selectedQuiz[qNum]} 
@@ -126,6 +144,8 @@ class Quiz extends PureComponent {
           nextQ={this.nextQ} 
           correctAnswer={this.state.correctAnswer} 
           wrong={this.state.wrong}
+          quizID={this.state.selectedQuizId}
+          state={this.state}
         />
       )
     } else if (this.state.finished === true && this.state.contestQuestion === true) {
@@ -135,15 +155,18 @@ class Quiz extends PureComponent {
           quizID={this.state.selectedQuizId} 
           uid={uid} 
           back={this.toggleContest}
+          atEndOfQuiz={true}
         />
       )
     }
   }
 
   checkCorrect = (value) => {
+    // if the user has not selected a value and the quiz is finished, return 
     if (value === undefined && this.state.finished) {
       return;
     } else {
+      // stop the timers
       window.clearTimeout(this.timer)
       window.clearInterval(this.progressBar)
       const selected = value;
@@ -151,6 +174,7 @@ class Quiz extends PureComponent {
       const str = "a" + selected + "correct"
       const isCorrect = question[str]
       let correctAnswer;
+      // if the answer is correct, add a point and then render the next question after a slight delay
       if (isCorrect) {
         const score = this.state.score + 1;
         this.setState({
@@ -159,25 +183,30 @@ class Quiz extends PureComponent {
         this.timer = window.setTimeout(() => {
           this.nextQ();
         }, 1000)
-      } else {
+      // otherwise, if the user answers wrong or doesn't answer
+      } else if (isCorrect === false || isCorrect === undefined) {
+        // loop through the question to find the correct answer 
         for (let i = 1; i <= 4; i++) {
           const str2 = "a" + i + "correct"
+          // capture the correct answer in a scoped variable
           if (question[str2]) {
             const correct = "a" + i + "text"
             correctAnswer = question[correct];
           }
         }
+        // toggle the answer show (in theory)
         this.setState({
           wrong: true,
           correctAnswer: correctAnswer,
           completed: 0,
         })
-        this.timer = window.setTimeout(() => {
-          this.nextQ()
-        }, 15000)
-        this.progressBar = window.setInterval(() => {
-          this.progress(15)
-        }, 500)
+        // set a timeout to the next thing. (this is the thing I want to remove)
+        // this.timer = window.setTimeout(() => {
+        //   this.nextQ()
+        // }, 15000)
+        // this.progressBar = window.setInterval(() => {
+        //   this.progress(15)
+        // }, 500)
       }
     }
   }
@@ -202,19 +231,21 @@ class Quiz extends PureComponent {
       score,
     }
     if (uid === "") {
-      console.log(uid, 'empty uid')
       this.props.storeScore(scoreObj)
     } else {
-      console.log('user has uid')
       db.setScore(uid, this.state.selectedQuizId, score)
     }
   }
 
+  // progress method controls the timer bar at the bottom of the page
   progress = (num) => {
+    // not sure if this line is necessary
     if (this.state.stopRendering) {return;}
+    // is it completed
     let { completed } = this.state;
     if (completed === 100) {
       this.setState({ completed: 0 });
+      this.checkCorrect()
     } else if (completed === 0) {
       completed += (100/num)
     } else {
@@ -270,13 +301,28 @@ class Quiz extends PureComponent {
                         }
                       </div>
                   }
+                  {this.state.contestQuestion && authUser
+                    ? <ContestAQuestion 
+                        quiz={this.state.selectedQuiz} 
+                        quizID={this.state.selectedQuizId} 
+                        uid={authUser.uid} 
+                        back={this.toggleContest}
+                        currentQ={this.state.currentQ}
+                        atEndOfQuiz={false}
+                        toggleContest={this.closeContest}
+                        state={this.state}
+                      />
+                    : null
+                  }
                 </div>
             }
             
             <LinearProgress className="progressBar-mobile"variant="determinate" value={this.state.completed} />
             {this.state.finished
               ? null
-              : <LinearProgress className="progressBar-full"variant="determinate" value={this.state.completed} />
+              : <div>
+                  {this.state.wrong ? null : <LinearProgress className="progressBar-full"variant="determinate" value={this.state.completed} /> }
+                </div>
             }
           </Paper>
         }
