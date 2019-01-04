@@ -92,6 +92,8 @@
   font-weight: bold;
 }
 
+
+
 @media screen and (max-width: 416px) {
   .score {
     font-size: 24px;
@@ -161,10 +163,34 @@
   margin-top: 1.6vh;
 }
 
+@media screen and (max-width: 980px) {
+  .score {
+    font-size: 3vh;
+  }
+  .userScore {
+    font-size: 2vh;
+  }
+  .small-scoreboardHolder{
+    height: 21.5vh;
+    width: 60vw;
+  }
+  .small-scoreboard {
+    width: 58.8vw;
+  }
+  
+}
+
+@media screen and (max-width: 800px) {
+  .profile-button-holder {
+    width: 60vw;
+    flex-wrap: wrap;
+  }
+}
+
 @media screen and (max-width: 415px) {
   .small-scoreboardHolder {
     width: 80vw;
-    height: 24.3vh;
+    height: 22.5vh;
   }
   .small-scoreboard {
     width: 78vw;
@@ -183,6 +209,8 @@
 
 
 }
+
+
 
 .barChart {
   /* padding-left: 50%; */

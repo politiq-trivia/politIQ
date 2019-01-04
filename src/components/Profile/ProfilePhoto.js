@@ -25,6 +25,7 @@ class ProfilePhoto extends Component {
     const set = () => {
       this.setState({
         loading: false,
+        userID: this.props.authUser.uid
       })
     }
     if (this.props.authUser.uid !== "") {
@@ -41,6 +42,7 @@ class ProfilePhoto extends Component {
           switch (error.code) {
             case 'storage/object-not-found':
               console.log('Object does not exist')
+              console.log(error)
               set()
               break;
             case 'storage/unauthorized':
@@ -87,7 +89,6 @@ class ProfilePhoto extends Component {
   }
 
   handleUploadSuccess = (filename) => {
-    console.log('handleUploadSuccess called')
     this.setState({
       avatar: filename,
       progress: 100,
