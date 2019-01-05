@@ -25,7 +25,7 @@ const SignUpPage = ({ history, getSignedInUser, scoreObject }) =>
     </Helmet>
     <h1>Sign Up</h1>
     <SignUpForm history={history} getSignedInUser={getSignedInUser} scoreObject={scoreObject}/>
-    <FacebookAuth />
+    <FacebookAuth history={history}/>
     <SignInLink />
   </Paper>
 

@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
-import { app, provider } from '../../firebase';
-import { Toaster, Intent } from '@blueprintjs/core';
+import { app, provider, db} from '../../firebase';
+import { withRouter } from 'react-router-dom';
+
+import { HOME } from '../../constants/routes';
 
 import { FacebookIcon } from 'react-share';
 import Button from '@material-ui/core/Button';
@@ -18,18 +20,28 @@ class FacebookAuth extends Component {
     return userPassword;
   }
 
-  authWithFacebook() {
-  app.auth().signInWithPopup(provider)
-    .then((result, error) => {
-      if (error.code === "auth/account-exists-with-different-credential") {
+  redirect = () => {
+    this.props.history.push(HOME)
+  }
 
+  doSignInWithFacebook() {
+    // console.log()
+    app.auth().signInWithPopup(provider)
+    .then((result, error) => {
+      if (error && error.code === "auth/account-exists-with-different-credential") {
+        console.log('accoutn already exists')
       } else {
         var token = result.credential.accessToken;
         // The signed-in user info.
         var user = result.user;
-        console.log(user)
+        const uid = user.uid;
+        db.doCreateUser(uid, user.displayName, result.additionalUserInfo.profile.email, "", false, "")
         // something else here probably
+        // console.log(this.props.history, 'history from insize the auth func')
       }
+      // console.log(result, 'this is the result')
+      this.redirect();
+
 
       // I want to take all of this data that i get back and store it (including the user's profile photo) in the db and then redirect that user to the home page.
     }).catch(function(error) {
@@ -44,6 +56,8 @@ class FacebookAuth extends Component {
       // The firebase.auth.AuthCredential type that was used.
       var credential = error.credential;
       if (errorCode === 'auth/account-exists-with-different-credential') {
+        // I don't want to use an alert here, I want to trigger a modal. 
+
         alert('You have already signed up with a different provider.')
         // user's email already exists
         // the pending facebook credential
@@ -66,16 +80,29 @@ class FacebookAuth extends Component {
         console.error(error)
       }
     })
-}
+  }
+
+  onSubmit = event => {
+    this.doSignInWithFacebook()
+    .then(socialAuthUser => {
+      this.setState({ error: null });
+      this.props.history.push(HOME);
+    })
+    .catch(error => {
+      this.setState({ error });
+    });
+    event.preventDefault()
+  }
 
   render() {
+    const { error } = this.state; 
     return (
       <div style={{ marginTop: '10px'}}>
-        <Toaster ref={(element) => { this.toaster = element }} />
-        <Button onClick={() => {this.authWithFacebook()}}><FacebookIcon round={true} size={32}/> <span style={{ marginLeft: '5px'}}>Continue With Facebook</span></Button>
+        <Button onClick={() => this.doSignInWithFacebook()}><FacebookIcon round={true} size={32}/> <span style={{ marginLeft: '5px'}}>Continue With Facebook</span></Button>
+        {error && <p>{error.message}</p>}
       </div>
     )
   }
 }
 
-export default FacebookAuth;
+export default withRouter(FacebookAuth);
