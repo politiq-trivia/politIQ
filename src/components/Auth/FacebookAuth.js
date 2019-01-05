@@ -22,23 +22,7 @@ class FacebookAuth extends Component {
   app.auth().signInWithPopup(provider)
     .then((result, error) => {
       if (error.code === "auth/account-exists-with-different-credential") {
-        // user's email already exists
-        // the pending facebook credential
-        const pendingCred = error.credential;
-        // the provider account's email address
-        const email = error.email;
-        app.auth.fetchSignInMethodsForEmail(email).then(function(methods) {
-          // if the user has several sign in methods
-          const password = this.promptUserForPassword() // does not exist - TODO 
-          app.auth.signInWithEmailAndPassword(email, password).then(function(user) {
-            return user.link(pendingCred);
-          }).then(function() {
-            // facebook account successfully linked to existing firebase user
-            console.log('success')
-            // goToApp()
-          });
-          return;
-        })
+
       } else {
         var token = result.credential.accessToken;
         // The signed-in user info.
@@ -61,7 +45,23 @@ class FacebookAuth extends Component {
       var credential = error.credential;
       if (errorCode === 'auth/account-exists-with-different-credential') {
         alert('You have already signed up with a different provider.')
-
+        // user's email already exists
+        // the pending facebook credential
+        const pendingCred = error.credential;
+        // the provider account's email address
+        const email = error.email;
+        app.auth.fetchSignInMethodsForEmail(email).then(function(methods) {
+          // if the user has several sign in methods
+          const password = this.promptUserForPassword() // does not exist - TODO 
+          app.auth.signInWithEmailAndPassword(email, password).then(function(user) {
+            return user.link(pendingCred);
+          }).then(function() {
+            // facebook account successfully linked to existing firebase user
+            console.log('success')
+            // goToApp()
+          });
+          return;
+        })
       } else {
         console.error(error)
       }
