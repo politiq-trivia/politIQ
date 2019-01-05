@@ -13,11 +13,33 @@ class FacebookAuth extends Component {
     }
   }
 
+  promptUserForPassword = () => {
+    const password = prompt("You've already registered an account using a different sign-in method. Please enter your password to continue.")
+    return password;
+  }
+
   authWithFacebook() {
   app.auth().signInWithPopup(provider)
     .then((result, error) => {
-      if (error) {
-        this.toaster.show({ intent: Intent.DANGER, message: "Unable to sign in with Facebook" })
+      if (error.code === "auth/account-exists-with-different-credential") {
+        // user's email already exists
+        // the pending facebook credential
+        const pendingCred = error.credential;
+        // the provider account's email address
+        const email = error.email;
+        app.auth.fetchSignInMethodsForEmail(email).then(function(methods) {
+          // if the user has several sign in methods
+          let password;
+          // const password = promptUserForPassword() // does not exist - TODO 
+          app.auth.signInWithEmailAndPassword(email, password).then(function(user) {
+            return user.link(pendingCred);
+          }).then(function() {
+            // facebook account successfully linked to existing firebase user
+            console.log('success')
+            // goToApp()
+          });
+          return;
+        })
       } else {
         var token = result.credential.accessToken;
         // The signed-in user info.

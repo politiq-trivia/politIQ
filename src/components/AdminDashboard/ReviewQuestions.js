@@ -77,13 +77,14 @@ class ReviewQuestions extends Component {
     }
   }
 
+  // will need to modify this when I add in contested question
   acceptQ = async () => {
     db.acceptQuestion(this.state.selectedDate, this.state.selectedQ)
     await db.getSubmittedOrContestedScoreByUid(this.state.selectedQ.fromUser)
       .then(response => {
         const data = response.val()
         const scoreArray = Object.keys(data)
-        const score = scoreArray.length + 1 
+        const score = (scoreArray.length * 3) + 3
         db.setSubmittedOrContestedScoreByUid(this.state.selectedQ.fromUser, this.state.selectedDate, score)
       })
     this.skipQ()
