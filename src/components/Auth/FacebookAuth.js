@@ -14,8 +14,8 @@ class FacebookAuth extends Component {
   }
 
   promptUserForPassword = () => {
-    const password = prompt("You've already registered an account using a different sign-in method. Please enter your password to continue.")
-    return password;
+    const userPassword = prompt("You've already registered an account using a different sign-in method. Please enter your password to continue.")
+    return userPassword;
   }
 
   authWithFacebook() {
@@ -29,7 +29,6 @@ class FacebookAuth extends Component {
         const email = error.email;
         app.auth.fetchSignInMethodsForEmail(email).then(function(methods) {
           // if the user has several sign in methods
-          let password;
           const password = this.promptUserForPassword() // does not exist - TODO 
           app.auth.signInWithEmailAndPassword(email, password).then(function(user) {
             return user.link(pendingCred);
