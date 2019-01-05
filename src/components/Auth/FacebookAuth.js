@@ -30,7 +30,7 @@ class FacebookAuth extends Component {
         app.auth.fetchSignInMethodsForEmail(email).then(function(methods) {
           // if the user has several sign in methods
           let password;
-          // const password = promptUserForPassword() // does not exist - TODO 
+          const password = this.promptUserForPassword() // does not exist - TODO 
           app.auth.signInWithEmailAndPassword(email, password).then(function(user) {
             return user.link(pendingCred);
           }).then(function() {
@@ -62,6 +62,7 @@ class FacebookAuth extends Component {
       var credential = error.credential;
       if (errorCode === 'auth/account-exists-with-different-credential') {
         alert('You have already signed up with a different provider.')
+
       } else {
         console.error(error)
       }
