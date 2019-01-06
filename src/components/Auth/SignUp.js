@@ -8,6 +8,7 @@ import { auth, db, withFirebase } from '../../firebase';
 import { SignInLink } from './SignIn';
 
 import * as routes from '../../constants/routes';
+import * as roles from '../../constants/roles';
 
 //UI
 import Paper from '@material-ui/core/Paper';
@@ -74,6 +75,11 @@ class SignUpFormBase extends Component {
       bio,
     } = this.state;
 
+    const roles = [];
+    if (isAdmin) {
+      roles.push(roles.ADMIN)
+    }
+
     const {
       history,
       scoreObject
@@ -84,7 +90,7 @@ class SignUpFormBase extends Component {
 
         // this one creates the user in the firebase database and is where I'll
         // add in the additional information (to the state in this component)
-        db.doCreateUser(authUser.user.uid, username, email, affiliation, isAdmin, bio)
+        db.doCreateUser(authUser.user.uid, username, email, affiliation, isAdmin, bio, roles)
           .then(() => {
             const date = moment().format('YYYY-MM-DD')
             db.lastActive(authUser.user.uid, date)

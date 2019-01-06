@@ -10,9 +10,29 @@ const withAuthorization = (authCondition) => (Component) => {
   class WithAuthorization extends React.Component {
     componentDidMount() {
       this.listener = firebase.auth.onAuthStateChanged(authUser => {
-        if(!authCondition(authUser)) {
+        if (authUser) {
+          firebase.user(authUser.uid).once('value').then(snapshot => {
+            const dbUser = snapshot.val();
+
+            // default empty roles
+            if (!dbUser.roles) {
+              dbUser.roles = [];
+            }
+
+            authUser = {
+              uid: authUser.uid,
+              email: authUser.email,
+              ...dbUser,
+            };
+
+            if(!authCondition(authUser)) {
+              this.props.history.push(routes.SIGN_IN);
+            }
+          })
+        } else {
           this.props.history.push(routes.SIGN_IN);
         }
+
       });
     }
 
