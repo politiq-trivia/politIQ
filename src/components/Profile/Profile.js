@@ -2,15 +2,15 @@ import React, { Component } from 'react';
 import { Helmet } from 'react-helmet';
 import { db } from '../../firebase';
 import { Link } from 'react-router-dom';
+import { compose } from 'recompose';
 
 import ProfilePhoto from './ProfilePhoto';
 
 import Button from '@material-ui/core/Button';
 import './profile.css';
 
-import AuthUserContext from '../Auth/AuthUserContext';
+import { AuthUserContext, withAuthorization, withEmailVerification } from '../Auth/index';
 import PasswordChangeForm from '../Auth/PasswordChange';
-import withAuthorization from '../Auth/withAuthorization';
 import EditProfile from './EditProfile';
 import UserScoreboard from '../Leaderboard/UserScoreboard';
 
@@ -120,4 +120,7 @@ class ProfilePage extends Component {
 
 const authCondition = (authUser) => !!authUser;
 
-export default withAuthorization(authCondition)(ProfilePage);
+export default compose(
+  withEmailVerification,
+  withAuthorization(authCondition)
+)(ProfilePage);

@@ -21,6 +21,7 @@ export const doPasswordReset = (email) =>
 export const doPasswordUpdate = (password) =>
   auth.currentUser.updatePassword(password);
 
+// check if the user is logged in
 export const onAuthUserListener = (next, fallback) =>
   auth.onAuthStateChanged(authUser => {
     if (authUser) {
@@ -44,6 +45,8 @@ export const onAuthUserListener = (next, fallback) =>
         authUser = {
           uid: authUser.uid,
           email: authUser.email,
+          emailVerified: authUser.emailVerified,
+          providerData: authUser.providerData,
           ...dbUser,
         };
 
@@ -53,3 +56,11 @@ export const onAuthUserListener = (next, fallback) =>
       fallback()
     }
   })
+
+// email verification
+export const doSendEmailVerification = () => {
+  console.log(process.env.REACT_APP_CONFIRMATION_EMAIL_REDIRECT, 'EMAIL REDIRECT')
+  return auth.currentUser.sendEmailVerification({
+    url: process.env.REACT_APP_CONFIRMATION_EMAIL_REDIRECT,
+  });
+}

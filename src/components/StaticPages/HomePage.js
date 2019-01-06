@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { Helmet } from 'react-helmet';
-// import * as moment from 'moment';
+import { compose } from 'recompose';
 
-import withAuthorization from '../Auth/withAuthorization';
+import { withAuthorization, withEmailVerification } from '../Auth/index';
 
 import * as routes from '../../constants/routes';
 
@@ -58,4 +58,7 @@ class HomePage extends Component {
 
 const authCondition = (authUser) => !!authUser;
 
-export default withAuthorization(authCondition)(HomePage);
+export default compose(
+  withEmailVerification,
+  withAuthorization(authCondition),
+)(HomePage);

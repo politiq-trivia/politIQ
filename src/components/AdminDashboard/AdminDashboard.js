@@ -5,7 +5,7 @@ import { compose } from 'recompose';
 import { db, withFirebase } from '../../firebase';
 import { LEADERBOARD } from '../../constants/routes';
 import * as ROLES from '../../constants/roles';
-import withAuthorization from '../Auth/withAuthorization';
+import { withAuthorization, withEmailVerification } from '../Auth/index';
 
 import Paper from '@material-ui/core/Paper';
 import AppBar from '@material-ui/core/AppBar';
@@ -249,6 +249,7 @@ const condition = authUser =>
   authUser && authUser.roles[ROLES.ADMIN] === "ADMIN";
 
 export default compose(
+  withEmailVerification,
   withAuthorization(condition),
   withFirebase,
 )(AdminDashboard);

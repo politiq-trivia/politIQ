@@ -2,9 +2,9 @@ import React, { Component } from 'react';
 import { db } from '../../firebase';
 import { Helmet } from 'react-helmet';
 import { withRouter } from 'react-router-dom';
+import { compose } from 'recompose';
 
-import AuthUserContext from '../Auth/AuthUserContext';
-import withAuthorization from '../Auth/withAuthorization';
+import { AuthUserContext, withAuthorization, withEmailVerification } from '../Auth/index';
 
 import Paper from '@material-ui/core/Paper';
 import Button from '@material-ui/core/Button';
@@ -121,4 +121,8 @@ class PublicProfile extends Component {
 
 const condition = authUser => !!authUser;
 
-export default withRouter(withAuthorization(condition)(PublicProfile));
+export default compose(
+  withEmailVerification,
+  withRouter,
+  withAuthorization(condition)
+)(PublicProfile);

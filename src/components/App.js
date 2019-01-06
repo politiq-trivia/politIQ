@@ -5,7 +5,6 @@ import {
 } from 'react-router-dom';
 import './App.css';
 import { db, withFirebase } from '../firebase';
-import { AuthUserContext } from '../components/Auth/index';
 
 import Navigation from './Navigation';
 import LandingPage from './StaticPages/Landing';

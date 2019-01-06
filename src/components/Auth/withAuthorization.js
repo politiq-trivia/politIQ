@@ -3,7 +3,7 @@ import { withRouter } from 'react-router-dom';
 import { compose } from 'recompose';
 
 import AuthUserContext from './AuthUserContext';
-import { firebase, withFirebase, auth } from '../../firebase';
+import { withFirebase, auth } from '../../firebase';
 import * as routes from '../../constants/routes';
 
 const withAuthorization = (authCondition) => (Component) => {
