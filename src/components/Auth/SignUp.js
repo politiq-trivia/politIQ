@@ -37,7 +37,7 @@ const INITIAL_STATE = {
   passwordOne: '',
   passwordTwo: '',
   affiliation: '',
-  isAdmin: false,
+  isAdmin: true,
   bio: '',
   error: null, 
 };
@@ -75,11 +75,12 @@ class SignUpFormBase extends Component {
       bio,
     } = this.state;
 
-    const roles = [];
-    if (isAdmin) {
-      roles.push(roles.ADMIN)
-    }
+    const rolesArray = [];
 
+    if (isAdmin) {
+      rolesArray.push(roles.ADMIN)
+    }
+    console.log(rolesArray, 'this is roles')
     const {
       history,
       scoreObject
@@ -90,7 +91,7 @@ class SignUpFormBase extends Component {
 
         // this one creates the user in the firebase database and is where I'll
         // add in the additional information (to the state in this component)
-        db.doCreateUser(authUser.user.uid, username, email, affiliation, isAdmin, bio, roles)
+        db.doCreateUser(authUser.user.uid, username, email, affiliation, isAdmin, bio, rolesArray)
           .then(() => {
             const date = moment().format('YYYY-MM-DD')
             db.lastActive(authUser.user.uid, date)

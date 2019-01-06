@@ -34,7 +34,7 @@ class FacebookAuth extends Component {
     this.props.history.push(HOME)
   }
 
-  doSignInWithFacebook() {
+  doSignInWithFacebook = () => {
     // console.log()
     app.auth().signInWithPopup(provider)
     .then((result, error) => {
@@ -63,7 +63,9 @@ class FacebookAuth extends Component {
       var errorCode = error.code;
       if (errorCode === ERROR_CODE_ACCOUNT_EXISTS) {
         error.message = ERROR_MSG_ACCOUNT_EXISTS;
-        this.setState({ error })
+        console.error(error.message)
+        // console.log(this.state, 'state in facebook auth')
+        // this.setState({ error })
       }
       // The email of the user's account used.
       var email = error.email;
@@ -78,22 +80,26 @@ class FacebookAuth extends Component {
         const pendingCred = error.credential;
         // the provider account's email address
         const email = error.email;
-        app.auth.fetchSignInMethodsForEmail(email).then(function(methods) {
-          // if the user has several sign in methods
-          const password = this.promptUserForPassword() // does not exist - TODO 
-          app.auth.signInWithEmailAndPassword(email, password).then(function(user) {
-            return user.link(pendingCred);
-          }).then(function() {
-            // facebook account successfully linked to existing firebase user
-            console.log('success')
-            // goToApp()
-          });
-          return;
-        })
-      } else {
-        console.error(error)
+      //   app.auth.fetchSignInMethodsForEmail(email).then(function(methods) {
+      //     // if the user has several sign in methods
+      //     const password = this.promptUserForPassword() // does not exist - TODO 
+      //     app.auth.signInWithEmailAndPassword(email, password).then(function(user) {
+      //       return user.link(pendingCred);
+      //     }).then(function() {
+      //       // facebook account successfully linked to existing firebase user
+      //       console.log('success')
+      //       // goToApp()
+      //     });
+      //     return;
+      //   })
+      // } else {
+      //   console.error(error)
       }
     })
+  }
+
+  setError = (error) => {
+    this.setState({ error })
   }
 
   onSubmit = event => {

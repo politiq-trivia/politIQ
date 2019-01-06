@@ -1,4 +1,5 @@
-import { auth, db } from './firebase'; 
+import { auth } from './firebase'; 
+import * as db from './db';
 
 // Sign Up
 export const doCreateUserWithEmailAndPassword = (email, password) =>
@@ -23,11 +24,17 @@ export const doPasswordUpdate = (password) =>
 export const onAuthUserListener = (next, fallback) =>
   auth.onAuthStateChanged(authUser => {
     if (authUser) {
-      db.ref(`users/${authUser.uid}`)
-      .once('value')
+      console.log(authUser.uid, 'uid')
+      // db.ref(`users`).child(authUser.uid)
+      // .once('value')
+      console.log(db, 'this is db')
+      db.getOneUser(authUser.uid)
       .then(snapshot => {
         const dbUser = snapshot.val();
-
+        console.log(snapshot.val(), 'this is snapshot')
+        if (snapshot.val() === null) {
+          return;
+        }
         // default empty roles
         if (!dbUser.roles) {
           dbUser.roles = [];

@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import * as routes from '../constants/routes';
+import * as roles from '../constants/roles';
 
 import AuthUserContext from './Auth/AuthUserContext';
 import { auth, db } from '../firebase';
@@ -23,7 +24,7 @@ const Navigation = ({ authUser, signedInUser, clearStateOnSignout }) => {
   return (
     <AuthUserContext.Consumer>
       {authUser => authUser
-        ? <NavigationAuth signedInUser={signedInUser} clearStateOnSignout={clearStateOnSignout}/>
+        ? <NavigationAuth authUser={authUser} clearStateOnSignout={clearStateOnSignout}/>
         : <NavigationNonAuth />
       }
     </AuthUserContext.Consumer>
@@ -72,9 +73,6 @@ class NavigationAuth extends Component {
 
   componentDidMount = () => {
     this.getMostRecentQuizId();
-    if (this.props.signedInUser) {
-      this.isAdmin(this.props.signedInUser);
-    }
   }
 
   toggleDrawer = (side, open) => () => {
@@ -97,22 +95,6 @@ class NavigationAuth extends Component {
       })
   }
 
-  isAdmin = async (uid) => {
-    await db.checkAdmin(uid)
-      .then(response => {
-        const isAdmin = response.val().isAdmin;
-        if (isAdmin) {
-          this.setState({
-            isAdmin: true,
-          })
-        } else {
-          this.setState({
-            isAdmin: false,
-          })
-        }
-      })
-  }
-
   signOut = () => {
     auth.doSignOut()
     this.props.clearStateOnSignout()
@@ -123,7 +105,7 @@ class NavigationAuth extends Component {
     const fullList = (
       <div>
         <List component="nav">
-          {this.state.isAdmin ?
+          {this.props.authUser && this.props.authUser.roles[roles.ADMIN] === "ADMIN" ?
           <Link to={routes.ADMIN_DASHBOARD} style={{ textDecoration: 'none'}}>
             <ListItem button>
               <ListItemText primary="Admin Dashboard" />

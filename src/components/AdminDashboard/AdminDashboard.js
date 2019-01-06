@@ -1,8 +1,11 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
+import { compose } from 'recompose';
 
-import { db } from '../../firebase';
+import { db, withFirebase } from '../../firebase';
 import { LEADERBOARD } from '../../constants/routes';
+import * as ROLES from '../../constants/roles';
+import withAuthorization from '../Auth/withAuthorization';
 
 import Paper from '@material-ui/core/Paper';
 import AppBar from '@material-ui/core/AppBar';
@@ -242,6 +245,10 @@ class AdminDashboard extends Component {
   }
 }
 
+const condition = authUser => 
+  authUser && authUser.roles[ROLES.ADMIN] === "ADMIN";
 
-
-export default AdminDashboard;
+export default compose(
+  withAuthorization(condition),
+  withFirebase,
+)(AdminDashboard);
