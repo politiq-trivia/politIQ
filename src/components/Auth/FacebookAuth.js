@@ -7,6 +7,16 @@ import { HOME } from '../../constants/routes';
 import { FacebookIcon } from 'react-share';
 import Button from '@material-ui/core/Button';
 
+const ERROR_CODE_ACCOUNT_EXISTS =
+  'auth/account-exists-with-different-credential';
+
+const ERROR_MSG_ACCOUNT_EXISTS = `
+  An account with an E-Mail address to
+  this social account already exists. Try to login from
+  this account instead and associate your social accounts on
+  your personal account page.
+`;
+
 class FacebookAuth extends Component {
   constructor(props) {
     super(props)
@@ -36,6 +46,7 @@ class FacebookAuth extends Component {
         var user = result.user;
         const uid = user.uid;
         db.doCreateUser(uid, user.displayName, result.additionalUserInfo.profile.email, "", false, "")
+        this.props.getSignedInUser(uid)
         // something else here probably
         // console.log(this.props.history, 'history from insize the auth func')
       }
@@ -50,7 +61,10 @@ class FacebookAuth extends Component {
 
       // Handle Errors here.
       var errorCode = error.code;
-      var errorMessage = error.message;
+      if (errorCode === ERROR_CODE_ACCOUNT_EXISTS) {
+        error.message = ERROR_MSG_ACCOUNT_EXISTS;
+        this.setState({ error })
+      }
       // The email of the user's account used.
       var email = error.email;
       // The firebase.auth.AuthCredential type that was used.

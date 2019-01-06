@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
 import { db } from '../../firebase';
 
+import AuthUserContext from '../Auth/AuthUserContext';
+import withAuthorization from '../Auth/withAuthorization';
+
 import FormControl from '@material-ui/core/FormControl';
 import InputLabel from '@material-ui/core/InputLabel';
 import NativeSelect from '@material-ui/core/NativeSelect';
@@ -77,66 +80,70 @@ class ContestAQuestion extends Component {
         })
 
         return (
-            <div style={{ paddingTop: '5vh'}}>
-                <h1>Contest a Question</h1>
-                <p>Think you found a mistake? Let us know below. You can contest each question once. Please provide a credible source to back up your explanation.</p>
-                
+            <AuthUserContext.Consumer>
+                <div style={{ paddingTop: '5vh'}}>
+                    <h1>Contest a Question</h1>
+                    <p>Think you found a mistake? Let us know below. You can contest each question once. Please provide a credible source to back up your explanation.</p>
+                    
 
-                    <div>
-                        {this.state.contestedQuestion === "" 
-                            ? <FormControl>
-                                <InputLabel htmlFor="question">{this.state.contestedQuestion !== "" ? this.props.quiz[this.state.contestedQuestion]["q1"] : "Select a Question to Contest"}</InputLabel>
-                                <NativeSelect 
-                                    onChange={this.handleChange}
-                                    name="contestedQuestion"
-                                    fullWidth
-                                >
-                                    <option value=""/>
-                                    {showQs}
-                                </NativeSelect>
-                            </FormControl>
-                            : null
-                        }
+                        <div>
+                            {this.state.contestedQuestion === "" 
+                                ? <FormControl>
+                                    <InputLabel htmlFor="question">{this.state.contestedQuestion !== "" ? this.props.quiz[this.state.contestedQuestion]["q1"] : "Select a Question to Contest"}</InputLabel>
+                                    <NativeSelect 
+                                        onChange={this.handleChange}
+                                        name="contestedQuestion"
+                                        fullWidth
+                                    >
+                                        <option value=""/>
+                                        {showQs}
+                                    </NativeSelect>
+                                </FormControl>
+                                : null
+                            }
 
-                        {this.renderQ()}
-                    </div>
+                            {this.renderQ()}
+                        </div>
 
 
-                {this.props.atEndOfQuiz === false || this.state.contestedQuestion !== ""
-                    ? <div>
-                        <TextField 
-                            id="standard-multiline-flexible"
-                            label="Please explain the issue with this question"
-                            multiline
-                            onChange={this.handleChange}
-                            margin="normal"
-                            name="issue"
-                            fullWidth
-                        />
-                        <TextField 
-                            label="Provide a credible source"
-                            fullWidth
-                            onChange={this.handleChange}
-                            margin="normal"
-                            name="source"
-                        />
-                        <Button color="primary" variant="contained" style={{ marginTop: '3vh'}} onClick={this.props.back}>Back</Button>
-                        <Button 
-                            color="primary" 
-                            variant="contained" 
-                            onClick={this.handleSubmit} 
-                            style={{ marginTop: '3vh', float: 'right'}} 
-                            disabled={this.state.issue === "" || this.state.source === ""}
-                        >
-                            Submit
-                        </Button>
-                    </div>
-                    : null
-                }
-                
-            </div>
+                    {this.props.atEndOfQuiz === false || this.state.contestedQuestion !== ""
+                        ? <div>
+                            <TextField 
+                                id="standard-multiline-flexible"
+                                label="Please explain the issue with this question"
+                                multiline
+                                onChange={this.handleChange}
+                                margin="normal"
+                                name="issue"
+                                fullWidth
+                            />
+                            <TextField 
+                                label="Provide a credible source"
+                                fullWidth
+                                onChange={this.handleChange}
+                                margin="normal"
+                                name="source"
+                            />
+                            <Button color="primary" variant="contained" style={{ marginTop: '3vh'}} onClick={this.props.back}>Back</Button>
+                            <Button 
+                                color="primary" 
+                                variant="contained" 
+                                onClick={this.handleSubmit} 
+                                style={{ marginTop: '3vh', float: 'right'}} 
+                                disabled={this.state.issue === "" || this.state.source === ""}
+                            >
+                                Submit
+                            </Button>
+                        </div>
+                        : null
+                    }
+                    
+                </div>
+            </AuthUserContext.Consumer>
         )
     }
 }
 
-export default ContestAQuestion;
+const condition = authUser => !!authUser;
+
+export default withAuthorization(condition)(ContestAQuestion);

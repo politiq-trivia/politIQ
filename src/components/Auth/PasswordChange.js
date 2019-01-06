@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 
-import { auth } from '../../firebase';
+import { auth, withFirebase } from '../../firebase';
 
 const byPropKey = (propertyName, value) => () => ({
   [propertyName]: value,
@@ -75,4 +75,4 @@ class PasswordChangeForm extends Component {
 }
 
 
-export default PasswordChangeForm;
+export default withFirebase(PasswordChangeForm);

@@ -4,7 +4,8 @@ import {
   Route, Switch
 } from 'react-router-dom';
 import './App.css';
-import { db } from '../firebase';
+import { db, withFirebase } from '../firebase';
+import { AuthUserContext } from '../components/Auth/index';
 
 import Navigation from './Navigation';
 import LandingPage from './StaticPages/Landing';
@@ -49,7 +50,7 @@ class App extends Component {
 
     this.state = {
       authUser: null,
-      signedInUser: "Wrl9XmpKHdh1xRQFrElTu6G3VbD2",
+      signedInUser: "",
       scoreObject: {},
       displayName: '',
       isAdmin: false,
@@ -57,11 +58,15 @@ class App extends Component {
   }
 
   componentDidMount() {
-    firebase.auth.onAuthStateChanged(authUser => {
+    this.listener = firebase.auth.onAuthStateChanged(authUser => {
       authUser
         ? this.setState({ authUser })
         : this.setState({ authUser: null });
     })
+  }
+
+  componentWillUnmount() {
+    this.listener();
   }
 
   getSignedInUser = (uid) => {
@@ -104,7 +109,6 @@ class App extends Component {
     return (
       <MuiThemeProvider theme={theme}>
 
-          <div>
             <Navigation authUser={this.state.authUser} signedInUser={this.state.signedInUser} clearStateOnSignout={this.clearStateOnSignout}/>
 
               <Switch>
@@ -175,11 +179,10 @@ class App extends Component {
 
 
             <Footer signedInUser={this.state.signedInUser}/>
-          </div>
       </MuiThemeProvider>
 
     );
   }
 }
 
-export default withAuthentication(App);
+export default withFirebase(withAuthentication(App));

@@ -2,10 +2,11 @@ import React, { Component } from 'react';
 import { Link, withRouter } from 'react-router-dom';
 import { Helmet } from 'react-helmet';
 import moment from 'moment';
+import { compose } from 'recompose';
 
 import { SignUpLink } from './SignUp';
 import { PasswordForgetLink } from './PasswordForget';
-import { auth, db } from '../../firebase';
+import { auth, db, withFirebase } from '../../firebase';
 import * as routes from '../../constants/routes';
 
 // UI
@@ -24,7 +25,7 @@ const SignInPage = ({ history, getSignedInUser, scoreObject, checkAdmin }) => {
       </Helmet>
       <h1>Sign In</h1>
       <SignInForm  history={history} getSignedInUser={getSignedInUser} scoreObject={scoreObject} checkAdmin={checkAdmin}/>
-      <FacebookAuth />
+      <FacebookAuth getSignedInUser={getSignedInUser}/>
       <PasswordForgetLink />
       <SignUpLink />
     </Paper>
@@ -42,7 +43,7 @@ const INITIAL_STATE = {
   isSignedIn: false,
 };
 
-class SignInForm extends Component {
+class SignInFormBase extends Component {
   constructor(props) {
     super(props);
 
@@ -50,6 +51,7 @@ class SignInForm extends Component {
   }
 
   isAdmin = async (uid) => {
+    console.log('isAdmin in signIn file called')
     const { history } = this.props;
     await db.checkAdmin(uid)
       .then(response => {
@@ -132,6 +134,11 @@ class SignInForm extends Component {
     );
   }
 }
+
+const SignInForm = compose(
+  withRouter,
+  withFirebase,
+)(SignInFormBase);
 
 const SignInLink = () =>
   <p>

@@ -2,7 +2,7 @@ import { db } from './firebase';
 
 // User API
 
-export const doCreateUser = (id, displayName, email, affiliation, isAdmin, bio) =>
+export const doCreateUser = (id, displayName, email, affiliation, isAdmin, bio) => 
   db.ref(`users/${id}`).set({
     displayName,
     email,
@@ -32,6 +32,8 @@ export const deleteUser = (uid) => {
 
 // get one user and check if it is the admin
 export const checkAdmin = (uid) => {
+  console.log(uid, 'uid in checkAdmin')
+
   const user = db.ref('users').child(uid).once('value', function(snapshot) {
     return snapshot.val().isAdmin;
   });

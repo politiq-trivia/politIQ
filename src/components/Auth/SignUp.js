@@ -2,8 +2,9 @@ import React, { Component } from 'react';
 import { Link, withRouter } from 'react-router-dom';
 import { Helmet } from 'react-helmet';
 import moment from 'moment';
+import { compose } from 'recompose';
 
-import { auth, db } from '../../firebase';
+import { auth, db, withFirebase } from '../../firebase';
 import { SignInLink } from './SignIn';
 
 import * as routes from '../../constants/routes';
@@ -56,7 +57,7 @@ const byPropKey = (propertyName, value) => () => ({
   [propertyName]: value,
 });
 
-class SignUpForm extends Component {
+class SignUpFormBase extends Component {
   constructor(props) {
     super(props);
 
@@ -187,6 +188,11 @@ class SignUpForm extends Component {
     );
   }
 }
+
+const SignUpForm = compose(
+  withRouter,
+  withFirebase
+)(SignUpFormBase);
 
 const SignUpLink = () =>
   <p>

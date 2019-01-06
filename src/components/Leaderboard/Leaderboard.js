@@ -3,6 +3,9 @@ import { Link } from 'react-router-dom';
 import { Helmet } from 'react-helmet';
 import MediaQuery from 'react-responsive';
 
+import AuthUserContext from '../Auth/AuthUserContext';
+import withAuthorization from '../Auth/withAuthorization';
+
 import Paper from '@material-ui/core/Paper';
 import Button from '@material-ui/core/Button';
 import Tabs from '@material-ui/core/Tabs';
@@ -34,54 +37,58 @@ class Leaderboard extends Component {
   }
   render() {
     return (
-      <Paper className="leaderboard">
-        <Helmet>
-          <title>Leaderboard | politIQ</title>
-        </Helmet>
-        <MediaQuery minWidth={416}>
-          <div style={{ display: 'flex', justifyContent: 'space-evenly', width: 'auto'}}>
-            <Link to={routes.HOME} style={{ textDecoration: 'none', float: 'left', marginTop: 'auto', marginBottom: 'auto'}}>
-              <Button variant="contained" color="primary">Home</Button>
-            </Link>
+      <AuthUserContext.Consumer>
+        <Paper className="leaderboard">
+          <Helmet>
+            <title>Leaderboard | politIQ</title>
+          </Helmet>
+          <MediaQuery minWidth={416}>
+            <div style={{ display: 'flex', justifyContent: 'space-evenly', width: 'auto'}}>
+              <Link to={routes.HOME} style={{ textDecoration: 'none', float: 'left', marginTop: 'auto', marginBottom: 'auto'}}>
+                <Button variant="contained" color="primary">Home</Button>
+              </Link>
+              <div className="leaderboard-header">
+                <img src={logo} alt="politIQ" style={{ height: '10vh'}}/>
+                <h1 style={{ marginTop: 'auto', marginBottom: 'auto' }}>Leaderboard</h1>
+              </div>
+              <Link to={routes.QUIZ_ARCHIVE} style={{ textDecoration: 'none', float: 'right', marginTop: 'auto', marginBottom: 'auto'}}>
+                <Button variant="contained" color="primary">Build Your Score</Button>
+              </Link>
+            </div>
+          </MediaQuery>
+          <MediaQuery maxWidth={415}>
             <div className="leaderboard-header">
               <img src={logo} alt="politIQ" style={{ height: '10vh'}}/>
               <h1 style={{ marginTop: 'auto', marginBottom: 'auto' }}>Leaderboard</h1>
             </div>
-            <Link to={routes.QUIZ_ARCHIVE} style={{ textDecoration: 'none', float: 'right', marginTop: 'auto', marginBottom: 'auto'}}>
-              <Button variant="contained" color="primary">Build Your Score</Button>
-            </Link>
+          </MediaQuery>
+          <AppBar position="static" color="default" className="leaderboard-tabs">
+            <Tabs
+              value={this.state.value}
+              onChange={this.handleChange}
+              indicatorColor="primary"
+              textColor="primary"
+              fullWidth
+            >
+              <Tab label="Weekly Leaderboard"/>
+              <Tab label="Monthly Leaderboard" />
+            </Tabs>
+          </AppBar>
+          <Paper>
+              <Tab onClick={this.handleChange} style={{ display: 'none'}}>Weekly Leaderboard</Tab>
+              <Tab onClick={this.handleChange} style={{ display: 'none'}}>Monthly Leaderboard</Tab>
+            {this.state.value === 0 ? <WeeklyLeaderboard /> : null }
+            {this.state.value === 1 ? <MonthlyLeaderboard /> : null }
+          </Paper>
+          <div style={{ marginTop: '3vh', marginBottom: '5vh', marginLeft: '-2vw'}}>
+            <BarChart />
           </div>
-        </MediaQuery>
-        <MediaQuery maxWidth={415}>
-          <div className="leaderboard-header">
-            <img src={logo} alt="politIQ" style={{ height: '10vh'}}/>
-            <h1 style={{ marginTop: 'auto', marginBottom: 'auto' }}>Leaderboard</h1>
-          </div>
-        </MediaQuery>
-        <AppBar position="static" color="default" className="leaderboard-tabs">
-          <Tabs
-            value={this.state.value}
-            onChange={this.handleChange}
-            indicatorColor="primary"
-            textColor="primary"
-            fullWidth
-          >
-            <Tab label="Weekly Leaderboard"/>
-            <Tab label="Monthly Leaderboard" />
-          </Tabs>
-        </AppBar>
-        <Paper>
-            <Tab onClick={this.handleChange} style={{ display: 'none'}}>Weekly Leaderboard</Tab>
-            <Tab onClick={this.handleChange} style={{ display: 'none'}}>Monthly Leaderboard</Tab>
-          {this.state.value === 0 ? <WeeklyLeaderboard /> : null }
-          {this.state.value === 1 ? <MonthlyLeaderboard /> : null }
-        </Paper>
-        <div style={{ marginTop: '3vh', marginBottom: '5vh', marginLeft: '-2vw'}}>
-          <BarChart />
-        </div>
-        </Paper>
+          </Paper>
+        </AuthUserContext.Consumer>
       )
   }
 }
 
-export default Leaderboard;
+const condition = authUser => !!authUser;
+
+export default withAuthorization(condition)(Leaderboard);
