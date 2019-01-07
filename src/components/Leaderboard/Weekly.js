@@ -61,8 +61,15 @@ class WeeklyLeaderboard extends Component {
                   }
                 }
               }
+              const newDisplayName = () => {
+                if (response.val() === null) {
+                  return ''
+                } else {
+                  return response.val().displayName
+                }
+              }
               userScores.push({
-                username: response.val().displayName,
+                username: newDisplayName(),
                 score: scoreCounter,
                 uid: usernames[i]
               })

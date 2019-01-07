@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import * as routes from '../constants/routes';
-import * as roles from '../constants/roles';
 
 import AuthUserContext from './Auth/AuthUserContext';
 import { auth, db } from '../firebase';
@@ -101,11 +100,12 @@ class NavigationAuth extends Component {
     window.location.replace('/')
   }
 
+  
   render() {
     const fullList = (
       <div>
         <List component="nav">
-          {this.props.authUser && this.props.authUser.roles[roles.ADMIN] === "ADMIN" ?
+          {this.props.authUser && this.props.authUser.roles.includes("ADMIN") ?
           <Link to={routes.ADMIN_DASHBOARD} style={{ textDecoration: 'none'}}>
             <ListItem button>
               <ListItemText primary="Admin Dashboard" />

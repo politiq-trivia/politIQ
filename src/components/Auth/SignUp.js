@@ -37,7 +37,7 @@ const INITIAL_STATE = {
   passwordOne: '',
   passwordTwo: '',
   affiliation: '',
-  isAdmin: true,
+  isAdmin: false,
   bio: '',
   error: null, 
 };

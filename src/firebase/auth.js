@@ -25,14 +25,11 @@ export const doPasswordUpdate = (password) =>
 export const onAuthUserListener = (next, fallback) =>
   auth.onAuthStateChanged(authUser => {
     if (authUser) {
-      console.log(authUser.uid, 'uid')
       // db.ref(`users`).child(authUser.uid)
       // .once('value')
-      console.log(db, 'this is db')
       db.getOneUser(authUser.uid)
       .then(snapshot => {
         const dbUser = snapshot.val();
-        console.log(snapshot.val(), 'this is snapshot')
         if (snapshot.val() === null) {
           return;
         }
@@ -49,7 +46,6 @@ export const onAuthUserListener = (next, fallback) =>
           providerData: authUser.providerData,
           ...dbUser,
         };
-
         next(authUser);
       })
     } else {

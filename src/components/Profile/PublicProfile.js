@@ -4,7 +4,7 @@ import { Helmet } from 'react-helmet';
 import { withRouter } from 'react-router-dom';
 import { compose } from 'recompose';
 
-import { AuthUserContext, withAuthorization, withEmailVerification } from '../Auth/index';
+import { withAuthorization, withEmailVerification } from '../Auth/index';
 
 import Paper from '@material-ui/core/Paper';
 import Button from '@material-ui/core/Button';
@@ -21,6 +21,7 @@ class PublicProfile extends Component {
     this.state = {
       uid: '',
       showingComments: false,
+      userData: {}
     }
   }
   
@@ -67,6 +68,12 @@ class PublicProfile extends Component {
 
     const isLoading = () => {
       if (this.state.userData) {
+        let displayName2;
+        if (this.state.userData.displayName !== undefined) {
+          displayName2 = this.state.userData.displayName.split(' ')[0]
+        } else {
+          displayName2 = ''
+        }
         return (
           <div>
             <Helmet>
@@ -81,9 +88,9 @@ class PublicProfile extends Component {
 
               <h1>{this.state.userData.displayName}</h1>
 
-              <h3>About {this.state.userData.displayName.split(' ')[0]}</h3>
+              <h3>About {displayName2}</h3>
               <p>{this.state.userData.bio}</p>
-              <UserScoreboard uid={this.state.uid} public="true" name={this.state.userData.displayName.split(" ")[0]}/>
+              <UserScoreboard uid={this.state.uid} public="true" name={displayName2}/>
 
               {this.state.showingComments 
                 ? <div>
@@ -109,11 +116,9 @@ class PublicProfile extends Component {
 
     // gotta get a loading gif or something in here
     return (
-      <AuthUserContext.Consumer>
-        <Paper className="profile">
-          {isLoading()}
-        </Paper>
-      </AuthUserContext.Consumer>
+      <Paper className="profile">
+        {isLoading()}
+      </Paper>
 
     )
   }

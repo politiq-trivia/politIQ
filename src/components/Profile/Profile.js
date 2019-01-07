@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Helmet } from 'react-helmet';
-import { db } from '../../firebase';
+import { db, firebase } from '../../firebase';
 import { Link } from 'react-router-dom';
 import { compose } from 'recompose';
 
@@ -26,18 +26,29 @@ class ProfilePage extends Component {
     }
   }
 
-  componentDidMount = () => {
-    this.getUserInfo()
+  // componentDidMount = () => {
+  //   this.getUserInfo(this.props.signedInUser)
+  //   // const user = firebase.auth.currentUser
+  //   // console.log(authUser, 'this is user')
+  // }
+
+  shouldComponentUpdate = async (nextProps) => {
+    if (nextProps.signedInUser !== this.props.signedInUser) {
+      await this.getUserInfo(nextProps.signedInUser)
+      return true;
+    } else {
+      return false;
+    }
   }
 
-  getUserInfo = async () => {
-    if (this.props.signedInUser === "") {return;}
-    await db.getOneUser(this.props.signedInUser)
+  getUserInfo = async (uid) => {
+    if (uid === "") {return;}
+    await db.getOneUser(uid)
       .then(response => {
         const userInfo = response.val()
         this.setState({
-          uid: this.props.signedInUser,
-          userInfo: userInfo,
+          uid,
+          userInfo,
         })
       })
   }

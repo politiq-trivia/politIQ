@@ -56,10 +56,13 @@ class SignInFormBase extends Component {
     await db.checkAdmin(uid)
       .then(response => {
         const isAdmin = response.val().isAdmin;
+        console.log(response.val(), 'this is the response from isAdmin')
         if (isAdmin) {
+          console.log(isAdmin, 'this is is admin')
           this.props.checkAdmin()
           history.push(routes.ADMIN_DASHBOARD)
         } else {
+          console.log('user is not admin')
           this.setState({ ...INITIAL_STATE });
           history.push(routes.HOME)
         }
@@ -80,9 +83,9 @@ class SignInFormBase extends Component {
       .then((authUser) => {
         const userID = authUser.user.uid;
         const date = moment().format('YYYY-MM-DD')
-        this.isAdmin(userID);
         this.props.getSignedInUser(userID)
         db.lastActive(userID, date)
+        this.props.history.push(routes.HOME)
 
         if (scoreObject) {
           db.setScore(authUser.user.uid, scoreObject.date, scoreObject.score)

@@ -62,6 +62,13 @@ class App extends Component {
         ? this.setState({ authUser })
         : this.setState({ authUser: null });
     })
+    if (localStorage.authUser) {
+      const authUser = JSON.parse(localStorage.authUser)
+      this.setState({
+        signedInUser: authUser.uid,
+        isAdmin: true
+      })
+    }
   }
 
   componentWillUnmount() {

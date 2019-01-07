@@ -245,8 +245,8 @@ class AdminDashboard extends Component {
   }
 }
 
-const condition = authUser => 
-  authUser && authUser.roles[ROLES.ADMIN] === "ADMIN";
+const condition = authUser =>
+  authUser && authUser.roles.includes(ROLES.ADMIN);
 
 export default compose(
   withEmailVerification,

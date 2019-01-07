@@ -3,6 +3,8 @@ import { Link, withRouter } from 'react-router-dom';
 import { Helmet } from 'react-helmet';
 import { db } from '../../firebase';
 import * as routes from '../../constants/routes';
+import { withEmailVerification, withAuthorization } from '../Auth/index';
+import { compose } from 'recompose';
 
 import loadingGif from '../../loadingGif.gif';
 
@@ -58,6 +60,9 @@ class QuizArchive extends Component {
 
   getTheLoggedInUsersScores = () => {
     const uid = this.state.signedInUser
+    if (uid === "") {
+      return;
+    }
     db.getScoresByUid(uid)
       .then(response => {
         if (response.val() === null) {
@@ -168,7 +173,7 @@ class QuizArchive extends Component {
               </TableFooter>
 
             </Table>
-            { Object.keys(this.state.scoreObject).length === this.state.dateArray.length ? null : <p className="archive-warning">You have taken all of the available quizzes. Check back tomorrow for the latest challenge!</p>}
+            { Object.keys(this.state.scoreObject).length !== this.state.dateArray.length ? null : <p className="archive-warning">You have taken all of the available quizzes. Check back tomorrow for the latest challenge!</p>}
           </div>
         )
       }
@@ -192,5 +197,10 @@ class QuizArchive extends Component {
   }
 }
 
+const condition = authUser => !!authUser;
 
-export default withRouter(QuizArchive);
+export default compose(
+  withEmailVerification,
+  withAuthorization(condition),
+  withRouter
+)(QuizArchive);

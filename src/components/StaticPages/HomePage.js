@@ -56,9 +56,9 @@ class HomePage extends Component {
 
 
 
-const authCondition = (authUser) => !!authUser;
+const condition = authUser => !!authUser;
 
 export default compose(
   withEmailVerification,
-  withAuthorization(authCondition),
+  withAuthorization(condition),
 )(HomePage);

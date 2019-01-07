@@ -2,9 +2,9 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { Helmet } from 'react-helmet';
 import MediaQuery from 'react-responsive';
+import { compose } from 'recompose'
 
-import AuthUserContext from '../Auth/AuthUserContext';
-import withAuthorization from '../Auth/withAuthorization';
+import { withAuthorization, withEmailVerification, withAuthentication } from '../Auth/index';
 
 import Paper from '@material-ui/core/Paper';
 import Button from '@material-ui/core/Button';
@@ -37,7 +37,6 @@ class Leaderboard extends Component {
   }
   render() {
     return (
-      <AuthUserContext.Consumer>
         <Paper className="leaderboard">
           <Helmet>
             <title>Leaderboard | politIQ</title>
@@ -84,11 +83,16 @@ class Leaderboard extends Component {
             <BarChart />
           </div>
           </Paper>
-        </AuthUserContext.Consumer>
       )
   }
 }
 
-const condition = authUser => !!authUser;
+const condition = authUser => {
+  return !!authUser;
+}
 
-export default withAuthorization(condition)(Leaderboard);
+export default compose(
+  withEmailVerification,
+  withAuthentication,
+  withAuthorization(condition)
+)(Leaderboard);

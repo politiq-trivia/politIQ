@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { db } from '../../firebase';
 import moment from 'moment';
+import { withFirebase } from '../../firebase';
 
 class UserScoreboard extends Component {
   constructor(props) {
@@ -18,7 +19,8 @@ class UserScoreboard extends Component {
   }
 
   getMyScore = async () => {
-    await db.getScoresByUid(this.props.uid)
+    if (this.props.uid === null || this.props.uid === undefined || this.props.uid === '') {return;}
+    this.listener = await db.getScoresByUid(this.props.uid)
       .then(response => {
         const data = response.val()
         if (data === null) {
@@ -62,7 +64,6 @@ class UserScoreboard extends Component {
         })
       })
   }
-  
 
   render() {
     return (
@@ -80,4 +81,4 @@ class UserScoreboard extends Component {
 
 }
 
-export default UserScoreboard;
+export default withFirebase(UserScoreboard);
