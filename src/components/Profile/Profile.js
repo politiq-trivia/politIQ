@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Helmet } from 'react-helmet';
-import { db, firebase } from '../../firebase';
+import { db } from '../../firebase';
 import { Link } from 'react-router-dom';
 import { compose } from 'recompose';
 

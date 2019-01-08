@@ -3,7 +3,6 @@ import { Link } from 'react-router-dom';
 import { Helmet } from 'react-helmet';
 import moment from 'moment';
 
-import AuthUserContext from '../Auth/AuthUserContext';
 import withAuthorization from '../Auth/withAuthorization';
 
 import { db } from '../../firebase';
@@ -141,7 +140,6 @@ class QuestionSubmitForm extends Component {
     }
 
     return (
-      <AuthUserContext.Consumer>
         <Paper className="pageStyle submitForm">
           <Helmet>
             <title>Submit Question</title>
@@ -276,7 +274,6 @@ class QuestionSubmitForm extends Component {
             </div>
           }
         </Paper>
-      </AuthUserContext.Consumer>
 
     )
   }

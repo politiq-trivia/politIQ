@@ -200,13 +200,6 @@ class Quiz extends PureComponent {
           correctAnswer: correctAnswer,
           completed: 0,
         })
-        // set a timeout to the next thing. (this is the thing I want to remove)
-        // this.timer = window.setTimeout(() => {
-        //   this.nextQ()
-        // }, 15000)
-        // this.progressBar = window.setInterval(() => {
-        //   this.progress(15)
-        // }, 500)
       }
     }
   }
@@ -307,8 +300,8 @@ class Quiz extends PureComponent {
                         quizID={this.state.selectedQuizId} 
                         uid={authUser.uid} 
                         back={this.toggleContest}
-                        currentQ={this.state.currentQ}
-                        atEndOfQuiz={false}
+                        currentQ={this.state.finished ? null : this.state.currentQ}
+                        atEndOfQuiz={this.state.finished}
                         toggleContest={this.closeContest}
                         state={this.state}
                       />
