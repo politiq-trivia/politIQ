@@ -73,8 +73,9 @@ class Question extends Component {
             <div>
             {wrong
                 ? <div style={{ marginTop: '3vh'}}>
-                    <Button variant="contained" color="primary" onClick={nextQ}>Continue</Button>
-                    <p>INCORRECT - The correct answer was <span style={{ color: 'green' }}>{correctAnswer}</span>.</p>
+                    <h3 style={{ color: 'red'}}>INCORRECT</h3>
+                    <p>The correct answer was <span style={{ color: 'green' }}>{correctAnswer}</span>.</p>
+                    <Button variant="contained" color="primary" onClick={nextQ} style={{ display: 'block', marginBottom: '2vh'}}>Continue</Button>
                     <Button variant="contained" onClick={this.openNewTab}>Contest This Question</Button>
                 </div>
                 : null
