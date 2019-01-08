@@ -40,6 +40,10 @@ body {
   justify-content: space-between;
 }
 
+.shareable:hover {
+  cursor: pointer;
+}
+
 .description {
   width: 54%;
   margin-left: 4vw;

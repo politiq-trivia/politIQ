@@ -74,22 +74,22 @@ const Footer = ({ signedInUser }) =>
 
       <div className="socials" style={{ display: 'flex', marginTop: '1vh' }}>
 
-        <FacebookShareButton url={ getHref() }>
+        <FacebookShareButton url={ getHref() } className="shareable">
           <FacebookIcon round={true} size={32} />
         </FacebookShareButton>
-        <GooglePlusShareButton url={ getHref() }>
+        <GooglePlusShareButton url={ getHref() } className="shareable">
           <GooglePlusIcon round={true} size={32} />
         </GooglePlusShareButton>
-        <LinkedinShareButton url={ getHref() }>
+        <LinkedinShareButton url={ getHref() } className="shareable">
           <LinkedinIcon round={true} size={32}/>
         </LinkedinShareButton>
-        <TwitterShareButton url={ getHref() } >
+        <TwitterShareButton url={ getHref() } className="shareable">
           <TwitterIcon round={true} size={32} />
         </TwitterShareButton>
-        <WhatsappShareButton url={ getHref() }>
+        <WhatsappShareButton url={ getHref() } className="shareable">
           <WhatsappIcon round={true} size={32} />
         </WhatsappShareButton>
-        <EmailShareButton url={ getHref() }>
+        <EmailShareButton url={ getHref() } className="shareable">
           <EmailIcon round={true} size={32} />
         </EmailShareButton>
 

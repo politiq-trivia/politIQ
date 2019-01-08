@@ -4,6 +4,10 @@ import { Link } from 'react-router-dom';
 import { auth, withFirebase } from '../../firebase';
 import * as routes from '../../constants/routes';
 
+import Paper from '@material-ui/core/Paper';
+import Button from '@material-ui/core/Button';
+import TextField from '@material-ui/core/TextField';
+
 const PasswordForgetPage = () =>
   <div>
     <h1>Password Forget</h1>
@@ -48,19 +52,24 @@ class PasswordForgetFormBase extends Component {
     const isInvalid = email === '';
 
     return (
-      <form onSubmit={this.onSubmit}>
-        <input
-          value={this.state.email}
-          onChange={event => this.setState(byPropKey('email', event.target.value ))}
-          type="text"
-          placeholder="Email Address"
-        />
-        <button disabled={isInvalid} type="submit">
-          Reset My Password
-        </button>
+      <Paper style={{ padding: '5vh', marginBottom: '40vh', marginTop: '10vh', width: '80vw', marginLeft: 'auto', marginRight: 'auto', textAlign: 'center' }}>
+        <h2>Forgot Your Password?</h2>
+        <form onSubmit={this.onSubmit}>
+          <TextField
+            value={this.state.email}
+            onChange={event => this.setState(byPropKey('email', event.target.value ))}
+            type="text"
+            placeholder="Email Address"
+            style={{ width: '30vw'}}
+            color="primary"
+          />
+          <Button disabled={isInvalid} type="submit" color="primary">
+            Reset My Password
+          </Button>
 
-        { error && <p>{error.message}</p> }
-      </form>
+          { error && <p>{error.message}</p> }
+        </form>
+      </Paper>
     )
   }
 }

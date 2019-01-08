@@ -49,7 +49,7 @@ class PasswordChangeForm extends Component {
       passwordOne === '';
 
     return (
-      <form onSubmit={this.onSubmit}>
+      <form onSubmit={this.onSubmit} style={{ width: '80%', marginLeft: 'auto', marginRight: 'auto' }}>
         <TextField
           fullWidth
           value={passwordOne}
@@ -64,7 +64,7 @@ class PasswordChangeForm extends Component {
           type="password"
           placeholder="Confirm New Password"
         />
-        <Button color="primary" variant="contained" disabled={isInvalid} type="submit" style={{ marginTop: "1vh"}}>
+        <Button color="primary" variant="contained" disabled={isInvalid} type="submit" style={{ marginTop: "3vh"}}>
           Reset My Password
         </Button>
 
