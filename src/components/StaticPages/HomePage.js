@@ -33,8 +33,8 @@ class HomePage extends Component {
         <Helmet>
           <title>Home | politIQ </title>
         </Helmet>
-        <h1>Did you watch today's news? Do you think you know politics?</h1>
-        <h1>Click below to find out!</h1>
+        <h1>Did you pay attention to today's news and think you know politics?</h1>
+        <h1>Prove it!</h1>
 
         { this.state.noAvailableQuizzes ? <p className="home-taken">You've taken all the quizzes we have available! Check back tomorrow for the next challenge.</p> : null }
 
