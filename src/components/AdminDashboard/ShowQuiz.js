@@ -100,14 +100,8 @@ class ShowQuiz extends Component {
               />} label={q[1]["a3text"]}/>
               {q[1]["a3correct"] ? <p style={{ color: 'green' }}>Correct Answer</p> : null}
             </div>
-            <div className="show" style={{ display: 'flex'}}>
-              <FormControlLabel value={q[1]["a4text"]} control={<Radio
-                checked={false}
-                icon={<RadioButtonUncheckedIcon />}
-              />} label={q[1]["a4text"]}/>
-              {q[1]["a4correct"] ? <p style={{ color: 'green' }}>Correct Answer</p> : null}
-            </div>
           </RadioGroup>
+          <p><span style={{ color: 'green', fontWeight: 'bold' }}>Explanation: </span>{q[1]["answerExplanation"]}</p>
         </FormControl>
       )
     })

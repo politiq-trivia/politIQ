@@ -71,6 +71,7 @@ class EditQuiz extends Component {
       quizArray = [...result]
     }
 
+    console.log(this.state.quiz, 'quiz')
     const renderQs = quizArray.map((q, i) => {
       return (
         <FormControl key={i} id={q[0]} style={{ display: 'block'}}>
@@ -172,6 +173,15 @@ class EditQuiz extends Component {
               label="Correct Answer"
               labelPlacement="start"
               style={{ marginLeft: '0'}}
+            />
+            <TextField 
+              margin="normal"
+              fullWidth
+              value={q[1]["answerExplanation"]}
+              onChange={this.handleChange}
+              type="text"
+              placeholder={q[1]["answerExplanation"]}
+              id={q[0] + " answerExplanation"}
             />
         </FormControl>
       )

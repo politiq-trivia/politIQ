@@ -70,7 +70,7 @@ export const addQuiz = (date, title) => {
 
 // add questions to a quiz
 export const addQuestion = (date, questionID, qtext, a1text, a1correct, a2text,
-  a2correct, a3text, a3correct, a4text, a4correct) => {
+  a2correct, a3text, a3correct, answerExplanation) => {
 
   var whichQuiz = db.ref().child('quizzes/' + date + "/" + questionID)
   // whichQuiz.child('qID').set(questionID)
@@ -78,11 +78,10 @@ export const addQuestion = (date, questionID, qtext, a1text, a1correct, a2text,
   whichQuiz.child('a1text').set(a1text)
   whichQuiz.child('a2text').set(a2text)
   whichQuiz.child('a3text').set(a3text)
-  whichQuiz.child('a4text').set(a4text)
   whichQuiz.child('a1correct').set(a1correct)
   whichQuiz.child('a2correct').set(a2correct)
   whichQuiz.child('a3correct').set(a3correct)
-  whichQuiz.child('a4correct').set(a4correct)
+  whichQuiz.child('answerExplanation').set(answerExplanation)
 }
 
 // get a list of all the quizzes

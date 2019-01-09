@@ -23,8 +23,7 @@ class QuestionForm extends Component {
       a2correct: false,
       a3text: "",
       a3correct: false,
-      a4text: "",
-      a4correct: false,
+      answerExplanation: "",
       counter: 0,
       atLeastOneChecked: false,
     }
@@ -73,8 +72,7 @@ class QuestionForm extends Component {
       this.state.a2correct,
       this.state.a3text,
       this.state.a3correct,
-      this.state.a4text,
-      this.state.a4correct,
+      this.state.answerExplanation,
     )
   }
 
@@ -89,11 +87,10 @@ class QuestionForm extends Component {
       a1text: "",
       a2text: "",
       a3text: "",
-      a4text: "",
       a1correct: false,
       a2correct: false,
       a3correct: false,
-      a4correct: false,
+      answerExplanation: "",
     })
     console.log('this is state after you submit (should be empty)', this.state)
   }
@@ -188,26 +185,14 @@ class QuestionForm extends Component {
             labelPlacement="start"
             style={{ marginLeft: '0'}}
           />
-          <TextField
+          <TextField 
             margin="normal"
             fullWidth
-            value={this.state.a4text}
-            onChange={event => this.setState(byPropKey('a4text', event.target.value))}
+            multiline 
+            value={this.state.answerExplanation}
+            onChange={event => this.setState(byPropKey('answerExplanation', event.target.value))}
             type="text"
-            placeholder="Answer 4"
-          />
-          <FormControlLabel
-            control={
-              <Checkbox
-                checked={this.state.a4correct}
-                onChange={this.handleCheck}
-                color="primary"
-                id="a4"
-              />
-            }
-            label="Correct Answer"
-            labelPlacement="start"
-            style={{ marginLeft: '0'}}
+            placeholder="Correct Answer Explanation"
           />
           <div className="quizButtonHolder">
             <Button color="primary" variant="contained" onClick={this.handleQuit}>

@@ -31,7 +31,7 @@ class Question extends Component {
         let a1text = questionObj["a1text"];
         let a2text = questionObj["a2text"];
         let a3text = questionObj["a3text"];
-        let a4text = questionObj["a4text"];
+        let answerExplanation = questionObj["answerExplanation"];
 
         return (
             <FormControl className="question" style={{ marginBottom: '5vh'}}>
@@ -61,20 +61,13 @@ class Question extends Component {
                     aria-label="3"
                 />
                 } label={a3text}/>
-                <FormControlLabel value={a4text} control={
-                <Radio
-                    onChange={handleSubmit}
-                    checked={selectedValue === "4"}
-                    value="4"
-                    aria-label="4"
-                />
-                } label={a4text}/>
             </RadioGroup>
             <div>
             {wrong
                 ? <div style={{ marginTop: '3vh'}}>
                     <h3 style={{ color: 'red'}}>INCORRECT</h3>
                     <p>The correct answer was <span style={{ color: 'green' }}>{correctAnswer}</span>.</p>
+                    <p>{answerExplanation}</p>
                     <Button variant="contained" color="primary" onClick={nextQ} style={{ display: 'block', marginBottom: '2vh'}}>Continue</Button>
                     <Button variant="contained" onClick={this.openNewTab}>Contest This Question</Button>
                 </div>
