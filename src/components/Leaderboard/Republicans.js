@@ -26,7 +26,6 @@ class RepLeaderboard extends Component {
   }
 
   getReps = async (data) => {
-    const userScores = []
     await db.getUserByAffiliation('Republican')
       .then(usernames => {
         usernames.forEach((user, i) => {
@@ -47,20 +46,6 @@ class RepLeaderboard extends Component {
               }
 
               this.getEmailAddress(usernames[i], response.val().displayName, scoreCounter)              
-
-              // userScores.push({
-              //   username: response.val().displayName,
-              //   score: scoreCounter,
-              //   uid: usernames[i]
-              // })
-              // const rankedScores = userScores.sort(function(a,b){
-              //   return a.score - b.score
-              // })
-              // const rankReverse = rankedScores.reverse()
-              // this.setState({
-              //   rankedScores: rankReverse,
-              //   isLoaded: true,
-              // })
             })
         })
       })

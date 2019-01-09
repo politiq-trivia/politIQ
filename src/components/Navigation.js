@@ -97,6 +97,7 @@ class NavigationAuth extends Component {
   signOut = () => {
     auth.doSignOut()
     this.props.clearStateOnSignout()
+    localStorage.removeItem('authUser')
     window.location.replace('/')
   }
 

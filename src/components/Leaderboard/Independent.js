@@ -27,7 +27,6 @@ class IndLeaderboard extends Component {
   }
 
   getInds = async (data) => {
-    const userScores = []
     await db.getUserByAffiliation('Independent')
       .then(usernames => {
         usernames.forEach((user, i) => {
@@ -101,7 +100,6 @@ class IndLeaderboard extends Component {
     }
 
     const renderIndLeaders = rankingArray.map((stat, i) => {
-      console.log(stat, 'this is stat')
       return (
         <TableRow key={i} onClick={() => this.handleClickUser(stat[3])} hover>
           <TableCell>

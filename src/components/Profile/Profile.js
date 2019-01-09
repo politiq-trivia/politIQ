@@ -26,21 +26,13 @@ class ProfilePage extends Component {
     }
   }
 
-  // componentDidMount = () => {
-  //   this.getUserInfo(this.props.signedInUser)
-  //   // const user = firebase.auth.currentUser
-  //   // console.log(authUser, 'this is user')
-  // }
-
-  shouldComponentUpdate = async (nextProps) => {
-    if (nextProps.signedInUser !== this.props.signedInUser) {
-      await this.getUserInfo(nextProps.signedInUser)
-      return true;
-    } else {
-      return false;
-    }
+  componentDidMount = () => {
+    const userInfo = JSON.parse(localStorage.getItem('authUser'))
+    this.setState({
+      userInfo,
+    })
   }
-
+  
   getUserInfo = async (uid) => {
     if (uid === "") {return;}
     await db.getOneUser(uid)
@@ -55,7 +47,7 @@ class ProfilePage extends Component {
 
   toggleEditProfile = () => {
     if (this.state.editingProfile) {
-      this.getUserInfo()
+      this.getUserInfo(this.state.userInfo.uid)
     }
     this.setState({
       editingProfile: !this.state.editingProfile,
@@ -90,7 +82,7 @@ class ProfilePage extends Component {
                       email={authUser.email}
                       bio={this.state.userInfo.bio}
                       affiliation={this.state.userInfo.affiliation}
-                      uid={this.state.uid}
+                      uid={this.state.userInfo.uid}
                     />
                   : <div>
                       <div className="profile-info">

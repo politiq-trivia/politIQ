@@ -25,7 +25,6 @@ class DemLeaderboard extends Component {
   }
 
   getDems = async (data) => {
-    const userScores = []
     await db.getUserByAffiliation('Democrat')
       .then(usernames => {
         usernames.forEach((user, i) => {
