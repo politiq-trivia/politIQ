@@ -45,19 +45,22 @@ class RepLeaderboard extends Component {
                   }
                 }
               }
-              userScores.push({
-                username: response.val().displayName,
-                score: scoreCounter,
-                uid: usernames[i]
-              })
-              const rankedScores = userScores.sort(function(a,b){
-                return a.score - b.score
-              })
-              const rankReverse = rankedScores.reverse()
-              this.setState({
-                rankedScores: rankReverse,
-                isLoaded: true,
-              })
+
+              this.getEmailAddress(usernames[i], response.val().displayName, scoreCounter)              
+
+              // userScores.push({
+              //   username: response.val().displayName,
+              //   score: scoreCounter,
+              //   uid: usernames[i]
+              // })
+              // const rankedScores = userScores.sort(function(a,b){
+              //   return a.score - b.score
+              // })
+              // const rankReverse = rankedScores.reverse()
+              // this.setState({
+              //   rankedScores: rankReverse,
+              //   isLoaded: true,
+              // })
             })
         })
       })
@@ -71,6 +74,29 @@ class RepLeaderboard extends Component {
       })
   }
 
+  getEmailAddress = async (uid, displayName, score) => {
+    let userScores = [];
+    await db.getOneUser(uid)
+      .then((response) => {
+        const userEmail = response.val().email;
+        userScores.push({
+          username: displayName,
+          score,
+          uid,
+          email: userEmail,
+        })
+        // sort the user scores 
+        const rankedScores = userScores.sort(function(a,b){
+          return a.score - b.score
+        })
+        const rankReverse = rankedScores.reverse()
+        this.setState({
+          rankedScores: rankReverse,
+          isLoaded: true,
+        })
+      })
+  }
+
   handleClickUser = (uid) => {
     this.props.history.push(`/profile/${uid}`)
   }
@@ -81,14 +107,14 @@ class RepLeaderboard extends Component {
     if (Array.isArray(this.state.rankedScores)) {
       const ranking = this.state.rankedScores;
       const result = ranking.map((stat, i) => {
-        return [stat.username, stat.score, stat.uid]
+        return [stat.username, stat.email, stat.score, stat.uid]
       });
       rankingArray = [...result]
     }
 
     const renderRepLeaders = rankingArray.map((stat, i) => {
       return (
-        <TableRow key={i} onClick={() => this.handleClickUser(stat[2])}>
+        <TableRow key={i} onClick={() => this.handleClickUser(stat[3])} hover>
           <TableCell>
             {i + 1}.
           </TableCell>
@@ -97,6 +123,9 @@ class RepLeaderboard extends Component {
           </TableCell>
           <TableCell>
             {stat[1]}
+          </TableCell>
+          <TableCell>
+            {stat[2]}
           </TableCell>
         </TableRow>
       )
@@ -115,8 +144,11 @@ class RepLeaderboard extends Component {
                 <TableCell>
                   Ranking
                 </TableCell>
-                <TableCell>
+                <TableCell style={{ width: '10vw'}}>
                   User
+                </TableCell>
+                <TableCell>
+                  Email
                 </TableCell>
                 <TableCell>
                   Score
