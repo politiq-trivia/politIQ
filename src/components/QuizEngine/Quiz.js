@@ -27,7 +27,7 @@ class Quiz extends PureComponent {
       currentQ: 1,
       selectedValue: '',
       score: 0,
-      wrong: false,
+      wrong: null,
       correctAnswer: '',
       completed: 0,
       finished: false,
@@ -95,7 +95,7 @@ class Quiz extends PureComponent {
         currentQ: qNum,
         playing: true,
         selectedValue: "",
-        wrong: false,
+        wrong: null,
         correctAnswer: '',
         completed: 0,
         contestQuestion: false,
@@ -111,7 +111,7 @@ class Quiz extends PureComponent {
           currentQ: qNum,
           playing: true,
           selectedValue: "",
-          wrong: false,
+          wrong: null,
           correctAnswer: '',
           finished: true,
         })   
@@ -174,26 +174,29 @@ class Quiz extends PureComponent {
       const str = "a" + selected + "correct"
       const isCorrect = question[str]
       let correctAnswer;
+      // loop through the question to find the correct answer 
+      for (let i = 1; i <= 3; i++) {
+        const str2 = "a" + i + "correct"
+        // capture the correct answer in a scoped variable
+        if (question[str2]) {
+          const correct = "a" + i + "text"
+          correctAnswer = question[correct];
+        }
+      }
       // if the answer is correct, add a point and then render the next question after a slight delay
       if (isCorrect) {
         const score = this.state.score + 1;
         this.setState({
           score: score,
+          wrong: false,
+          correctAnswer,
         })
-        this.timer = window.setTimeout(() => {
-          this.nextQ();
-        }, 1000)
+        // this.timer = window.setTimeout(() => {
+        //   this.nextQ();
+        // }, 1000)
       // otherwise, if the user answers wrong or doesn't answer
       } else if (isCorrect === false || isCorrect === undefined) {
-        // loop through the question to find the correct answer 
-        for (let i = 1; i <= 4; i++) {
-          const str2 = "a" + i + "correct"
-          // capture the correct answer in a scoped variable
-          if (question[str2]) {
-            const correct = "a" + i + "text"
-            correctAnswer = question[correct];
-          }
-        }
+
         // toggle the answer show (in theory)
         this.setState({
           wrong: true,

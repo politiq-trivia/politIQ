@@ -63,13 +63,21 @@ class Question extends Component {
                 } label={a3text}/>
             </RadioGroup>
             <div>
-            {wrong
+            {wrong === true
                 ? <div style={{ marginTop: '3vh'}}>
                     <h3 style={{ color: 'red'}}>INCORRECT</h3>
                     <p>The correct answer was <span style={{ color: 'green' }}>{correctAnswer}</span>.</p>
                     <p>{answerExplanation}</p>
                     <Button variant="contained" color="primary" onClick={nextQ} style={{ display: 'block', marginBottom: '2vh'}}>Continue</Button>
                     <Button variant="contained" onClick={this.openNewTab}>Contest This Question</Button>
+                </div>
+                : null 
+            }
+            { wrong === false
+                ? <div style={{ marginTop: '3vh'}}>
+                    <h3 style={{ color: 'green'}}>CORRECT</h3>
+                    <p>{answerExplanation}</p>
+                    <Button variant="contained" color="primary" onClick={nextQ} style={{ display: 'block', marginBottom: '2vh'}}>Continue</Button>
                 </div>
                 : null
             }
