@@ -263,6 +263,15 @@ export const deleteContest = (date, qID, uid) => {
   db.ref('contestedQ').child(date).child(qID).child(uid).remove()
 }
 
+export const acceptContest = (date, qID, uid, issue, source) => {
+  const accepted = db.ref('acceptedContests').child(date).child(qID).child(uid)
+  accepted.child('issue').set(issue)
+  accepted.child('source').set(source)
+ 
+  db.ref('contestedQ').child(date).child(qID).child(uid).remove()
+ }
+ 
+
 // ----------------------------------------------------------
 
 // COMMENTS 

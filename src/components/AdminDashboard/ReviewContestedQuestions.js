@@ -118,6 +118,19 @@ class ReviewContestedQuestions extends Component {
         this.getContest()
     }
 
+    accept = () => {
+        const contestedQs = Object.values(this.state.data)[0]
+        const selected = Object.keys(contestedQs)[this.state.qNum]
+
+        const uid = Object.keys(Object.values(contestedQs)[this.state.qNum])[this.state.qVal]
+        const issue = contestedQs[selected][uid]["issue"]
+        const source = contestedQs[selected][uid]["source"]
+        console.log({ contestedQs, selected, uid, issue, source})
+
+        db.acceptContest(this.state.selectedQuizId, selected, uid, issue, source)
+        this.getContest()
+    }
+
 
     // 
     renderContest = () => {
@@ -152,30 +165,32 @@ class ReviewContestedQuestions extends Component {
             return (
                 <div>
                     <p style={{ fontWeight: 'bold' }}>{questionNum}. {question["q1"]}</p>
-                    <FormControlLabel 
-                        label={question["a1text"]}
-                        control={<Radio
-                            checked={question["a1correct"]}
-                        />}
-                    /><span style={{ color: 'green', marginRight: '1vw'}}>{question["a1correct"] ? "Correct Answer" : null }</span>
-                    <FormControlLabel 
-                        label={question["a2text"]}
-                        control={<Radio
-                            checked={question["a2correct"]}
-                        />}
-                    /><span style={{ color: 'green', marginRight: '1vw'}}>{question["a2correct"] ? "Correct Answer" : null }</span>
-                    <FormControlLabel 
-                        label={question["a3text"]}
-                        control={<Radio
-                            checked={question["a3correct"]}
-                        />}
-                    /><span style={{ color: 'green', marginRight: '1vw'}}>{question["a3correct"] ? "Correct Answer" : null }</span>
-                    <FormControlLabel 
-                        label={question["a4text"]}
-                        control={<Radio
-                            checked={question["a4correct"]}
-                        />}
-                    /><span style={{ color: 'green', marginRight: '1vw'}}>{question["a4correct"] ? "Correct Answer" : null }</span>
+                    <div style={{ display: "flex", flexDirection: 'column'}}>
+                        <div style={{ display: 'flex'}}>
+                        <FormControlLabel 
+                            label={question["a1text"]}
+                            control={<Radio
+                                checked={question["a1correct"]}
+                            />}
+                        /><span style={{ color: 'green', marginRight: '1vw', marginTop: 'auto', marginBottom: "auto"}}>{question["a1correct"] ? "Correct Answer" : null }</span>
+                        </div>
+                        <div style={{ display: 'flex', flexDirection: 'column'}}>
+                            <FormControlLabel 
+                                label={question["a2text"]}
+                                control={<Radio
+                                    checked={question["a2correct"]}
+                                />}
+                            /><span style={{ color: 'green', marginRight: '1vw', marginTop: 'auto', marginBottom: 'auto'}}>{question["a2correct"] ? "Correct Answer" : null }</span>
+                        </div>
+                        <div style={{ display: 'flex', flexDirection: 'column'}}>
+                            <FormControlLabel 
+                                label={question["a3text"]}
+                                control={<Radio
+                                    checked={question["a3correct"]}
+                                />}
+                            /><span style={{ color: 'green', marginRight: '1vw', marginTop: 'auto', marginBottom: 'auto'}}>{question["a3correct"] ? "Correct Answer" : null }</span>
+                        </div>
+                    </div>
                     <hr />
                     <p style={{ fontWeight: 'bold' }}>From user:</p>
                     <p><span style={{ fontWeight: 'bold' }}>Issue:</span> {contestedData.issue}</p>
@@ -210,7 +225,7 @@ class ReviewContestedQuestions extends Component {
                 </MediaQuery>
                 {this.state.noQuestionsRemaining 
                     ? <div style={{ display: 'flex', justifyContent: 'center', flexDirection: 'column'}}>
-                        <h1>No Contested Questions to Review</h1>
+                        <h1 style={{ marginTop: '1vh', marginLeft: '2vw'}}>No Contested Questions to Review</h1>
                         <MediaQuery maxWidth={415}>
                             <Link to={ADMIN_DASHBOARD} id="reviewBackButton">
                                 <Button variant="contained" color="primary">Back to Dashboard</Button>
@@ -231,7 +246,7 @@ class ReviewContestedQuestions extends Component {
                                 <div style={{ display: 'flex', width: '100%', justifyContent: 'space-between'}}>
                                     <Button color="primary"><span style={{ color: 'red' }} onClick={this.reject}>Reject Issue</span></Button>
                                     <Button color="primary" onClick={this.skip}>Skip</Button>
-                                    <Button color="primary" disabled>Accept Issue</Button>
+                                    <Button color="primary" onClick={this.accept}>Accept Issue</Button>
                                 </div>
                             </div>
                          </div>

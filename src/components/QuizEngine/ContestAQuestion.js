@@ -19,6 +19,15 @@ class ContestAQuestion extends Component {
         }
     }
 
+    componentDidMount() {
+        if (this.props.currentQ !== null) {
+            this.setState({
+                contestedQuestion: this.props.currentQ
+            })
+        }
+    }
+ 
+
     handleChange = (event) => {
         this.setState({
             [event.target.name]: event.target.value 
