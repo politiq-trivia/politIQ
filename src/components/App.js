@@ -23,6 +23,7 @@ import QuestionSubmitForm from './QuestionSubmit/QuestionSubmitForm';
 import ReviewQuestions from './AdminDashboard/ReviewQuestions';
 import ReviewContestedQuestions from './AdminDashboard/ReviewContestedQuestions';
 import PublicProfile from './Profile/PublicProfile';
+import PrivacyPolicy from './StaticPages/PrivacyPolicy';
 import NoMatch from './StaticPages/NoMatch';
 
 import * as routes from '../constants/routes';
@@ -178,6 +179,11 @@ class App extends Component {
                   exact path={routes.USER_PROFILES}
                   render={(props) => <PublicProfile {...props} key={window.location.pathName} signedInUser={this.state.signedInUser} displayName={this.state.displayName} isAdmin={this.state.isAdmin}/>}
                 />
+                <Route 
+                  exact path={routes.PRIVACY} 
+                  component={PrivacyPolicy}
+                />
+
                 <Route path="*" component={NoMatch}/>
 
               </Switch>

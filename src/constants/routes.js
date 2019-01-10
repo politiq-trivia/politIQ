@@ -5,6 +5,7 @@ export const LANDING = '/';
 export const HOME = '/home';
 export const PROFILE = '/profile';
 export const PASSWORD_FORGET = '/pw-forget';
+export const PRIVACY = '/privacy-policy';
 
 // game routes
 export const PLAY_GAME = '/play';
