@@ -16,8 +16,6 @@ import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import MenuItem from '@material-ui/core/MenuItem';
 import FormHelperText from '@material-ui/core/FormHelperText';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import Checkbox from '@material-ui/core/Checkbox';
 import './Auth.css';
 
 import FacebookAuth from './FacebookAuth'
@@ -42,7 +40,6 @@ const INITIAL_STATE = {
   isAdmin: false,
   bio: '',
   error: null, 
-  consent: false,
 };
 
 const affiliations = [
@@ -138,12 +135,6 @@ class SignUpFormBase extends Component {
       event.preventDefault();
   }
 
-  handleCheck = () => {
-    this.setState({
-      consent: !this.state.consent
-    })
-  }
-
   render() {
     const {
       username,
@@ -152,7 +143,6 @@ class SignUpFormBase extends Component {
       passwordOne,
       passwordTwo,
       error,
-      consent,
     } = this.state;
 
     const isInvalid =
@@ -160,8 +150,7 @@ class SignUpFormBase extends Component {
       passwordOne === '' ||
       email === '' ||
       username === '' ||
-      affiliation === '' ||
-      consent === false;
+      affiliation === '';
 
     return (
       <form onSubmit={this.onSubmit}>
@@ -212,16 +201,6 @@ class SignUpFormBase extends Component {
           ))}
         </TextField>
         <FormHelperText>Affiliation will not be shared publicly.</FormHelperText>
-        <div style={{ display: 'flex', marginTop: '2vh'}}>
-          <Checkbox 
-            checked={this.state.consent}
-            onChange={this.handleCheck}
-            value="consent"
-            color="primary"
-            style={{ display: 'inline'}}
-          />
-          <p style={{ textAlign: 'left' }}>I have read and agree to the <Link to={'/privacy-policy'} target="_blank">PolitIQ Privacy Policy and Terms of Serivce.</Link></p>  
-        </div>
 
         <Button disabled={isInvalid} type="submit" variant="contained" color="primary" style={{ marginTop: '4vh'}}>
           Sign Up
