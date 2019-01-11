@@ -11,12 +11,13 @@ class TodaysQuizButton extends Component {
     }
 
     componentDidMount() {
-        if (this.props.signedInUser) {
-            db.getScoresByUid(this.props.signedInUser)
+        if (localStorage.hasOwnProperty('authUser')) {
+            const uid = JSON.parse(localStorage.authUser).uid
+            db.getScoresByUid(uid)
             .then(response => {
               const scoreData = response.val()
               this.setState({
-                signedInUser: this.props.signedInUser,
+                signedInUser: uid,
                 scoreData,
               })
               this.getMostRecentQuizId()

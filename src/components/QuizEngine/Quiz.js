@@ -42,6 +42,12 @@ class Quiz extends PureComponent {
     const url = window.location.href;
     const date = url.split('/')[4];
 
+    if(localStorage.hasOwnProperty('authUser')) {
+      const userInfo = JSON.parse(localStorage.authUser)
+      const uid = userInfo.uid
+      this.setState({uid})
+    }
+
     if (localStorage.hasOwnProperty('state')) {
       const newState = JSON.parse(localStorage.state) 
       console.log(newState, 'this is newState')

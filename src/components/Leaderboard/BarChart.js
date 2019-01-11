@@ -28,6 +28,7 @@ class BarChart extends Component {
       }
     
       getDemScores = async (data, affiliation) => {
+        if (data === null) {return;}
         const userScores = []
         await db.getUserByAffiliation(affiliation)
           .then(usernames => {

@@ -137,7 +137,6 @@ export const editQuiz = (date, updates) => {
 
 export const setScore = (uid, date, score) => {
   db.ref().child('scores/' + uid).child(date).set(score);
-  console.log('setScore called')
 }
 
 export const getScores = () => {
