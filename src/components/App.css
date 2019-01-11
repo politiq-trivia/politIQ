@@ -149,3 +149,14 @@ h3 {
     min-height: 140px;
   }
 }
+
+
+.mobile-only {
+  display: none;
+}
+
+@media screen and (max-width: 415px) {
+  .mobile-only {
+    display: block;
+  }
+}

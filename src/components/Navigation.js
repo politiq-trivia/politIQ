@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import * as routes from '../constants/routes';
+import MediaQuery from 'react-responsive'
 
 import AuthUserContext from './Auth/AuthUserContext';
 import { auth, db } from '../firebase';
@@ -105,38 +106,79 @@ class NavigationAuth extends Component {
   render() {
     const fullList = (
       <div>
+        <MediaQuery query="(max-width: 415px)">
+          <List component="nav">
+            {this.props.authUser && this.props.authUser.roles.includes("ADMIN") ?
+            <Link to={routes.ADMIN_DASHBOARD} style={{ textDecoration: 'none'}}>
+              <ListItem button>
+                <ListItemText primary="Admin Dashboard" />
+              </ListItem>
+            </Link>
+            : null }
+            <Link to={this.state.mostRecentQuizURL} style={{ textDecoration: 'none'}}>
+              <ListItem button>
+                <ListItemText primary="Play Game" />
+              </ListItem>
+            </Link>
+            <Link to={routes.QUIZ_ARCHIVE} style={{ textDecoration: 'none'}}>
+              <ListItem button>
+                <ListItemText primary="Quiz Archive" />
+              </ListItem>
+            </Link>
+            <Link to={routes.LEADERBOARD} style={{ textDecoration: 'none'}}>
+              <ListItem button>
+                <ListItemText primary="Leaderboard" />
+              </ListItem>
+            </Link>
+            <Link to={routes.SUBMIT_QUESTION} className="mobile-only" style={{ textDecoration: 'none'}}>
+              <ListItem button>
+                <ListItemText primary="Submit A Question"/>
+              </ListItem>
+            </Link>
+            <Link to={routes.PROFILE} style={{ textDecoration: 'none'}}>
+              <ListItem button>
+                <ListItemText primary="Profile" />
+              </ListItem>
+            </Link>
+            <ListItem button component="a" onClick={this.signOut}>
+              <ListItemText primary="Sign Out" />
+            </ListItem>
+          </List>
+        </MediaQuery>
+        <MediaQuery query="(min-width: 416px)">
         <List component="nav">
-          {this.props.authUser && this.props.authUser.roles.includes("ADMIN") ?
-          <Link to={routes.ADMIN_DASHBOARD} style={{ textDecoration: 'none'}}>
-            <ListItem button>
-              <ListItemText primary="Admin Dashboard" />
+            {this.props.authUser && this.props.authUser.roles.includes("ADMIN") ?
+            <Link to={routes.ADMIN_DASHBOARD} style={{ textDecoration: 'none'}}>
+              <ListItem button>
+                <ListItemText primary="Admin Dashboard" />
+              </ListItem>
+            </Link>
+            : null }
+            <Link to={this.state.mostRecentQuizURL} style={{ textDecoration: 'none'}}>
+              <ListItem button>
+                <ListItemText primary="Play Game" />
+              </ListItem>
+            </Link>
+            <Link to={routes.QUIZ_ARCHIVE} style={{ textDecoration: 'none'}}>
+              <ListItem button>
+                <ListItemText primary="Quiz Archive" />
+              </ListItem>
+            </Link>
+            <Link to={routes.LEADERBOARD} style={{ textDecoration: 'none'}}>
+              <ListItem button>
+                <ListItemText primary="Leaderboard" />
+              </ListItem>
+            </Link>
+            <Link to={routes.PROFILE} style={{ textDecoration: 'none'}}>
+              <ListItem button>
+                <ListItemText primary="Profile" />
+              </ListItem>
+            </Link>
+            <ListItem button component="a" onClick={this.signOut}>
+              <ListItemText primary="Sign Out" />
             </ListItem>
-          </Link>
-          : null }
-          <Link to={this.state.mostRecentQuizURL} style={{ textDecoration: 'none'}}>
-            <ListItem button>
-              <ListItemText primary="Play Game" />
-            </ListItem>
-          </Link>
-          <Link to={routes.QUIZ_ARCHIVE} style={{ textDecoration: 'none'}}>
-            <ListItem button>
-              <ListItemText primary="Quiz Archive" />
-            </ListItem>
-          </Link>
-          <Link to={routes.LEADERBOARD} style={{ textDecoration: 'none'}}>
-            <ListItem button>
-              <ListItemText primary="Leaderboard" />
-            </ListItem>
-          </Link>
-          <Link to={routes.PROFILE} style={{ textDecoration: 'none'}}>
-            <ListItem button>
-              <ListItemText primary="Profile" />
-            </ListItem>
-          </Link>
-          <ListItem button component="a" onClick={this.signOut}>
-            <ListItemText primary="Sign Out" />
-          </ListItem>
-        </List>
+          </List>
+        </MediaQuery>
       </div>
     );
 
