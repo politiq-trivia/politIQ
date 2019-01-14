@@ -43,6 +43,7 @@ class Question extends Component {
                     checked={selectedValue === "1"}
                     value="1"
                     aria-label="1"
+                    disabled={wrong !== null}
                 />
                 } label={a1text}/>
                 <FormControlLabel value={a2text} control={
@@ -51,6 +52,7 @@ class Question extends Component {
                     checked={selectedValue === "2"}
                     value="2"
                     aria-label="2"
+                    disabled={wrong !== null}
                 />
                 } label={a2text}/>
                 <FormControlLabel value={a3text} control={
@@ -59,14 +61,15 @@ class Question extends Component {
                     checked={selectedValue === "3"}
                     value="3"
                     aria-label="3"
+                    disabled={wrong !== null}
                 />
                 } label={a3text}/>
             </RadioGroup>
             <div>
             {wrong === true
                 ? <div style={{ marginTop: '3vh'}}>
-                    <h3 style={{ color: 'red'}}>INCORRECT</h3>
-                    <p>The correct answer was <span style={{ color: 'green' }}>{correctAnswer}</span>.</p>
+                    <h3 style={{ color: 'red', display: 'inline', marginRight: '1vw'}}>INCORRECT</h3>
+                    <p style={{ display: 'inline'}}>The correct answer was <span style={{ color: 'green' }}>{correctAnswer}</span>.</p>
                     <p>{answerExplanation}</p>
                     <Button variant="contained" color="primary" onClick={nextQ} style={{ display: 'block', marginBottom: '2vh'}}>Continue</Button>
                     <Button variant="contained" onClick={this.openNewTab}>Contest This Question</Button>

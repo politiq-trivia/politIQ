@@ -21,6 +21,8 @@ const About = () => {
         <p>So, in an effort to mitigate partisan polarization and improve dialogue, I created this site as a platform for generating a common consensus of political realities through a friendly competition. I mean, everyone, regardless of political affiliation, loves a fun and informative game, right?</p>
 
         <p>If you agree, or simply want to spread the word about an easy way to win some money, invite your friends and foes alike to join politIQ!</p>
+
+        <p style={{ marginTop: '8vh'}}>Have a question or want to send me some hate mail? Email me at <a href="mailto: iknowpolitics.us@gmail.com">iknowpolitics.us@gmail.com</a></p>
       </div>
     </Paper>
   );

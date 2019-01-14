@@ -28,7 +28,7 @@ const getHref = () => {
 
 const isFixed = () => {
   const path = window.location.pathname;
-  if (path === '/signin' || path === '/signup' || path === '/admin' || path === '/home' || path === '/profile' || path === '/review' || path.includes('quiz')) {
+  if (path === '/signin' || path === '/signup' || path === '/admin' || path === '/home' || path === '/profile' || path === '/review') {
     return {
       position: 'fixed'
     }
