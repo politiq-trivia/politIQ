@@ -116,7 +116,7 @@ class App extends Component {
     return (
       <MuiThemeProvider theme={theme}>
 
-            <Navigation authUser={this.state.authUser} signedInUser={this.state.signedInUser} clearStateOnSignout={this.clearStateOnSignout}/>
+            <Navigation signedInUser={this.state.signedInUser} clearStateOnSignout={this.clearStateOnSignout}/>
 
               <Switch>
                 <Route

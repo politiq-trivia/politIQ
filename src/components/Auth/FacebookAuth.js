@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
-import { app, provider, db} from '../../firebase';
+import { app, provider, db } from '../../firebase';
 import { withRouter } from 'react-router-dom';
 import moment from 'moment';
+import { compose } from 'recompose';
 
-import { HOME, PROFILE } from '../../constants/routes';
+import { HOME } from '../../constants/routes';
 
 import { FacebookIcon } from 'react-share';
 import Button from '@material-ui/core/Button';
@@ -24,6 +25,10 @@ class FacebookAuth extends Component {
       redirect: false,
     }
   }
+  
+  componentWillUnmount = () => {
+    // this.listener();
+  }
 
   promptUserForPassword = () => {
     const userPassword = prompt("You've already registered an account using a different sign-in method. Please enter your password to continue.")
@@ -40,9 +45,7 @@ class FacebookAuth extends Component {
       if (error && error.code === "auth/account-exists-with-different-credential") {
         console.log('accoutn already exists')
       } else {
-        console.log('this is getting hit')
         // The signed-in user info.
-        console.log({result})
         var user = result.user;
         const uid = user.uid;
         db.getOneUser(uid)
@@ -54,10 +57,17 @@ class FacebookAuth extends Component {
                 .then(() => {
                   const date = moment().format('YYYY-MM-DD')
                   db.lastActive(uid, date)
-                  localStorage.setItem('authUser', JSON.stringify(user))
                   this.props.getSignedInUser(uid)
-                  this.props.history.push(PROFILE)
+                  window.location.replace('/home');
                 })
+                // this.listener();
+                if (localStorage.authUser) {
+                  const authUser = JSON.parse(localStorage.authUser)
+                  this.setState({
+                    signedInUser: authUser.uid,
+                    isAdmin: true
+                  })
+                }
             } else { // if the user already has an account
               const date = moment().format('YYYY-MM-DD')
               db.lastActive(uid, date)
@@ -110,4 +120,6 @@ class FacebookAuth extends Component {
   }
 }
 
-export default withRouter(FacebookAuth);
+export default compose(
+  withRouter,
+)(FacebookAuth);

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Helmet } from 'react-helmet';
-import { db } from '../../firebase';
+import { db, withFirebase } from '../../firebase';
 import { Link } from 'react-router-dom';
 import { compose } from 'recompose';
 
@@ -127,5 +127,6 @@ const authCondition = (authUser) => !!authUser;
 
 export default compose(
   withEmailVerification,
-  withAuthorization(authCondition)
+  withAuthorization(authCondition),
+  withFirebase
 )(ProfilePage);
