@@ -53,7 +53,7 @@
   display: flex;
   width: 100vw;
   justify-content: space-around;
-  height: 65vh;
+  height: auto;
 }
 @media screen and (max-width: 416px) {
   .dashboard {
@@ -65,9 +65,10 @@
 .dashContainer {
   width: 43vw;
   margin-top: 2vh;
-  height: 53vh;
+  height: auto;
   padding: 3vh;
   padding-top: 1vh;
+  margin-bottom: 5vh;
 }
 @media screen and (max-width: 416px) {
   .dashContainer {

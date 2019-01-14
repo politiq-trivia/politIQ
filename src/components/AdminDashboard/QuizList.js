@@ -105,11 +105,22 @@ class QuizList extends Component {
     this.setState({ rowsPerPage: event.target.value });
   };
 
+  reset = () => {
+    console.log('reset called')
+    this.setState({
+      selected: [],
+      numSelected: 0,
+    })
+  }
 
   render () {
-    const List = this.props.quizDates.map((date, i) => {
+    const { rowsPerPage, page } = this.state;
+    const emptyRows = rowsPerPage - Math.min(rowsPerPage, this.props.quizDates.length - page * rowsPerPage);
+    const newList = this.props.quizDates.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage);
+    const newTitles = this.props.quizTitles.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+    const List = newList.map((date, i) => {
       let id = date;
-      let title = this.props.quizTitles[i]
+      let title = newTitles[i]
       return (
         <TableRow id={date} key={id} className="tableItem">
           <TableCell padding="checkbox">
@@ -128,13 +139,11 @@ class QuizList extends Component {
         </TableRow>
       )
     })
-    const { rowsPerPage, page } = this.state;
-    const emptyRows = rowsPerPage - Math.min(rowsPerPage, this.props.quizDates.length - page * rowsPerPage);
 
     return (
       <div>
         { this.props.showDeleteModal
-          ? <DeleteModal selected={this.state.selected} deleteQuiz={this.props.deleteQuiz} toggleDeleteModal={this.props.toggleDeleteModal}/>
+          ? <DeleteModal selected={this.state.selected} deleteQuiz={this.props.deleteQuiz} toggleDeleteModal={this.props.toggleDeleteModal} reset={this.reset}/>
           : <div>
               <Toolbar>
                 <div className={toolbarStyles.title}>
@@ -185,8 +194,8 @@ class QuizList extends Component {
               <TablePagination
                 component="div"
                 count={this.props.quizDates.length}
-                rowsPerPage={10}
-                page={this.state.page}
+                rowsPerPage={rowsPerPage}
+                page={page}
                 backbuttoniconprops={{
                   'aria-label': 'Previous Page',
                 }}

@@ -112,10 +112,8 @@ export const deleteQuiz = (date) => {
     snapshot.forEach(function(childSnapshot) {
       const childKey = childSnapshot.key;
       const childData = childSnapshot.val();
-      console.log(Object.keys(childData))
       const dates = Object.keys(childData)
       if (dates.includes(date)) {
-        console.log(childKey, 'has a score')
         db.ref().child('scores').child(childKey).child(date).remove()
       }
     })
@@ -238,6 +236,7 @@ export const getQBank = () => {
 }
 
 export const removeFromQBank = (date) => {
+  console.log('remove from qbank called')
   db.ref().child('qbank').child(date).remove()
 }
 

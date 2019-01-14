@@ -20,12 +20,27 @@ class QuizBankSelect extends Component {
   }
 
   componentDidMount = () => {
+    this.getQBankQs()
     this.setState({
       counter: this.props.counter,
-      qBank: this.props.qBank
+      // qBank: this.props.qBank
     })
   }
 
+  getQBankQs = () => {
+    db.getQBank()
+      .then(response => {
+        if (response.val() !== null) {
+          this.setState({
+            qBank: response.val()
+          })
+        } else {
+          this.setState({
+            qBankEmpty: true,
+          })
+        }
+      })
+  }
 
 
   handleChange = (event) => {
@@ -75,7 +90,7 @@ class QuizBankSelect extends Component {
     if (this.state.selectedQ) {
       return (
         <div>
-          <RadioGroup>
+          <RadioGroup inputref={null}>
             <div style={{ display: 'flex'}}>
               <FormControlLabel value={q["a1text"]} control={<Radio />} label={q["a1text"]}/>
               {q["a1correct"] ? <p style={{ color: 'green'}}>Correct Answer</p> : null }
@@ -112,6 +127,7 @@ class QuizBankSelect extends Component {
       )
     })
 
+    console.log(this.state, 'state in question bank select')
     return (
       <div>
         <Button variant="contained" color="primary" onClick={this.props.goBack} style={{ float: 'left'}}>Back</Button>

@@ -39,27 +39,23 @@ class AddQuiz extends Component {
     this.getQBankQs()
   }
 
+  getQBankQs = () => {
+    db.getQBank()
+      .then(response => {
+        if (response.val() === null) {
+          this.setState({
+            qBankEmpty: true,
+          })
+        }
+      })
+  }
+
   incrementCounter = () => {
     let counter = this.state.questionCounter;
     counter++
     this.setState({
       questionCounter: counter,
     })
-  }
-
-  getQBankQs = () => {
-    db.getQBank()
-      .then(response => {
-        if (response.val() !== null) {
-          this.setState({
-            qBank: response.val()
-          })
-        } else {
-          this.setState({
-            qBankEmpty: true,
-          })
-        }
-      })
   }
 
   toggleQuestionBank = () => {
@@ -142,7 +138,7 @@ class AddQuiz extends Component {
                       </div>
                     </div>
                   : <div> {this.state.fromQBank
-                      ?  <QuestionBankSelect toggleAddQuiz={this.props.toggleAddQuiz} counter={this.state.questionCounter} incrementCounter={this.incrementCounter} qBank={this.state.qBank} quizId={this.state.date} goBack={this.goBack}/>
+                      ?  <QuestionBankSelect toggleAddQuiz={this.props.toggleAddQuiz} counter={this.state.questionCounter} incrementCounter={this.incrementCounter} quizId={this.state.date} goBack={this.goBack}/>
                       :  <QuestionForm quizId={this.state.date} counter={this.state.questionCounter} incrementCounter={this.incrementCounter} toggleAddQuiz={this.props.toggleAddQuiz} goBack={this.goBack}/>
                   }</div>
                 } </div>

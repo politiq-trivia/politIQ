@@ -120,7 +120,7 @@
 
 .userShow {
   width: 85vw;
-  height: 53vh;
+  height: auto;
   overflow: scroll;
   padding-left: 5vw;
   padding-right: 5vw;
