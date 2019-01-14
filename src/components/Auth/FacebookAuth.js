@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import { app, provider, db} from '../../firebase';
 import { withRouter } from 'react-router-dom';
+import moment from 'moment';
 
-import { HOME } from '../../constants/routes';
+import { HOME, PROFILE } from '../../constants/routes';
 
 import { FacebookIcon } from 'react-share';
 import Button from '@material-ui/core/Button';
@@ -39,11 +40,36 @@ class FacebookAuth extends Component {
       if (error && error.code === "auth/account-exists-with-different-credential") {
         console.log('accoutn already exists')
       } else {
+        console.log('this is getting hit')
         // The signed-in user info.
+        console.log({result})
         var user = result.user;
         const uid = user.uid;
-        db.doCreateUser(uid, user.displayName, result.additionalUserInfo.profile.email, "", false, "")
-        this.props.getSignedInUser(uid)
+        db.getOneUser(uid)
+          .then(response => {
+            const data = response.val()
+            // if we're creating a new account, the response will be null
+            if (data === null) {
+              db.doCreateUser(uid, user.displayName, result.additionalUserInfo.profile.email, "", false, "", [])
+                .then(() => {
+                  const date = moment().format('YYYY-MM-DD')
+                  db.lastActive(uid, date)
+                  localStorage.setItem('authUser', JSON.stringify(user))
+                  this.props.getSignedInUser(uid)
+                  this.props.history.push(PROFILE)
+                })
+            } else { // if the user already has an account
+              const date = moment().format('YYYY-MM-DD')
+              db.lastActive(uid, date)
+              this.props.getSignedInUser(uid)
+              this.props.history.push(HOME)
+
+              if(this.props.scoreObject && this.props.scoreObject === {}) {
+                db.setScore(uid, this.props.scoreObject.date, this.props.scoreObject.score)
+                  .catch(error => console.log(error))
+              }
+            }
+          })
       }
       this.redirect();
 

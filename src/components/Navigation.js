@@ -104,6 +104,7 @@ class NavigationAuth extends Component {
 
   
   render() {
+    console.log(this.props.authUser)
     const fullList = (
       <div>
         <MediaQuery query="(max-width: 415px)">
