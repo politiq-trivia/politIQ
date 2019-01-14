@@ -27,6 +27,7 @@ class EditQuiz extends Component {
 
   componentDidMount = () => {
     const quiz = this.props.quiz;
+    console.log(quiz, 'this is quiz')
     const quizQs = Object.keys(quiz);
     quizQs.pop();
     const quizLength = quizQs.length;
@@ -39,11 +40,19 @@ class EditQuiz extends Component {
 
   handleChange = (event) => {
     const quiz = this.state.quiz;
-    const id = event.target.id.split(' ')
-    quiz[id[0]][id[1]] = event.target.value;
-    this.setState({
-      quiz: quiz,
-    })
+    console.log(event.target.id, 'id')
+    if (event.target.id === 'quiz-title') {
+      quiz['quiz-title'] = event.target.value
+      this.setState({
+        quiz,
+      })
+    } else {
+      const id = event.target.id.split(' ')
+      quiz[id[0]][id[1]] = event.target.value;
+      this.setState({
+        quiz: quiz,
+      })
+    }
   }
 
   handleCheck = (event) => {
@@ -84,6 +93,7 @@ class EditQuiz extends Component {
               type="text"
               placeholder={q[1]["q1"]}
               id={q[0] + " q1"}
+              inputref={null}
             />
             <h5 style={{ fontSize: '2vh'}}>Answer Choices:</h5>
             <TextField
@@ -198,7 +208,7 @@ class EditQuiz extends Component {
             />
           : null
         }
-        <div>
+        <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '5vh'}}> 
           <Button
             onClick={this.props.toggleQuizShow}
             variant="contained"
@@ -207,6 +217,18 @@ class EditQuiz extends Component {
           >
             Cancel
           </Button>
+          <div>
+            <h1 style={{ display: 'inline'}}>Quiz Title: </h1>
+            {this.state.quiz 
+            ? <TextField 
+                value={this.state.quiz['quiz-title']}
+                style={{ marginTop: 'auto', marginBottom: 'auto'}}
+                onChange={this.handleChange}
+                margin="normal"
+                type="text"
+                id={"quiz-title"}
+              ></TextField> : null }
+          </div>
           <Button
             onClick={this.props.toggleDeleteModal}
             variant="contained"
@@ -217,7 +239,7 @@ class EditQuiz extends Component {
             Delete this Quiz
           </Button>
         </div>
-        {this.state.quiz? <h1>{this.state.quiz['quiz-title']}</h1> : null }
+
         {renderQs}
         <Button
           onClick={this.props.toggleDeleteModal}
