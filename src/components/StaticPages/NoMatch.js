@@ -6,7 +6,7 @@ import { HOME, LANDING } from '../../constants/routes';
 import Paper from '@material-ui/core/Paper';
 import Button from '@material-ui/core/Button';
 
-import bg from './politIQ-bg.png';
+import bg from './politiq-bg.jpg';
 
 
 const NoMatch = () => {
@@ -23,7 +23,7 @@ const NoMatch = () => {
                     <Button color="primary" variant="contained">Return to Home Page</Button>
                 </Link>
             </MediaQuery>
-            <img src={bg} style={{ marginBottom: '10vh', marginTop: '5.5vh' }} alt="democrats and republicans face off" />
+            <img src={bg} id="bg-image" style={{ marginTop: '5.5vh' }} alt="democrats and republicans face off" />
         </Paper>
     )
 }

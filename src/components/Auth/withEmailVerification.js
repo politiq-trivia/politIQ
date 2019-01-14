@@ -5,7 +5,7 @@ import { withFirebase, auth } from '../../firebase';
 import Paper from '@material-ui/core/Paper';
 import Button from '@material-ui/core/Button';
 
-import bg from '../StaticPages/politIQ-bg.png';
+import bg from '../StaticPages/politiq-bg.jpg';
 
 
 const needsEmailVerification = authUser =>
@@ -59,7 +59,7 @@ const withEmailVerification = Component => {
                 >
                   Resend confirmation Email
                 </Button>
-                <img src={bg} style={{ marginBottom: '10vh', marginTop: '5.5vh', height: '25vh' }} alt="democrats and republicans face off" />
+                <img src={bg} id="bg-image" style={{ marginLeft: 'auto', marginRight: 'auto', marginBottom: '10vh', marginTop: '5.5vh', height: '35vh', display: 'block' }} alt="democrats and republicans face off" />
 
               </Paper>
             ) : (

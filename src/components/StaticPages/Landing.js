@@ -5,7 +5,7 @@ import Paper from '@material-ui/core/Paper';
 import Button from '@material-ui/core/Button';
 
 import TodaysQuizButton from './TodaysQuizButton';
-import bg from './politIQ-bg.png';
+import bg from './politiq-bg.jpg';
 
 import './Static.css';
 
@@ -16,7 +16,7 @@ const LandingPage = () =>
 
     <img src={bg} id="bg-image" alt="democrats and republicans face off"/>
 
-    <TodaysQuizButton buttonText="Take Today's Quiz Now" id="home-button" disabled={false} />
+    <TodaysQuizButton buttonText="Take Today's Quiz" id="home-button" disabled={false} />
 
     <div className="home-description">
       <h4> INTERESTED IN POLITICS AND CONSTANTLY CONSUMED BY THE NEWS?</h4>
