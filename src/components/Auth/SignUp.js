@@ -17,6 +17,8 @@ import Button from '@material-ui/core/Button';
 import MenuItem from '@material-ui/core/MenuItem';
 import FormHelperText from '@material-ui/core/FormHelperText';
 import Checkbox from '@material-ui/core/Checkbox';
+import Help from '@material-ui/icons/Help';
+import Tooltip from '@material-ui/core/Tooltip'
 import './Auth.css';
 
 import FacebookAuth from './FacebookAuth'
@@ -69,6 +71,10 @@ const ERROR_MSG_ACCOUNT_EXISTS = `
   to sign in with one of them. Afterward, associate your accounts
   on your personal account page.
 `;
+
+const affiliationText = `
+  Party ID is required in order to contribute to your political party team competition aspect of the site and help prove that your party knows the news and has the highest political IQ.
+`
 
 class SignUpFormBase extends Component {
   constructor(props) {
@@ -210,7 +216,12 @@ class SignUpFormBase extends Component {
             </MenuItem>
           ))}
         </TextField>
-        <FormHelperText>Affiliation will not be shared publicly.</FormHelperText>
+        <div style={{ display: 'flex', justifyContent: 'space-between'}}>
+          <FormHelperText>Affiliation will not be shared publicly.</FormHelperText>
+          <Tooltip title={affiliationText} placement="left-start">
+            <FormHelperText style={{ marginTop: '0'}}><Help color='primary' style={{ width: '0.6em'}}/></FormHelperText>
+          </Tooltip>
+        </div>
         <div style={{ display: 'flex', marginTop: '2vh'}}>
           <Checkbox 
             checked={this.state.consent}
