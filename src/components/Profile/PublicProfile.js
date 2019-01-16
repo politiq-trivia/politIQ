@@ -127,7 +127,7 @@ class PublicProfile extends Component {
 const condition = authUser => !!authUser;
 
 export default compose(
-  withEmailVerification,
+  // withEmailVerification,
   withRouter,
   withAuthorization(condition)
 )(PublicProfile);

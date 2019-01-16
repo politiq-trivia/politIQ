@@ -54,7 +54,7 @@ const affiliations = [
     value: 'Republican',
   },
   {
-    value: 'Independent',
+    value: 'Independent / Other',
   },
 ];
 
@@ -110,9 +110,9 @@ class SignUpFormBase extends Component {
         // this one creates the user in the firebase database and is where I'll
         // add in the additional information (to the state in this component)
         db.doCreateUser(authUser.user.uid, username, email, affiliation, isAdmin, bio, rolesArray)
-          .then(() => {
-            return auth.doSendEmailVerification();
-          })
+          // .then(() => {
+          //   return auth.doSendEmailVerification();
+          // })
           .then(() => {
             const date = moment().format('YYYY-MM-DD')
             db.lastActive(authUser.user.uid, date)
@@ -122,6 +122,9 @@ class SignUpFormBase extends Component {
           })
           .catch(error => {
             this.setState(byPropKey('error', error));
+            if(error.code === ERROR_CODE_ACCOUNT_EXISTS) {
+              error.message = ERROR_MSG_ACCOUNT_EXISTS;
+            }
           });
 
 
@@ -132,9 +135,7 @@ class SignUpFormBase extends Component {
 
       })
       .catch(error => {
-        if(error.code === ERROR_CODE_ACCOUNT_EXISTS) {
-          error.message = ERROR_MSG_ACCOUNT_EXISTS;
-        }
+
         this.setState(byPropKey('error', error));
       });
 
@@ -183,7 +184,7 @@ class SignUpFormBase extends Component {
           fullWidth
           value={email}
           onChange={event => this.setState(byPropKey('email', event.target.value ))}
-          type="text"
+          type="email"
           placeholder = "Email Address"
         />
         <TextField

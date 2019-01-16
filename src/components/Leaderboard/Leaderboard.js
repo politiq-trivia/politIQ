@@ -92,7 +92,7 @@ const condition = authUser => {
 }
 
 export default compose(
-  withEmailVerification,
+  // withEmailVerification,
   withAuthentication,
   withAuthorization(condition)
 )(Leaderboard);

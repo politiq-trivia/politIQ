@@ -249,7 +249,7 @@ const condition = authUser =>
   authUser && authUser.roles.includes(ROLES.ADMIN);
 
 export default compose(
-  withEmailVerification,
+  // withEmailVerification,
   withAuthorization(condition),
   withFirebase,
 )(AdminDashboard);

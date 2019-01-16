@@ -200,7 +200,7 @@ class QuizArchive extends Component {
 const condition = authUser => !!authUser;
 
 export default compose(
-  withEmailVerification,
+  // withEmailVerification,
   withAuthorization(condition),
   withRouter
 )(QuizArchive);
