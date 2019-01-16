@@ -8,6 +8,8 @@ import ProfilePhoto from './ProfilePhoto';
 import PoliticalIQ from '../Leaderboard/PoliticalIQ';
 
 import Button from '@material-ui/core/Button';
+import Tooltip from '@material-ui/core/Tooltip';
+import Help from '@material-ui/icons/Help';
 import './profile.css';
 
 import { AuthUserContext, withAuthorization, withEmailVerification } from '../Auth/index';
@@ -16,6 +18,10 @@ import EditProfile from './EditProfile';
 import UserScoreboard from '../Leaderboard/UserScoreboard';
 
 import Paper from '@material-ui/core/Paper';
+
+const affiliationText = `
+  Party ID is required in order to contribute to your political party team competition aspect of the site and help prove that your party knows the news and has the highest political IQ.
+`
 
 class ProfilePage extends Component {
   constructor(props) {
@@ -76,6 +82,19 @@ class ProfilePage extends Component {
                 <div>
                   <h1>Your Profile</h1>
                 </div>
+                {localStorage.hasOwnProperty('fbAuth')
+                  ? <div style={{ border: '2px solid #a54ee8', width: '80%', marginLeft: 'auto', marginRight: 'auto', marginBottom: '2vh', paddingBottom: '1vh'}}>
+                    <h3>Welcome to PolitIQ!</h3>
+                    <div style={{ display: 'flex', justifyContent: "center", width: '85%', marginLeft: 'auto', marginRight: 'auto', marginTop: '2vh', marginBottom: '2vh'}}>
+                      <p style={{ display: 'inline', margin: '0' }}>Please add a political affiliation to complete your registration.</p>
+                      <Tooltip title={affiliationText} placement="right-start">
+                        <Help color="primary" style={{ height: '15'}}/>
+                      </Tooltip>
+                    </div>
+                    <Button color="primary" onClick={this.toggleEditProfile}>Edit Information</Button>
+                  </div>
+                  : null
+                }
                 {this.state.editingProfile
                   ? <EditProfile
                       toggleEditProfile={this.toggleEditProfile}
@@ -84,6 +103,9 @@ class ProfilePage extends Component {
                       bio={this.state.userInfo.bio}
                       affiliation={this.state.userInfo.affiliation}
                       uid={this.state.userInfo.uid}
+                      initialSignUpMessage={this.props.initialSignUpMessage}
+                      setFBAuth={this.props.setFBAuth}
+                      getUserInfo={this.getUserInfo}
                     />
                   : <div>
                       <div className="profile-info">

@@ -58,7 +58,8 @@ class FacebookAuth extends Component {
                   const date = moment().format('YYYY-MM-DD')
                   db.lastActive(uid, date)
                   this.props.getSignedInUser(uid)
-                  window.location.replace('/home');
+                  localStorage.setItem('fbAuth', 'true')
+                  window.location.replace('/profile');
                 })
                 // this.listener();
                 if (localStorage.authUser) {

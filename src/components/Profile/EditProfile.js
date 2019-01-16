@@ -7,6 +7,7 @@ import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 import Select from '@material-ui/core/Select';
 import InputLabel from '@material-ui/core/InputLabel';
+import { FormHelperText } from '@material-ui/core';
 
 class EditProfile extends Component {
   constructor(props) {
@@ -53,6 +54,12 @@ class EditProfile extends Component {
         console.error(error)
       })
     }
+
+    this.props.getUserInfo(this.props.uid)
+
+    if(localStorage.hasOwnProperty('fbAuth')) {
+      localStorage.removeItem('fbAuth')
+    }
     this.props.toggleEditProfile()
   }
 
@@ -72,6 +79,12 @@ class EditProfile extends Component {
       }).catch(function(error){
         console.error(error)
       })
+    }
+
+    this.props.getUserInfo(this.props.uid)
+
+    if(localStorage.hasOwnProperty('fbAuth')) {
+      localStorage.removeItem('fbAuth')
     }
 
     this.props.history.push(`/profile/${this.state.uid}`)
@@ -95,7 +108,7 @@ class EditProfile extends Component {
               fullWidth
               label="Email Address"
             />
-            <InputLabel>Affiliation</InputLabel>
+            <FormHelperText>Affiliation</FormHelperText>
             <Select
               native
               fullWidth

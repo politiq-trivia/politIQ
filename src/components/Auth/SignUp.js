@@ -30,7 +30,7 @@ const SignUpPage = ({ history, getSignedInUser, scoreObject }) =>
     </Helmet>
     <h1>Sign Up</h1>
     <SignUpForm history={history} getSignedInUser={getSignedInUser} scoreObject={scoreObject}/>
-    <FacebookAuth getSignedInUser={getSignedInUser}history={history} scoreObject={scoreObject}/>
+    <FacebookAuth getSignedInUser={getSignedInUser}history={history} scoreObject={scoreObject} />
     <SignInLink />
   </Paper>
 
