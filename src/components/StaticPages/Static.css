@@ -48,6 +48,13 @@
   display: block;
   height: 45vh;
 }
+@media screen and (max-width: 415px) {
+  #bg-image{
+    height: auto;
+    max-height: 45vh;
+    max-width: 80vw;
+  }
+}
 
 #rep {
   color: red;
@@ -101,6 +108,11 @@
   font-size: 24px;
   max-width: 1100px;
   letter-spacing: 1px;
+}
+@media screen and (max-width: 415px) {
+  .home-holder {
+    min-height: 83vh;
+  }
 }
 
 #today {

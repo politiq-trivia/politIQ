@@ -26,6 +26,7 @@
   padding: 5vh 3vw 15vh 3vw;
   justify-content: flex-start;
   margin-top: 10vh;
+  height: auto !important;
 }
 @media screen and (min-width: 480px) {
   .archive-holder {
@@ -37,6 +38,7 @@
   width: 90% !important;
   margin-left: auto;
   margin-right: auto;
+  margin-top: 3vh;
 }
 .tableItem:hover {
   background-color: #C790F1;

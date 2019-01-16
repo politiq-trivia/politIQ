@@ -95,7 +95,8 @@
   margin-right: auto;
   margin-top: 2vh;
   overflow: scroll;
-  height: 55vh;
+  height: auto;
+  margin-bottom: 3vh;
 }
 .delete-x {
   float: right;

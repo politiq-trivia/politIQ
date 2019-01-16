@@ -27,7 +27,7 @@ class QuizArchive extends Component {
       dateArray: [],
       titleArray: [],
       scoreObject: {},
-      rowsPerPage: 5,
+      rowsPerPage: 10,
       page: 0,
     }
   }
@@ -51,8 +51,8 @@ class QuizArchive extends Component {
           titleArray.push(title)
         }
         this.setState({
-          dateArray: dateArray,
-          titleArray: titleArray,
+          dateArray: dateArray.reverse(),
+          titleArray: titleArray.reverse(),
         })
         this.getTheLoggedInUsersScores()
       })
@@ -92,19 +92,20 @@ class QuizArchive extends Component {
   }
 
   render() {
-    const {dateArray, rowsPerPage, page } = this.state;
+    const {dateArray, titleArray, rowsPerPage, page } = this.state;
     const emptyRows = rowsPerPage - Math.min(rowsPerPage, dateArray.length - page * rowsPerPage)
 
     const List = dateArray.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((date, i) => {
+      let newTitleArray = titleArray.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
       let id = date;
-      let title = this.state.titleArray[i]
+      let title = newTitleArray[i]
       let score;
       if (this.state.scoreObject[date]) {
         score = this.state.scoreObject[date]
       } else {
         score = "--"
       }
-      
+
       return (
         <TableRow id={date} key={id} className={ score !== "--" ? "taken" : "tableItem" }>
           <TableCell onClick={score === "--" ? this.handleClick : null}>
