@@ -68,11 +68,14 @@ class WeeklyLeaderboard extends Component {
                   return response.val().displayName
                 }
               }
-              userScores.push({
-                username: newDisplayName(),
-                score: scoreCounter,
-                uid: usernames[i]
-              })
+              if (scoreCounter > 0) {
+                userScores.push({
+                  username: newDisplayName(),
+                  score: scoreCounter,
+                  uid: usernames[i]
+                })
+              }
+
               const rankedScores = userScores.sort(function(a,b){
                 return a.score - b.score
               })

@@ -70,6 +70,7 @@ class EditProfile extends Component {
       affiliation: this.state.affiliation,
       bio: this.state.bio,
     }
+    
     await db.editUser(this.props.uid, updates)
 
     if (this.props.email !== this.state.email) {

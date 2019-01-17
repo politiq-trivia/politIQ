@@ -18,6 +18,7 @@ class DemLeaderboard extends Component {
     this.state = {
       isLoaded: false,
       rankedScores: {},
+      userScores: [],
     }
   }
   componentDidMount = () => {
@@ -43,8 +44,9 @@ class DemLeaderboard extends Component {
                   }
                 }
               }
-
-              this.getEmailAddress(usernames[i], response.val().displayName, scoreCounter)              
+              if (scoreCounter > 0) {
+                this.getEmailAddress(usernames[i], response.val().displayName, scoreCounter)
+              }
             })
         })
       })
@@ -59,10 +61,11 @@ class DemLeaderboard extends Component {
   }
 
   getEmailAddress = async (uid, displayName, score) => {
-    let userScores = [];
+    let userScores = this.state.userScores;
     await db.getOneUser(uid)
       .then((response) => {
         const userEmail = response.val().email;
+
         userScores.push({
           username: displayName,
           score,
@@ -75,9 +78,12 @@ class DemLeaderboard extends Component {
         })
         const rankReverse = rankedScores.reverse()
         this.setState({
+          userScores,
           rankedScores: rankReverse,
           isLoaded: true,
         })
+
+        return userEmail;
       })
   }
 

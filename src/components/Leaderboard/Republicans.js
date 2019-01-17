@@ -18,6 +18,7 @@ class RepLeaderboard extends Component {
     this.state = {
       isLoaded: false,
       rankedScores: {},
+      userScores: [],
     }
   }
 
@@ -44,8 +45,9 @@ class RepLeaderboard extends Component {
                   }
                 }
               }
-
-              this.getEmailAddress(usernames[i], response.val().displayName, scoreCounter)              
+              if (scoreCounter > 0) {
+                this.getEmailAddress(usernames[i], response.val().displayName, scoreCounter)              
+              }
             })
         })
       })
@@ -60,7 +62,7 @@ class RepLeaderboard extends Component {
   }
 
   getEmailAddress = async (uid, displayName, score) => {
-    let userScores = [];
+    let userScores = this.state.userScores;
     await db.getOneUser(uid)
       .then((response) => {
         const userEmail = response.val().email;
@@ -76,6 +78,7 @@ class RepLeaderboard extends Component {
         })
         const rankReverse = rankedScores.reverse()
         this.setState({
+          userScores,
           rankedScores: rankReverse,
           isLoaded: true,
         })

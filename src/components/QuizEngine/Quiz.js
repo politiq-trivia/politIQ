@@ -108,7 +108,7 @@ class Quiz extends PureComponent {
       })
       this.timer = window.setTimeout(() => {
         this.handleSubmit()
-      }, 30000)
+      }, 60000)
       this.progressBar = window.setInterval(() => {
         this.progress(30)
       }, 500)

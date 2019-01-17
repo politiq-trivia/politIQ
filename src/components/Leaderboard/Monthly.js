@@ -59,11 +59,15 @@ class MonthlyLeaderboard extends Component {
                   }
                 }
               }
-              userScores.push({
-                username: response.val().displayName,
-                score: scoreCounter,
-                uid: usernames[i]
-              })
+              
+              if (scoreCounter > 0) {
+                userScores.push({
+                  username: response.val().displayName,
+                  score: scoreCounter,
+                  uid: usernames[i]
+                })
+              }
+
               const rankedScores = userScores.sort(function(a,b){
                 return a.score - b.score
               })

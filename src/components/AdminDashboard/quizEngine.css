@@ -68,7 +68,7 @@
   height: auto;
   padding: 3vh;
   padding-top: 1vh;
-  margin-bottom: 5vh;
+  margin-bottom: 9vh;
 }
 @media screen and (max-width: 416px) {
   .dashContainer {
