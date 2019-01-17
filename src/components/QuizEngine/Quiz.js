@@ -62,9 +62,9 @@ class Quiz extends PureComponent {
       this.getQuiz(date)
       this.timer = window.setTimeout(() => {
         this.progressBar = window.setInterval(() => {
-          this.progress(30)
+          this.progress(60)
         }, 500)
-      }, 3000)
+      }, 500)
     }
   }
 
@@ -110,7 +110,7 @@ class Quiz extends PureComponent {
         this.handleSubmit()
       }, 60000)
       this.progressBar = window.setInterval(() => {
-        this.progress(30)
+        this.progress(60)
       }, 500)
     } else {     
         this.setState({
@@ -268,7 +268,7 @@ class Quiz extends PureComponent {
     if (this.state.currentQ === 1 && this.state.firstRender === true) {
       this.timer = window.setTimeout(() => {
         this.handleSubmit()
-      }, 30000)
+      }, 60000)
       this.cancelTimeout()
     }
 
