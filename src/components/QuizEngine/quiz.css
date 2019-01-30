@@ -78,12 +78,13 @@
     height: auto;
   }
   .quiz-body h3 {
-    font-size: 18px;
+    font-size: 17px;
     margin-top: auto;
     margin-bottom: auto;
   }
   .quiz-body h5 {
     font-size: 10px;
+    min-width: fit-content;
   }
   .finish-quiz {
     margin-top: 2vh;
@@ -107,6 +108,29 @@
 .question > h1 {
   font-size: 1.5em;
 }
+
+@media screen and (max-width: 415px) {
+  .question > h1 {
+    font-size: 1.2em;
+    margin-bottom: 5vh;
+  }
+}
+
+.answer {
+  padding-left: 1vw;
+}
+
+.answer:hover {
+  cursor: pointer;
+}
+
+@media screen and (max-width: 415px) {
+  .answer {
+    padding-left: 3vw;
+    width: 100%;
+  }
+}
+
 
 .quiz-loading-gif {
   height: 80%;

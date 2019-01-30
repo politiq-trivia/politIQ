@@ -218,8 +218,12 @@ class Quiz extends PureComponent {
   }
 
   handleSubmit = (event) => {
-    if (event !== undefined) {
-      const value = event.target.value
+    if (event !== undefined && (event.target.tagName === "DIV" || event.target.tagName === "LABEL" || event.target.tagName === "INPUT")) {
+      const value = event.target.id
+      this.setState({ selectedValue: value });
+      this.checkCorrect(value)
+    } else if (event !== undefined && (event.target.tagName === "SPAN")) {
+      const value = event.target.parentNode.id;
       this.setState({ selectedValue: value });
       this.checkCorrect(value)
     } else {

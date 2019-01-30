@@ -5,9 +5,16 @@ import FormControl from '@material-ui/core/FormControl';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Radio from '@material-ui/core/Radio';
 import RadioGroup from '@material-ui/core/RadioGroup';
+import Paper from '@material-ui/core/Paper';
 
 
 class Question extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            bgColor: ''
+        }
+    }
     shouldComponentUpdate(nextProps) {
         if (nextProps.qNum !== this.props.qNum || nextProps.selectedValue !== this.props.selectedValue || nextProps.wrong !== this.props.wrong) {
             return true;
@@ -25,6 +32,12 @@ class Question extends Component {
         window.open(`/${url}`);
     }
 
+    handleClick = () => {
+        this.setState({
+            bgColor: 'green'
+        })
+    }
+
     render() {
         const { questionObj, qNum, handleSubmit, selectedValue, nextQ, correctAnswer, wrong } = this.props;
         let qtext = questionObj["q1"]
@@ -33,37 +46,58 @@ class Question extends Component {
         let a3text = questionObj["a3text"];
         let answerExplanation = questionObj["answerExplanation"];
 
+        const backgroundColor = (num) => {
+            if (selectedValue === '') return;
+            if (selectedValue === num && wrong === false) {
+                return '#B6E1BE';
+            } else if (selectedValue === num && wrong === true) {
+                return '#E1B6B6';
+            }
+        }
+
+        console.log({selectedValue})
+
         return (
             <FormControl className="question" style={{ marginBottom: '5vh'}}>
             <h1>{qNum}. {qtext}</h1>
             <RadioGroup aria-label={qtext}>
-                <FormControlLabel value={a1text} control={
-                <Radio
-                    onChange={handleSubmit}
-                    checked={selectedValue === "1"}
-                    value="1"
-                    aria-label="1"
-                    disabled={wrong !== null}
-                />
-                } label={a1text}/>
-                <FormControlLabel value={a2text} control={
-                <Radio
-                    onChange={handleSubmit}
-                    checked={selectedValue === "2"}
-                    value="2"
-                    aria-label="2"
-                    disabled={wrong !== null}
-                />
-                } label={a2text}/>
-                <FormControlLabel value={a3text} control={
-                <Radio
-                    onChange={handleSubmit}
-                    checked={selectedValue === "3"}
-                    value="3"
-                    aria-label="3"
-                    disabled={wrong !== null}
-                />
-                } label={a3text}/>
+                <Paper style={{ backgroundColor: backgroundColor("1") }} id="1" onClick={ wrong === null ? handleSubmit : null } className="answer">
+                    <FormControlLabel value={a1text} id="1" control={
+                    <Radio
+                        checked={selectedValue === "1"}
+                        value="1"
+                        aria-label="1"
+                        id="1"
+                        disabled={wrong !== null} 
+                    />
+                    } label={a1text} />
+                </Paper>
+
+                {/* <hr width="100%" ref={this.props.innerRef}/> */}    
+                <Paper style={{ marginTop: '2vh', backgroundColor: backgroundColor("2")}} id="2" onClick={ wrong === null ? handleSubmit : null } className="answer">
+                    <FormControlLabel value={a2text} id="2" control={
+                    <Radio
+                        checked={selectedValue === "2"}
+                        value="2"
+                        id="2"
+                        aria-label="2"
+                        disabled={wrong !== null}
+                    />
+                    } label={a2text} />
+                </Paper>
+                {/* <hr width="100%" ref={this.props.innerRef}/> */}
+                <Paper style={{ marginTop: '2vh', backgroundColor: backgroundColor("3")}} id="3" onClick={ wrong === null ? handleSubmit : null } className="answer">
+                    <FormControlLabel value={a3text} id="3" control={
+                    <Radio
+                        checked={selectedValue === "3"}
+                        value="3"
+                        id="3"
+                        aria-label="3"
+                        disabled={wrong !== null}
+                    />
+                    } label={a3text}/>
+                </Paper>
+
             </RadioGroup>
             <div>
             {wrong === true
