@@ -76,6 +76,7 @@
 @media screen and (max-width: 415px) {
   .quiz-body {
     height: auto;
+    padding-top: 2vh;
   }
   .quiz-body h3 {
     font-size: 17px;
@@ -143,6 +144,12 @@
 .quiz-header {
   display: flex;
   justify-content: space-between;
+}
+
+@media screen and (max-width: 415px) {
+  .quiz-header {
+    margin-bottom: 2vh;
+  }
 }
 
 .taken {

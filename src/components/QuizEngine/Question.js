@@ -55,8 +55,6 @@ class Question extends Component {
             }
         }
 
-        console.log({selectedValue})
-
         return (
             <FormControl className="question" style={{ marginBottom: '5vh'}}>
             <h1>{qNum}. {qtext}</h1>

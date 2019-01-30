@@ -6,7 +6,6 @@ import { withRouter } from 'react-router-dom';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 import Select from '@material-ui/core/Select';
-import InputLabel from '@material-ui/core/InputLabel';
 import { FormHelperText } from '@material-ui/core';
 
 class EditProfile extends Component {

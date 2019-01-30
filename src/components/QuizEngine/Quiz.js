@@ -2,16 +2,17 @@ import React, { PureComponent } from 'react';
 import loadingGif from '../../loadingGif.gif';
 import { Helmet } from 'react-helmet';
 import AuthUserContext from '../Auth/AuthUserContext';
+import MediaQuery from 'react-responsive';
 
 
 import Paper from '@material-ui/core/Paper';
-import LinearProgress from '@material-ui/core/LinearProgress';
 import ContestAQuestion from './ContestAQuestion';
 
 import { db } from '../../firebase';
 
 import Question from './Question';
 import FinishQuiz from './FinishQuiz';
+import ReactCountdownClock from 'react-countdown-clock';
 
 import './quiz.css';
 
@@ -60,11 +61,6 @@ class Quiz extends PureComponent {
         contestQuestion: false,
       })
       this.getQuiz(date)
-      this.timer = window.setTimeout(() => {
-        this.progressBar = window.setInterval(() => {
-          this.progress(60)
-        }, 500)
-      }, 500)
     }
   }
 
@@ -106,12 +102,6 @@ class Quiz extends PureComponent {
         completed: 0,
         contestQuestion: false,
       })
-      this.timer = window.setTimeout(() => {
-        this.handleSubmit()
-      }, 60000)
-      this.progressBar = window.setInterval(() => {
-        this.progress(60)
-      }, 500)
     } else {     
         this.setState({
           currentQ: qNum,
@@ -168,6 +158,7 @@ class Quiz extends PureComponent {
   }
 
   checkCorrect = (value) => {
+    console.log('check correct called')
     // if the user has not selected a value and the quiz is finished, return 
     if (value === undefined && this.state.finished) {
       return;
@@ -197,9 +188,6 @@ class Quiz extends PureComponent {
           wrong: false,
           correctAnswer,
         })
-        // this.timer = window.setTimeout(() => {
-        //   this.nextQ();
-        // }, 1000)
       // otherwise, if the user answers wrong or doesn't answer
       } else if (isCorrect === false || isCorrect === undefined) {
 
@@ -243,38 +231,7 @@ class Quiz extends PureComponent {
     }
   }
 
-  // progress method controls the timer bar at the bottom of the page
-  progress = (num) => {
-    // not sure if this line is necessary
-    if (this.state.stopRendering) {return;}
-    // is it completed
-    let { completed } = this.state;
-    if (completed === 100) {
-      this.setState({ completed: 0 });
-      this.checkCorrect()
-    } else if (completed === 0) {
-      completed += (100/num)
-    } else {
-      completed = completed + ((100 / num) / 2)
-    }
-    this.setState({ completed: completed });
-  };
-
-  cancelTimeout = () => {
-    if (this.state.firstRender === true) {
-      this.setState({
-        firstRender: false,
-      })
-    }
-  }
-
   render() {
-    if (this.state.currentQ === 1 && this.state.firstRender === true) {
-      this.timer = window.setTimeout(() => {
-        this.handleSubmit()
-      }, 60000)
-      this.cancelTimeout()
-    }
 
     return (
       <AuthUserContext.Consumer>
@@ -289,9 +246,29 @@ class Quiz extends PureComponent {
               : <div style={{ height: '100%'}}>
                   <div className="quiz-header">
                     <h3>{this.state.selectedQuiz["quiz-title"]} ({this.state.selectedQuizId})</h3>
-                    {this.state.currentQ <= this.state.quizLength ? <h5>Question {this.state.currentQ} of {this.state.quizLength}</h5> : null }
+                    {this.state.currentQ <= this.state.quizLength ? 
+                      <>
+                        <MediaQuery minWidth={416}>
+                          <h5>Question {this.state.currentQ} of {this.state.quizLength}</h5> 
+                        </MediaQuery>
+                        <MediaQuery maxWidth={415}>
+                          <h5>{this.state.currentQ} of {this.state.quizLength}</h5>
+                        </MediaQuery>
+                      </>
+                      : null }
                   </div>
-                  
+                  <MediaQuery minWidth={416}>
+                    <div style={{ float: 'right' }}>
+                      <ReactCountdownClock key={this.state.currentQ} seconds={60} size={50} color="#a54ee8" alpha={0.9} onComplete={() => this.checkCorrect()}/>
+                    </div>
+                  </MediaQuery>
+                  <MediaQuery maxWidth={415}>
+                    <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '2vh' }}>
+                      <ReactCountdownClock key={this.state.currentQ} seconds={60} size={60} color="#a54ee8" alpha={0.9} onComplete={() => this.checkCorrect()}/>
+                    </div>
+                  </MediaQuery>
+
+
 
                   {this.state.finished 
                     ? <FinishQuiz 
@@ -321,14 +298,7 @@ class Quiz extends PureComponent {
                     : null
                   }
                 </div>
-            }
-            
-            <LinearProgress className="progressBar-mobile"variant="determinate" value={this.state.completed} />
-            {this.state.finished
-              ? null
-              : <div>
-                  {this.state.wrong ? null : <LinearProgress className="progressBar-full"variant="determinate" value={this.state.completed} /> }
-                </div>
+
             }
           </Paper>
         }
