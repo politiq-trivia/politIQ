@@ -91,7 +91,9 @@
     margin-top: 2vh;
   }
   .quiz-body h1 {
-    font-size: 24px;
+    font-size: 20px;
+    margin-bottom: 5vh;
+    width: 78%;
   }
   .progressBar-full {
     display: none;
@@ -154,4 +156,15 @@
 
 .taken {
   background-color: lightgray;
+}
+
+.showClock {
+  display: flex;
+  justify-content: left;
+  margin-bottom: 2vh;
+  margin-left: 2vw;
+}
+
+.dontShowClock {
+  display: none;
 }

@@ -35,7 +35,8 @@ class Quiz extends PureComponent {
       firstRender: true,
       contestQuestion: false,
       stopRendering: false,
-      uid: ""
+      uid: "",
+      clicked: false,
     }
   }
 
@@ -101,6 +102,7 @@ class Quiz extends PureComponent {
         correctAnswer: '',
         completed: 0,
         contestQuestion: false,
+        clicked: false,
       })
     } else {     
         this.setState({
@@ -142,6 +144,9 @@ class Quiz extends PureComponent {
           wrong={this.state.wrong}
           quizID={this.state.selectedQuizId}
           state={this.state}
+          currentQ={this.state.currentQ}
+          checkCorrect={this.checkCorrect}
+          clicked={this.state.clicked}
         />
       )
     } else if (this.state.finished === true && this.state.contestQuestion === true) {
@@ -187,6 +192,7 @@ class Quiz extends PureComponent {
           score: score,
           wrong: false,
           correctAnswer,
+          clicked: true,
         })
       // otherwise, if the user answers wrong or doesn't answer
       } else if (isCorrect === false || isCorrect === undefined) {
@@ -196,6 +202,7 @@ class Quiz extends PureComponent {
           wrong: true,
           correctAnswer: correctAnswer,
           completed: 0,
+          clicked: true,
         })
       }
     }
@@ -260,11 +267,6 @@ class Quiz extends PureComponent {
                   <MediaQuery minWidth={416}>
                     <div style={{ float: 'right' }}>
                       <ReactCountdownClock key={this.state.currentQ} seconds={60} size={50} color="#a54ee8" alpha={0.9} onComplete={() => this.checkCorrect()}/>
-                    </div>
-                  </MediaQuery>
-                  <MediaQuery maxWidth={415}>
-                    <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '2vh' }}>
-                      <ReactCountdownClock key={this.state.currentQ} seconds={60} size={60} color="#a54ee8" alpha={0.9} onComplete={() => this.checkCorrect()}/>
                     </div>
                   </MediaQuery>
 
