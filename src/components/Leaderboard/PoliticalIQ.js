@@ -1,9 +1,8 @@
 import React, {
     Component
 } from 'react';
-import moment from 'moment';
-import { db } from '../../firebase';
 import TodaysQuizButton from '../StaticPages/TodaysQuizButton';
+import { getPolitIQ } from '../../utils/calculatePolitIQ';
 
 class PoliticalIQ extends Component {
     constructor(props) {
@@ -18,87 +17,25 @@ class PoliticalIQ extends Component {
     componentDidMount() {
         if (localStorage.getItem('authUser')) {
             const authUser = JSON.parse(localStorage.getItem('authUser'))
+            this.getIQ(authUser.uid, 'month')
             this.setState({
                 uid: authUser.uid
             })
-
-            this.getQuizzes()
-                .then(() => {
-                    this.getScores(authUser.uid)
-                        .then(() => {
-                            if (this.state.noScores === false) {
-                                this.calculatePoliticalIQ()
-                            }
-                        })
-                })
         }
     }
 
-    getQuizzes = async () => {
-        await db.getQuizzes()
-            .then(response => {
-                const data = response.val()
-                // store the dates in a weekly array to see how many have been in the last week
-                const quizDates = Object.keys(data)
-                const lastWeek = []
-                for (let i = 0; i < quizDates.length; i++) {
-                    if (quizDates[i] > moment().startOf('week').format('YYYY-MM-DD')) {
-                        lastWeek.push(quizDates[i])
-                    }
-                }
-                this.setState({
-                    quizzesInLastWeek: lastWeek.length,
-                })
-            })
+    getIQ = async (uid, timeframe) => {
+       const iq = await getPolitIQ(uid, timeframe)
+       this.setState({
+           politIQ: iq,
+       })
     }
-
-    getScores = async (uid) => {
-        await db.getScoresByUid(uid)
-            .then(response => {
-                const data = response.val();
-                if (data === null) {
-                    this.setState({
-                        noScores: true,
-                        loaded: true,
-                    }) 
-                } else {
-                    let scoreCounter = 0;
-                    const scoreDates = Object.keys(data);
-                    for (let i = 0; i < scoreDates.length; i++) {
-                        if (scoreDates[i] > moment().startOf('week').format('YYYY-MM-DD')) {
-                            scoreCounter += data[scoreDates[i]]
-                        }
-                    }
-                    this.setState({
-                        weeklyScore: scoreCounter,
-                        noScores: false,
-                    })
-                }
-            })
-    }
-
-    // calculate the political IQ for this week
-    calculatePoliticalIQ = () => {
-        const score = this.state.weeklyScore;
-        const quizNum = this.state.quizzesInLastWeek;
-        const qNum = 5;
-
-        const averageScore = score / qNum;
-        const politIQ = Math.round((averageScore / quizNum) * 100);
-
-        this.setState({
-            politIQ,
-            loaded: true,
-        })
-    }
-
-
 
     render() {
         return ( 
             <div>
                 <div>
-                    <p>Your politIQ for this week: </p>
+                    <p>Your politIQ for this month: </p>
                     <h2>{this.state.politIQ}</h2>
                 </div>
                 {this.state.noScores && this.state.loaded === true
@@ -108,9 +45,6 @@ class PoliticalIQ extends Component {
                     </div>
                     : null
                 }
-            
-
-
             </div> 
         )
     }

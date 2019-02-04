@@ -19,6 +19,7 @@ import logo from '../logo.png';
 import WeeklyLeaderboard from './Weekly';
 import MonthlyLeaderboard from './Monthly';
 import BarChart from './ScoreChart/BarChart';
+import HighestScore from './HighestScore';
 
 class Leaderboard extends Component {
   constructor(props) {
@@ -74,13 +75,14 @@ class Leaderboard extends Component {
             </Tabs>
           </AppBar>
           <Paper>
-              <Tab onClick={this.handleChange} style={{ display: 'none'}}>Weekly Leaderboard</Tab>
-              <Tab onClick={this.handleChange} style={{ display: 'none'}}>Monthly Leaderboard</Tab>
+              <Tab onClick={this.handleChange} style={{ display: 'none'}} label="Weekly Leaderboard"></Tab>  
+              <Tab onClick={this.handleChange} style={{ display: 'none'}} label="Monthly Leaderboard"></Tab>
             {this.state.value === 0 ? <WeeklyLeaderboard /> : null }
             {this.state.value === 1 ? <MonthlyLeaderboard /> : null }
           </Paper>
           <div style={{ marginTop: '3vh', marginBottom: '5vh', marginLeft: '-2vw'}}>
             <BarChart timeFrame={this.state.value === 0 ? "week" : "month"} />
+            <HighestScore />
           </div>
           </Paper>
       )
