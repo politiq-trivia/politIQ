@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import moment from 'moment';
 import { scaleBand, scaleLinear } from 'd3-scale';
+import Button from '@material-ui/core/Button';
 import { db } from '../../../firebase';
 
 import Axis from './Axis';
@@ -15,8 +16,9 @@ class BarChart extends Component {
           Republican: 0,
           Independent: 0,
         }
-        this.xScale = scaleBand();
-        this.yScale = scaleLinear();
+        this.xScale = scaleLinear();
+
+        this.yScale = scaleBand();
       }
     
       componentDidMount = () => {
@@ -108,9 +110,9 @@ class BarChart extends Component {
       }
 
     render () {
-        const margin = { top: 10, right: 20, bottom: 60, left: 30 };
-        const width = 300;
-        const height = 600;
+        const margin = { top: 10, right: 20, bottom: 60, left: 80 };
+        const width = 600;
+        const height = 300;
 
         const data = [
           { party: 'Democrat', score: (this.state.Democrat / this.state.Democratlength) },
@@ -119,23 +121,16 @@ class BarChart extends Component {
         ]
 
         const maxValue = Math.max(...data.map(d => d.score));
-        // const maxValue = this.state.numQuizzes * 5;
-
-        const xScale = this.xScale
-          .padding(0.5)
-          .domain(data.map(d => d.party))
-          .range([margin.left, width - margin.right])
 
         const yScale = this.yScale
-          .domain([0, maxValue])
+          .padding(0.5)
+          .domain(data.map(d => d.party))
           .range([height - margin.bottom, margin.top])
 
-        const xProps = {
-          orient: 'Bottom',
-          scale: xScale,
-          translate: `translate(0, ${height - margin.bottom})`,
-          tickSize: height - margin.top - margin.bottom,
-        }
+
+        const xScale = this.xScale
+          .domain([0, maxValue])
+          .range([margin.left, width - margin.right])
 
         const yProps = {
           orient: 'Left',
@@ -144,57 +139,43 @@ class BarChart extends Component {
           tickSize: width - margin.left - margin.right,
         }
 
+        const xProps = {
+          orient: 'Bottom',
+          scale: xScale,
+          translate: `translate(0, ${height - margin.bottom})`,
+          tickSize: height - margin.top - margin.bottom,
+
+        }
+        
         return (
-          <div style={{ display: 'flex', justifyContent: 'center'}}>
-            <div style={{ transform: 'rotate(-180deg)' }}>
-              <p style={{ writingMode: 'vertical-rl', height: '100%', fontWeight: 'bold' }}>Average Score</p>
+          <>
+            { maxValue 
+              ?
+               <div style={{ display: 'flex', flexDirection: 'column', width: '60%', justifyContent: 'center', marginLeft: 'auto', marginRight: 'auto'}}>
 
-            </div>
-            <svg id="chart" width={width} height={height}>
-                <Axis {...xProps}/>
-                <Axis {...yProps} />
-                <Bars 
-                  xScale={xScale}
-                  yScale={yScale}
-                  margin={margin}
-                  data={data}
-                  maxValue={maxValue}
-                  height={height}
-                  width={width}
-                />
-
-            </svg>
-          </div>
-            // <Chart
-            //     width={'450px'}
-            //     height={'75px'}
-            //     chartType="BarChart"
-            //     loader={<div>Loading</div>}
-            //     data={[
-            //         [
-            //             'Team', 
-            //             'Score', 
-            //             { role: 'style' },
-            //             {
-            //                 sourceColumn: 0,
-            //                 role: 'annotation',
-            //                 type: 'string',
-            //                 calc: 'stringify',
-            //             },
-            //         ],
-            //         ['Democrats', this.state.Democrat, 'blue', null],
-            //         ["Republicans", this.state.Republican, 'red', null],
-            //         ["Independents", this.state.Independent, 'green', null]
-            //     ]}
-            //     options={{
-            //         chartArea: { width: '65%'},
-            //         hAxis: {
-            //             minValue: 0,
-            //         },
-            //         legend: { position: 'none' }
-            //     }}
-            //     className="barChart"
-            // />
+                  <svg id="chart" width={width} height={height}>
+                    <Axis {...xProps}/>
+                    <Axis {...yProps} />
+                    <Bars 
+                      xScale={xScale}
+                      yScale={yScale}
+                      margin={margin}
+                      data={data}
+                      maxValue={maxValue}
+                      height={height}
+                      width={width}
+                    />
+                  </svg>
+                  <div>
+                    <p style={{  width: '100%', fontWeight: 'bold' }}>Average Score</p>
+                  </div>
+                </div>
+             : <>
+                <h3>There are no scores logged for this {this.props.timeFrame}!</h3>
+                <Button variant="contained" color="primary">Click Here to Take Today's Quiz</Button>
+              </>
+            }
+          </>
         )
     }
 
