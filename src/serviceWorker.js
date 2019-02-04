@@ -10,6 +10,7 @@
 // To learn more about the benefits of this model and instructions on how to
 // opt-in, read http://bit.ly/CRA-PWA.
 
+
 const isLocalhost = Boolean(
   window.location.hostname === 'localhost' ||
     // [::1] is the IPv6 localhost address.
@@ -21,7 +22,7 @@ const isLocalhost = Boolean(
 );
 
 export function register(config) {
-  if (process.env.NODE_ENV === 'production' && 'serviceWorker' in navigator) {
+  if ('serviceWorker' in navigator) {
     // The URL constructor is available in all browsers that support SW.
     const publicUrl = new URL(process.env.PUBLIC_URL, window.location);
     if (publicUrl.origin !== window.location.origin) {
@@ -40,7 +41,22 @@ export function register(config) {
 
         // Add some additional logging to localhost, pointing developers to the
         // service worker/PWA documentation.
-        navigator.serviceWorker.ready.then(() => {
+        navigator.serviceWorker.ready.then((registration) => {
+          let swRegistration = registration;
+
+          // check for push notification compatibility && existing subscription
+          if ('PushManager' in window) {
+            swRegistration.pushManager.getSubscription().then(function(sub) {
+              if (sub === null) {
+                console.log('push manager exists but user has not registered')
+                requestPushNotifications(swRegistration);
+              } else {
+                // We have a subscription, update the database
+                console.log('Subscription object: ', sub);
+              }
+            })
+          }
+
           console.log(
             'This web app is being served cache-first by a service ' +
               'worker. To learn more, visit http://bit.ly/CRA-PWA'
@@ -58,6 +74,8 @@ function registerValidSW(swUrl, config) {
   navigator.serviceWorker
     .register(swUrl)
     .then(registration => {
+      console.log('ServiceWorker registration successful with scope: ', registration.scope)
+      
       registration.onupdatefound = () => {
         const installingWorker = registration.installing;
         installingWorker.onstatechange = () => {
@@ -105,6 +123,7 @@ function checkValidServiceWorker(swUrl, config) {
         response.headers.get('content-type').indexOf('javascript') === -1
       ) {
         // No service worker found. Probably a different app. Reload the page.
+        console.log('no service worker found')
         navigator.serviceWorker.ready.then(registration => {
           registration.unregister().then(() => {
             window.location.reload();
@@ -128,4 +147,66 @@ export function unregister() {
       registration.unregister();
     });
   }
+}
+
+// push notifications ---------------------------------------------------
+
+// this function will only run if the browser is compatible with push notifications
+function requestPushNotifications(swRegistration) {
+  if(Notification.permission === 'default') {
+    // ask permission to send notifications 
+    askPermission(swRegistration);
+
+  }
+} 
+
+function askPermission(swRegistration) {
+  return new Promise(function (resolve, reject) {
+    const permissionResult = Notification.requestPermission(function(result) {
+      resolve(result);
+      if (result === 'granted') {
+        subscribeUser(swRegistration);
+      }
+    });
+
+    if (permissionResult) {
+      permissionResult.then(resolve, reject);
+    }
+  }).then(function(permissionResult) {
+    if (permissionResult !== 'granted') {
+      throw new Error('Not granted permission for push notifications');
+    }
+  })
+}
+
+function subscribeUser(swRegistration) {
+  const applicationServerKey = urlBase64ToUint8Array(process.env.REACT_APP_MESSAGING_KEY)
+  const options = {
+    userVisibleOnly: true,
+    applicationServerKey,
+  }
+  return swRegistration.pushManager.subscribe(options)
+    .then(function(subscription) {
+      console.log(subscription)
+      // send subscription to back end
+    }).catch(function(error) {
+      if (Notification.permission === 'denied') {
+        console.warn('Permission for notifications was denied');
+      } else {
+        console.log('Failed to subscribe user: ', error)
+      }
+    })
+}
+
+function urlBase64ToUint8Array(base64string) {
+  const padding = '='.repeat((4-base64string.length % 4) % 4);
+  const base64 = (base64string + padding).replace(/-/g, '+').replace(/_/g, '/');
+  const rawData = window.atob(base64);
+  const outputArray = new Uint8Array(rawData.length);
+
+  for (let i = 0; i < rawData.length; i++) {
+    outputArray[i] = rawData.charCodeAt(i);
+  }
+
+  return outputArray;
 }

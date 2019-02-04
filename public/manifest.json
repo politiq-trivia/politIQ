@@ -1,6 +1,7 @@
 {
   "short_name": "PolitIQ",
   "name": "PolitIQ",
+  "gcm_sender_id": "56223684739",
   "icons": [
     {
       "src":"logo-192.png",
