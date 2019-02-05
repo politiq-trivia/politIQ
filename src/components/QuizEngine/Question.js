@@ -37,13 +37,12 @@ class Question extends Component {
         window.open(`/${url}`);
     }
 
-    handleClick = () => {
-        console.log('handle click hit')
-        this.setState({
-            bgColor: 'green',
-            clicked: true,
-        })
-    }
+    // handleClick = () => {
+    //     this.setState({
+    //         bgColor: 'green',
+    //         clicked: true,
+    //     })
+    // }
 
     render() {
         const { questionObj, qNum, handleSubmit, selectedValue, nextQ, correctAnswer, wrong, clicked } = this.props;
@@ -61,7 +60,7 @@ class Question extends Component {
                 return '#E1B6B6';
             }
         }
-        console.log('clicked: ', this.state.clicked)
+        // console.log('clicked: ', this.state.clicked)
 
         return (
             <>

@@ -70,9 +70,38 @@
   margin-top: 11vh;
   margin-bottom: 20vh;
 }
+
+.quiz-body h1 {
+  width: 90%;
+}
 .progressBar-mobile {
   display: none;
 }
+
+.finish-quiz-buttons {
+  display: flex;
+  justify-content:center;
+  width: 25vw;
+  flex-direction: column;
+  margin-left: auto;
+  margin-right: auto;
+} 
+
+.end-button {
+  width: 25vw;
+  margin-top: 2vw !important;
+}
+
+@media screen and (max-width: 415px) {
+  .finish-quiz-buttons {
+    width: 80vw;
+  }
+  .end-button {
+    width: 80vw;
+    margin-top: 2vh !important;
+  }
+}
+
 @media screen and (max-width: 415px) {
   .quiz-body {
     height: auto;

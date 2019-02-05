@@ -239,6 +239,7 @@ class Quiz extends PureComponent {
   }
 
   render() {
+    console.log(this.state.clicked, 'clicked')
 
     return (
       <AuthUserContext.Consumer>
@@ -265,7 +266,7 @@ class Quiz extends PureComponent {
                       : null }
                   </div>
                   <MediaQuery minWidth={416}>
-                    <div style={{ float: 'right' }}>
+                    <div style={{ float: 'right' }} className={this.state.clicked ? 'dontShowClock' : 'showClock'}>
                       <ReactCountdownClock key={this.state.currentQ} seconds={60} size={50} color="#a54ee8" alpha={0.9} onComplete={() => this.checkCorrect()}/>
                     </div>
                   </MediaQuery>
