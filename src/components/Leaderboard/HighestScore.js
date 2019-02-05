@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import { db } from '../../firebase';
 import { getPolitIQ } from '../../utils/calculatePolitIQ';
 
+import Card from '@material-ui/core/Card';
+
 class HighestScore extends Component {
     constructor(props) {
         super(props);
@@ -67,12 +69,13 @@ class HighestScore extends Component {
         return (
             <>
                 {this.state.highScore !== 0
-                    ? <div style={{ border: '1px solid black', padding: '1vh', width: '40%', marginLeft: 'auto', marginRight: 'auto', marginTop: "2vh"}}>
+                    ?
+                     <Card style={{ paddingBottom: '1vh', width: '40%', marginLeft: 'auto', marginRight: 'auto', marginTop: "5vh"}}>
                         <h2>Highest PolitIQ this {this.props.timeframe}:</h2>
                         <h1>{this.state.name}</h1>
                         <h3>{this.state.highScore}</h3>
-                      </div>
-                    : null
+                      </Card>
+                     : null
                 }
             </>
         )
