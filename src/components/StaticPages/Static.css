@@ -78,20 +78,17 @@
 }
 
 #iq {
-  color: white;
+  color: #a54ee8;
 }
 
 #main {
-  color: #a54ee8;
-  /* filter: drop-shadow(0.5em 0em 0.69em #a54ee8); */
+  color: rgba(45, 45, 45, 0.80);
   font-size: 3.2em;
   letter-spacing: 2px;
-  text-shadow: -0.02em 0em 0.69em #a54ee8;
   margin-top: 1vh;
   margin-bottom: 5vh;
   line-height: 80%;
-  font-weight: bold;
-  /* font-family: 'Baloo Bhaina', cursive; */
+  /* font-weight: bold; */
 }
 
 .home-holder {

@@ -18,7 +18,7 @@ import MenuIcon from '@material-ui/icons/Menu';
 import AccountCircle from '@material-ui/icons/AccountCircle';
 import Button from '@material-ui/core/Button';
 
-import Logo from './logo.png';
+import Logo from './dark-logo.png';
 
 const Navigation = ({ authUser, signedInUser, clearStateOnSignout }) => {
   return (
