@@ -92,6 +92,16 @@
   margin-top: 2vw !important;
 }
 
+#keep-playing {
+  background-color: green;
+  color: white;
+}
+
+#keep-playing:hover {
+  cursor: pointer;
+  background-color: #006000;
+}
+
 @media screen and (max-width: 415px) {
   .finish-quiz-buttons {
     width: 80vw;

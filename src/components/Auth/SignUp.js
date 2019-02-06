@@ -73,7 +73,7 @@ const ERROR_MSG_ACCOUNT_EXISTS = `
 `;
 
 const affiliationText = `
-  Party ID is required in order to contribute to your political party team competition aspect of the site and help prove that your party knows the news and has the highest political IQ.
+Poltical ID is required in order to contribute to your political party's average team score, which is represented on the leaderboard page.
 `
 
 class SignUpFormBase extends Component {

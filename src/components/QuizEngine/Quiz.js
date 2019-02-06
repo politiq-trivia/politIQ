@@ -31,7 +31,7 @@ class Quiz extends PureComponent {
       wrong: null,
       correctAnswer: '',
       completed: 0,
-      finished: false,
+      finished: true,
       firstRender: true,
       contestQuestion: false,
       stopRendering: false,
@@ -40,15 +40,13 @@ class Quiz extends PureComponent {
     }
   }
 
+
+
   componentDidMount = () => {
     const url = window.location.href;
     const date = url.split('/')[4];
 
-    if(localStorage.hasOwnProperty('authUser')) {
-      const userInfo = JSON.parse(localStorage.authUser)
-      const uid = userInfo.uid
-      this.setState({uid})
-    }
+    this.getUser();
 
     if (localStorage.hasOwnProperty('state')) {
       const newState = JSON.parse(localStorage.state) 
@@ -70,8 +68,16 @@ class Quiz extends PureComponent {
     window.clearInterval(this.progressBar)
   }
 
-  getQuiz = (date) => {
-    db.getQuiz(date)
+  getUser = () => {
+    if(localStorage.hasOwnProperty('authUser')) {
+      const userInfo = JSON.parse(localStorage.authUser)
+      const uid = userInfo.uid
+      this.setState({uid})
+    }
+  }
+
+  getQuiz = async(date) => {
+    await db.getQuiz(date)
       .then(response => {
         const quiz = response.val();
         const quizQs = Object.keys(quiz);
@@ -84,8 +90,17 @@ class Quiz extends PureComponent {
           selectedQuiz: quiz,
           questionsArray: qArray,
           quizLength: qArray.length,
+          selectedQuizId: date,
+          completed: 0,
+          finished: false,
+          clicked: false,
+          currentQ: 1,
         })
       })
+  }
+
+  getNextQuiz = (date) => {
+    this.getQuiz(date);
   }
 
   nextQ = () => {
@@ -163,7 +178,6 @@ class Quiz extends PureComponent {
   }
 
   checkCorrect = (value) => {
-    console.log('check correct called')
     // if the user has not selected a value and the quiz is finished, return 
     if (value === undefined && this.state.finished) {
       return;
@@ -239,8 +253,6 @@ class Quiz extends PureComponent {
   }
 
   render() {
-    console.log(this.state.clicked, 'clicked')
-
     return (
       <AuthUserContext.Consumer>
         {authUser =>
@@ -279,6 +291,7 @@ class Quiz extends PureComponent {
                         score={this.state.score} 
                         quizLength={this.state.quizLength}
                         toggleContest={this.toggleContest}
+                        getNextQuiz={this.getNextQuiz}
                       />
                     : <div>
                         {authUser 
