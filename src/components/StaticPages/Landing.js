@@ -5,7 +5,7 @@ import Paper from '@material-ui/core/Paper';
 import Button from '@material-ui/core/Button';
 
 import TodaysQuizButton from './TodaysQuizButton';
-import bg from './politiq-bg.jpg';
+import bg from './politiq-bg2.jpg';
 
 import './Static.css';
 

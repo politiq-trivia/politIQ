@@ -5,7 +5,7 @@ import { withFirebase, auth } from '../../firebase';
 import Paper from '@material-ui/core/Paper';
 import Button from '@material-ui/core/Button';
 
-import bg from '../StaticPages/politiq-bg.jpg';
+import bg from '../StaticPages/politiq-bg2.jpg';
 
 
 const needsEmailVerification = authUser =>

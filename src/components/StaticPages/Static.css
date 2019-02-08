@@ -306,3 +306,6 @@ h6 {
 .noMatch-link {
   cursor: pointer;
 }
+.noMatch-link:hover {
+  text-decoration: underline;
+}
