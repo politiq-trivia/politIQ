@@ -1,17 +1,15 @@
 import React, { Component } from 'react';
 
-import { db } from '../../firebase';
-
+import moment from 'moment';
 import Paper from '@material-ui/core/Paper';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 
+import { db } from '../../firebase';
+
 import './quizEngine.css';
 import QuestionForm from './QuestionForm';
 import QuestionBankSelect from './QuestionBankSelect';
-
-import ErrorModal from './ErrorModal';
-
 
 const byPropKey = (propertyName, value) => () => ({
   [propertyName]: value,
@@ -37,6 +35,7 @@ class AddQuiz extends Component {
 
   componentDidMount = () => {
     this.getQBankQs()
+    // this.setToNow();
   }
 
   getQBankQs = () => {
@@ -48,6 +47,13 @@ class AddQuiz extends Component {
           })
         }
       })
+  }
+
+  setToNow = () => {
+    const date = moment().format('YYYY-MM-DDTHH:mm')
+    this.setState({
+      date,
+    })
   }
 
   incrementCounter = () => {
@@ -100,33 +106,9 @@ class AddQuiz extends Component {
     }
   }
 
-  checkForExistingQuiz = (event) => {
-    event.preventDefault()
-    db.getQuizzes()
-      .then(response => {
-        if (response === undefined) { return;}
-        const data = response.val()
-        if (Object.keys(data).indexOf(this.state.date) !== -1) {
-          this.toggleErrorModal()
-        } else {
-          this.handleSubmit(event)
-        }
-      })
-  }
-
-  toggleErrorModal = () => {
-    this.setState({
-      showErrorModal: !this.state.showErrorModal,
-    })
-  }
-
   render() {
     return (
       <div>
-        { this.state.showErrorModal 
-          ? <ErrorModal toggleDashboard={this.props.toggleDashboard} toggleErrorModal={this.toggleErrorModal} handleSubmit={this.handleSubmit}/>
-          : null 
-        }
           <Paper className="quizEngine">
               { this.state.addingQuestion
                 ? <div> {this.state.selectingMethod
@@ -145,7 +127,7 @@ class AddQuiz extends Component {
               :
                 <div>
                   <h1 id="newQuiz">Create New Quiz</h1>
-                  <form onSubmit={this.checkForExistingQuiz}>
+                  <form onSubmit={this.handleSubmit}>
                     <TextField
                       margin="normal"
                       fullWidth
@@ -158,9 +140,11 @@ class AddQuiz extends Component {
                       id="date"
                       margin="normal"
                       fullWidth
-                      type="date"
+                      type="datetime-local"
+                      value={`${this.state.date}`}
                       onChange={event => this.setState(byPropKey('date', event.target.value))}
                     />
+                    <Button onClick={this.setToNow} variant="contained" color="primary">Set To Now</Button>
                     <div className="quizButtonHolder">
                       <Button onClick={this.props.toggleAddQuiz} variant="contained">Go Back</Button>
                       <Button disabled={this.state.date === "" || this.state.quizTitle === "" ? true : false} type="submit" variant="contained">Create & Add Questions</Button>

@@ -19,7 +19,9 @@ class DeleteModal extends Component {
     } else {
       this.props.deleteQuiz(this.props.selected)
       this.props.toggleDeleteModal()
-      this.props.reset()
+      if (this.props.reset) {
+        this.props.reset()
+      }
       if (this.props.fromEditQuiz === "true") {
         this.props.toggleDashboard()
       }

@@ -106,7 +106,6 @@ class QuizList extends Component {
   };
 
   reset = () => {
-    console.log('reset called')
     this.setState({
       selected: [],
       numSelected: 0,
@@ -121,6 +120,7 @@ class QuizList extends Component {
     const List = newList.map((date, i) => {
       let id = date;
       let title = newTitles[i]
+      let shortDate = date.slice(0, 10)
       return (
         <TableRow id={date} key={id} className="tableItem">
           <TableCell padding="checkbox">
@@ -131,7 +131,7 @@ class QuizList extends Component {
             />
           </TableCell>
           <TableCell onClick={this.handleClick} style={{ minWidth: '60px'}} padding="none">
-            {date}
+            {shortDate}
           </TableCell>
           <TableCell onClick={this.handleClick}>
             {title}
