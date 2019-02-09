@@ -130,6 +130,7 @@ class Quiz extends PureComponent {
         })   
         this.submitScore(this.state.score, this.state.uid)   
     }
+    window.scrollTo(0,0);
   }
 
   toggleContest = () => {
@@ -253,6 +254,7 @@ class Quiz extends PureComponent {
   }
 
   render() {
+    const quizHeader = this.state.selectedQuizId.slice(0, 10);
     return (
       <AuthUserContext.Consumer>
         {authUser =>
@@ -265,7 +267,7 @@ class Quiz extends PureComponent {
               ? <img src={loadingGif} alt="loading gif" className="quiz-loading-gif"/>
               : <div style={{ height: '100%'}}>
                   <div className="quiz-header">
-                    <h3>{this.state.selectedQuiz["quiz-title"]} ({this.state.selectedQuizId})</h3>
+                    <h3>{this.state.selectedQuiz["quiz-title"]} ({quizHeader})</h3>
                     {this.state.currentQ <= this.state.quizLength ? 
                       <>
                         <MediaQuery minWidth={416}>

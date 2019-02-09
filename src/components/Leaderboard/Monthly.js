@@ -43,9 +43,11 @@ class MonthlyLeaderboard extends Component {
                 submitted = data[usernames[i]]["submitted"]
                 quizDates.pop()
               }
+              let lastMonth = []
               let scoreCounter = 0;
               for (let j = 0; j < quizDates.length; j++) {
                 if (quizDates[j] > moment().startOf('month').format('YYYY-MM-DD')) {
+                  lastMonth.push(quizDates[j])
                   if (data[usernames[i]][quizDates[j]]) {
                     scoreCounter += data[usernames[i]][quizDates[j]]
                   }
@@ -97,7 +99,7 @@ class MonthlyLeaderboard extends Component {
     }
 
     const renderMonthlyLeaders = rankingArray.map((stat, i) => {
-      if (i > 5) { return null; }
+      if (i > 10) { return null; }
       return (
         <TableRow key={i} hover onClick={() => this.handleClickUser(stat[2])}>
           <TableCell style={{ width: '30%'}} padding="default">

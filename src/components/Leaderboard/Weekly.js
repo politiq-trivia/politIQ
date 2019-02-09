@@ -53,7 +53,6 @@ class WeeklyLeaderboard extends Component {
                 }
               }
               if (submitted !== undefined) {
-                console.log(submitted,' this is submitted')
                 const dates = Object.keys(submitted)
                 for (let j = 0; j < dates.length; j++) {
                   if (dates[j].slice(10) > moment().startOf('week').format('YYYY-MM-DD')) {

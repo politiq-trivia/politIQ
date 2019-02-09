@@ -20,6 +20,7 @@ class Question extends Component {
             clicked: false,
         }
     }
+
     shouldComponentUpdate(nextProps) {
         if (nextProps.qNum !== this.props.qNum || nextProps.selectedValue !== this.props.selectedValue || nextProps.wrong !== this.props.wrong) {
             return true;
@@ -37,13 +38,6 @@ class Question extends Component {
         window.open(`/${url}`);
     }
 
-    // handleClick = () => {
-    //     this.setState({
-    //         bgColor: 'green',
-    //         clicked: true,
-    //     })
-    // }
-
     render() {
         const { questionObj, qNum, handleSubmit, selectedValue, nextQ, correctAnswer, wrong, clicked } = this.props;
         let qtext = questionObj["q1"]
@@ -60,12 +54,11 @@ class Question extends Component {
                 return '#E1B6B6';
             }
         }
-        // console.log('clicked: ', this.state.clicked)
 
         return (
             <>
                 <div style={{ display: 'flex' }}>
-                    <h1>{qNum}. {qtext}</h1>
+                    <h1 style={{ fontSize: '1.4em'}}>{qNum}. {qtext}</h1>
 
                     <MediaQuery maxWidth={415}>
                         <div className={clicked ? 'dontShowClock' : 'showClock'}>
@@ -90,7 +83,6 @@ class Question extends Component {
                         } label={a1text} />
                     </Paper>
 
-                    {/* <hr width="100%" ref={this.props.innerRef}/> */}    
                     <Paper style={{ marginTop: '2vh', backgroundColor: backgroundColor("2")}} id="2" onClick={ wrong === null ? handleSubmit : null } className="answer">
                         <FormControlLabel value={a2text} id="2" control={
                         <Radio
