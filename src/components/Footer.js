@@ -28,7 +28,7 @@ const getHref = () => {
 
 const isFixed = () => {
   const path = window.location.pathname;
-  if (path === '/signin' || path === '/signup' || path === '/home' || path === '/profile' || path === '/review') {
+  if (path === '/profile' || path === '/review') {
     return {
       position: 'fixed'
     }
@@ -103,22 +103,22 @@ class Footer extends Component {
 
           <div className="socials" style={{ display: 'flex', marginTop: '1vh' }}>
 
-            <FacebookShareButton url={ getHref() } className="shareable">
+            <FacebookShareButton url={ getHref() } className="shareable" quote="Check out my politIQ:">
               <FacebookIcon round={true} size={32} />
             </FacebookShareButton>
             <GooglePlusShareButton url={ getHref() } className="shareable">
               <GooglePlusIcon round={true} size={32} />
             </GooglePlusShareButton>
-            <LinkedinShareButton url={ getHref() } className="shareable">
+            <LinkedinShareButton url={ getHref() } className="shareable" title="Check out my politIQ" description="Are you smarter than a Republican? Democrat? Independent? Find out!">
               <LinkedinIcon round={true} size={32}/>
             </LinkedinShareButton>
-            <TwitterShareButton url={ getHref() } className="shareable">
+            <TwitterShareButton url={ getHref() } title="Check out my politIQ" className="shareable" >
               <TwitterIcon round={true} size={32} />
             </TwitterShareButton>
-            <WhatsappShareButton url={ getHref() } className="shareable">
+            <WhatsappShareButton url={ getHref() } className="shareable" title="Check out my politIQ">
               <WhatsappIcon round={true} size={32} />
             </WhatsappShareButton>
-            <EmailShareButton url={ getHref() } className="shareable">
+            <EmailShareButton url={ getHref() } className="shareable" subject="Check out my politIQ:" body="Are you smarter than a Republican? Democrat? Independent? Find out!">
               <EmailIcon round={true} size={32} />
             </EmailShareButton>
 

@@ -8,7 +8,7 @@
   padding-right: 5vw;
   text-align: center;
   margin-top: 12vh;
-  margin-bottom: 25vh;
+  margin-bottom: 4vh;
   height: auto;
 }
 @media screen and (max-width: 680px) {
@@ -19,13 +19,5 @@
 }
 
 .signIn {
-  margin-bottom: 21.5vh;
+  margin-bottom: 18vh;
 }
-
-.signUp {
-  /* margin-top: 12vh; */
-  /* margin-bottom: 6vh; */
-}
-/* .authButton {
-  margin-top: 3vh;
-} */
