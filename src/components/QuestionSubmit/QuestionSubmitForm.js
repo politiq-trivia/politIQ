@@ -34,8 +34,6 @@ class QuestionSubmitForm extends Component {
       a2correct: false,
       a3text: '',
       a3correct: false,
-      a4text: '',
-      a4correct: false,
       source: '',
       done: false,
       tooltipOpen: false,
@@ -66,7 +64,6 @@ class QuestionSubmitForm extends Component {
       a1correct: this.state.a1correct,
       a2correct: this.state.a2correct,
       a3correct: this.state.a3correct,
-      a4correct: this.state.a4correct,
     }
 
     const id = event.target.id + "correct"
@@ -97,8 +94,6 @@ class QuestionSubmitForm extends Component {
       this.state.a2correct,
       this.state.a3text,
       this.state.a3correct,
-      this.state.a4text,
-      this.state.a4correct,
       this.state.source
     )
     this.setState({
@@ -115,8 +110,6 @@ class QuestionSubmitForm extends Component {
       a2correct: false,
       a3text: '',
       a3correct: false,
-      a4text: '',
-      a4correct: false,
       source: '',
       done: false,
       tooltipOpen: false,
@@ -159,8 +152,8 @@ class QuestionSubmitForm extends Component {
                   </Link>
                   <h1 style={{ marginLeft: '-3vw' }}>Submit a Question</h1>
                 </div>
-                <h3 style={{ marginTop: '5vh' }}>Did you find a piece of news that everyone should know about?</h3>
-                <p> Add <span style={{ fontWeight: 'bold'}}>3 points</span> to your score by dropping it below. We'll review it and add it to the quiz if it's accepted. <br/><br/>Make sure to verify your information with reliable sources!"</p>
+                <h3 style={{ marginTop: '5vh', textAlign: 'center' }}>Did you find a piece of news that everyone should know about?</h3>
+                <p className="instructions"> Add <span style={{ fontWeight: 'bold'}}>3 points</span> to your score by dropping it below. We’ll review it and add it to the <span style={{ fontWeight: 'bold' }}>next</span> quiz if its accepted. <span style={{ fontWeight: 'bold' }}>Please be</span> sure to verify your information with a reliable source.</p>
               <form>
                 <TextField
                   margin="normal"
@@ -231,27 +224,6 @@ class QuestionSubmitForm extends Component {
                       onChange={this.handleCheck}
                       color="primary"
                       id="a3"
-                    />
-                  }
-                  label="Correct Answer"
-                  labelPlacement="start"
-                  style={{ marginLeft: '0' }}
-                />
-                <TextField
-                  margin="normal"
-                  fullWidth
-                  value={this.state.a4text}
-                  onChange={event => this.setState(byPropKey('a4text', event.target.value))}
-                  type="text"
-                  placeholder="Answer 4"
-                />
-                <FormControlLabel
-                  control={
-                    <Checkbox
-                      checked={this.state.a4correct}
-                      onChange={this.handleCheck}
-                      color="primary"
-                      id="a4"
                     />
                   }
                   label="Correct Answer"

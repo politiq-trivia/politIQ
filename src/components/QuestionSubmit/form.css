@@ -1,5 +1,5 @@
 .submitForm {
-  height: 57vh;
+  height: auto;
   margin-top: 12vh;
   margin-bottom: 6vh;
   width: 55vw;
@@ -61,4 +61,9 @@
   max-width: 25vw;
   align-self: center;
   margin-top: 1vh !important;
+}
+
+.instructions {
+  text-align: center;
+  line-height: 1.6;
 }
