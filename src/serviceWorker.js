@@ -1,14 +1,5 @@
-// This optional code is used to register a service worker.
-// register() is not called by default.
-
-// This lets the app load faster on subsequent visits in production, and gives
-// it offline capabilities. However, it also means that developers (and users)
-// will only see deployed updates on subsequent visits to a page, after all the
-// existing tabs open on the page have been closed, since previously cached
-// resources are updated in the background.
-
-// To learn more about the benefits of this model and instructions on how to
-// opt-in, read http://bit.ly/CRA-PWA.
+// import ab2str from 'arraybuffer-to-string'; 
+import { db } from './firebase';
 
 
 const isLocalhost = Boolean(
@@ -49,6 +40,8 @@ export function register(config) {
             swRegistration.pushManager.getSubscription().then(function(sub) {
               if (sub === null) {
                 console.log('push manager exists but user has not registered')
+                console.log({swRegistration})
+                console.log({sub})
                 requestPushNotifications(swRegistration);
               } else {
                 // We have a subscription, update the database
@@ -153,6 +146,8 @@ export function unregister() {
 
 // this function will only run if the browser is compatible with push notifications
 function requestPushNotifications(swRegistration) {
+  console.log("request push notifications is being called")
+  console.log(Notification.permission)
   if(Notification.permission === 'default') {
     // ask permission to send notifications 
     askPermission(swRegistration);
@@ -161,11 +156,37 @@ function requestPushNotifications(swRegistration) {
 } 
 
 function askPermission(swRegistration) {
+  console.log("ask permission is being called")
   return new Promise(function (resolve, reject) {
     const permissionResult = Notification.requestPermission(function(result) {
       resolve(result);
       if (result === 'granted') {
-        subscribeUser(swRegistration);
+        subscribeUser(swRegistration)
+          .then(pushSubscription => {
+
+            // get the keys, convert them to strings, and store them in firebase
+            const p256dhAB = pushSubscription.getKey('p256dh')
+            function ab2str(buf) {
+              return String.fromCharCode.apply(null, new Int8Array(buf));
+            }
+            const p256dhStr = ab2str(p256dhAB)
+            function ab2str2(buf) {
+              return String.fromCharCode.apply(null, new Uint8Array(buf));
+            }
+            const auth = pushSubscription.getKey('auth');
+            const authStr = ab2str2(auth)
+
+
+            const subscriptionObject = {
+              endpoint: pushSubscription.endpoint,
+              keys: {
+                p256dh: p256dhStr,
+                auth: authStr,
+              }
+            }
+            db.subscribeUser(subscriptionObject);
+            
+          })
       }
     });
 
@@ -180,22 +201,14 @@ function askPermission(swRegistration) {
 }
 
 function subscribeUser(swRegistration) {
+  console.log('subscribe User is being called')
   const applicationServerKey = urlBase64ToUint8Array(process.env.REACT_APP_MESSAGING_KEY)
   const options = {
     userVisibleOnly: true,
     applicationServerKey,
   }
+  console.log({swRegistration})
   return swRegistration.pushManager.subscribe(options)
-    .then(function(subscription) {
-      console.log(subscription)
-      // send subscription to back end
-    }).catch(function(error) {
-      if (Notification.permission === 'denied') {
-        console.warn('Permission for notifications was denied');
-      } else {
-        console.log('Failed to subscribe user: ', error)
-      }
-    })
 }
 
 function urlBase64ToUint8Array(base64string) {

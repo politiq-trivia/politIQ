@@ -23,6 +23,17 @@ export const deleteUser = (uid) => {
   db.ref('scores').child(uid).remove()
 }
 
+// push notification subscription
+export const subscribeUser = (subscription) => {
+  const result = db.ref().child('subscriptions').push({
+    endpoint: subscription.endpoint,
+  }).child('keys').set({
+    p256dh: subscription.keys.p256dh,
+    auth: subscription.keys.auth,
+  })
+}
+
+
 // Other Entity APIs ...
 
 // -------------------------------------------------------------------------
