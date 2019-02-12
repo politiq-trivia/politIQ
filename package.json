@@ -13,7 +13,6 @@
     "babel-core": "7.0.0-bridge.0",
     "babel-eslint": "9.0.0",
     "babel-jest": "23.6.0",
-    "babel-loader": "8.0.4",
     "babel-plugin-named-asset-import": "^0.2.2",
     "babel-preset-react-app": "^5.0.4",
     "bfj": "6.1.1",
@@ -28,7 +27,6 @@
     "date-fns": "^1.30.1",
     "dotenv": "6.0.0",
     "dotenv-expand": "4.2.0",
-    "eslint": "5.6.0",
     "eslint-config-react-app": "^3.0.4",
     "eslint-loader": "2.1.1",
     "eslint-plugin-flowtype": "2.50.1",
@@ -65,6 +63,7 @@
     "react-responsive": "^6.0.1",
     "react-router": "^3.0.5",
     "react-router-dom": "^4.3.1",
+    "react-scripts": "^2.1.5",
     "react-share": "^2.3.1",
     "react-swipeable-views": "^0.13.0",
     "recompose": "^0.30.0",
@@ -73,16 +72,15 @@
     "style-loader": "0.23.0",
     "terser-webpack-plugin": "1.1.0",
     "url-loader": "1.1.1",
-    "webpack": "4.19.1",
     "webpack-cli": "^3.2.0",
     "webpack-dev-server": "3.1.14",
     "webpack-manifest-plugin": "2.0.4",
     "workbox-webpack-plugin": "3.6.2"
   },
   "scripts": {
-    "start": "node scripts/start.js --env.ENVIRONMENT=development --config webpack.config.dev.js",
-    "build": "node scripts/build.js --env.ENVIRONMENT=production --config webpack.config.prod.js",
-    "test": "node scripts/test.js"
+    "start": "react-app-rewired scripts/start.js --env.ENVIRONMENT=development --config webpack.config.dev.js",
+    "build": "react-app-rewired build --env.ENVIRONMENT=production --config webpack.config.prod.js",
+    "test": "react-app-rewired scripts/test.js"
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -138,5 +136,8 @@
     "presets": [
       "react-app"
     ]
+  },
+  "devDependencies": {
+    "react-app-rewired": "^2.1.0"
   }
 }

@@ -1,7 +1,14 @@
-// import ab2str from 'arraybuffer-to-string'; 
-import moment from 'moment';
-import { db } from './firebase';
+// This optional code is used to register a service worker.
+// register() is not called by default.
 
+// This lets the app load faster on subsequent visits in production, and gives
+// it offline capabilities. However, it also means that developers (and users)
+// will only see deployed updates on subsequent visits to a page, after all the
+// existing tabs open on the page have been closed, since previously cached
+// resources are updated in the background.
+
+// To learn more about the benefits of this model and instructions on how to
+// opt-in, read http://bit.ly/CRA-PWA
 
 const isLocalhost = Boolean(
   window.location.hostname === 'localhost' ||
@@ -14,9 +21,9 @@ const isLocalhost = Boolean(
 );
 
 export function register(config) {
-  if ('serviceWorker' in navigator) {
+  if (process.env.NODE_ENV === 'production' && 'serviceWorker' in navigator) {
     // The URL constructor is available in all browsers that support SW.
-    const publicUrl = new URL(process.env.PUBLIC_URL, window.location);
+    const publicUrl = new URL(process.env.PUBLIC_URL, window.location.href);
     if (publicUrl.origin !== window.location.origin) {
       // Our service worker won't work if PUBLIC_URL is on a different origin
       // from what our page is served on. This might happen if a CDN is used to
@@ -27,31 +34,13 @@ export function register(config) {
     window.addEventListener('load', () => {
       const swUrl = `${process.env.PUBLIC_URL}/service-worker.js`;
 
-      console.log(swUrl)
       if (isLocalhost) {
         // This is running on localhost. Let's check if a service worker still exists or not.
         checkValidServiceWorker(swUrl, config);
 
         // Add some additional logging to localhost, pointing developers to the
         // service worker/PWA documentation.
-        navigator.serviceWorker.ready.then((registration) => {
-          let swRegistration = registration;
-
-          // check for push notification compatibility && existing subscription
-          if ('PushManager' in window) {
-            swRegistration.pushManager.getSubscription().then(function(sub) {
-              if (sub === null) {
-                console.log('push manager exists but user has not registered')
-                console.log({swRegistration})
-                console.log({sub})
-                requestPushNotifications(swRegistration);
-              } else {
-                // We have a subscription, update the database
-                console.log('Subscription object: ', sub);
-              }
-            })
-          }
-
+        navigator.serviceWorker.ready.then(() => {
           console.log(
             'This web app is being served cache-first by a service ' +
               'worker. To learn more, visit http://bit.ly/CRA-PWA'
@@ -66,14 +55,14 @@ export function register(config) {
 }
 
 function registerValidSW(swUrl, config) {
-  console.log('registerValidSW is running')
   navigator.serviceWorker
-    .register('./service-worker.js')
+    .register(swUrl)
     .then(registration => {
-      console.log('ServiceWorker registration successful with scope: ', registration.scope)
-      
       registration.onupdatefound = () => {
         const installingWorker = registration.installing;
+        if (installingWorker == null) {
+          return;
+        }
         installingWorker.onstatechange = () => {
           if (installingWorker.state === 'installed') {
             if (navigator.serviceWorker.controller) {
@@ -114,12 +103,12 @@ function checkValidServiceWorker(swUrl, config) {
   fetch(swUrl)
     .then(response => {
       // Ensure service worker exists, and that we really are getting a JS file.
+      const contentType = response.headers.get('content-type');
       if (
         response.status === 404 ||
-        response.headers.get('content-type').indexOf('javascript') === -1
+        (contentType != null && contentType.indexOf('javascript') === -1)
       ) {
         // No service worker found. Probably a different app. Reload the page.
-        console.log('no service worker found')
         navigator.serviceWorker.ready.then(registration => {
           registration.unregister().then(() => {
             window.location.reload();
@@ -144,106 +133,3 @@ export function unregister() {
     });
   }
 }
-
-// push notifications ---------------------------------------------------
-
-// this function will only run if the browser is compatible with push notifications
-function requestPushNotifications(swRegistration) {
-  console.log("request push notifications is being called")
-  console.log(Notification.permission)
-  if(Notification.permission === 'default') {
-    // ask permission to send notifications 
-    askPermission(swRegistration);
-
-  }
-} 
-
-function askPermission(swRegistration) {
-  console.log("ask permission is being called")
-  return new Promise(function (resolve, reject) {
-    const permissionResult = Notification.requestPermission(function(result) {
-      resolve(result);
-      if (result === 'granted') {
-        subscribeUser(swRegistration)
-          .then(pushSubscription => {
-
-            // get the keys, convert them to strings, and store them in firebase
-            const p256dhAB = pushSubscription.getKey('p256dh')
-            function ab2str(buf) {
-              return String.fromCharCode.apply(null, new Int8Array(buf));
-            }
-            const p256dhStr = ab2str(p256dhAB)
-            function ab2str2(buf) {
-              return String.fromCharCode.apply(null, new Uint8Array(buf));
-            }
-            const auth = pushSubscription.getKey('auth');
-            const authStr = ab2str2(auth)
-
-
-            const subscriptionObject = {
-              endpoint: pushSubscription.endpoint,
-              keys: {
-                p256dh: p256dhStr,
-                auth: authStr,
-              }
-            }
-            db.subscribeUser(subscriptionObject);
-            const time = moment().add(30, 'seconds');
-            const options = {
-              body: 'Play now to boost your score!',
-              icon: "/logo-192.png",
-              // vibrate: [100, 50, 100],
-              data: {
-                dateOfArrival: Date.now(),
-                primaryKey: 1
-              },
-              actions: [
-                {action: 'play', title: "Take Today's Quiz!", icon: '/logo-192.png'}
-              ]
-            }
-
-
-            swRegistration.showNotification("Thanks for playing!", options)
-
-
-            console.log({pushSubscription})
-            console.log({swRegistration})
-          })
-      }
-    });
-
-    if (permissionResult) {
-      permissionResult.then(resolve, reject);
-    }
-  }).then(function(permissionResult) {
-    if (permissionResult !== 'granted') {
-      throw new Error('Not granted permission for push notifications');
-    }
-  })
-}
-
-function subscribeUser(swRegistration) {
-  console.log('subscribe User is being called')
-  const applicationServerKey = urlBase64ToUint8Array(process.env.REACT_APP_MESSAGING_KEY)
-  const options = {
-    userVisibleOnly: true,
-    applicationServerKey,
-  }
-  console.log({swRegistration})
-  return swRegistration.pushManager.subscribe(options)
-}
-
-function urlBase64ToUint8Array(base64string) {
-  const padding = '='.repeat((4-base64string.length % 4) % 4);
-  const base64 = (base64string + padding).replace(/-/g, '+').replace(/_/g, '/');
-  const rawData = window.atob(base64);
-  const outputArray = new Uint8Array(rawData.length);
-
-  for (let i = 0; i < rawData.length; i++) {
-    outputArray[i] = rawData.charCodeAt(i);
-  }
-
-  return outputArray;
-}
-
-
