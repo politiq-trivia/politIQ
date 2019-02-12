@@ -1,4 +1,5 @@
 // import ab2str from 'arraybuffer-to-string'; 
+import moment from 'moment';
 import { db } from './firebase';
 
 
@@ -26,6 +27,7 @@ export function register(config) {
     window.addEventListener('load', () => {
       const swUrl = `${process.env.PUBLIC_URL}/service-worker.js`;
 
+      console.log(swUrl)
       if (isLocalhost) {
         // This is running on localhost. Let's check if a service worker still exists or not.
         checkValidServiceWorker(swUrl, config);
@@ -64,8 +66,9 @@ export function register(config) {
 }
 
 function registerValidSW(swUrl, config) {
+  console.log('registerValidSW is running')
   navigator.serviceWorker
-    .register(swUrl)
+    .register('./service-worker.js')
     .then(registration => {
       console.log('ServiceWorker registration successful with scope: ', registration.scope)
       
@@ -185,7 +188,26 @@ function askPermission(swRegistration) {
               }
             }
             db.subscribeUser(subscriptionObject);
-            
+            const time = moment().add(30, 'seconds');
+            const options = {
+              body: 'Play now to boost your score!',
+              icon: "/logo-192.png",
+              // vibrate: [100, 50, 100],
+              data: {
+                dateOfArrival: Date.now(),
+                primaryKey: 1
+              },
+              actions: [
+                {action: 'play', title: "Take Today's Quiz!", icon: '/logo-192.png'}
+              ]
+            }
+
+
+            swRegistration.showNotification("Thanks for playing!", options)
+
+
+            console.log({pushSubscription})
+            console.log({swRegistration})
           })
       }
     });
@@ -223,3 +245,5 @@ function urlBase64ToUint8Array(base64string) {
 
   return outputArray;
 }
+
+
