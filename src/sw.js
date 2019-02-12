@@ -29,5 +29,13 @@ workbox.routing.registerRoute(
     })
 )
 
+// wait for push notification
+self.addEventListener('push', event => {
+    event.waitUntil(self.registration.showNotification('Todo List', {
+        icon: './components/StaticPages/logo.png',
+        body: event.data.text()
+    }))
+})
+
 
 workbox.precaching.precacheAndRoute(self.__precacheManifest || [])

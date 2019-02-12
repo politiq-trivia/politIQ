@@ -6,6 +6,7 @@ import { compose } from 'recompose';
 import { withAuthorization, withEmailVerification } from '../Auth/index';
 
 import * as routes from '../../constants/routes';
+import { urlB64ToUint8Array } from '../../utils/urlB64ToUint8Array';
 
 import Paper from '@material-ui/core/Paper';
 import Button from '@material-ui/core/Button';
@@ -20,10 +21,38 @@ class HomePage extends Component {
       noAvailableQuizzes: false,
     };
   }
+
+  componentDidMount() {
+    this.subscribeToPushNotifications()
+  }
   
   showErrorMessage = () => {
     this.setState({
       noAvailableQuizzes: true,
+    })
+  }
+
+  subscribeToPushNotifications = () => {
+    const key = process.env.REACT_APP_VAPID_KEY
+    console.log({key})
+    const applicationServerKey = urlB64ToUint8Array(key)
+    console.log({applicationServerKey})
+
+    global.registration.pushManager.subscribe({
+      userVisibleOnly: true,
+      applicationServerKey: urlB64ToUint8Array(key)
+    }).then(sub => {
+      console.log({sub})
+      console.log('Subscribed')
+      this.thankForSubscribing()
+    }).catch(err => {
+      console.log('Did not subscribe')
+    })
+  }
+
+  thankForSubscribing = () => {
+    global.registration.showNotification('Thanks for playing!', {
+      body: "Take today's quiz now!"
     })
   }
 
