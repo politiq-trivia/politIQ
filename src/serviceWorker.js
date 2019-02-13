@@ -37,17 +37,17 @@ export function register(config) {
         navigator.serviceWorker.ready.then((registration) => {
           let swRegistration = registration;
 
-          // check for push notification compatibility && existing subscription
-          if ('PushManager' in window) {
-            swRegistration.pushManager.getSubscription().then(function(sub) {
-              if (sub === null) {
-                requestPushNotifications(swRegistration);
-              } else {
-                // We have a subscription, update the database
-                console.log('Subscription object: ', sub);
-              }
-            })
-          }
+          // // check for push notification compatibility && existing subscription
+          // if ('PushManager' in window) {
+          //   swRegistration.pushManager.getSubscription().then(function(sub) {
+          //     if (sub === null) {
+          //       requestPushNotifications(swRegistration);
+          //     } else {
+          //       // We have a subscription, update the database
+          //       console.log('Subscription object: ', sub);
+          //     }
+          //   })
+          // }
 
           console.log(
             'This web app is being served cache-first by a service ' +
