@@ -41,20 +41,8 @@ class HomePage extends Component {
     }).then(sub => {
       console.log({sub})
       console.log('Subscribed')
-      this.thankForSubscribing()
     }).catch(err => {
       console.log('Did not subscribe')
-    })
-  }
-
-  thankForSubscribing = () => {
-    global.registration.showNotification('New! New! New!', {
-      body: "Take the latest quiz now!",
-      icon: '../logo.png',
-      vibrate: [100, 50, 100],
-      data: {
-        primaryKey: this.props.quizId
-      },
     })
   }
 
