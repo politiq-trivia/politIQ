@@ -34,9 +34,6 @@ class HomePage extends Component {
 
   subscribeToPushNotifications = () => {
     const key = process.env.REACT_APP_VAPID_KEY
-    console.log({key})
-    const applicationServerKey = urlB64ToUint8Array(key)
-    console.log({applicationServerKey})
 
     global.registration.pushManager.subscribe({
       userVisibleOnly: true,
@@ -51,8 +48,13 @@ class HomePage extends Component {
   }
 
   thankForSubscribing = () => {
-    global.registration.showNotification('Thanks for playing!', {
-      body: "Take today's quiz now!"
+    global.registration.showNotification('New! New! New!', {
+      body: "Take the latest quiz now!",
+      icon: '../logo.png',
+      vibrate: [100, 50, 100],
+      data: {
+        primaryKey: this.props.quizId
+      },
     })
   }
 

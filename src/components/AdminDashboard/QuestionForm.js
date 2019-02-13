@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
-
-import { db } from '../../firebase';
+import moment from 'moment';
 
 import TextField from '@material-ui/core/TextField';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
 import Button from '@material-ui/core/Button';
+
+import { db } from '../../firebase';
 
 const byPropKey = (propertyName, value) => () => ({
   [propertyName]: value,
@@ -98,11 +99,26 @@ class QuestionForm extends Component {
   // submits the data to the firebase db and then returns the user to the admin dashboard
   handleReturn = () => {
     this.saveData();
+    if (this.props.quizId < moment().format('YYYY-MM-DDTHH:mm')) {
+      this.sendNotification()
+    }
     this.props.toggleAddQuiz()
   }
 
   handleQuit = () => {
     this.props.toggleAddQuiz()
+  }
+
+  sendNotification = () => {
+    console.log('send notification called')
+    global.registration.showNotification('New! New! New!', {
+      body: "Take the latest quiz now!",
+      icon: '../logo.png',
+      vibrate: [100, 50, 100],
+      data: {
+        primaryKey: this.props.quizId
+      },
+    })
   }
 
   render() {

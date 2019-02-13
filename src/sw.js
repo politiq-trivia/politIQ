@@ -37,5 +37,43 @@ self.addEventListener('push', event => {
     }))
 })
 
+// on push notification click
+self.addEventListener('notificationclick', event => {
+    console.log('notification clicked')
+    console.log({event})
+    const notification = event.notification;
+    console.log({notification})
+    const primaryKey = notification.data.primaryKey;
+    console.log({primaryKey})
+    if (primaryKey !== null) {
+        const url = 'quiz/' + primaryKey;
+        console.log(url, 'this is url')
+        notification.close(); // Android needs explicit close.
+        // event.waitUntil(
+        //     clients.matchAll({type: 'window'}).then( windowClients => {
+        //         // Check if there is already a window/tab open with the target URL
+        //         for (var i = 0; i < windowClients.length; i++) {
+        //             var client = windowClients[i];
+        //             // If so, just focus it.
+        //             if (client.url === url && 'focus' in client) {
+        //                 client.navigate('http://localhost:5000/' + url)
+        //                 return client.focus();
+        //             }
+        //         }
+        //         // If not, then open the target URL in a new window/tab.
+        //         if (clients.openWindow) {
+        //             return clients.openWindow(url);
+        //         }
+        //     })
+        // );
+        // if (clients.url.includes('localhost')) {
+        //     clients.navigate('http://localhost:5000/' + url)
+        // } else {
+            return clients.openWindow(url);
+        // }    
+    }
+
+})
+
 
 workbox.precaching.precacheAndRoute(self.__precacheManifest || [])

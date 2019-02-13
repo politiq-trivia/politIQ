@@ -18,13 +18,18 @@ const isLocalhost = Boolean(
     window.location.hostname.match(
       /^127(?:\.(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)){3}$/
     )
+    // window.location.hostname === '192.168.182.59'
+    // for network debugging on mobile - REMOVE FOR PRODUCTION
 );
 
 export function register(config) {
+  // IMPORTANT - SWITCH THIS BACK BEFORE DEPLOYING
   if (process.env.NODE_ENV === 'production' && 'serviceWorker' in navigator) {
+  // if (process.env.NODE_ENV === 'production') {
     // The URL constructor is available in all browsers that support SW.
     const publicUrl = new URL(process.env.PUBLIC_URL, window.location.href);
     if (publicUrl.origin !== window.location.origin) {
+      console.log('hitting this and returning')
       // Our service worker won't work if PUBLIC_URL is on a different origin
       // from what our page is served on. This might happen if a CDN is used to
       // serve assets; see https://github.com/facebook/create-react-app/issues/2374
@@ -61,6 +66,7 @@ function registerValidSW(swUrl, config) {
       
       // make the registration object accessible in the global scope
       global.registration = registration
+      console.log(global.registration, 'this is global registration')
 
       registration.onupdatefound = () => {
         const installingWorker = registration.installing;

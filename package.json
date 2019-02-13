@@ -78,7 +78,7 @@
     "workbox-webpack-plugin": "3.6.2"
   },
   "scripts": {
-    "start": "react-app-rewired scripts/start.js --env.ENVIRONMENT=development --config webpack.config.dev.js",
+    "start": "react-app-rewired start --env.ENVIRONMENT=development --config webpack.config.dev.js",
     "build": "react-app-rewired build --env.ENVIRONMENT=production --config webpack.config.prod.js",
     "test": "react-app-rewired scripts/test.js"
   },

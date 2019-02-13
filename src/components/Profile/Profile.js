@@ -67,6 +67,30 @@ class ProfilePage extends Component {
     })
   }
 
+  unsubscribe = () => {
+    navigator.serviceWorker.ready.then(registration => {
+      // find the registered push subscription in the service worker
+      registration.pushManager  
+        .getSubscription()
+        .then(subscription => {
+          if (!subscription) {
+            return;
+            // if there's no subscription, there's nothing to do.
+          }
+
+          subscription
+            .unsubscribe()
+            .then(() => {
+              // delete the user from the db 
+              console.log({subscription})
+              console.log({registration})
+              console.log('delete user from db')
+            })
+            .catch(err => console.error(err))
+        })
+    })
+  }
+
   render() {
     return (
       <AuthUserContext.Consumer>
@@ -136,6 +160,10 @@ class ProfilePage extends Component {
                     </div>
                   : null
                 }
+
+                <Button onClick={this.unsubscribe}>Turn Off Push Notifications</Button>
+
+          
               </div>
           </Paper>
         }
