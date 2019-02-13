@@ -6,7 +6,6 @@ import { db } from '../firebase';
 
 import {
   FacebookShareButton,
-  GooglePlusShareButton,
   LinkedinShareButton,
   TwitterShareButton,
   WhatsappShareButton,
@@ -17,7 +16,6 @@ import {
   FacebookIcon,
   TwitterIcon,
   WhatsappIcon,
-  GooglePlusIcon,
   LinkedinIcon,
   EmailIcon,
 } from 'react-share';

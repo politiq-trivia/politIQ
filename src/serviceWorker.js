@@ -41,9 +41,6 @@ export function register(config) {
           if ('PushManager' in window) {
             swRegistration.pushManager.getSubscription().then(function(sub) {
               if (sub === null) {
-                console.log('push manager exists but user has not registered')
-                console.log({swRegistration})
-                console.log({sub})
                 requestPushNotifications(swRegistration);
               } else {
                 // We have a subscription, update the database
@@ -66,7 +63,6 @@ export function register(config) {
 }
 
 function registerValidSW(swUrl, config) {
-  console.log('registerValidSW is running')
   navigator.serviceWorker
     .register('./service-worker.js')
     .then(registration => {
@@ -149,8 +145,6 @@ export function unregister() {
 
 // this function will only run if the browser is compatible with push notifications
 function requestPushNotifications(swRegistration) {
-  console.log("request push notifications is being called")
-  console.log(Notification.permission)
   if(Notification.permission === 'default') {
     // ask permission to send notifications 
     askPermission(swRegistration);
@@ -159,7 +153,6 @@ function requestPushNotifications(swRegistration) {
 } 
 
 function askPermission(swRegistration) {
-  console.log("ask permission is being called")
   return new Promise(function (resolve, reject) {
     const permissionResult = Notification.requestPermission(function(result) {
       resolve(result);
@@ -223,13 +216,11 @@ function askPermission(swRegistration) {
 }
 
 function subscribeUser(swRegistration) {
-  console.log('subscribe User is being called')
   const applicationServerKey = urlBase64ToUint8Array(process.env.REACT_APP_MESSAGING_KEY)
   const options = {
     userVisibleOnly: true,
     applicationServerKey,
   }
-  console.log({swRegistration})
   return swRegistration.pushManager.subscribe(options)
 }
 

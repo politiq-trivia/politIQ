@@ -4,11 +4,26 @@
 }
 
 .Axis text {
-  font-size: 11px;
-  fill: black;
+  font-size: 14px;
+  fill: rgba(45, 45, 45, 0.80);
 }
 
 .Axis-Bottom text {
   transform: rotate(-45deg);
   text-anchor: end;
+}
+
+.chartHolder {
+  display: 'flex';
+  flex-direction: column;
+  width: 60%;
+  justify-content: center;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+@media screen and (max-width: 415px) {
+  .chartHolder{
+      width: 90%;
+  }
 }

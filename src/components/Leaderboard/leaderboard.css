@@ -21,7 +21,6 @@
 }
 
 .leaderboard-header {
-  margin-left: 6vw;
   display: flex;
 }
 
@@ -215,4 +214,17 @@
 .barChart {
   /* padding-left: 50%; */
   margin-left: 2vw;
+}
+
+.highScoreHolder {
+  background-color: #C790F1;
+  border: 5px solid rgba(45, 45, 45, 0.80);
+  width: 60%;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.highScoreHolder h1 {
+  color: rgba(45, 45, 45, 0.80);
+  margin-bottom: 0;
 }
