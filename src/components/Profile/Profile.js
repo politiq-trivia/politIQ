@@ -114,7 +114,6 @@ class ProfilePage extends Component {
                         <p> <span style={{ fontWeight: 'bold'}}>Affiliation:</span> {this.state.userInfo.affiliation} </p>
                         <p> <span style={{ fontWeight: 'bold', marginBottom: '5vh'}}>Bio:</span> {this.state.userInfo.bio} </p>
                       </div>
-                      <PoliticalIQ />
                       <UserScoreboard uid={authUser.uid}/>
 
                       <div className="profile-button-holder">
