@@ -121,7 +121,7 @@ class App extends Component {
               <Switch>
                 <Route
                   exact path={routes.LANDING}
-                  component={LandingPage}
+                  component={localStorage.hasOwnProperty('authUser') ? HomePage : LandingPage}
                 />
                 <Route
                   exact path={routes.SIGN_UP}
