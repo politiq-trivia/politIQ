@@ -23,7 +23,6 @@ class HighestScore extends Component {
 
         for (let i = 0; i < usernames.length; i++) {
             const politIQ = await getPolitIQ(usernames[i], timeframe)
-            console.log({politIQ}, 'this is the politIQ for each user')
             politIQs.push(
                 // username: usernames[i],
                 politIQ
@@ -33,9 +32,6 @@ class HighestScore extends Component {
                 politIQ,
             })
         }
-
-        console.log(politIQs, 'politIQs')
-        console.log({timeframe})
 
         // return the one that is the highest.
         const max = Math.max(...politIQs);
@@ -56,7 +52,6 @@ class HighestScore extends Component {
                     highScore: max,
                     name,
                 })
-                console.log(data.displayName, 'this should be a name')
             })
     }
 

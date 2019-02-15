@@ -5,7 +5,6 @@ import { Link } from 'react-router-dom';
 import { compose } from 'recompose';
 
 import ProfilePhoto from './ProfilePhoto';
-import PoliticalIQ from '../Leaderboard/PoliticalIQ';
 
 import Button from '@material-ui/core/Button';
 import Tooltip from '@material-ui/core/Tooltip';

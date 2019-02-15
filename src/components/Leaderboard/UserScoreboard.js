@@ -88,7 +88,7 @@ class UserScoreboard extends Component {
     return (
       <div className="small-scoreboardHolder user-scoreboard-public">
         <h2>{this.props.public ? `${this.props.name}'s`: "My"} Scores</h2>
-        <div className="userScore politIQ">PolitIQ<span className="score reg-score">{this.state.politIQ}</span></div>
+        <div className="userScore politIQ">PolitIQ<span className="score reg-score">{this.state.politIQ + this.state.submittedScore}</span></div>
         <div className="small-scoreboard">
           <div className="userScore" style={{ borderLeft: 'none' }}>Weekly Score<span className="score reg-score">{this.state.weeklyScore}</span></div>
           <div className="userScore" id="submittedQScore">Submitted & Contested Q Score<span className="score">{this.state.submittedScore}</span></div>

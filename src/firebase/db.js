@@ -25,7 +25,7 @@ export const deleteUser = (uid) => {
 
 // push notification subscription
 export const subscribeUser = (subscription) => {
-  const result = db.ref().child('subscriptions').push({
+  db.ref().child('subscriptions').push({
     endpoint: subscription.endpoint,
   }).child('keys').set({
     p256dh: subscription.keys.p256dh,

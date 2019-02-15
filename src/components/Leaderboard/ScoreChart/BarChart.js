@@ -132,8 +132,6 @@ class BarChart extends Component {
         const width = this.state.containerWidth;
         const height = 250;
 
-        console.log({width})
-
         const data = [
           { party: 'Democrat', score: (this.state.Democrat / this.state.Democratlength) },
           { party: 'Republican', score: (this.state.Republican / this.state.Republicanlength) },

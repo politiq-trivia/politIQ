@@ -15,7 +15,6 @@ import AppBar from '@material-ui/core/AppBar';
 import * as routes from '../../constants/routes';
 
 import './leaderboard.css';
-import logo from '../logo.png';
 import WeeklyLeaderboard from './Weekly';
 import MonthlyLeaderboard from './Monthly';
 import BarChart from './ScoreChart/BarChart';
