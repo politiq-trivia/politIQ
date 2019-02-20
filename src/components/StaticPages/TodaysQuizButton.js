@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import { db } from '../../firebase';
 import { withRouter } from 'react-router-dom'
+import getMostRecentQuizId from '../../utils/mostRecentQuizId';
 
 import Button from '@material-ui/core/Button';
 
@@ -11,20 +11,7 @@ class TodaysQuizButton extends Component {
     }
 
     componentDidMount() {
-        if (localStorage.hasOwnProperty('authUser')) {
-            const uid = JSON.parse(localStorage.authUser).uid
-            db.getScoresByUid(uid)
-            .then(response => {
-              const scoreData = response.val()
-              this.setState({
-                signedInUser: uid,
-                scoreData,
-              })
-              this.getMostRecentQuizId()
-            })
-        } else {
-            this.getMostRecentQuizId()
-        }
+        this.getMostRecentQuizId()
     }
 
     componentWillUnmount = () => {
@@ -34,37 +21,17 @@ class TodaysQuizButton extends Component {
     }
 
     getMostRecentQuizId = async () => {
-        await db.getQuizzes()
-          .then(response => {
-            const data = response.val();
-            const dateArray = Object.keys(data);
-            let counter = 1;
-            let mostRecent = dateArray[dateArray.length-counter]
-            if (this.state.scoreData) {
-                if (this.state.scoreData[mostRecent]) {
-    
-                    while (this.state.scoreData[mostRecent] && counter < dateArray.length) {
-                      counter++
-                      mostRecent = dateArray[dateArray.length-counter]
-                      if (this.state.scoreData[mostRecent] === undefined) {
-                        break;
-                      }
-                    }
-      
-                    if (counter === dateArray.length && Object.keys(this.state.scoreData).indexOf(mostRecent) !== -1) {
-                      this.setState({
-                        noAvailableQuizzes: true,
-                      })
-                      this.props.showErrorMessage()
-                    }
-                  }
-            }
-
+        const quizId = await getMostRecentQuizId();
+        if (quizId === 'No Available Quizzes') {
             this.setState({
-              mostRecentQuizURL: "quiz/" + mostRecent
+                noAvailableQuizzes: true,
             })
-          })
-          
+            this.props.showErrorMessage()
+        } else {
+            this.setState({
+                mostRecentQuizURL: quizId
+            })
+        } 
       }
     
       redirectToQuiz = () => {
