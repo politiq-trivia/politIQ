@@ -58,11 +58,11 @@ class Question extends Component {
         return (
             <>
                 <div style={{ display: 'flex' }}>
-                    <h1 style={{ fontSize: '1.4em'}}>{qNum}. {qtext}</h1>
+                    <h1>{qNum}. {qtext}</h1>
 
                     <MediaQuery maxWidth={415}>
                         <div className={clicked ? 'dontShowClock' : 'showClock'}>
-                        <ReactCountdownClock key={this.props.currentQ} seconds={60} size={60} color="#a54ee8" alpha={0.9} onComplete={() => this.props.checkCorrect()} paused={this.state.clicked}/>
+                        <ReactCountdownClock key={this.props.currentQ} seconds={60} size={40} color="#a54ee8" alpha={0.9} onComplete={() => this.props.checkCorrect()} paused={this.state.clicked}/>
                         </div>
                     </MediaQuery>
                 </div>
