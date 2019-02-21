@@ -190,7 +190,7 @@
     font-size: 2vh;
   }
   .small-scoreboardHolder{
-    height: 21.5vh;
+    height: 36.5vh;
     width: 60vw;
   }
   .small-scoreboard {
@@ -209,7 +209,7 @@
 @media screen and (max-width: 415px) {
   .small-scoreboardHolder {
     width: 80vw;
-    height: 22.5vh;
+    height: 36.5vh;
   }
   .small-scoreboard {
     width: 78vw;

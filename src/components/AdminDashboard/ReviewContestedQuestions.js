@@ -9,6 +9,7 @@ import Button from '@material-ui/core/Button';
 import Radio from '@material-ui/core/Radio';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 
+import loadingGif from '../../loadingGif.gif';
 import './dashboard.css';
 
 class ReviewContestedQuestions extends Component {
@@ -36,15 +37,29 @@ class ReviewContestedQuestions extends Component {
                 if (response.val() === null) {
                     this.setState({
                         noQuestionsRemaining: true,
+                        loaded: true,
                     })
                 } else {
                     const data = response.val()
                     const quizzes = Object.keys(data)
-                    this.setState({
-                        quizzes,
-                        data,
-                        loaded: true,
-                    })
+                    const quizTitles = []
+                    for (let i = 0; i < quizzes.length; i++) {
+                        db.getQuiz(quizzes[i])
+                            .then(response => {
+                                const data = response.val()
+                                const quizTitle = data['quiz-title']
+                                quizTitles.push(quizTitle)
+                            })
+                            .then(() => {
+                                this.setState({
+                                    quizzes,
+                                    quizTitles,
+                                    data,
+                                    loaded: true,
+                                })
+                            })
+                    }
+
                 }
             })
     }
@@ -62,6 +77,25 @@ class ReviewContestedQuestions extends Component {
                 const data = response.val()
                 this.setState({
                     selectedQuiz: data
+                })
+            })
+        this.getQuestionUid()
+    }
+
+    getQuestionUid = async () => {
+        let qNum = this.state.qNum
+        let qVal = this.state.qVal
+        const data = this.state.data
+        const date = Object.keys(data)[0]
+        const objectWithUids = data[date]
+        const uid = Object.keys(Object.values(objectWithUids)[qNum])[qVal];
+        db.getDisplayNames(uid)
+            .then(response => {
+                const data = response.val()
+                const displayName = data.displayName;
+                this.setState({
+                    currentQUid: uid,
+                    currentQDisplayName: displayName,
                 })
             })
     }
@@ -106,6 +140,7 @@ class ReviewContestedQuestions extends Component {
                 })
             }
         }
+        this.getQuestionUid()
     }
 
     reject = () => {
@@ -118,16 +153,33 @@ class ReviewContestedQuestions extends Component {
         this.getContest()
     }
 
-    accept = () => {
+    accept = async () => {
         const contestedQs = Object.values(this.state.data)[0]
         const selected = Object.keys(contestedQs)[this.state.qNum]
 
         const uid = Object.keys(Object.values(contestedQs)[this.state.qNum])[this.state.qVal]
         const issue = contestedQs[selected][uid]["issue"]
         const source = contestedQs[selected][uid]["source"]
-        console.log({ contestedQs, selected, uid, issue, source})
+        const date = this.state.selectedQuizId
 
         db.acceptContest(this.state.selectedQuizId, selected, uid, issue, source)
+        await db.getSubmittedOrContestedScoreByUid(uid)
+            .then(async(response) => {
+                if (response.val() === null || response.val() === undefined) {
+                    await db.setSubmittedOrContestedScoreByUid(uid, date, 5)
+                } else {
+                    const data = response.val()
+                    const datesArray = Object.keys(data)
+                    if (datesArray.indexOf(date) !== -1) {
+                        let score = data[date]
+                        let newScore = score + 5
+                        await db.setSubmittedOrContestedScoreByUid(uid, date, newScore)
+                    } else {
+                        await db.setSubmittedOrContestedScoreByUid(uid, date, 5)
+                    }
+                }
+            })
+
         this.getContest()
     }
 
@@ -192,7 +244,7 @@ class ReviewContestedQuestions extends Component {
                         </div>
                     </div>
                     <hr />
-                    <p style={{ fontWeight: 'bold' }}>From user:</p>
+                    <p style={{ fontWeight: 'bold' }}>From user: {this.state.currentQDisplayName}</p>
                     <p><span style={{ fontWeight: 'bold' }}>Issue:</span> {contestedData.issue}</p>
                     <p><span style={{ fontWeight: 'bold' }}>Source: </span>{contestedData.source}</p>
                 </div>
@@ -205,8 +257,9 @@ class ReviewContestedQuestions extends Component {
 
         if (this.state.loaded) {
             quizzes = this.state.quizzes.map((quiz, i) => {
+                const shortQuiz = quiz.slice(0, 10)
                 return (
-                    <h4 onClick={this.selectQuiz} key={i} id={quiz}>{quiz}</h4>
+                    <h4 onClick={this.selectQuiz} key={i} id={quiz}>{shortQuiz}, {this.state.quizTitles["0"]}</h4>
                 )
             })
         }
@@ -215,7 +268,6 @@ class ReviewContestedQuestions extends Component {
             question = this.renderContest()
         }
 
-        
         return (
             <Paper className="review">
                 <MediaQuery minWidth={416}>
@@ -223,6 +275,10 @@ class ReviewContestedQuestions extends Component {
                         <Button variant="contained" color="primary">Back to Dashboard</Button>
                     </Link>
                 </MediaQuery>
+                {this.state.loaded
+                    ? null
+                    : <img src={loadingGif} className="gifStyle" alt="loadingGif"/>
+                }
                 {this.state.noQuestionsRemaining 
                     ? <div style={{ display: 'flex', justifyContent: 'center', flexDirection: 'column'}}>
                         <h1 style={{ marginTop: '1vh', marginLeft: '2vw'}}>No Contested Questions to Review</h1>

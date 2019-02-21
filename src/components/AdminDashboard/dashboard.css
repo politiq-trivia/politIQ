@@ -58,7 +58,8 @@
 
 .review {
   width: 75vw;
-  height: 58vh;
+  height: auto;
+  min-height: 58vh;
   overflow: scroll;
   padding-bottom: 3vh;
   margin-top: 13vh;
@@ -97,7 +98,7 @@
 .questionHolder {
   margin-left: 5vw;
   margin-top: 5vh;
-  margin-bottom: 10vh;
+  margin-bottom: 4vh;
   width: 85%;
 }
 

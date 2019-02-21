@@ -111,7 +111,7 @@ class NavigationAuth extends Component {
   
   render() {
     const fullList = (
-      <AuthUserContext>
+      <AuthUserContext.Consumer>
         {authUser => 
           <div>
             <MediaQuery query="(max-width: 415px)">
@@ -189,7 +189,7 @@ class NavigationAuth extends Component {
             </MediaQuery>
           </div>
         }
-      </AuthUserContext>
+      </AuthUserContext.Consumer>
     );
 
     return (
