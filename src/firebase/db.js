@@ -24,14 +24,14 @@ export const deleteUser = (uid) => {
 }
 
 // push notification subscription - not currently used
-// export const subscribeUser = (subscription) => {
-//   db.ref().child('subscriptions').push({
-//     endpoint: subscription.endpoint,
-//   }).child('keys').set({
-//     p256dh: subscription.keys.p256dh,
-//     auth: subscription.keys.auth,
-//   })
-// }
+export const subscribeUser = (subscription) => {
+  db.ref().child('subscriptions').push({
+    endpoint: subscription.endpoint,
+  }).child('keys').set({
+    p256dh: subscription.keys.p256dh,
+    auth: subscription.keys.auth,
+  })
+}
 
 
 // Other Entity APIs ...

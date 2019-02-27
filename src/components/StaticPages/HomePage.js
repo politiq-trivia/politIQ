@@ -7,6 +7,7 @@ import { withAuthorization, withEmailVerification } from '../Auth/index';
 
 import * as routes from '../../constants/routes';
 import { urlB64ToUint8Array } from '../../utils/urlB64ToUint8Array';
+import { db } from '../../firebase';
 
 import Paper from '@material-ui/core/Paper';
 import Button from '@material-ui/core/Button';
@@ -38,10 +39,35 @@ class HomePage extends Component {
     global.registration.pushManager.subscribe({
       userVisibleOnly: true,
       applicationServerKey: urlB64ToUint8Array(key)
-    }).then(sub => {
-      console.log({sub})
+    }).then(pushSubscription => {
+      console.log({pushSubscription})
       console.log('Subscribed')
+      
+      // get the keys, convert them to strings, and store them in firebase
+      const p256dhAB = pushSubscription.getKey('p256dh')
+      function ab2str(buf) {
+        return String.fromCharCode.apply(null, new Int8Array(buf));
+      }
+      const p256dhStr = ab2str(p256dhAB)
+      function ab2str2(buf) {
+        return String.fromCharCode.apply(null, new Uint8Array(buf));
+      }
+      const auth = pushSubscription.getKey('auth');
+      const authStr = ab2str2(auth)
+
+
+      const subscriptionObject = {
+        endpoint: pushSubscription.endpoint,
+        keys: {
+          p256dh: p256dhStr,
+          auth: authStr,
+        }
+      }
+      
+      db.subscribeUser(subscriptionObject);      
+      
     }).catch(err => {
+      console.log(err)
       console.log('Did not subscribe')
     })
   }
