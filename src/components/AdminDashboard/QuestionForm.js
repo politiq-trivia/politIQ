@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import moment from 'moment';
+import schedule from 'node-schedule';
 
 import TextField from '@material-ui/core/TextField';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
@@ -99,8 +100,11 @@ class QuestionForm extends Component {
   // submits the data to the firebase db and then returns the user to the admin dashboard
   handleReturn = () => {
     this.saveData();
-    if (this.props.quizId < moment().format('YYYY-MM-DDTHH:mm')) {
+    const newUnixDate = parseInt((new Date(this.props.quizId).getTime() / 1000).toFixed(0) + '000')
+    if (newUnixDate < Date.now()) {
       this.sendNotification()
+    } else {
+      this.sendDelayedNotification(newUnixDate)
     }
     this.props.toggleAddQuiz()
   }
@@ -110,7 +114,6 @@ class QuestionForm extends Component {
   }
 
   sendNotification = () => {
-    console.log('send notification called')
     global.registration.showNotification('New! New! New!', {
       body: "Take the latest quiz now!",
       icon: '../logo.png',
@@ -118,6 +121,21 @@ class QuestionForm extends Component {
       data: {
         primaryKey: this.props.quizId
       },
+    })
+  }
+
+  sendDelayedNotification = (date) => {
+    const quizId = this.props.quizId
+    schedule.scheduleJob(date, () => {
+      global.registration.showNotification('New quiz!', {
+        body: 'Take the latest politIQ quiz now!',
+        icon: '../logo.png',
+        vibrate: [100, 50, 100],
+        data: {
+          primaryKey: quizId,
+          dateOfArrival: date
+        }
+      })
     })
   }
 

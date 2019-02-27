@@ -23,15 +23,15 @@ export const deleteUser = (uid) => {
   db.ref('scores').child(uid).remove()
 }
 
-// push notification subscription
-export const subscribeUser = (subscription) => {
-  const result = db.ref().child('subscriptions').push({
-    endpoint: subscription.endpoint,
-  }).child('keys').set({
-    p256dh: subscription.keys.p256dh,
-    auth: subscription.keys.auth,
-  })
-}
+// push notification subscription - not currently used
+// export const subscribeUser = (subscription) => {
+//   db.ref().child('subscriptions').push({
+//     endpoint: subscription.endpoint,
+//   }).child('keys').set({
+//     p256dh: subscription.keys.p256dh,
+//     auth: subscription.keys.auth,
+//   })
+// }
 
 
 // Other Entity APIs ...
@@ -200,17 +200,15 @@ export const setSubmittedOrContestedScoreByUid = (uid, date, score) => {
 // ----------------------------------------------------------
 
 // save a user-submitted question
-export const submitQuestion = (uid, date, qtext, a1text, a1correct, a2text, a2correct, a3text, a3correct, a4text, a4correct, source) => {
+export const submitQuestion = (uid, date, qtext, a1text, a1correct, a2text, a2correct, a3text, a3correct, source) => {
   const question = db.ref().child('q4review').child(date)
   question.child('q1').set(qtext)
   question.child('a1text').set(a1text)
   question.child('a2text').set(a2text)
   question.child('a3text').set(a3text)
-  question.child('a4text').set(a4text)
   question.child('a1correct').set(a1correct)
   question.child('a2correct').set(a2correct)
   question.child('a3correct').set(a3correct)
-  question.child('a4correct').set(a4correct)
   question.child('source').set(source)
   question.child('fromUser').set(uid)
 }
@@ -234,11 +232,9 @@ export const acceptQuestion = (date, selectedQ) => {
   question.child('a1text').set(selectedQ.a1text)
   question.child('a2text').set(selectedQ.a2text)
   question.child('a3text').set(selectedQ.a3text)
-  question.child('a4text').set(selectedQ.a4text)
   question.child('a1correct').set(selectedQ.a1correct)
   question.child('a2correct').set(selectedQ.a2correct)
   question.child('a3correct').set(selectedQ.a3correct)
-  question.child('a4correct').set(selectedQ.a4correct)
 }
 
 export const getQBank = () => {

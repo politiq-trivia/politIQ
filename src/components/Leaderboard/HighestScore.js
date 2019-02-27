@@ -14,7 +14,7 @@ class HighestScore extends Component {
     }
 
     componentDidMount() {
-        this.getUsersWithScores(this.props.timeframe)
+        this.getUsersWithScores(this.props.timeFrame)
     }
 
     calculateHighestPolitIQ = async (usernames, timeframe) => {
@@ -52,7 +52,6 @@ class HighestScore extends Component {
                     highScore: max,
                     name,
                 })
-                console.log(data.displayName, 'this should be a name')
             })
     }
 
@@ -70,10 +69,12 @@ class HighestScore extends Component {
             <>
                 {this.state.highScore !== 0
                     ?
-                     <Card style={{ paddingBottom: '1vh', width: '40%', marginLeft: 'auto', marginRight: 'auto', marginTop: "5vh"}}>
-                        <h2>Highest PolitIQ this {this.props.timeframe}:</h2>
-                        <h1>{this.state.name}</h1>
-                        <h3>{this.state.highScore}</h3>
+                     <Card style={{ paddingBottom: '4vh', width: '40%', marginLeft: 'auto', marginRight: 'auto' }}>
+                        <h2>Highest PolitIQ this {this.props.timeFrame}:</h2>
+                        <div className="highScoreHolder">
+                            <h1>{this.state.name}</h1>
+                            <h1>{this.state.highScore}</h1>
+                        </div>
                       </Card>
                      : null
                 }

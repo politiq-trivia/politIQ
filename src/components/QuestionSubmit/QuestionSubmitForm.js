@@ -42,8 +42,11 @@ class QuestionSubmitForm extends Component {
   }
 
   componentDidMount = () => {
+    const authUserItem = localStorage.getItem('authUser')
+    const parsedAuthUserItem = JSON.parse(authUserItem)
+    const uid = parsedAuthUserItem.uid
     this.setState({
-      uid: this.props.signedInUser
+      uid,
     })
   }
 

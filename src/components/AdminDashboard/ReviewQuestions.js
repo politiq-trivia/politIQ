@@ -82,10 +82,15 @@ class ReviewQuestions extends Component {
     db.acceptQuestion(this.state.selectedDate, this.state.selectedQ)
     await db.getSubmittedOrContestedScoreByUid(this.state.selectedQ.fromUser)
       .then(response => {
-        const data = response.val()
-        const scoreArray = Object.keys(data)
-        const score = (scoreArray.length * 3) + 3
-        db.setSubmittedOrContestedScoreByUid(this.state.selectedQ.fromUser, this.state.selectedDate, score)
+        if (response.val() === null || response.val() === undefined) {
+          const score = 3;
+          db.setSubmittedOrContestedScoreByUid(this.state.selectedQ.fromUser, this.state.selectedDate, score)
+        } else {
+          const data = response.val()
+          const scoreArray = Object.keys(data)
+          const score = (scoreArray.length * 3) + 3
+          db.setSubmittedOrContestedScoreByUid(this.state.selectedQ.fromUser, this.state.selectedDate, score)
+        }
       })
     this.skipQ()
   }
@@ -97,6 +102,7 @@ class ReviewQuestions extends Component {
     }
     const question = () => {
       if (this.state.loaded) {
+        console.log(q, 'this is q')
         return (
           <div className="questionHolder">
             <h3>{q["q1"]}</h3>
@@ -111,10 +117,6 @@ class ReviewQuestions extends Component {
             <div style={{ display: 'flex' }}>
               <FormControlLabel value={q["a3text"]} control={<Radio />} label={q["a3text"]}/>
               {q["a3correct"] ? <p style={{ color: 'green' }}>Correct Answer</p> : null }
-            </div>
-            <div style={{ display: 'flex' }}>
-              <FormControlLabel value={q["a4text"]} control={<Radio />} label={q["a4text"]}/>
-              {q["a4correct"] ? <p style={{ color: 'green' }}>Correct Answer</p> : null }
             </div>
             <div>
               <p>Sources: <a href={q["source"]}>{q["source"]}</a></p>

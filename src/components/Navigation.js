@@ -1,10 +1,6 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
-import * as routes from '../constants/routes';
 import MediaQuery from 'react-responsive'
-
-import { auth, db, firebase } from '../firebase';
-import { AuthUserContext, withAuthentication } from './Auth/index';
  
 // UI stuff
 import SwipeableDrawer from '@material-ui/core/SwipeableDrawer';
@@ -18,9 +14,14 @@ import MenuIcon from '@material-ui/icons/Menu';
 import AccountCircle from '@material-ui/icons/AccountCircle';
 import Button from '@material-ui/core/Button';
 
+import { auth, firebase } from '../firebase';
+import { AuthUserContext, withAuthentication } from './Auth/index';
+import * as routes from '../constants/routes';
+import getMostRecentQuizId from '../utils/mostRecentQuizId';
+
 import Logo from './dark-logo.png';
 
-const Navigation = ({ authUser, signedInUser, clearStateOnSignout }) => {
+const Navigation = ({ clearStateOnSignout }) => {
   return (
     <AuthUserContext.Consumer>
       {authUser => authUser
@@ -94,17 +95,10 @@ class NavigationAuth extends Component {
   }
 
   getMostRecentQuizId = async () => {
-    await db.getQuizzes()
-      .then(response => {
-        if (response.val() !== null) {
-          const data = response.val();
-          const dateArray = Object.keys(data);
-          const mostRecent = dateArray[dateArray.length-1]
-          this.setState({
-            mostRecentQuizURL: "quiz/" + mostRecent
-          })
-        }
-      })
+    const quizId = await getMostRecentQuizId()
+    this.setState({
+      mostRecentQuizURL: quizId
+    })
   }
 
   signOut = () => {
@@ -117,7 +111,7 @@ class NavigationAuth extends Component {
   
   render() {
     const fullList = (
-      <AuthUserContext>
+      <AuthUserContext.Consumer>
         {authUser => 
           <div>
             <MediaQuery query="(max-width: 415px)">
@@ -195,7 +189,7 @@ class NavigationAuth extends Component {
             </MediaQuery>
           </div>
         }
-      </AuthUserContext>
+      </AuthUserContext.Consumer>
     );
 
     return (

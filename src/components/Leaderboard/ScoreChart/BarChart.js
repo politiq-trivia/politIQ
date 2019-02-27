@@ -7,6 +7,7 @@ import { db } from '../../../firebase';
 import Axis from './Axis';
 import Bars from './Bars';
 import ResponsiveChart from './ChartWrapper';
+import "./Axis.css";
 
 class BarChart extends Component {
     constructor(props) {
@@ -15,6 +16,7 @@ class BarChart extends Component {
           Democrat: 0,
           Republican: 0,
           Independent: 0,
+          containerWidth: 600,
         }
         this.xScale = scaleLinear();
 
@@ -24,6 +26,7 @@ class BarChart extends Component {
       componentDidMount = () => {
         this.getScores(this.props.timeFrame)
         this.getQuizzes(this.props.timeFrame)
+        this.fitParentContainer();
       }
 
       componentDidUpdate(prevProps) {
@@ -109,10 +112,25 @@ class BarChart extends Component {
           })
       }
 
+      fitParentContainer() {
+        const { containerWidth } = this.state
+        const currentContainerWidth = window.innerWidth * 0.9
+
+        const shouldResize = containerWidth !== (currentContainerWidth)
+
+        if (window.innerWidth > 600) {
+          return;
+        } else if (shouldResize) {
+            this.setState({
+                containerWidth: currentContainerWidth,
+            })
+        }
+    }
+
     render () {
-        const margin = { top: 10, right: 20, bottom: 60, left: 80 };
-        const width = 600;
-        const height = 300;
+        const margin = { top: 10, right: 20, bottom: 60, left: 100 };
+        const width = this.state.containerWidth;
+        const height = 250;
 
         const data = [
           { party: 'Democrat', score: (this.state.Democrat / this.state.Democratlength) },
@@ -144,18 +162,19 @@ class BarChart extends Component {
           scale: xScale,
           translate: `translate(0, ${height - margin.bottom})`,
           tickSize: height - margin.top - margin.bottom,
-
         }
         
         return (
           <>
             { maxValue 
               ?
-               <div style={{ display: 'flex', flexDirection: 'column', width: '60%', justifyContent: 'center', marginLeft: 'auto', marginRight: 'auto'}}>
-
+               <div className="chartHolder">
+                  <div>
+                    <p style={{  marginTop: '6vh', width: '100%', fontWeight: 'bold' }}>Average PolitIQ</p>
+                  </div>
                   <svg id="chart" width={width} height={height}>
-                    <Axis {...xProps}/>
                     <Axis {...yProps} />
+                    <Axis {...xProps} />
                     <Bars 
                       xScale={xScale}
                       yScale={yScale}
@@ -166,9 +185,6 @@ class BarChart extends Component {
                       width={width}
                     />
                   </svg>
-                  <div>
-                    <p style={{  width: '100%', fontWeight: 'bold' }}>Average Score</p>
-                  </div>
                 </div>
              : <>
                 <h3>There are no scores logged for this {this.props.timeFrame}!</h3>

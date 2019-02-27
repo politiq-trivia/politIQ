@@ -15,7 +15,6 @@ import AppBar from '@material-ui/core/AppBar';
 import * as routes from '../../constants/routes';
 
 import './leaderboard.css';
-import logo from '../logo.png';
 import WeeklyLeaderboard from './Weekly';
 import MonthlyLeaderboard from './Monthly';
 import BarChart from './ScoreChart/BarChart';
@@ -43,23 +42,21 @@ class Leaderboard extends Component {
             <title>Leaderboard | politIQ</title>
           </Helmet>
           <MediaQuery minWidth={416}>
-            <div style={{ display: 'flex', justifyContent: 'space-evenly', width: 'auto'}}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', width: 'auto'}}>
               <Link to={routes.HOME} style={{ textDecoration: 'none', float: 'left', marginTop: 'auto', marginBottom: 'auto'}}>
-                <Button variant="contained" color="primary">Home</Button>
+                <Button variant="contained" color="primary" style={{ width: '17vw' }}>Home</Button>
               </Link>
-              <div className="leaderboard-header">
-                <img src={logo} alt="politIQ" style={{ height: '10vh'}}/>
-                <h1 style={{ marginTop: 'auto', marginBottom: 'auto' }}>Leaderboard</h1>
+              <div className="leaderboard-header" style={{ height: '10vh' }}>
+                <h1 style={{ margin: 'auto' }}>Leaderboard</h1>
               </div>
               <Link to={routes.QUIZ_ARCHIVE} style={{ textDecoration: 'none', float: 'right', marginTop: 'auto', marginBottom: 'auto'}}>
-                <Button variant="contained" color="primary">Build Your Score</Button>
+                <Button variant="contained" color="primary" style={{ width: '17vw' }}>Build Your Score</Button>
               </Link>
             </div>
           </MediaQuery>
           <MediaQuery maxWidth={415}>
             <div className="leaderboard-header">
-              <img src={logo} alt="politIQ" style={{ height: '10vh'}}/>
-              <h1 style={{ marginTop: 'auto', marginBottom: 'auto' }}>Leaderboard</h1>
+              <h1 style={{ margin: 'auto' }}>Leaderboard</h1>
             </div>
           </MediaQuery>
           <AppBar position="static" color="default" className="leaderboard-tabs">
@@ -68,7 +65,7 @@ class Leaderboard extends Component {
               onChange={this.handleChange}
               indicatorColor="primary"
               textColor="primary"
-              fullWidth
+              variant="fullWidth"
             >
               <Tab label="Weekly Leaderboard"/>
               <Tab label="Monthly Leaderboard" />

@@ -117,12 +117,14 @@
   font-size: 2.5em;
   text-transform: capitalize;
   letter-spacing: 2px;
-  font-family: "Baloo Bhaina", cursive;
+  font-family: 'Quicksand', sans-serif;
   line-height: 80%;
   padding-top: 2vh;
   margin-left: auto;
   margin-right: auto;
   min-height: 66px;
+  font-weight: bolder;
+  padding-bottom: 2vh;
 }
 @media screen and (max-width: 480px) {
   #today {
@@ -140,9 +142,11 @@
   margin-left: auto;
   margin-right: auto;
   text-transform: capitalize;
-  font-family: "Baloo Bhaina", cursive;
+  font-family: 'Quicksand', sans-serif;
   line-height: 80%;
-  padding-top: 2.5vh;
+  padding-top: 2vh;
+  font-weight: bolder;
+  padding-bottom: 2vh;
 }
 @media screen and (max-width: 480px) {
   #archive-link {

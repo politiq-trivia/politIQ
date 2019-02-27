@@ -73,9 +73,7 @@
 
 .quiz-body h1 {
   width: 90%;
-}
-.progressBar-mobile {
-  display: none;
+  font-size: 1.4em;
 }
 
 .finish-quiz-buttons {
@@ -130,9 +128,9 @@
     margin-top: 2vh;
   }
   .quiz-body h1 {
-    font-size: 20px;
+    font-size: 1.1em;;
     margin-bottom: 5vh;
-    width: 78%;
+    width: 85%;
   }
   .progressBar-full {
     display: none;

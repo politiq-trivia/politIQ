@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Link, withRouter } from 'react-router-dom';
 import { Helmet } from 'react-helmet';
+import moment from 'moment';
 import { db } from '../../firebase';
 import * as routes from '../../constants/routes';
 import { withEmailVerification, withAuthorization } from '../Auth/index';
@@ -43,7 +44,8 @@ class QuizArchive extends Component {
     await db.getQuizzes()
       .then(response => {
         const data = response.val();
-        const dateArray = Object.keys(data);
+        const allDates = Object.keys(data);
+        const dateArray = allDates.filter(date => date < moment().format('YYYY-MM-DDTHH:mm'));
         let titleArray = [];
         for (let i = 0; i < dateArray.length; i++) {
           let date = dateArray[i]
@@ -98,6 +100,7 @@ class QuizArchive extends Component {
     const List = dateArray.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((date, i) => {
       let newTitleArray = titleArray.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
       let id = date;
+      let shortDate = date.slice(0,10)
       let title = newTitleArray[i]
       let score;
       if (this.state.scoreObject[date]) {
@@ -109,7 +112,7 @@ class QuizArchive extends Component {
       return (
         <TableRow id={date} key={id} className={ score !== "--" ? "taken" : "tableItem" }>
           <TableCell onClick={score === "--" ? this.handleClick : null}>
-            {date}
+            {shortDate}
           </TableCell>
           <TableCell onClick={score === "--" ? this.handleClick : null} padding="none">
             {title}
