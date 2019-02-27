@@ -33,13 +33,13 @@ class HomePage extends Component {
     })
   }
 
-  subscribeToPushNotifications = () => {
+  subscribeToPushNotifications = async () => {
     const key = process.env.REACT_APP_VAPID_KEY
 
-    global.registration.pushManager.subscribe({
+    await global.registration.pushManager.subscribe({
       userVisibleOnly: true,
       applicationServerKey: urlB64ToUint8Array(key)
-    }).then(pushSubscription => {
+    }).then((pushSubscription) => {
       console.log({pushSubscription})
       console.log('Subscribed')
       
