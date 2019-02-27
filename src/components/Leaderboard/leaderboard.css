@@ -223,7 +223,11 @@
     height: 13vh;
   }
   .reg-score {
-    margin-top: 0.4vh;
+    margin-top: 4.2vh;
+  }
+  .politIQ-score {
+    margin-top: auto;
+    margin-bottom: auto;
   }
 
 
