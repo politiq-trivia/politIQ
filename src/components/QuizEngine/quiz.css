@@ -130,7 +130,7 @@
   .quiz-body h1 {
     font-size: 1.1em;;
     margin-bottom: 5vh;
-    width: 85%;
+    width: 100%;
   }
   .progressBar-full {
     display: none;

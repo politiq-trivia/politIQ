@@ -59,12 +59,6 @@ class Question extends Component {
             <>
                 <div style={{ display: 'flex' }}>
                     <h1>{qNum}. {qtext}</h1>
-
-                    <MediaQuery maxWidth={415}>
-                        <div className={clicked ? 'dontShowClock' : 'showClock'}>
-                        <ReactCountdownClock key={this.props.currentQ} seconds={60} size={40} color="#a54ee8" alpha={0.9} onComplete={() => this.props.checkCorrect()} paused={this.state.clicked}/>
-                        </div>
-                    </MediaQuery>
                 </div>
 
                 <FormControl className="question" style={{ marginBottom: '5vh'}}>
@@ -108,6 +102,7 @@ class Question extends Component {
                     </Paper>
 
                 </RadioGroup>
+
                 <div>
                 {wrong === true
                     ? <div style={{ marginTop: '3vh'}}>
@@ -129,7 +124,13 @@ class Question extends Component {
                 }
                 </div>
 
+                <MediaQuery maxWidth={415}>
+                        <div className={clicked ? 'dontShowClock' : 'showClock'} style={{ marginLeft: 'auto', marginRight: 'auto', marginTop: '4vh' }} >
+                            <ReactCountdownClock key={this.props.currentQ} seconds={60} size={60} color="#a54ee8" alpha={0.9} onComplete={() => this.props.checkCorrect()} paused={this.state.clicked}/>
+                        </div>
+                </MediaQuery>
                 </FormControl>
+
             </>
         )
     }
