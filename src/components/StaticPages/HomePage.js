@@ -34,7 +34,10 @@ class HomePage extends Component {
   }
 
   subscribeToPushNotifications = async () => {
+    if(!global.registration) return;
+
     const key = process.env.REACT_APP_VAPID_KEY
+
 
     await global.registration.pushManager.subscribe({
       userVisibleOnly: true,

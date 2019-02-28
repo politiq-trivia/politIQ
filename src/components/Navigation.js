@@ -19,7 +19,7 @@ import { AuthUserContext, withAuthentication } from './Auth/index';
 import * as routes from '../constants/routes';
 import getMostRecentQuizId from '../utils/mostRecentQuizId';
 
-import Logo from './dark-logo.png';
+import Logo from './logo1.png';
 
 const Navigation = ({ clearStateOnSignout }) => {
   return (
