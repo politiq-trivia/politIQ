@@ -24,6 +24,7 @@ import ReviewQuestions from './AdminDashboard/ReviewQuestions';
 import ReviewContestedQuestions from './AdminDashboard/ReviewContestedQuestions';
 import PublicProfile from './Profile/PublicProfile';
 import PrivacyPolicy from './StaticPages/PrivacyPolicy';
+import AddToHomescreen from './StaticPages/AddToHomescreen';
 import NoMatch from './StaticPages/NoMatch';
 
 import * as routes from '../constants/routes';
@@ -182,6 +183,10 @@ class App extends Component {
                 <Route 
                   exact path={routes.PRIVACY} 
                   component={PrivacyPolicy}
+                />
+                <Route
+                  exact path={routes.ADD_TO_HOMESCREEN}
+                  component={AddToHomescreen}
                 />
 
                 <Route path="*" component={NoMatch}/>

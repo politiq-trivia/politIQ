@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { Helmet } from 'react-helmet';
 import { compose } from 'recompose';
+import axios from 'axios';
+
 
 import { withAuthorization, withEmailVerification } from '../Auth/index';
 
@@ -11,6 +13,9 @@ import { db } from '../../firebase';
 
 import Paper from '@material-ui/core/Paper';
 import Button from '@material-ui/core/Button';
+import Snackbar from '@material-ui/core/Snackbar';
+import IconButton from '@material-ui/core/IconButton';
+import CloseIcon from '@material-ui/icons/Close';
 import TodaysQuizButton from './TodaysQuizButton';
 
 import './Static.css';
@@ -20,11 +25,51 @@ class HomePage extends Component {
     super(props);
     this.state = {
       noAvailableQuizzes: false,
+      open: false,
     };
   }
 
   componentDidMount() {
-    this.subscribeToPushNotifications()
+    // this.subscribeToPushNotifications()
+    this.addToHomeScreen()
+
+    // axios.post(process.env.SERVER_URL + '/subscribe', {pushSubscription: "this is the subscription"})
+    // .then(res => {
+    //   console.log(res)
+    // })
+  }
+
+  addToHomeScreen = () => {
+    // check if the user is running on ios and see if they're running higher than 11.3 (the highest version that supports pwas)
+    function iOSversion() {
+      if (/iP(hone|od|ad)/.test(navigator.platform)) {
+        // supports iOS 2.0 and later: <http://bit.ly/TJjs1V>
+        var v = (navigator.appVersion).match(/OS (\d+)_(\d+)_?(\d+)?/);
+        return [parseInt(v[1], 10), parseInt(v[2], 10), parseInt(v[3] || 0, 10)];
+      }
+    }
+
+    let ver = iOSversion();
+
+  
+
+
+    const needsToSeePrompt = () => {
+      if (navigator.standalone) {
+        return false;
+      } else if (ver[0] <= 11) {
+        return false;
+      }
+      return ['iPhone', 'iPad', 'iPod'].includes(navigator.platform);
+    }
+
+    console.log(needsToSeePrompt())
+
+    if (needsToSeePrompt()) {
+      this.setState({
+        open: true,
+      })
+    }
   }
   
   showErrorMessage = () => {
@@ -45,6 +90,11 @@ class HomePage extends Component {
     }).then((pushSubscription) => {
       console.log({pushSubscription})
       console.log('Subscribed')
+      console.log(process.env.SERVER_URL)
+      axios.post('localhost:3001/subscribe', { pushSubscription: pushSubscription })
+        .then(res => {
+          console.log(res)
+        })
       
       // get the keys, convert them to strings, and store them in firebase
       const p256dhAB = pushSubscription.getKey('p256dh')
@@ -67,12 +117,26 @@ class HomePage extends Component {
         }
       }
       
-      db.subscribeUser(subscriptionObject);      
+      // saves it in firebase
+      db.subscribeUser(subscriptionObject);    
+        
       
     }).catch(err => {
       console.log(err)
       console.log('Did not subscribe')
     })
+  }
+
+  handleClose = () => {
+    this.setState({
+      open: false,
+    })
+  }
+
+  handleAddToHomescreen = () => {
+    this.props.history.push('/add-to-homescreen')
+    // redirect to another view with instructions with how to add 
+    // then close the modal and set in localstorage that i've alrady done it
   }
 
   render() {
@@ -81,6 +145,34 @@ class HomePage extends Component {
         <Helmet>
           <title>Home | politIQ </title>
         </Helmet>
+        <Snackbar 
+          anchorOrigin={{
+            vertical: 'bottom',
+            horizontal: 'left'
+          }}
+          open={this.state.open}
+          autoHideDuration={60000}
+          onClose={this.handleClose}
+          ContentProps={{
+            'aria-describedby': 'message-id',
+          }}
+          // message={<span id="message-id">Add politIQ to your homescreen</span>}
+          action={[
+            <>
+            <Button size="small" color="primary" style={{ fontSize: '0.777rem' }} onClick={this.handleAddToHomescreen} key="add-to-homescreen">
+              Add politIQ to your homescreen
+            </Button>
+            <IconButton
+              key="close"
+              aria-label="Close"
+              color="inherit"
+              onClick={this.handleClose}
+            >
+              <CloseIcon />
+            </IconButton>
+            </>
+          ]}
+        />
         <h1>Did you pay attention to today's news and think you know politics?</h1>
         <h1>Prove it!</h1>
 

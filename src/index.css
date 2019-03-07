@@ -36,13 +36,14 @@ code {
   padding: 5vh 3vw 5vh 3vw;
   margin-left: 2vw;
   margin-right: 2vw;
-  margin-bottom: 2vh;
+  margin-bottom: 20vh;
 }
 @media screen and (max-width: 480px) {
   .home {
     margin-top: 10vh;
     margin-bottom: 5vh;
     padding-bottom: 5vh;
+    margin-bottom: 18vh;
   }
   .home h1 {
     font-size: 24px;

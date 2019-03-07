@@ -6,6 +6,7 @@ export const HOME = '/home';
 export const PROFILE = '/profile';
 export const PASSWORD_FORGET = '/pw-forget';
 export const PRIVACY = '/privacy-policy';
+export const ADD_TO_HOMESCREEN = '/add-to-homescreen';
 
 // game routes
 export const PLAY_GAME = '/play';

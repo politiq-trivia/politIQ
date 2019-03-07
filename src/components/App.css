@@ -101,7 +101,7 @@ h3 {
   }
   .footer {
     height: 5vh;
-    position: fixed;
+    /* position: fixed; */
   }
   .bottom-nav {
     display: flex;
@@ -147,6 +147,15 @@ h3 {
   .footer {
     height: 20vh;
     min-height: 140px;
+  }
+}
+
+@media screen and (min-height: 1025px) {
+  .footer {
+    position: fixed;
+  }
+  .home {
+    margin-bottom: 23vh;
   }
 }
 
