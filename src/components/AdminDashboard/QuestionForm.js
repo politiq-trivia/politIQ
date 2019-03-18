@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import moment from 'moment';
 import schedule from 'node-schedule';
 
 import TextField from '@material-ui/core/TextField';

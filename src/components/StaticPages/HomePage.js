@@ -50,7 +50,7 @@ class HomePage extends Component {
     }
 
     let ver = iOSversion();
-
+    if (ver === undefined) return;
   
 
 
@@ -62,8 +62,6 @@ class HomePage extends Component {
       }
       return ['iPhone', 'iPad', 'iPod'].includes(navigator.platform);
     }
-
-    console.log(needsToSeePrompt())
 
     if (needsToSeePrompt()) {
       this.setState({
