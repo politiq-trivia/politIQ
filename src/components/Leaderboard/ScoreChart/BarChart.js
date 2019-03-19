@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import moment from 'moment';
 import { scaleBand, scaleLinear } from 'd3-scale';
+import * as d3 from 'd3';
+import { Element } from 'react-faux-dom';
 import Button from '@material-ui/core/Button';
 import { db } from '../../../firebase';
 
@@ -127,46 +129,142 @@ class BarChart extends Component {
         }
     }
 
+    plot(chart, width, height, margin) {
+      console.log(this.state)
+      const data = [
+        { party: 'Democrat', score: ((this.state.Democrat / this.state.Democratlength)  * 100).toString() },
+        { party: 'Republican', score: (this.state.Republican / this.state.Republicanlength) * 100 },
+        { party: 'Independent', score: (this.state.Independent / this.state.Independentlength) * 100 },
+      ]
+
+      // const data = [
+      //   { party: 'Democrat', score: 15 },
+      //   { party: 'Republican', score: 20 },
+      //   { party: 'Independent', score: 25 },
+      // ]
+
+      const maxValue = Math.max(...data.map(d => d.score));
+
+      const yScale = this.yScale
+        .padding(0.5)
+        .domain(data.map(d => d.party))
+        .range([0, height])
+
+      const xScale = this.xScale
+        .domain([0, maxValue])
+        .range([0, width])
+        // .translate(`translate(0, ${height - margin.bottom})`)
+
+      const colorScale = d3.scaleOrdinal(['red', 'blue', 'green'])
+
+      chart.selectAll('.bar')
+        .data(data)
+        .enter()
+        .append('rect')
+        .classed('bar', true)
+        .attr('x', d => {
+          if (isNaN(d.score)) return 0
+          else return width - xScale(d.score) + margin.right
+        })
+        .attr('y', d => yScale(d.party))
+        .attr('height', d => yScale.bandwidth())
+        .attr('width', d => {
+          if (isNaN(d.score)) return 0
+          else return xScale(d.score) - margin.right;
+        })
+        .style('fill', (d, i) => colorScale(i))
+
+      chart.selectAll('.bar-label')
+        .data(data)
+        .enter()
+        .append('text')
+        .classed('bar-label', true)
+        .attr('x', d => {
+          if (isNaN(d.party)) return 0
+          else return xScale(d.party)
+        })
+        .attr('dx', d => {
+          if (isNaN(d.score)) return 0
+          else return width - xScale(d.score) + 65
+        })
+        .attr('y', d => {
+            if (isNaN(d.score)) {
+              return 0
+            } else return yScale(d.score) + yScale.bandwidth() / 2
+          })
+        .attr('dy', (d, i) => yScale(d.party) + (yScale.bandwidth() / 2) + 6)
+        .text(d => d.score)
+
+      // const xAxis = d3.axisBottom()
+      //     .scale(xScale);
+      
+      // chart.append('g')
+      //     .classed('x axis', true)
+      //     .attr('transform', `translate(0, ${height})`)
+      //     .ticks()
+      //     .call(xAxis)
+
+      const yAxis = d3.axisRight()
+          .ticks(3)
+          .scale(yScale)
+
+      chart.append('g')
+          .classed('y axis', true)
+          .attr('transform', `translate(${width}, 0)`)
+          .call(yAxis)
+    }
+
+    drawChart() {
+      const margin = { top: 40, right: 100, bottom: 60, left: 100 };
+      const width = this.state.containerWidth;
+      const height = 250;
+      
+      const el = new Element('div');
+      const svg = d3.select(el)
+        .append('svg')
+        .attr('id', 'chart')
+        .attr('width', width)
+        .attr('height', height)
+
+      const chart = svg.append('g')
+        .classed('display', true)
+        .attr('transform', `translate(${margin.left}, ${margin.top})`);
+
+      const chartWidth = width - margin.left - margin.right;
+      const chartHeight = height - margin.top - margin.bottom;
+      this.plot(chart, chartWidth, chartHeight, margin)
+
+      return el.toReact();
+    }
+
+
     render () {
-        const margin = { top: 10, right: 20, bottom: 60, left: 100 };
-        const width = this.state.containerWidth;
-        const height = 250;
-
-        const data = [
-          { party: 'Democrat', score: (this.state.Democrat / this.state.Democratlength) },
-          { party: 'Republican', score: (this.state.Republican / this.state.Republicanlength) },
-          { party: 'Independent', score: (this.state.Independent / this.state.Independentlength) },
-        ]
-
-        const maxValue = Math.max(...data.map(d => d.score));
-
-        const yScale = this.yScale
-          .padding(0.5)
-          .domain(data.map(d => d.party))
-          .range([height - margin.bottom, margin.top])
+        // const margin = { top: 10, right: 20, bottom: 60, left: 100 };
+        // const width = this.state.containerWidth;
+        // const height = 250;
 
 
-        const xScale = this.xScale
-          .domain([0, maxValue])
-          .range([margin.left, width - margin.right])
 
-        const yProps = {
-          orient: 'Left',
-          scale: yScale,
-          translate: `translate(${margin.left}, 0)`,
-          tickSize: width - margin.left - margin.right,
-        }
 
-        const xProps = {
-          orient: 'Bottom',
-          scale: xScale,
-          translate: `translate(0, ${height - margin.bottom})`,
-          tickSize: height - margin.top - margin.bottom,
-        }
+
+        // const yProps = {
+        //   orient: 'Left',
+        //   scale: yScale,
+        //   translate: `translate(${margin.left}, 0)`,
+        //   tickSize: width - margin.left - margin.right,
+        // }
+
+        // const xProps = {
+        //   orient: 'Bottom',
+        //   scale: xScale,
+        //   ,
+        //   tickSize: height - margin.top - margin.bottom,
+        // }
         
         return (
           <>
-            { maxValue 
+            {this.drawChart()}
+            {/* { maxValue 
               ?
                <div className="chartHolder">
                   <div>
@@ -190,7 +288,7 @@ class BarChart extends Component {
                 <h3>There are no scores logged for this {this.props.timeFrame}!</h3>
                 <Button variant="contained" color="primary">Click Here to Take Today's Quiz</Button>
               </>
-            }
+            } */}
           </>
         )
     }

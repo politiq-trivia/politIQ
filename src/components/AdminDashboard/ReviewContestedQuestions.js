@@ -166,7 +166,7 @@ class ReviewContestedQuestions extends Component {
         await db.getSubmittedOrContestedScoreByUid(uid)
             .then(async(response) => {
                 if (response.val() === null || response.val() === undefined) {
-                    await db.setSubmittedOrContestedScoreByUid(uid, date, 5)
+                    await db.setSubmittedOrContestedScoreByUid(uid, date, 2)
                 } else {
                     const data = response.val()
                     const datesArray = Object.keys(data)
@@ -175,7 +175,7 @@ class ReviewContestedQuestions extends Component {
                         let newScore = score + 5
                         await db.setSubmittedOrContestedScoreByUid(uid, date, newScore)
                     } else {
-                        await db.setSubmittedOrContestedScoreByUid(uid, date, 5)
+                        await db.setSubmittedOrContestedScoreByUid(uid, date, 2)
                     }
                 }
             })
