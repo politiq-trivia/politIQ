@@ -11,7 +11,7 @@ import './Static.css';
 
 const LandingPage = () =>
   <Paper className="home-holder">
-    <h1 id="main">Welcome to polit<span id="iq">IQ</span></h1>
+    <h1 id="main">Welcome to <span id="iq">polit</span>IQ</h1>
     <h2 style={{ fontSize: '20px' }}>where you can answer the question... </h2>
     <h2>Are you smarter than a: <span id="rep">REPUBLICAN</span>? <span id="dem">DEMOCRAT</span>? <span id="ind">INDEPENDENT</span>?</h2>
 
@@ -35,7 +35,7 @@ const LandingPage = () =>
         <div className="icon-div">
           <i className="fas fa-pen-square icon"></i>
           <h6>Start Playing</h6>
-          <p>Answer on your own time. New questions added daily and never expire.</p>
+          <p>Answer on your own time. New questions added daily and expire at the end of each month.</p>
         </div>
         <div className="icon-div">
           <i className="fas fa-clipboard icon"></i>
@@ -44,7 +44,7 @@ const LandingPage = () =>
         </div>
         <div className="icon-div">
           <i className="fas fa-gift icon"></i>
-          <h6>Get Awarded</h6>
+          <h6>Monthly Challenge</h6>
           <p>Players with highest scores eligible to compete in challenge for cash prize!</p>
         </div>
       </div>

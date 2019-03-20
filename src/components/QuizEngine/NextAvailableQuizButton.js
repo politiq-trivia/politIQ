@@ -68,6 +68,7 @@ class NextAvailableQuizButton extends Component {
                 } else {
                     this.setState({
                         nextQuizUrl: nextQuizDate,
+                        nextQuizDate,
                     })
                 }
                 

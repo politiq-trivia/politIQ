@@ -22,7 +22,7 @@ const About = () => {
 
         <p>If you agree, or simply want to spread the word about an easy way to win some money, invite your friends and foes alike to join politIQ!</p>
 
-        <p style={{ marginTop: '8vh'}}>Have a question or want to send me some hate mail? Email me at <a href="mailto: iknowpolitics.us@gmail.com">iknowpolitics.us@gmail.com</a></p>
+        <p style={{ marginTop: '8vh'}}>Have a question or want to send me some hate mail? Email me at <a href="mailto: info@whatsmypolitiq.com">info@whatsmypolitiq.com</a></p>
       </div>
     </Paper>
   );

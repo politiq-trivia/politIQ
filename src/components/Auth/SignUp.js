@@ -18,7 +18,8 @@ import MenuItem from '@material-ui/core/MenuItem';
 import FormHelperText from '@material-ui/core/FormHelperText';
 import Checkbox from '@material-ui/core/Checkbox';
 import Help from '@material-ui/icons/Help';
-import Tooltip from '@material-ui/core/Tooltip'
+import Tooltip from '@material-ui/core/Tooltip';
+import ClickAwayListener from '@material-ui/core/ClickAwayListener';
 import './Auth.css';
 
 import FacebookAuth from './FacebookAuth'
@@ -44,6 +45,7 @@ const INITIAL_STATE = {
   bio: '',
   error: null, 
   consent: false,
+  tooltipOpen: false,
 };
 
 const affiliations = [
@@ -74,6 +76,7 @@ const ERROR_MSG_ACCOUNT_EXISTS = `
 
 const affiliationText = `
 Poltical ID is required in order to contribute to your political party's average team score, which is represented on the leaderboard page.
+You may change this on your profile at any time.
 `
 
 class SignUpFormBase extends Component {
@@ -150,6 +153,12 @@ class SignUpFormBase extends Component {
     })
   }
 
+  handleTooltipClick = () => {
+    this.setState({
+      tooltipOpen: !this.state.tooltipOpen,
+    })
+  }
+
   render() {
     const {
       username,
@@ -219,9 +228,12 @@ class SignUpFormBase extends Component {
         </TextField>
         <div style={{ display: 'flex', justifyContent: 'space-between'}}>
           <FormHelperText>Affiliation will not be shared publicly.</FormHelperText>
-          <Tooltip title={affiliationText} placement="left-start">
-            <FormHelperText style={{ marginTop: '0'}}><Help color='primary' style={{ width: '0.6em'}}/></FormHelperText>
-          </Tooltip>
+          <ClickAwayListener onClickAway={this.handleTooltipClick}>
+            <Tooltip title={affiliationText} placement="left-start" onClose={this.handleTooltipClick} open={this.state.tooltipOpen} disableFocusListener disableTouchListener>
+              <FormHelperText style={{ marginTop: '0'}}><Help onClick={this.handleTooltipClick} color='primary' style={{ width: '0.6em'}}/></FormHelperText>
+            </Tooltip>
+          </ClickAwayListener>
+
         </div>
         <div style={{ display: 'flex', marginTop: '2vh'}}>
           <Checkbox 
