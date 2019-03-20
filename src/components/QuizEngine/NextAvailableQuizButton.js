@@ -85,7 +85,7 @@ class NextAvailableQuizButton extends Component {
             <>  
                 {this.state.disabled 
                     ? <Button variant="contained" disabled={true}>No More Quizzes Available</Button>
-                    : <Button variant="contained" id={this.state.disabled ? "keep-playing disabled" : "keep-playing"} onClick={this.handleClick} disabled={this.state.disabled}>Keep Playing</Button>
+                    : <Button variant="contained" id={this.state.disabled ? "keep-playing disabled" : "keep-playing"} onClick={this.handleClick} disabled={this.state.disabled}>{this.props.text !== undefined ? this.props.text : "Keep Playing" }</Button>
                 }
             </>
         )

@@ -10,7 +10,10 @@ import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
+import Button from '@material-ui/core/Button';
 
+import UserRank from './UserRank';
+import getMostRecentQuizId from '../../utils/mostRecentQuizId';
 import loadingGif from '../../loadingGif.gif';
 import './leaderboard.css';
 
@@ -20,11 +23,20 @@ class MonthlyLeaderboard extends Component {
     this.state = {
       isLoaded: false,
       rankedScores: {},
+      mostRecentQuizId: ''
     }
   }
 
   componentDidMount = () => {
     this.monthlyLeaders();
+    this.getMostRecentQuizId()
+  }
+
+  getMostRecentQuizId = async () => {
+    const quizId = await getMostRecentQuizId()
+    this.setState({
+      mostRecentQuizId: quizId,
+    })
   }
 
   monthlyLeaders = async () => {
@@ -46,7 +58,7 @@ class MonthlyLeaderboard extends Component {
               let lastMonth = []
               let scoreCounter = 0;
               for (let j = 0; j < quizDates.length; j++) {
-                if (quizDates[j] > moment().startOf('month').format('YYYY-MM-DD')) {
+                if (quizDates[j] > moment().startOf('year').format('YYYY-MM-DD')) {
                   lastMonth.push(quizDates[j])
                   if (data[usernames[i]][quizDates[j]]) {
                     scoreCounter += data[usernames[i]][quizDates[j]]
@@ -56,7 +68,7 @@ class MonthlyLeaderboard extends Component {
               if (submitted !== undefined) {
                 const dates = Object.keys(submitted)
                 for (let j = 0; j < dates.length; j++) {
-                  if (dates[j].slice(10) > moment().startOf('month').format('YYYY-MM-DD')) {
+                  if (dates[j].slice(10) > moment().startOf('year').format('YYYY-MM-DD')) {
                     scoreCounter += 1
                   }
                 }
@@ -83,8 +95,28 @@ class MonthlyLeaderboard extends Component {
       })
   }
 
+  getUserRank = () => {
+    if(this.state.isLoaded) {
+      if (localStorage.hasOwnProperty('authUser')) {
+        const scores = this.state.rankedScores
+        const uid = JSON.parse(localStorage.getItem('authUser')).uid
+        let ranking;
+        for (let i = 0; i < scores.length; i++) {
+          if (uid === scores[i].uid) {
+            ranking = i + 1;
+          }
+        }
+        return ranking;
+      }
+    }
+  }
+
   handleClickUser = (uid) => {
     this.props.history.push(`/profile/${uid}`)
+  }
+
+  redirect = () => {
+    this.props.history.push(this.state.mostRecentQuizId)
   }
 
   render() {
@@ -99,7 +131,7 @@ class MonthlyLeaderboard extends Component {
     }
 
     const renderMonthlyLeaders = rankingArray.map((stat, i) => {
-      if (i > 10) { return null; }
+      if (i >= 10) { return null; }
       return (
         <TableRow key={i} hover onClick={() => this.handleClickUser(stat[2])}>
           <TableCell style={{ width: '30%'}} padding="default">
@@ -144,9 +176,18 @@ class MonthlyLeaderboard extends Component {
       }
     }
 
+    const rank = this.getUserRank()
+
     return (
       <div>
         {isLoading()}
+        {rank === 0 || rank === undefined || !localStorage.hasOwnProperty('authUser') 
+          ? <div style={{ paddingTop: '2vh', paddingBottom: '4vh' }}>  
+              <h3 style={{ marginBottom: '2vh' }}>You don't have any scores for this month yet!</h3>
+              <Button variant="contained" color="primary" onClick={this.redirect}>Play Now</Button> 
+            </div>
+          : <UserRank ranking={rank} /> 
+        }
       </div>
     )
   }

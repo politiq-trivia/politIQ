@@ -35,6 +35,10 @@ class Leaderboard extends Component {
   handleChangeIndex = index => {
     this.setState({ value: index });
   }
+
+  userRanking = (ranking) => {
+    this.setState({ ranking })
+  }
   render() {
     return (
         <Paper className="leaderboard">
@@ -77,6 +81,7 @@ class Leaderboard extends Component {
             {this.state.value === 0 ? <WeeklyLeaderboard /> : null }
             {this.state.value === 1 ? <MonthlyLeaderboard /> : null }
           </Paper>
+
           <div style={{ marginTop: '3vh', marginBottom: '5vh', marginLeft: '-2vw'}}>
             <BarChart timeFrame={this.state.value === 0 ? "week" : "month"} />
             <HighestScore timeFrame={this.state.value === 0 ? "week" : "month"}/>
