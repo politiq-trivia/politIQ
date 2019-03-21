@@ -9,7 +9,10 @@ import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
+import Button from '@material-ui/core/Button';
 
+import UserRank from './UserRank';
+import getMostRecentQuizId from '../../utils/mostRecentQuizId';
 import loadingGif from '../../loadingGif.gif';
 import './leaderboard.css';
 
@@ -19,11 +22,20 @@ class WeeklyLeaderboard extends Component {
     this.state = {
       isLoaded: false,
       rankedScores: {},
+      mostRecentQuizId: '',
     }
   }
 
   componentDidMount = () => {
     this.weeklyLeaders();
+    this.getMostRecentQuizId()
+  }
+
+  getMostRecentQuizId = async () => {
+    const quizId = await getMostRecentQuizId()
+    this.setState({
+      mostRecentQuizId: quizId
+    })
   }
 
   weeklyLeaders = async () => {
@@ -88,8 +100,28 @@ class WeeklyLeaderboard extends Component {
       })
   }
 
+  getUserRank = () => {
+    if(this.state.isLoaded) {
+      if (localStorage.hasOwnProperty('authUser')) {
+        const scores = this.state.rankedScores
+        const uid = JSON.parse(localStorage.getItem('authUser')).uid
+        let ranking;
+        for (let i = 0; i < scores.length; i++) {
+          if (uid === scores[i].uid) {
+            ranking = i + 1;
+          }
+        }
+        return ranking;
+      }
+    }
+  }
+
   handleClickUser = (uid) => {
     this.props.history.push(`/profile/${uid}`)
+  }
+
+  redirect = () => {
+    this.props.history.push(this.state.mostRecentQuizId)
   }
 
   render() {
@@ -102,7 +134,7 @@ class WeeklyLeaderboard extends Component {
       rankingArray = [...result]
     }
     const renderWeeklyLeaders = rankingArray.map((stat, i) => {
-      if (i > 10) {return null;}
+      if (i >= 10) {return null;}
       return (
         <TableRow key={i} hover onClick={() => this.handleClickUser(stat[2])}>
           <TableCell style={{ width: '30%'}} padding="default">
@@ -147,9 +179,18 @@ class WeeklyLeaderboard extends Component {
       }
     }
 
+    const rank = this.getUserRank()
+
     return (
       <div>
         {isLoading()}
+        {rank === 0 || rank === undefined || !localStorage.hasOwnProperty('authUser') 
+          ? <div style={{ paddingTop: '2vh', paddingBottom: '4vh' }}>  
+              <h3 style={{ marginBottom: '2vh' }}>You don't have any scores for this week yet!</h3>
+              <Button variant="contained" color="primary" onClick={this.redirect}>Play Now</Button> 
+            </div>
+          : <UserRank ranking={rank} /> 
+        }
       </div>
     )
   }

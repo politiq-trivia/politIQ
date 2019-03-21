@@ -58,7 +58,7 @@ class MonthlyLeaderboard extends Component {
               let lastMonth = []
               let scoreCounter = 0;
               for (let j = 0; j < quizDates.length; j++) {
-                if (quizDates[j] > moment().startOf('year').format('YYYY-MM-DD')) {
+                if (quizDates[j] > moment().startOf('month').format('YYYY-MM-DD')) {
                   lastMonth.push(quizDates[j])
                   if (data[usernames[i]][quizDates[j]]) {
                     scoreCounter += data[usernames[i]][quizDates[j]]
@@ -68,7 +68,7 @@ class MonthlyLeaderboard extends Component {
               if (submitted !== undefined) {
                 const dates = Object.keys(submitted)
                 for (let j = 0; j < dates.length; j++) {
-                  if (dates[j].slice(10) > moment().startOf('year').format('YYYY-MM-DD')) {
+                  if (dates[j].slice(10) > moment().startOf('month').format('YYYY-MM-DD')) {
                     scoreCounter += 1
                   }
                 }
