@@ -3,6 +3,8 @@ import { Link, withRouter } from 'react-router-dom';
 import { Helmet } from 'react-helmet';
 import moment from 'moment';
 import { compose } from 'recompose';
+import axios from 'axios';
+
 
 import { auth, db, withFirebase } from '../../firebase';
 import { SignInLink } from './SignIn';
@@ -44,6 +46,7 @@ const INITIAL_STATE = {
   isAdmin: false,
   bio: '',
   error: null, 
+  emailSubscribe: true,
   consent: false,
   tooltipOpen: false,
 };
@@ -94,7 +97,10 @@ class SignUpFormBase extends Component {
       affiliation,
       isAdmin,
       bio,
+      emailSubscribe
     } = this.state;
+
+    console.log(emailSubscribe, 'this is email subscribe in onclick')
 
     const rolesArray = [];
 
@@ -121,6 +127,10 @@ class SignUpFormBase extends Component {
             db.lastActive(authUser.user.uid, date)
             this.props.getSignedInUser(authUser.user.uid)
             this.setState({ ...INITIAL_STATE });
+            if(emailSubscribe) {
+              console.log('this is being called')
+              this.subscribeToEmailUpdates(email)
+            }
             history.push(routes.HOME);
           })
           .catch(error => {
@@ -153,9 +163,22 @@ class SignUpFormBase extends Component {
     })
   }
 
+  handleEmailCheck = () => {
+    this.setState({
+      emailSubscribe: !this.state.emailSubscribe
+    })
+  }
+
   handleTooltipClick = () => {
     this.setState({
       tooltipOpen: !this.state.tooltipOpen,
+    })
+  }
+
+  subscribeToEmailUpdates = (email) => {
+    console.log('subscribe to emails called')
+    axios.post(process.env.REACT_APP_SERVER_URL + "/email-subscribe", {
+      email: email,
     })
   }
 
@@ -229,13 +252,23 @@ class SignUpFormBase extends Component {
         <div style={{ display: 'flex', justifyContent: 'space-between'}}>
           <FormHelperText>Affiliation will not be shared publicly.</FormHelperText>
           <ClickAwayListener onClickAway={this.handleTooltipClick}>
-            <Tooltip title={affiliationText} placement="left-start" onClose={this.handleTooltipClick} open={this.state.tooltipOpen} disableFocusListener disableTouchListener>
+            <Tooltip title={affiliationText} placement="left-start" onClose={this.handleTooltipClick} open={this.state.tooltipOpen} disableHoverListener disableFocusListener disableTouchListener>
               <FormHelperText style={{ marginTop: '0'}}><Help onClick={this.handleTooltipClick} color='primary' style={{ width: '0.6em'}}/></FormHelperText>
             </Tooltip>
           </ClickAwayListener>
 
         </div>
-        <div style={{ display: 'flex', marginTop: '2vh'}}>
+        <div style={{ display: 'flex', marginTop: '2vh' }}>
+          <Checkbox 
+            checked={this.state.emailSubscribe}
+            onChange={this.handleEmailCheck}
+            value="emailSubscribe"
+            color="primary"
+            style={{ display: 'inline' }}
+          />
+          <p style={{ textAlign: 'left' }}>I would like to receive email communications and push notifications from politIQ.</p>
+        </div>
+        <div style={{ display: 'flex'}}>
           <Checkbox 
             checked={this.state.consent}
             onChange={this.handleCheck}
