@@ -47,9 +47,9 @@ class Leaderboard extends Component {
     // -webkit-text-fill-color: transparent;
     return (
       <>
-        <AppBar position="static" className="leaderboard-appbar" style={{ marginTop: '8vh', backgroundColor: '#FFDF00', color: 'black'}}>
-          <Toolbar>
-            win this monayyyyyy
+        <AppBar position="static" className="leaderboard-appbar" style={{ marginTop: '8vh', background: 'linear-gradient(45deg, rgba(239,188,77,1) 0%, rgba(239,188,77,1) 24%, rgba(244,207,126,1) 50%, rgba(255,244,219,1) 100%)', color: 'black'}}>
+          <Toolbar style={{ fontWeight: 'bold', color: 'rgba(45, 45, 45, 0.80)' }}>
+            Keep playing to boost your politIQ and have a chance to win this month's jackpot of $100!
           </Toolbar>
         </AppBar>
         <Paper className="leaderboard">
