@@ -19,6 +19,7 @@ import TableFooter from '@material-ui/core/TableFooter';
 import TablePaginationActions from './TablePaginationActions';
 import Button from '@material-ui/core/Button';
 import './quiz.css';
+import bg from '../StaticPages/politiq-bg2.jpg';
 
 class QuizArchive extends Component {
   constructor(props) {
@@ -30,6 +31,7 @@ class QuizArchive extends Component {
       scoreObject: {},
       rowsPerPage: 10,
       page: 0,
+      loading: true,
     }
   }
 
@@ -45,7 +47,16 @@ class QuizArchive extends Component {
       .then(response => {
         const data = response.val();
         const allDates = Object.keys(data);
-        const dateArray = allDates.filter(date => date < moment().format('YYYY-MM-DDTHH:mm'));
+        const dateArray = allDates.filter(date => date < moment().format('YYYY-MM-DDTHH:mm') && date > moment().startOf('month').format('YYYY-MM-DDTHH:mm'));
+        if (dateArray.length === 0 ) {
+          this.setState({
+            noQuizzes: true,
+            loading: false,
+          })
+          console.log('no quizzes')
+          return;
+        }
+
         let titleArray = [];
         for (let i = 0; i < dateArray.length; i++) {
           let date = dateArray[i]
@@ -55,6 +66,7 @@ class QuizArchive extends Component {
         this.setState({
           dateArray: dateArray.reverse(),
           titleArray: titleArray.reverse(),
+          loading: false
         })
         this.getTheLoggedInUsersScores()
       })
@@ -127,11 +139,18 @@ class QuizArchive extends Component {
 
 
     const isLoading = () => {
-      if (this.state.dateArray.length === 0) {
+      if (this.state.loading === true){
         return (
           <div className="gifStyle">
             <img src={loadingGif} alt="loading gif"/>
           </div>
+        )
+      } else if (this.state.dateArray.length === 0) {
+        return (
+          <>
+            <p>There are no quizzes available for this month yet! Check back later to play.</p>
+            <img src={bg} style={{ width: '60%', marginLeft: 'auto', marginRight: 'auto'}} alt="play politIQ" />
+          </>
         )
       } else {
         return (

@@ -69,6 +69,7 @@ class NavigationAuth extends Component {
       top: false,
       mostRecentQuizURL: "",
       isAdmin: false,
+      noQuizzes: false,
     };
   }
 
@@ -96,9 +97,15 @@ class NavigationAuth extends Component {
 
   getMostRecentQuizId = async () => {
     const quizId = await getMostRecentQuizId()
-    this.setState({
-      mostRecentQuizURL: quizId
-    })
+    if (quizId === "No Available Quizzes") {
+      this.setState({
+        noQuizzes: true,
+      })
+    } else {
+      this.setState({
+        mostRecentQuizURL: quizId
+      })
+    }
   }
 
   signOut = () => {
@@ -124,8 +131,8 @@ class NavigationAuth extends Component {
                 </Link>
                 : null }
                 <Link to={this.state.mostRecentQuizURL} style={{ textDecoration: 'none'}}>
-                  <ListItem button>
-                    <ListItemText primary="Play Game" />
+                  <ListItem button disabled={this.state.noQuizzes}>
+                    <ListItemText primary={this.state.noQuizzes ? "No Available Quizzes" : "Play Game"} />
                   </ListItem>
                 </Link>
                 <Link to={routes.QUIZ_ARCHIVE} style={{ textDecoration: 'none'}}>
@@ -163,8 +170,8 @@ class NavigationAuth extends Component {
                 </Link>
                 : null }
                 <Link to={this.state.mostRecentQuizURL} style={{ textDecoration: 'none'}}>
-                  <ListItem button>
-                    <ListItemText primary="Play Game" />
+                  <ListItem button disabled={this.state.noQuizzes}>
+                    <ListItemText primary={this.state.noQuizzes ? "No Available Quizzes" : "Play Game"} />
                   </ListItem>
                 </Link>
                 <Link to={routes.QUIZ_ARCHIVE} style={{ textDecoration: 'none'}}>
