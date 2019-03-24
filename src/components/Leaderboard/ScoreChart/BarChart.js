@@ -150,7 +150,7 @@ class BarChart extends Component {
         .domain([0, maxValue])
         .range([0, width])
 
-      const colorScale = d3.scaleOrdinal(['red', 'blue', 'green'])
+      const colorScale = d3.scaleOrdinal(['blue', 'red', 'green'])
 
       chart.selectAll('.bar')
         .data(data)

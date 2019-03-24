@@ -11,6 +11,7 @@ import Button from '@material-ui/core/Button';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import AppBar from '@material-ui/core/AppBar';
+import Toolbar from '@material-ui/core/Toolbar';
 
 import * as routes from '../../constants/routes';
 
@@ -40,11 +41,22 @@ class Leaderboard extends Component {
     this.setState({ ranking })
   }
   render() {
+    // background: -webkit-linear-gradient(top, #8f6B29, #FDE08D, #DF9F28);
+    // background: linear-gradient(top, #8f6B29, #FDE08D, #DF9F28);
+    // -webkit-background-clip: text;
+    // -webkit-text-fill-color: transparent;
     return (
+      <>
+        <AppBar position="static" className="leaderboard-appbar" style={{ marginTop: '8vh', backgroundColor: '#FFDF00', color: 'black'}}>
+          <Toolbar>
+            win this monayyyyyy
+          </Toolbar>
+        </AppBar>
         <Paper className="leaderboard">
           <Helmet>
             <title>Leaderboard | politIQ</title>
           </Helmet>
+
           <MediaQuery minWidth={416}>
             <div style={{ display: 'flex', justifyContent: 'space-between', width: 'auto'}}>
               <Link to={routes.HOME} style={{ textDecoration: 'none', float: 'left', marginTop: 'auto', marginBottom: 'auto'}}>
@@ -87,6 +99,7 @@ class Leaderboard extends Component {
             <HighestScore timeFrame={this.state.value === 0 ? "week" : "month"}/>
           </div>
           </Paper>
+        </>
       )
   }
 }
