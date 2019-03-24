@@ -11,6 +11,7 @@ import Button from '@material-ui/core/Button';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import AppBar from '@material-ui/core/AppBar';
+import Toolbar from '@material-ui/core/Toolbar';
 
 import * as routes from '../../constants/routes';
 
@@ -40,11 +41,22 @@ class Leaderboard extends Component {
     this.setState({ ranking })
   }
   render() {
+    // background: -webkit-linear-gradient(top, #8f6B29, #FDE08D, #DF9F28);
+    // background: linear-gradient(top, #8f6B29, #FDE08D, #DF9F28);
+    // -webkit-background-clip: text;
+    // -webkit-text-fill-color: transparent;
     return (
+      <>
+        <AppBar position="static" className="leaderboard-appbar" style={{ marginTop: '8vh', background: 'linear-gradient(45deg, rgba(239,188,77,1) 0%, rgba(239,188,77,1) 24%, rgba(244,207,126,1) 50%, rgba(255,244,219,1) 100%)', color: 'black'}}>
+          <Toolbar style={{ fontWeight: 'bold', color: 'rgba(45, 45, 45, 0.80)' }}>
+            Keep playing to boost your politIQ and have a chance to win this month's jackpot of $100!
+          </Toolbar>
+        </AppBar>
         <Paper className="leaderboard">
           <Helmet>
             <title>Leaderboard | politIQ</title>
           </Helmet>
+
           <MediaQuery minWidth={416}>
             <div style={{ display: 'flex', justifyContent: 'space-between', width: 'auto'}}>
               <Link to={routes.HOME} style={{ textDecoration: 'none', float: 'left', marginTop: 'auto', marginBottom: 'auto'}}>
@@ -87,6 +99,7 @@ class Leaderboard extends Component {
             <HighestScore timeFrame={this.state.value === 0 ? "week" : "month"}/>
           </div>
           </Paper>
+        </>
       )
   }
 }
