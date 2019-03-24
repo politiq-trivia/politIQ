@@ -295,11 +295,28 @@ class NavigationNonAuth extends Component {
       <div className={styles.root}>
         <AppBar position="fixed" className={styles.appBar}>
           <Toolbar>
-            <Link to={routes.LANDING} style={{ textDecoration: 'none'}}>
+            <Link to={routes.LANDING} style={{ textDecoration: 'none' }}>
               <img src={Logo} alt="PolitIQ" style={{ height: '7vh', marginTop: '3px'}}/>
             </Link>
-            <div>
-              <SwipeableDrawer
+            <div style={{ width: '100%' }}>
+
+              <Link to={routes.SIGN_UP} style={{ textDecoration: 'none', marginLeft: 'auto', marginRight: '0', color: 'white', float: 'right'}}>
+                <Button
+                  aria-haspopup='true'
+                  color="inherit"
+                >
+                  Sign Up
+                </Button>
+              </Link>
+              <Link to={routes.ABOUT} style={{ textDecoration: 'none', marginLeft: 'auto', marginRight: '0', color: 'white', float: 'right'}}>
+                <Button
+                  aria-haspopup='true'
+                  color="inherit"
+                >
+                  About
+                </Button>
+              </Link>
+              {/* <SwipeableDrawer
                 classes={{ paper: styles.drawerPaper }}
                 id="menu-appbar"
                 anchororigin={{ vertical: 'top', horizontal: 'right' }}
@@ -318,19 +335,12 @@ class NavigationNonAuth extends Component {
                 >
                   {fullList}
                 </div>
-              </SwipeableDrawer>
+              </SwipeableDrawer> */}
             </div>
-            <Link to={routes.SIGN_IN} style={{ textDecoration: 'none', marginLeft: 'auto', marginRight: '0', color: 'white'}}>
-              <Button
-                aria-haspopup='true'
-                color="inherit"
-              >
-                Login
-              </Button>
-            </Link>
-            <IconButton aria-label="Menu" color="inherit" onClick={this.toggleDrawer('top', true)}>
+
+            {/* <IconButton aria-label="Menu" color="inherit" onClick={this.toggleDrawer('top', true)}>
               <MenuIcon />
-            </IconButton>
+            </IconButton> */}
           </Toolbar>
         </AppBar>
       </div>

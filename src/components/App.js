@@ -46,6 +46,13 @@ const theme = createMuiTheme({
       main: '#FFDF00'
     }
   },
+  overrides: {
+    MuiTooltip: {
+      tooltip: {
+        fontSize: "1em",
+      }
+    }
+  }
 });
 
 class App extends Component {

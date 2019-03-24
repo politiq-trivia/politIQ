@@ -45,7 +45,8 @@ const INITIAL_STATE = {
   bio: '',
   error: null, 
   consent: false,
-  tooltipOpen: false,
+  tooltip1Open: false,
+  tooltip2Open: false,
 };
 
 const affiliations = [
@@ -77,6 +78,10 @@ const ERROR_MSG_ACCOUNT_EXISTS = `
 const affiliationText = `
 Poltical ID is required in order to contribute to your political party's average team score, which is represented on the leaderboard page.
 You may change this on your profile at any time.
+`
+
+const emailText = `
+  Email address is required so that we can contact you if you win the politIQ jackpot - no spam. 
 `
 
 class SignUpFormBase extends Component {
@@ -153,9 +158,27 @@ class SignUpFormBase extends Component {
     })
   }
 
-  handleTooltipClick = () => {
+  handleTooltip1Open = () => {
     this.setState({
-      tooltipOpen: !this.state.tooltipOpen,
+      tooltip1Open: true,
+    })
+  }
+
+  handleTooltip1Close = () => {
+    this.setState({
+      tooltip1Open: false,
+    })
+  }
+
+  handleTooltip2Open = () => {
+    this.setState({
+      tooltip2Open: true,
+    })
+  }
+
+  handleTooltip2Close = () => {
+    this.setState({
+      tooltip2Open: false,
     })
   }
 
@@ -196,6 +219,11 @@ class SignUpFormBase extends Component {
           type="email"
           placeholder = "Email Address"
         />
+        <ClickAwayListener onClickAway={this.handleTooltip1Close}>
+          <Tooltip title={emailText} placement="left-start" onClose={this.handleTooltip1Close} open={this.state.tooltip1Open} disableFocusListener disableHoverListener disableTouchListener>
+            <FormHelperText style={{ marginTop: '0', float: 'right'}}><Help onClick={this.handleTooltip1Open} color='primary' style={{ width: '0.6em'}}/></FormHelperText>
+          </Tooltip>
+        </ClickAwayListener>
         <TextField
           margin="normal"
           fullWidth
@@ -203,6 +231,7 @@ class SignUpFormBase extends Component {
           onChange={event => this.setState(byPropKey('passwordOne', event.target.value ))}
           type="password"
           placeholder = "Password"
+          style={{ marginTop: '0' }}
         />
         <TextField
           margin="normal"
@@ -228,9 +257,9 @@ class SignUpFormBase extends Component {
         </TextField>
         <div style={{ display: 'flex', justifyContent: 'space-between'}}>
           <FormHelperText>Affiliation will not be shared publicly.</FormHelperText>
-          <ClickAwayListener onClickAway={this.handleTooltipClick}>
-            <Tooltip title={affiliationText} placement="left-start" onClose={this.handleTooltipClick} open={this.state.tooltipOpen} disableFocusListener disableTouchListener>
-              <FormHelperText style={{ marginTop: '0'}}><Help onClick={this.handleTooltipClick} color='primary' style={{ width: '0.6em'}}/></FormHelperText>
+          <ClickAwayListener onClickAway={this.handleTooltip2Close}>
+            <Tooltip title={affiliationText} placement="left-start" onClose={this.handleTooltip2Close} open={this.state.tooltip2Open} disableFocusListener disableHoverListener disableTouchListener>
+              <FormHelperText style={{ marginTop: '0'}}><Help onClick={this.handleTooltip2Open} color='primary' style={{ width: '0.6em'}}/></FormHelperText>
             </Tooltip>
           </ClickAwayListener>
 
