@@ -42,7 +42,17 @@ const theme = createMuiTheme({
     secondary: {
       main:'#000000'
     },
+    default: {
+      main: '#FFDF00'
+    }
   },
+  overrides: {
+    MuiTooltip: {
+      tooltip: {
+        fontSize: "1em",
+      }
+    }
+  }
 });
 
 class App extends Component {

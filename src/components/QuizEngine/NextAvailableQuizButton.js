@@ -24,6 +24,7 @@ class NextAvailableQuizButton extends Component {
                 // console.log(response.val())
                 const data = response.val()
                 const quizDates = Object.keys(data);
+                console.log(quizDates, 'this is quizDates')
                 const url = window.location.pathname
                 const currentQuizDate = url.slice(6,22)
                 const currentDateIndex = quizDates.indexOf(currentQuizDate)

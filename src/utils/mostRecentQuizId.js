@@ -24,7 +24,11 @@ const getMostRecentQuizIdForUser = async () => {
         .then(response => {
             const data = response.val();
             const allDates = Object.keys(data);
-            const dateArray = allDates.filter(date => date < moment().format('YYYY-MM-DDTHH:mm'))
+            const dateArray = allDates.filter(date => date < moment().format('YYYY-MM-DDTHH:mm') && date > moment().startOf('month').format('YYYY-MM-DDTHH:mm'))
+            if (dateArray.length === 0) {
+                const id = "No Available Quizzes";
+                return id;
+            }
             let counter = 1;
             let mostRecent = dateArray[dateArray.length-counter]
             if (scoreData) {
@@ -48,6 +52,7 @@ const getMostRecentQuizIdForUser = async () => {
                 return id;
             }
         })
+
     return quizId;
 }
 

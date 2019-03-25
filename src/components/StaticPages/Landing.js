@@ -44,8 +44,8 @@ const LandingPage = () =>
         </div>
         <div className="icon-div">
           <i className="fas fa-gift icon"></i>
-          <h6>Monthly Challenge</h6>
-          <p>Players with highest scores eligible to compete in challenge for cash prize!</p>
+          <h6>Get Awarded</h6>
+          <p>Players with highest scores eligible to compete in monthly challenge for cash prize!</p>
         </div>
       </div>
 

@@ -69,6 +69,7 @@ class NavigationAuth extends Component {
       top: false,
       mostRecentQuizURL: "",
       isAdmin: false,
+      noQuizzes: false,
     };
   }
 
@@ -96,9 +97,15 @@ class NavigationAuth extends Component {
 
   getMostRecentQuizId = async () => {
     const quizId = await getMostRecentQuizId()
-    this.setState({
-      mostRecentQuizURL: quizId
-    })
+    if (quizId === "No Available Quizzes") {
+      this.setState({
+        noQuizzes: true,
+      })
+    } else {
+      this.setState({
+        mostRecentQuizURL: quizId
+      })
+    }
   }
 
   signOut = () => {
@@ -124,8 +131,8 @@ class NavigationAuth extends Component {
                 </Link>
                 : null }
                 <Link to={this.state.mostRecentQuizURL} style={{ textDecoration: 'none'}}>
-                  <ListItem button>
-                    <ListItemText primary="Play Game" />
+                  <ListItem button disabled={this.state.noQuizzes}>
+                    <ListItemText primary={this.state.noQuizzes ? "No Available Quizzes" : "Play Game"} />
                   </ListItem>
                 </Link>
                 <Link to={routes.QUIZ_ARCHIVE} style={{ textDecoration: 'none'}}>
@@ -163,8 +170,8 @@ class NavigationAuth extends Component {
                 </Link>
                 : null }
                 <Link to={this.state.mostRecentQuizURL} style={{ textDecoration: 'none'}}>
-                  <ListItem button>
-                    <ListItemText primary="Play Game" />
+                  <ListItem button disabled={this.state.noQuizzes}>
+                    <ListItemText primary={this.state.noQuizzes ? "No Available Quizzes" : "Play Game"} />
                   </ListItem>
                 </Link>
                 <Link to={routes.QUIZ_ARCHIVE} style={{ textDecoration: 'none'}}>
@@ -295,11 +302,28 @@ class NavigationNonAuth extends Component {
       <div className={styles.root}>
         <AppBar position="fixed" className={styles.appBar}>
           <Toolbar>
-            <Link to={routes.LANDING} style={{ textDecoration: 'none'}}>
+            <Link to={routes.LANDING} style={{ textDecoration: 'none' }}>
               <img src={Logo} alt="PolitIQ" style={{ height: '7vh', marginTop: '3px'}}/>
             </Link>
-            <div>
-              <SwipeableDrawer
+            <div style={{ width: '100%' }}>
+
+              <Link to={routes.SIGN_UP} style={{ textDecoration: 'none', marginLeft: 'auto', marginRight: '0', color: 'white', float: 'right'}}>
+                <Button
+                  aria-haspopup='true'
+                  color="inherit"
+                >
+                  Sign Up
+                </Button>
+              </Link>
+              <Link to={routes.ABOUT} style={{ textDecoration: 'none', marginLeft: 'auto', marginRight: '0', color: 'white', float: 'right'}}>
+                <Button
+                  aria-haspopup='true'
+                  color="inherit"
+                >
+                  About
+                </Button>
+              </Link>
+              {/* <SwipeableDrawer
                 classes={{ paper: styles.drawerPaper }}
                 id="menu-appbar"
                 anchororigin={{ vertical: 'top', horizontal: 'right' }}
@@ -318,19 +342,12 @@ class NavigationNonAuth extends Component {
                 >
                   {fullList}
                 </div>
-              </SwipeableDrawer>
+              </SwipeableDrawer> */}
             </div>
-            <Link to={routes.SIGN_IN} style={{ textDecoration: 'none', marginLeft: 'auto', marginRight: '0', color: 'white'}}>
-              <Button
-                aria-haspopup='true'
-                color="inherit"
-              >
-                Login
-              </Button>
-            </Link>
-            <IconButton aria-label="Menu" color="inherit" onClick={this.toggleDrawer('top', true)}>
+
+            {/* <IconButton aria-label="Menu" color="inherit" onClick={this.toggleDrawer('top', true)}>
               <MenuIcon />
-            </IconButton>
+            </IconButton> */}
           </Toolbar>
         </AppBar>
       </div>
