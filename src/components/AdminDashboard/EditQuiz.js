@@ -27,7 +27,6 @@ class EditQuiz extends Component {
 
   componentDidMount = () => {
     const quiz = this.props.quiz;
-    console.log(quiz, 'this is quiz')
     const quizQs = Object.keys(quiz);
     quizQs.pop();
     const quizLength = quizQs.length;
@@ -80,7 +79,6 @@ class EditQuiz extends Component {
       quizArray = [...result]
     }
 
-    console.log(this.state.quiz, 'quiz')
     const renderQs = quizArray.map((q, i) => {
       return (
         <FormControl key={i} id={q[0]} style={{ display: 'block'}}>
