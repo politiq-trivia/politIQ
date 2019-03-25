@@ -12,12 +12,6 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Button from '@material-ui/core/Button';
 import Avatar from '@material-ui/core/Avatar';
-import { withStyles } from '@material-ui/core/styles';
-
-import deepOrange from '@material-ui/core/colors/deepOrange';
-import deepPurple from '@material-ui/core/colors/deepPurple';
-import pink from '@material-ui/core/colors/pink';
-import green from '@material-ui/core/colors/green';
 
 import UserRank from './UserRank';
 import getMostRecentQuizId from '../../utils/mostRecentQuizId';
