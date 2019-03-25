@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import MediaQuery from 'react-responsive';
 import ReactCountdownClock from 'react-countdown-clock';
-import Scroll from 'react-scroll-to-element';
 
 import Button from '@material-ui/core/Button';
 import FormControl from '@material-ui/core/FormControl';
@@ -31,7 +30,6 @@ class Question extends Component {
     }
 
     componentDidUpdate() {
-        // console.log(this.props.myRef.cur)
         if(this.props.myRef.current !== null) {
             window.scrollTo({
                 left: 0, 
@@ -45,8 +43,6 @@ class Question extends Component {
                 behavior: 'smooth',
             })
         }
-        // this.scrollToMyRef()
-        // console.log(this.props.myRef, 'my ref')
     }
 
     openNewTab = () => {
@@ -110,7 +106,6 @@ class Question extends Component {
                         />
                         } label={a2text} />
                     </Paper>
-                    {/* <hr width="100%" ref={this.props.innerRef}/> */}
                     <Paper style={{ marginTop: '2vh', backgroundColor: backgroundColor("3")}} id="3" onClick={ wrong === null ? handleSubmit : null } className="answer">
                         <FormControlLabel value={a3text} id="3" control={
                         <Radio
@@ -127,7 +122,6 @@ class Question extends Component {
                 <div>
                 {wrong === true
                     ? 
-                    // <Scroll type="id" element="explanation" >
                         <div style={{ marginTop: '3vh'}} id="explanation"ref={this.props.myRef}>
                             <h3 style={{ color: 'red', display: 'inline', marginRight: '1vw'}}>INCORRECT</h3>
                             <p style={{ display: 'inline'}}>The correct answer was <span style={{ color: 'green' }}>{correctAnswer}</span>.</p>
@@ -135,18 +129,15 @@ class Question extends Component {
                             <Button variant="contained" color="primary" onClick={nextQ} style={{ display: 'block', marginBottom: '2vh'}}>Continue</Button>
                             <Button variant="contained" onClick={this.openNewTab}>Contest This Question</Button>
                         </div>
-                    // </Scroll>
                     : null 
                 }
                 { wrong === false
                     ? 
-                    // <Scroll type="id" element="explanation">
                         <div style={{ marginTop: '3vh'}} id="explanation" ref={this.props.myRef}>
                             <h3 style={{ color: 'green'}}>CORRECT</h3>
                             <p>{answerExplanation}</p>
                             <Button variant="contained" color="primary" onClick={nextQ} style={{ display: 'block', marginBottom: '2vh'}}>Continue</Button>
                         </div>
-                    // </Scroll>
                     : null
                 }
                 </div>

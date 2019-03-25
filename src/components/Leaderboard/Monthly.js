@@ -11,6 +11,13 @@ import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Button from '@material-ui/core/Button';
+import Avatar from '@material-ui/core/Avatar';
+import { withStyles } from '@material-ui/core/styles';
+
+import deepOrange from '@material-ui/core/colors/deepOrange';
+import deepPurple from '@material-ui/core/colors/deepPurple';
+import pink from '@material-ui/core/colors/pink';
+import green from '@material-ui/core/colors/green';
 
 import UserRank from './UserRank';
 import getMostRecentQuizId from '../../utils/mostRecentQuizId';
@@ -120,7 +127,6 @@ class MonthlyLeaderboard extends Component {
   }
 
   render() {
-
     let rankingArray = [];
     if (Array.isArray(this.state.rankedScores)) {
       const ranking = this.state.rankedScores;
@@ -132,10 +138,17 @@ class MonthlyLeaderboard extends Component {
 
     const renderMonthlyLeaders = rankingArray.map((stat, i) => {
       if (i >= 10) { return null; }
+      let avatarSrc;
+      const colorArray = ["#f44336", "#e91e63", "#9c27b0", "#3f51b5", "#2196f3", "#4caf50", "#8bc34a", "#cddc39", "#ffeb3b", "#ffc107", "#ff9800"]
+      const random = Math.floor(Math.random() * colorArray.length)
+
       return (
         <TableRow key={i} hover onClick={() => this.handleClickUser(stat[2])}>
-          <TableCell style={{ width: '30%'}} padding="default">
+          <TableCell style={{ width: '10%'}} padding="default">
             {i + 1}.
+          </TableCell>
+          <TableCell style={{ width: '10%' }}>
+            <Avatar style={{ backgroundColor: colorArray[random] }} >{stat[0][0]}</Avatar>
           </TableCell>
           <TableCell style={{ width: '40%'}} padding="none">
             {stat[0]}
@@ -159,6 +172,8 @@ class MonthlyLeaderboard extends Component {
               <TableRow>
                 <TableCell style={{ minWidth: '30px'}} padding="default">
                   Ranking
+                </TableCell>
+                <TableCell>
                 </TableCell>
                 <TableCell style={{ minWidth: '50px'}} padding="none">
                   User
