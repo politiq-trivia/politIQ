@@ -38,12 +38,6 @@ const isFixed = () => {
 
 }
 
-
-// let mostRecentQuizURL;
-
-
-
-
 class Footer extends Component {
   constructor(props) {
     super(props);

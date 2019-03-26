@@ -38,6 +38,7 @@ class Quiz extends PureComponent {
       uid: "",
       clicked: false,
     }
+    this.myRef=React.createRef();
   }
 
 
@@ -163,6 +164,7 @@ class Quiz extends PureComponent {
           currentQ={this.state.currentQ}
           checkCorrect={this.checkCorrect}
           clicked={this.state.clicked}
+          myRef={this.myRef}
         />
       )
     } else if (this.state.finished === true && this.state.contestQuestion === true) {

@@ -29,6 +29,22 @@ class Question extends Component {
         }
     }
 
+    componentDidUpdate() {
+        if(this.props.myRef.current !== null) {
+            window.scrollTo({
+                left: 0, 
+                top:this.props.myRef.current.offsetTop,
+                behavior: 'smooth'
+            })
+        } else {
+            window.scrollTo({
+                top: 0,
+                left: 0,
+                behavior: 'smooth',
+            })
+        }
+    }
+
     openNewTab = () => {
         const newState = this.props.state;
         newState.contestQuestion = true;
@@ -37,6 +53,8 @@ class Question extends Component {
         const url = 'quiz/' + this.props.quizID
         window.open(`/${url}`);
     }
+
+    scrollToMyRef = () => window.scrollTo(0, this.props.myRef.offsetTop)
 
     render() {
         const { questionObj, qNum, handleSubmit, selectedValue, nextQ, correctAnswer, wrong, clicked } = this.props;
@@ -88,7 +106,6 @@ class Question extends Component {
                         />
                         } label={a2text} />
                     </Paper>
-                    {/* <hr width="100%" ref={this.props.innerRef}/> */}
                     <Paper style={{ marginTop: '2vh', backgroundColor: backgroundColor("3")}} id="3" onClick={ wrong === null ? handleSubmit : null } className="answer">
                         <FormControlLabel value={a3text} id="3" control={
                         <Radio
@@ -102,31 +119,32 @@ class Question extends Component {
                     </Paper>
 
                 </RadioGroup>
-
                 <div>
                 {wrong === true
-                    ? <div style={{ marginTop: '3vh'}}>
-                        <h3 style={{ color: 'red', display: 'inline', marginRight: '1vw'}}>INCORRECT</h3>
-                        <p style={{ display: 'inline'}}>The correct answer was <span style={{ color: 'green' }}>{correctAnswer}</span>.</p>
-                        <p>{answerExplanation}</p>
-                        <Button variant="contained" color="primary" onClick={nextQ} style={{ display: 'block', marginBottom: '2vh'}}>Continue</Button>
-                        <Button variant="contained" onClick={this.openNewTab}>Contest This Question</Button>
-                    </div>
+                    ? 
+                        <div style={{ marginTop: '3vh'}} id="explanation"ref={this.props.myRef}>
+                            <h3 style={{ color: 'red', display: 'inline', marginRight: '1vw'}}>INCORRECT</h3>
+                            <p style={{ display: 'inline'}}>The correct answer was <span style={{ color: 'green' }}>{correctAnswer}</span>.</p>
+                            <p>{answerExplanation}</p>
+                            <Button variant="contained" color="primary" onClick={nextQ} style={{ display: 'block', marginBottom: '2vh'}}>Continue</Button>
+                            <Button variant="contained" onClick={this.openNewTab}>Contest This Question</Button>
+                        </div>
                     : null 
                 }
                 { wrong === false
-                    ? <div style={{ marginTop: '3vh'}}>
-                        <h3 style={{ color: 'green'}}>CORRECT</h3>
-                        <p>{answerExplanation}</p>
-                        <Button variant="contained" color="primary" onClick={nextQ} style={{ display: 'block', marginBottom: '2vh'}}>Continue</Button>
-                    </div>
+                    ? 
+                        <div style={{ marginTop: '3vh'}} id="explanation" ref={this.props.myRef}>
+                            <h3 style={{ color: 'green'}}>CORRECT</h3>
+                            <p>{answerExplanation}</p>
+                            <Button variant="contained" color="primary" onClick={nextQ} style={{ display: 'block', marginBottom: '2vh'}}>Continue</Button>
+                        </div>
                     : null
                 }
                 </div>
 
                 <MediaQuery maxWidth={415}>
-                        <div className={clicked ? 'dontShowClock' : 'showClock'} style={{ marginLeft: 'auto', marginRight: 'auto', marginTop: '4vh' }} >
-                            <ReactCountdownClock key={this.props.currentQ} seconds={60} size={60} color="#a54ee8" alpha={0.9} onComplete={() => this.props.checkCorrect()} paused={this.state.clicked}/>
+                        <div className={clicked ? 'dontShowClock' : 'showClock'} style={{ marginLeft: '43%', marginRight: 'auto', marginTop: '4vh', width: '21%' }} >
+                            <ReactCountdownClock key={this.props.currentQ} seconds={60} size={60} color="#a54ee8" style={{ marginLeft: 'auto', marginRight: 'auto' }} alpha={0.9} onComplete={() => this.props.checkCorrect()} paused={this.state.clicked}/>
                         </div>
                 </MediaQuery>
                 </FormControl>

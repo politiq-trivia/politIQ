@@ -268,36 +268,6 @@ class NavigationNonAuth extends Component {
   }
 
   render() {
-    const playLink = () => {
-      if (this.state.mostRecentQuizURL) {
-        return (
-          <Link to={this.state.mostRecentQuizURL} style={{ textDecoration: 'none'}}>
-            <ListItem button>
-              <ListItemText primary="Play Game" />
-            </ListItem>
-          </Link>
-        )
-      }
-    }
-
-    const fullList = (
-      <div>
-        <List component="nav">
-          <Link to={routes.SIGN_IN} style={{ textDecoration: 'none'}}>
-            <ListItem button>
-              <ListItemText primary="Sign In" />
-            </ListItem>
-          </Link>
-          {playLink()}
-          <Link to={routes.ABOUT} style={{ textDecoration: 'none' }}>
-            <ListItem button>
-              <ListItemText primary="About" />
-            </ListItem>
-          </Link>
-        </List>
-      </div>
-    );
-
     return (
       <div className={styles.root}>
         <AppBar position="fixed" className={styles.appBar}>
@@ -323,31 +293,7 @@ class NavigationNonAuth extends Component {
                   About
                 </Button>
               </Link>
-              {/* <SwipeableDrawer
-                classes={{ paper: styles.drawerPaper }}
-                id="menu-appbar"
-                anchororigin={{ vertical: 'top', horizontal: 'right' }}
-                transformorigin={{ vertical: 'top', horizontal: 'right' }}
-                onClose={this.toggleDrawer('top', false )}
-                anchor="top"
-                open={this.state.top}
-                onOpen={this.toggleDrawer('top', true )}
-                style={{ marginTop: '1vh' }}
-              >
-                <div
-                  tabIndex={0}
-                  role="button"
-                  onClick={this.toggleDrawer('top', false )}
-                  onKeyDown={this.toggleDrawer('top', false )}
-                >
-                  {fullList}
-                </div>
-              </SwipeableDrawer> */}
             </div>
-
-            {/* <IconButton aria-label="Menu" color="inherit" onClick={this.toggleDrawer('top', true)}>
-              <MenuIcon />
-            </IconButton> */}
           </Toolbar>
         </AppBar>
       </div>

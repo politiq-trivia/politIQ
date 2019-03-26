@@ -26,7 +26,9 @@ class TodaysQuizButton extends Component {
             this.setState({
                 noAvailableQuizzes: true,
             })
-            this.props.showErrorMessage()
+            if (this.props.showErrorMessage) {
+                this.props.showErrorMessage()
+            }
         } else {
             this.setState({
                 mostRecentQuizURL: quizId

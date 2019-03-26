@@ -99,12 +99,12 @@ class QuestionForm extends Component {
   // submits the data to the firebase db and then returns the user to the admin dashboard
   handleReturn = () => {
     this.saveData();
-    const newUnixDate = parseInt((new Date(this.props.quizId).getTime() / 1000).toFixed(0) + '000')
-    if (newUnixDate < Date.now()) {
-      this.sendNotification()
-    } else {
-      this.sendDelayedNotification(newUnixDate)
-    }
+    // const newUnixDate = parseInt((new Date(this.props.quizId).getTime() / 1000).toFixed(0) + '000')
+    // if (newUnixDate < Date.now()) {
+    //   this.sendNotification()
+    // } else {
+    //   this.sendDelayedNotification(newUnixDate)
+    // }
     this.props.toggleAddQuiz()
   }
 
