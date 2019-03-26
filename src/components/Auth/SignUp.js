@@ -200,7 +200,8 @@ class SignUpFormBase extends Component {
 
   subscribeToEmailUpdates = (email) => {
     console.log('subscribe to emails called')
-    axios.post(process.env.REACT_APP_SERVER_URL + "/email-subscribe", {
+    console.log(process.env.REACT_APP_SERVER_URL + '/email-subscribe')
+    axios.post("https://politiq.herokuapp.com/email-subscribe", {
       email: email,
     })
   }
