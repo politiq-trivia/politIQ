@@ -24,9 +24,9 @@ const getQuizzes = async (timeframe) => {
             const quizDates = Object.keys(data);
             const fromSelectedRange = [];
             for (let i = 0; i < quizDates.length; i++) {
-                if (quizDates[i] > moment().startOf(timeframe).format('YYYY-MM-DD')) {
+                // if (quizDates[i] > moment().startOf(timeframe).format('YYYY-MM-DD')) {
                     fromSelectedRange.push(quizDates[i])
-                }
+                // }
             }
             quizNum = fromSelectedRange.length;
         })
@@ -43,11 +43,11 @@ const getScores = async (uid, timeframe) => {
             } else {
                 const scoreDates = Object.keys(data);
                 for (let i = 0; i < scoreDates.length; i++) {
-                    if (scoreDates[i] > moment().startOf(timeframe).format('YYYY-MM-DD')) {
+                    // if (scoreDates[i] > moment().startOf(timeframe).format('YYYY-MM-DD')) {
                         if(scoreDates[i] !== "submitted") {
                             score += data[scoreDates[i]]
                         }
-                    }
+                    // }
                 }
             }
             return score;

@@ -13,8 +13,16 @@ class HighestScore extends Component {
         }
     }
 
+    // should this update? 
     componentDidMount() {
         this.getUsersWithScores(this.props.timeFrame)
+    }
+
+    componentDidUpdate(prevProps) {
+        if(prevProps.timeFrame !== this.props.timeFrame) {
+            this.getUsersWithScores(this.props.timeFrame)
+            return true
+        } else return false;
     }
 
     calculateHighestPolitIQ = async (usernames, timeframe) => {
