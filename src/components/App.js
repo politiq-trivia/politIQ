@@ -25,6 +25,7 @@ import ReviewContestedQuestions from './AdminDashboard/ReviewContestedQuestions'
 import PublicProfile from './Profile/PublicProfile';
 import PrivacyPolicy from './StaticPages/PrivacyPolicy';
 import AddToHomescreen from './StaticPages/AddToHomescreen';
+import QuizRedirect from './QuizEngine/QuizRedirect';
 import NoMatch from './StaticPages/NoMatch';
 
 import * as routes from '../constants/routes';
@@ -165,6 +166,10 @@ class App extends Component {
                 <Route
                   exact path={routes.QUIZ}
                   render={(props) => <Quiz {...props} storeScore={this.storeScore} signedInUser={this.state.signedInUser}/>}
+                />
+                <Route
+                  exact path={routes.QUIZ_REDIRECT}
+                  component={QuizRedirect}
                 />
                 <Route
                   exact path={routes.LEADERBOARD}

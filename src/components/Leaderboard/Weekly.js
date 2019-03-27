@@ -12,6 +12,7 @@ import TableRow from '@material-ui/core/TableRow';
 import Button from '@material-ui/core/Button';
 import Avatar from '@material-ui/core/Avatar';
 
+import { getPolitIQ } from '../../utils/calculatePolitIQ';
 import UserRank from './UserRank';
 import getMostRecentQuizId from '../../utils/mostRecentQuizId';
 import loadingGif from '../../loadingGif.gif';
@@ -65,11 +66,13 @@ class WeeklyLeaderboard extends Component {
                   }
                 }
               }
+
+              let submittedScoreCounter = 0;
               if (submitted !== undefined) {
                 const dates = Object.keys(submitted)
                 for (let j = 0; j < dates.length; j++) {
                   if (dates[j].slice(10) > moment().startOf('week').format('YYYY-MM-DD')) {
-                    scoreCounter += 1
+                    submittedScoreCounter += 1
                   }
                 }
               }
@@ -81,21 +84,25 @@ class WeeklyLeaderboard extends Component {
                 }
               }
               if (scoreCounter > 0) {
-                userScores.push({
-                  username: newDisplayName(),
-                  score: scoreCounter,
-                  uid: usernames[i]
-                })
-              }
+                this.getPolitIQ(usernames[i], 'week')
+                  .then(politIQ => {
+                    userScores.push({
+                      username: newDisplayName(),
+                      score: scoreCounter,
+                      uid: usernames[i],
+                      politIQ: politIQ + submittedScoreCounter,
+                    })
 
-              const rankedScores = userScores.sort(function(a,b){
-                return a.score - b.score
-              })
-              const rankReverse = rankedScores.reverse()
-              this.setState({
-                rankedScores: rankReverse,
-                isLoaded: true,
-              })
+                    const rankedScores = userScores.sort(function(a,b){
+                      return a.score - b.score
+                    })
+                    const rankReverse = rankedScores.reverse()
+                    this.setState({
+                      rankedScores: rankReverse,
+                      isLoaded: true,
+                    })
+                  })
+              }
             })
         })
       })
@@ -117,6 +124,11 @@ class WeeklyLeaderboard extends Component {
     }
   }
 
+  getPolitIQ = async (uid, timeframe) => {
+    const politIQ = await getPolitIQ(uid, timeframe)
+    return politIQ
+  }
+
   handleClickUser = (uid) => {
     this.props.history.push(`/profile/${uid}`)
   }
@@ -130,13 +142,12 @@ class WeeklyLeaderboard extends Component {
     if (Array.isArray(this.state.rankedScores)) {
       const ranking = this.state.rankedScores;
       const result = ranking.map((stat, i) => {
-        return [stat.username, stat.score, stat.uid]
+        return [stat.username, stat.score, stat.uid, stat.politIQ]
       });
       rankingArray = [...result]
     }
     const renderWeeklyLeaders = rankingArray.map((stat, i) => {
       if (i >= 10) {return null;}
-      let avatarSrc;
       const colorArray = ["#f44336", "#e91e63", "#9c27b0", "#3f51b5", "#2196f3", "#4caf50", "#8bc34a", "#cddc39", "#ffeb3b", "#ffc107", "#ff9800"]
       const random = Math.floor(Math.random() * colorArray.length)
       return (
@@ -152,6 +163,9 @@ class WeeklyLeaderboard extends Component {
           </TableCell>
           <TableCell>
             {stat[1]}
+          </TableCell>
+          <TableCell>
+            {stat[3]}
           </TableCell>
         </TableRow>
       )
@@ -177,6 +191,9 @@ class WeeklyLeaderboard extends Component {
                 </TableCell>
                 <TableCell style={{ minWidth: '30px'}} padding="default">
                   Score
+                </TableCell>
+                <TableCell style={{ minWidth: '30px'}} padding="default">
+                  PolitIQ
                 </TableCell>
               </TableRow>
             </TableHead>

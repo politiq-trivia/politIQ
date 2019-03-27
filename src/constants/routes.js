@@ -11,6 +11,7 @@ export const ADD_TO_HOMESCREEN = '/add-to-homescreen';
 // game routes
 export const PLAY_GAME = '/play';
 export const QUIZ_ARCHIVE = '/quiz-archive';
+export const QUIZ_REDIRECT = '/quiz/quiz/:id'
 export const SUBMIT_QUESTION = '/submit-question';
 export const LEADERBOARD = '/leaderboard';
 export const ABOUT = '/about';

@@ -188,7 +188,10 @@ class BarChart extends Component {
             } else return yScale(d.score) + yScale.bandwidth() / 2
           })
         .attr('dy', (d, i) => yScale(d.party) + (yScale.bandwidth() / 2) + 6)
-        .text(d => d.score)
+        .text(d => {
+          if (d.score === 0) return null
+          else return d.score.toString().split('.')[0]
+        })
 
       const yAxis = d3.axisRight()
           .ticks(3)

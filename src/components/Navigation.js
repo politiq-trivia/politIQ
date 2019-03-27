@@ -117,6 +117,7 @@ class NavigationAuth extends Component {
 
   
   render() {
+    console.log(window.location.pathname.includes('/quiz'))
     const fullList = (
       <AuthUserContext.Consumer>
         {authUser => 
