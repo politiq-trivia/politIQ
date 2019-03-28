@@ -47,9 +47,12 @@ class Leaderboard extends Component {
     // -webkit-text-fill-color: transparent;
     return (
       <>
-        <AppBar position="static" className="leaderboard-appbar" style={{ marginTop: '8vh', background: 'linear-gradient(45deg, rgba(239,188,77,1) 0%, rgba(239,188,77,1) 24%, rgba(244,207,126,1) 50%, rgba(255,244,219,1) 100%)', color: 'black'}}>
-          <Toolbar style={{ fontWeight: 'bold', color: 'rgba(45, 45, 45, 0.80)' }}>
-            Keep playing to boost your politIQ and have a chance to win this month's jackpot of $100!
+        <AppBar position="static" className="leaderboard-appbar" style={{ marginTop: '8vh', background: 'linear-gradient(to top, rgba(239,188,77,1) 0%, rgba(239,188,77,1) 24%, rgba(244,207,126,1) 50%, rgba(255,244,219,1) 100%)', color: 'black', position: 'fixed', top: '0', zIndex: '100'}}>
+          <Toolbar style={{ fontWeight: 'bold', color: 'rgba(45, 45, 45, 0.80)', marginLeft: 'auto', marginRight: 'auto'}}>
+            {this.state.value === 0 
+              ? "Weekly leader receives $10!"
+              : "Monthly leader of each party eligible to compete for $50!"
+            }
           </Toolbar>
         </AppBar>
         <Paper className="leaderboard">
@@ -66,7 +69,7 @@ class Leaderboard extends Component {
                 <h1 style={{ margin: 'auto' }}>Leaderboard</h1>
               </div>
               <Link to={routes.QUIZ_ARCHIVE} style={{ textDecoration: 'none', float: 'right', marginTop: 'auto', marginBottom: 'auto'}}>
-                <Button variant="contained" color="primary" style={{ width: '17vw' }}>Build Your Score</Button>
+                <Button variant="contained" color="primary" style={{ width: '17vw' }}>Keep Playing</Button>
               </Link>
             </div>
           </MediaQuery>

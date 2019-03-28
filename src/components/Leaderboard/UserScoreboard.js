@@ -45,7 +45,7 @@ class UserScoreboard extends Component {
         }
 
         let submitted = [];
-        let recentSubmittedScores;
+        let recentSubmittedScores = 0;
         const quizDates = Object.keys(data)
         if (quizDates[quizDates.length -1] === 'submitted') {
           submitted = data["submitted"]
@@ -70,8 +70,12 @@ class UserScoreboard extends Component {
             recentScores.push(score)
           }
           const scores = Object.values(submitted)
-          submittedScore = scores.reduce((a, b) => a + b)
-          recentSubmittedScores = recentScores.reduce((a, b) => a + b)
+          if (scores.length !== 0) {
+            submittedScore = scores.reduce((a, b) => a + b)
+          }
+          if (recentScores.length !== 0) {
+            recentSubmittedScores = recentScores.reduce((a, b) => a + b)
+          }
         }
 
         this.setState({

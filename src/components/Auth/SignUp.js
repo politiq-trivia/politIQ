@@ -80,7 +80,7 @@ const ERROR_MSG_ACCOUNT_EXISTS = `
 
 const affiliationText = `
 Poltical ID is required in order to contribute to your political party's average team score, which is represented on the leaderboard page.
-You may change this on your profile at any time.
+It will not be viewable to other users and you may change this on your profile at any time.
 `
 
 const emailText = `
@@ -296,7 +296,7 @@ class SignUpFormBase extends Component {
             color="primary"
             style={{ display: 'inline' }}
           />
-          <p style={{ textAlign: 'left' }}>I would like to receive email communications and push notifications from politIQ.</p>
+          <p style={{ textAlign: 'left' }}>I would like to receive email communications and push notifications from politIQ when new quizzes are posted.</p>
         </div>
         <div style={{ display: 'flex'}}>
           <Checkbox 

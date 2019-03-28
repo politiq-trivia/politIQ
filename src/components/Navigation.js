@@ -150,7 +150,7 @@ class NavigationAuth extends Component {
                     <ListItemText primary="Submit A Question"/>
                   </ListItem>
                 </Link>
-                <Link to={routes.PROFILE} style={{ textDecoration: 'none'}}>
+                <Link to={`/profile/${this.state.signedInUser}`} style={{ textDecoration: 'none'}}>
                   <ListItem button>
                     <ListItemText primary="Profile" />
                   </ListItem>
@@ -184,7 +184,7 @@ class NavigationAuth extends Component {
                     <ListItemText primary="Leaderboard" />
                   </ListItem>
                 </Link>
-                <Link to={routes.PROFILE} style={{ textDecoration: 'none'}}>
+                <Link to={`/profile/${this.state.signedInUser}`} style={{ textDecoration: 'none'}}>
                   <ListItem button>
                     <ListItemText primary="Profile" />
                   </ListItem>
@@ -229,7 +229,7 @@ class NavigationAuth extends Component {
               </SwipeableDrawer>
             </div>
             <div style={{ marginLeft: 'auto', marginRight: '0' }}>
-            <Link to={routes.PROFILE} style={{ textDecoration: 'none', color: 'white'}}>
+            <Link to={`/profile/${this.state.signedInUser}`} style={{ textDecoration: 'none', color: 'white'}}>
               <IconButton
                 aria-haspopup='true'
                 color="inherit"
@@ -277,12 +277,12 @@ class NavigationNonAuth extends Component {
             </Link>
             <div style={{ width: '100%' }}>
 
-              <Link to={routes.SIGN_UP} style={{ textDecoration: 'none', marginLeft: 'auto', marginRight: '0', color: 'white', float: 'right'}}>
+              <Link to={routes.SIGN_IN} style={{ textDecoration: 'none', marginLeft: 'auto', marginRight: '0', color: 'white', float: 'right'}}>
                 <Button
                   aria-haspopup='true'
                   color="inherit"
                 >
-                  Sign Up
+                  Sign In
                 </Button>
               </Link>
               <Link to={routes.ABOUT} style={{ textDecoration: 'none', marginLeft: 'auto', marginRight: '0', color: 'white', float: 'right'}}>

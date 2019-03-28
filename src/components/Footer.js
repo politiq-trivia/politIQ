@@ -26,7 +26,7 @@ const getHref = () => {
 
 const isFixed = () => {
   const path = window.location.pathname;
-  if (path === '/profile' || path === '/review' || path === '/home' || path.includes('/quiz/')) {
+  if (path === '/profile' || path === '/review' || path === '/home') {
     return {
       position: 'fixed'
     }
@@ -87,7 +87,7 @@ class Footer extends Component {
           <h3>Quick Links</h3>
           <Link to={routes.HOME} style={{ color: 'white', textDecoration: 'none', marginTop: '1vh', display: 'block' }}>Home</Link>
           <Link to={routes.ABOUT} style={{ color: 'white', textDecoration: 'none', marginTop: '1vh', display: 'block' }}>About</Link>
-          <Link to={routes.SIGN_UP} style={{ color: 'white', textDecoration: 'none', marginTop: '1vh', display: 'block' }}>Sign Up</Link>
+          {localStorage.hasOwnProperty('authUser') ? null : <Link to={routes.SIGN_UP} style={{ color: 'white', textDecoration: 'none', marginTop: '1vh', display: 'block' }}>Sign Up</Link> }
         </div>
 
         <div className="sharing">

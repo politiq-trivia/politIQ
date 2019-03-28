@@ -11,7 +11,7 @@ import './Static.css';
 
 const LandingPage = () =>
   <Paper className="home-holder">
-    <h1 id="main">Welcome to <span id="iq">polit</span>IQ</h1>
+    <h1 id="main">Welcome to polit<span id="iq">IQ</span></h1>
     <h2 style={{ fontSize: '20px' }}>where you can answer the question... </h2>
     <h2>Are you smarter than a: <span id="rep">REPUBLICAN</span>? <span id="dem">DEMOCRAT</span>? <span id="ind">INDEPENDENT</span>?</h2>
 
