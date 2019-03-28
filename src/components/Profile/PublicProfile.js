@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { db } from '../../firebase';
 import { Helmet } from 'react-helmet';
-import { withRouter } from 'react-router-dom';
+import { withRouter, Link } from 'react-router-dom';
 import { compose } from 'recompose';
 
 import { withAuthorization, withEmailVerification } from '../Auth/index';
@@ -14,6 +14,7 @@ import UserScoreboard from '../Leaderboard/UserScoreboard';
 import PublicProfilePhoto from './PublicProfilePhoto';
 import CommentWidget from './Comment/CommentWidget';
 import './profile.css';
+import { PROFILE } from '../../constants/routes';
 
 class PublicProfile extends Component {
   constructor(props) {
@@ -28,8 +29,18 @@ class PublicProfile extends Component {
   componentDidMount = () => {
     const uid = window.location.href.split('/')[4]
     this.getUserInfo(uid)
+    const loggedInUser = JSON.parse(localStorage.getItem('authUser')).uid
+    console.log(loggedInUser)
+    let match;
+    if (uid === loggedInUser) {
+      match = true; 
+    } else {
+      match = false;
+    }
+    console.log(match)
     this.setState({
       uid,
+      match,
     })
   }
 
@@ -57,6 +68,10 @@ class PublicProfile extends Component {
     })
   }
 
+  editProfile = () => {
+    this.props.history.push('/profile')
+  }
+
   render () {
     // get the username to display correctly in the helmet
     let displayName;
@@ -81,9 +96,21 @@ class PublicProfile extends Component {
             </Helmet>
             <div className="public-profile">
               <div className="public-profile-top">
-                <Button className="back-button" onClick={this.props.history.goBack}>Back</Button>
-
+                <div style={{ display: 'flex', justifyContent: 'space-between' }} >
+                  <Button className="back-button" onClick={this.props.history.goBack}>Back</Button>
+                  {this.state.match 
+                  ?
+                    // ? <Link to={PROFILE} style={{ textDecoration: 'none', alignSelf: 'flex-end', width: '16vw', display: 'inline-flex' }}>
+                        <Button className="back-button" onClick={this.editProfile}>Edit My Profile</Button>
+                      // </Link>
+                    : null
+                  }
+                </div>
                 <PublicProfilePhoto uid={this.state.uid}/>
+
+
+
+
               </div>
 
               <h1>{this.state.userData.displayName}</h1>

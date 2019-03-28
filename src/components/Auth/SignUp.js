@@ -26,16 +26,39 @@ import './Auth.css';
 
 import FacebookAuth from './FacebookAuth'
 
-const SignUpPage = ({ history, getSignedInUser, scoreObject }) =>
-  <Paper className="authCard signUp">
-    <Helmet>
-      <title>Sign Up | politIQ</title>
-    </Helmet>
-    <h1>Sign Up</h1>
-    <SignUpForm history={history} getSignedInUser={getSignedInUser} scoreObject={scoreObject}/>
-    <FacebookAuth getSignedInUser={getSignedInUser}history={history} scoreObject={scoreObject} />
-    <SignInLink />
-  </Paper>
+class SignUpPage extends Component { 
+  constructor(props) {
+    super(props)
+    this.state = {
+      error: false,
+    }
+  }
+
+  fbError = () => {
+    this.setState({
+      error: true,
+    })
+  }
+
+  render() {
+    const { history, getSignedInUser, scoreObject} = this.props
+    return (
+      <Paper className="authCard signUp">
+      <Helmet>
+        <title>Sign Up | politIQ</title>
+      </Helmet>
+      <h1>Sign Up</h1>
+      {this.state.error 
+        ? <p style={{ color: 'red' }}>An error occurred during the Facebook authentication. Please try a different authentication method.</p>
+        : null
+      }
+      <SignUpForm history={history} getSignedInUser={getSignedInUser} scoreObject={scoreObject}/>
+      <FacebookAuth getSignedInUser={getSignedInUser}history={history} scoreObject={scoreObject} fbError={this.fbError}/>
+      <SignInLink />
+    </Paper>
+    )
+  }
+}
 
 const INITIAL_STATE = {
   username: '',
@@ -227,21 +250,27 @@ class SignUpFormBase extends Component {
 
     return (
       <form onSubmit={this.onSubmit}>
+        <p style={{ fontSize: '12px', textAlign: 'left' }}>* indicates a required field</p>
+
         <TextField
           margin="normal"
           fullWidth
+          required
+          id="standard-required"
           value={username}
           onChange={event => this.setState(byPropKey('username', event.target.value ))}
           type="text"
-          placeholder = "Display Name"
+          label="Display Name"
+          style={{ marginTop: '0' }}
         />
         <TextField
           margin="normal"
           fullWidth
+          required
           value={email}
           onChange={event => this.setState(byPropKey('email', event.target.value ))}
           type="email"
-          placeholder = "Email Address"
+          label="Email Address"
         />
         <ClickAwayListener onClickAway={this.handleTooltip1Close}>
           <Tooltip title={emailText} placement="left-start" onClose={this.handleTooltip1Close} open={this.state.tooltip1Open} disableFocusListener disableHoverListener disableTouchListener>
@@ -251,22 +280,25 @@ class SignUpFormBase extends Component {
         <TextField
           margin="normal"
           fullWidth
+          required
           value={passwordOne}
           onChange={event => this.setState(byPropKey('passwordOne', event.target.value ))}
           type="password"
-          placeholder = "Password"
+          label="Password"
           style={{ marginTop: '0' }}
         />
         <TextField
           margin="normal"
           fullWidth
+          required
           value={passwordTwo}
           onChange={event => this.setState(byPropKey('passwordTwo', event.target.value ))}
           type="password"
-          placeholder = "Confirm Password"
+          label="Confirm Password"
         />
         <TextField
           select
+          required
           label="Political Affiliation"
           value={this.state.affiliation}
           onChange={event => this.setState(byPropKey('affiliation', event.target.value))}
@@ -306,7 +338,7 @@ class SignUpFormBase extends Component {
             color="primary"
             style={{ display: 'inline'}}
           />
-          <p style={{ textAlign: 'left' }}>I have read and agree to the <Link to={'/privacy-policy'} target="_blank">PolitIQ Privacy Policy and Terms of Serivce.</Link></p>  
+          <p style={{ textAlign: 'left' }}>I have read and agree to the <Link to={'/privacy-policy'} target="_blank">PolitIQ Privacy Policy and Terms of Serivce.</Link> *</p>  
         </div>
 
         <Button disabled={isInvalid} type="submit" variant="contained" color="primary" style={{ marginTop: '4vh'}}>

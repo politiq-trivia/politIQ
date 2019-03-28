@@ -176,7 +176,11 @@
 .back-button {
   align-self: flex-start;
   margin-top: 1vh !important;
-  margin-right: 2vw !important;
+  margin-right: 3vw !important;
+}
+
+.edit-profile {
+  align-self: flex-end;
 }
 
 @media screen and (max-width: 415px) {

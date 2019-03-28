@@ -91,6 +91,7 @@ class FacebookAuth extends Component {
         console.error(error.message)
         this.setState({ error })
       }
+      this.props.fbError()
     })
   }
 
