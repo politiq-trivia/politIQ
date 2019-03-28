@@ -243,7 +243,6 @@ export const getQBank = () => {
 }
 
 export const removeFromQBank = (date) => {
-  console.log('remove from qbank called')
   db.ref().child('qbank').child(date).remove()
 }
 

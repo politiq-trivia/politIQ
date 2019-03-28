@@ -4,10 +4,9 @@ import { db } from '../../firebase';
 
 import Select from '@material-ui/core/Select';
 import MenuItem from '@material-ui/core/MenuItem';
-import RadioGroup from '@material-ui/core/RadioGroup';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import Radio from '@material-ui/core/Radio';
 import Button from '@material-ui/core/Button';
+
+import EditQBankQs from './EditQBankQ';
 
 class QuizBankSelect extends Component {
   constructor(props) {
@@ -23,7 +22,6 @@ class QuizBankSelect extends Component {
     this.getQBankQs()
     this.setState({
       counter: this.props.counter,
-      // qBank: this.props.qBank
     })
   }
 
@@ -53,10 +51,8 @@ class QuizBankSelect extends Component {
     this.props.toggleAddQuiz()
   }
 
-  saveData = () => {
+  saveData = (q) => {
     db.removeFromQBank(this.state.selectedQ)
-    // const qId = this.state.selectedQ.substring(0,10)
-    const q = this.state.qBank[this.state.selectedQ]
     db.addQuestion(
         this.props.quizId,
         this.state.counter,
@@ -67,21 +63,20 @@ class QuizBankSelect extends Component {
         q["a2correct"],
         q["a3text"],
         q["a3correct"],
-        q["a4text"],
-        q["a4correct"],
+        q["answerExplanation"]
     )
   }
 
   // submits the data and prompts you toa dd another question
-  handleSubmit = () => {
+  handleSubmit = (q) => {
     this.props.incrementCounter()
-    this.saveData()
+    this.saveData(q)
     this.props.goBack()
   }
 
   // submits the data to the db and then returns the user to the admin dashboard
-  handleReturn = () => {
-    this.saveData()
+  handleReturn = (q) => {
+    this.saveData(q)
     this.props.toggleAddQuiz()
   }
 
@@ -89,31 +84,7 @@ class QuizBankSelect extends Component {
     const q = this.state.qBank[this.state.selectedQ]
     if (this.state.selectedQ) {
       return (
-        <div>
-          <RadioGroup inputref={null}>
-            <div style={{ display: 'flex'}}>
-              <FormControlLabel value={q["a1text"]} control={<Radio />} label={q["a1text"]}/>
-              {q["a1correct"] ? <p style={{ color: 'green'}}>Correct Answer</p> : null }
-            </div>
-            <div style={{ display: 'flex'}}>
-              <FormControlLabel value={q["a2text"]} control={<Radio />} label={q["a2text"]}/>
-              {q["a2correct"] ? <p style={{ color: 'green'}}>Correct Answer</p> : null }
-            </div>
-            <div style={{ display: 'flex'}}>
-              <FormControlLabel value={q["a3text"]} control={<Radio />} label={q["a3text"]}/>
-              {q["a3correct"] ? <p style={{ color: 'green'}}>Correct Answer</p> : null }
-            </div>
-            <div style={{ display: 'flex'}}>
-              <FormControlLabel value={q["a4text"]} control={<Radio />} label={q["a4text"]}/>
-              {q["a4correct"] ? <p style={{ color: 'green'}}>Correct Answer</p> : null }
-            </div>
-          </RadioGroup>
-          <div className="quizButtonHolder">
-            <Button variant="contained" color="primary" onClick={this.handleQuit}>Exit Without Saving</Button>
-            <Button variant="contained" color="primary" onClick={this.handleSubmit}>Save & Add New Question</Button>
-            <Button variant="contained" color="primary" onClick={this.handleReturn}>Save & Complete Quiz</Button>
-          </div>
-        </div>
+        <EditQBankQs question={this.state.qBank[this.state.selectedQ]} handleSubmit={this.handleSubmit} handleReturn={this.handleReturn} handleQuit={this.handleQuit}/>
       )
     }
 
@@ -127,7 +98,6 @@ class QuizBankSelect extends Component {
       )
     })
 
-    console.log(this.state, 'state in question bank select')
     return (
       <div>
         <Button variant="contained" color="primary" onClick={this.props.goBack} style={{ float: 'left'}}>Back</Button>

@@ -158,8 +158,8 @@ class QuizList extends Component {
                   {this.state.selected.length > 0 ? (
                     <div>
                       <Tooltip title="Delete">
-                        <IconButton aria-label="Delete">
-                          <DeleteIcon onClick={this.props.toggleDeleteModal} />
+                        <IconButton aria-label="Delete" onClick={this.props.toggleDeleteModal}>
+                          <DeleteIcon  />
                         </IconButton>
                       </Tooltip>
                     </div>
