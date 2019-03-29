@@ -89,6 +89,13 @@ class NavigationAuth extends Component {
     }
   }
 
+  componentDidUpdate = () => {
+    if (window.location.href.includes('/quiz')) {
+      this.getMostRecentQuizId()
+      return true;
+    } else return false;
+  }
+
   toggleDrawer = (side, open) => () => {
     this.setState({
       [side]: open,

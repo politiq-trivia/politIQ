@@ -120,6 +120,7 @@ class Quiz extends PureComponent {
         contestQuestion: false,
         clicked: false,
       })
+      this.submitScore(this.state.score, this.state.uid)
     } else {     
         this.setState({
           currentQ: qNum,

@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
+import moment from 'moment';
 import { db } from '../../firebase';
 
 import Button from '@material-ui/core/Button';
@@ -23,8 +24,8 @@ class NextAvailableQuizButton extends Component {
             .then(response => {
                 // console.log(response.val())
                 const data = response.val()
-                const quizDates = Object.keys(data);
-                console.log(quizDates, 'this is quizDates')
+                const ogQuizDates = Object.keys(data);
+                const quizDates = ogQuizDates.filter(date => date < moment().format('YYYY-MM-DDTHH:mm') && date > moment().startOf('month').format('YYYY-MM-DDTHH:mm'))
                 const url = window.location.pathname
                 const currentQuizDate = url.slice(6,22)
                 const currentDateIndex = quizDates.indexOf(currentQuizDate)
