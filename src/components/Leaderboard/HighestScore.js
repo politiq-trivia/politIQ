@@ -13,26 +13,17 @@ class HighestScore extends Component {
         }
     }
 
-    // should this update? 
     componentDidMount() {
-        this.getUsersWithScores(this.props.timeFrame)
+        this.getUsersWithScores()
     }
 
-    componentDidUpdate(prevProps) {
-        if(prevProps.timeFrame !== this.props.timeFrame) {
-            this.getUsersWithScores(this.props.timeFrame)
-            return true
-        } else return false;
-    }
-
-    calculateHighestPolitIQ = async (usernames, timeframe) => {
+    calculateHighestPolitIQ = async (usernames) => {
         let politIQs = [];
         let politObjects = [];
 
         for (let i = 0; i < usernames.length; i++) {
-            const politIQ = await getPolitIQ(usernames[i], timeframe)
+            const politIQ = await getPolitIQ(usernames[i])
             politIQs.push(
-                // username: usernames[i],
                 politIQ
             )
             politObjects.push({
@@ -64,12 +55,12 @@ class HighestScore extends Component {
             })
     }
 
-    getUsersWithScores = async (timeframe) => {
+    getUsersWithScores = async () => {
         await db.getScores()
         .then((response) => {
             const data = response.val();
             const usernames = Object.keys(data);
-            this.calculateHighestPolitIQ(usernames, timeframe)
+            this.calculateHighestPolitIQ(usernames)
         })
     }
 
@@ -79,7 +70,7 @@ class HighestScore extends Component {
                 {this.state.highScore !== 0
                     ?
                      <Card style={{ paddingBottom: '4vh', width: '40%', marginLeft: 'auto', marginRight: 'auto' }}>
-                        <h2>Highest PolitIQ this {this.props.timeFrame}:</h2>
+                        <h2>Current politIQ Leader:</h2>
                         <div className="highScoreHolder">
                             <h1>{this.state.name}</h1>
                             <h1>{this.state.highScore}</h1>

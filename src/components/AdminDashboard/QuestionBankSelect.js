@@ -81,7 +81,6 @@ class QuizBankSelect extends Component {
   }
 
   renderQ = () => {
-    const q = this.state.qBank[this.state.selectedQ]
     if (this.state.selectedQ) {
       return (
         <EditQBankQs question={this.state.qBank[this.state.selectedQ]} handleSubmit={this.handleSubmit} handleReturn={this.handleReturn} handleQuit={this.handleQuit}/>

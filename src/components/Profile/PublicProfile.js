@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { db } from '../../firebase';
 import { Helmet } from 'react-helmet';
-import { withRouter, Link } from 'react-router-dom';
+import { withRouter } from 'react-router-dom';
 import { compose } from 'recompose';
 
 import { withAuthorization, withEmailVerification } from '../Auth/index';
@@ -14,7 +14,6 @@ import UserScoreboard from '../Leaderboard/UserScoreboard';
 import PublicProfilePhoto from './PublicProfilePhoto';
 import CommentWidget from './Comment/CommentWidget';
 import './profile.css';
-import { PROFILE } from '../../constants/routes';
 
 class PublicProfile extends Component {
   constructor(props) {
@@ -30,14 +29,12 @@ class PublicProfile extends Component {
     const uid = window.location.href.split('/')[4]
     this.getUserInfo(uid)
     const loggedInUser = JSON.parse(localStorage.getItem('authUser')).uid
-    console.log(loggedInUser)
     let match;
     if (uid === loggedInUser) {
       match = true; 
     } else {
       match = false;
     }
-    console.log(match)
     this.setState({
       uid,
       match,

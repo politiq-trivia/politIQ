@@ -1,22 +1,20 @@
 // calculate a politIQ for a single user 
-
-import moment from 'moment';
 import { db } from '../firebase';
 
 
-export const getPolitIQ = async (uid, timeframe) => {
+export const getPolitIQ = async (uid) => {
     // get all the quizzes
-    const quizNum = await getQuizzes(timeframe)
+    const quizNum = await getQuizzes()
     if (quizNum === 0) {
         return 0;
     } else {
-        const score = await getScores(uid, timeframe)
+        const score = await getScores(uid)
         const politIQ = calculatePolitIQ(score, quizNum)
         return politIQ;
     }
 }
 
-const getQuizzes = async (timeframe) => {
+const getQuizzes = async () => {
     let quizNum;
     await db.getQuizzes()
         .then(response => {
@@ -33,7 +31,7 @@ const getQuizzes = async (timeframe) => {
     return quizNum;
 }
 
-const getScores = async (uid, timeframe) => {
+const getScores = async (uid) => {
     const scoreCounter = await db.getScoresByUid(uid)
         .then(response => {
             let score = 0;

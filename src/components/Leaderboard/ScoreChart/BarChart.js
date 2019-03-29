@@ -199,7 +199,7 @@ class BarChart extends Component {
           .scale(yScale)
 
       chart.append('g')
-          .classed('y axis', true)
+          .classed('y-axis', true)
           .attr('transform', `translate(${width}, 0)`)
           .call(yAxis)
     }
@@ -229,7 +229,6 @@ class BarChart extends Component {
 
 
     render () {
-        console.log(this.state)
         return (
           <>
             {this.state.loading 
