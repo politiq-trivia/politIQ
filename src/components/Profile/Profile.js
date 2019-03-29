@@ -3,6 +3,7 @@ import { Helmet } from 'react-helmet';
 import { db, withFirebase } from '../../firebase';
 import { Link } from 'react-router-dom';
 import { compose } from 'recompose';
+import MediaQuery from 'react-responsive';
 
 import ProfilePhoto from './ProfilePhoto';
 
@@ -90,6 +91,10 @@ class ProfilePage extends Component {
     })
   }
 
+  toPublicProfile = () => {
+    this.props.history.push(`/profile/${this.state.userInfo.uid}`)
+  }
+
   render() {
     return (
       <AuthUserContext.Consumer>
@@ -99,11 +104,21 @@ class ProfilePage extends Component {
               <title>Profile | politIQ</title>
             </Helmet>
             <div className="public-profile-top">
+              <div style={{ display: "flex", justifyContent: 'space-between', marginBottom: '3vh'}}>
+                <Button className="back-button" onClick={this.props.history.goBack}>Back</Button>
+                {/* <Link to={`/profile/${authUser.uid}`} style={{ textDecoration: 'none', display: 'flex', justifyContent: 'center'}}> */}
+                  <Button className="back-button" onClick={this.toPublicProfile} style={{ marginRight: '1vw !important' }}>View Public Profile</Button>
+                {/* </Link> */}
+              </div>
+
               <ProfilePhoto authUser={authUser} />
             </div>
               <div>
                 <div>
-                  <h1>Your Profile</h1>
+                  <MediaQuery minWidth={416}>
+                    <Button color="primary" onClick={this.toggleEditProfile} style={{ float: 'right', marginRight: '1vw !important' }}>Edit Information</Button>
+                  </MediaQuery>
+                  <h1 id="profile-heading">Your Profile</h1>
                 </div>
                 {localStorage.hasOwnProperty('fbAuth')
                   ? <div style={{ border: '2px solid #a54ee8', width: '80%', marginLeft: 'auto', marginRight: 'auto', marginBottom: '2vh', paddingBottom: '1vh'}}>
@@ -140,7 +155,9 @@ class ProfilePage extends Component {
                       <UserScoreboard uid={authUser.uid}/>
 
                       <div className="profile-button-holder">
-                        <Button color="primary" onClick={this.toggleEditProfile}>Edit Information</Button>
+                        <MediaQuery maxWidth={415}>
+                          <Button color="primary" onClick={this.toggleEditProfile} style={{ float: 'right' }}>Edit Information</Button>
+                        </MediaQuery>
                         <Link to={`/profile/${authUser.uid}`} style={{ textDecoration: 'none', display: 'flex', justifyContent: 'center'}}>
                           <Button color="primary">View Public Profile</Button>
                         </Link>
@@ -159,7 +176,7 @@ class ProfilePage extends Component {
                   : null
                 }
 
-                <Button onClick={this.unsubscribe}>Turn Off Push Notifications</Button>
+                {/* <Button onClick={this.unsubscribe}>Turn Off Push Notifications</Button> */}
 
           
               </div>
