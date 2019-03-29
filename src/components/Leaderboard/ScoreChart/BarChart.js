@@ -109,6 +109,7 @@ class BarChart extends Component {
               userScores.push(scoreCounter)
             })
             const totalScore = userScores.reduce((a, b) => a + b, 0);
+            // const totalAverageScore = totalScore / (this.state.numQuizzes * 5)
             const lengthLabel = affiliation + "length"
             this.setState({
               [affiliation]: totalScore,
@@ -134,9 +135,9 @@ class BarChart extends Component {
 
     plot(chart, width, height, margin) {
       const data = [
-        { party: 'D', score: ((this.state.Democrat / this.state.Democratlength)  * 100).toString() },
-        { party: 'R', score: (this.state.Republican / this.state.Republicanlength) * 100 },
-        { party: 'I', score: (this.state.Independent / this.state.Independentlength) * 100 },
+        { party: 'D', score: (((this.state.Democrat * this.state.Democratlength) / this.state.Democratlength).toString()) },
+        { party: 'R', score: ((this.state.Republican * this.state.Republicanlength) / this.state.Republicanlength)},
+        { party: 'I', score: ((this.state.Independent * this.state.Independentlength) / this.state.Independentlength)},
       ]
 
       const maxValue = Math.max(...data.map(d => d.score));
@@ -228,7 +229,7 @@ class BarChart extends Component {
 
 
     render () {
-        
+        console.log(this.state)
         return (
           <>
             {this.state.loading 
