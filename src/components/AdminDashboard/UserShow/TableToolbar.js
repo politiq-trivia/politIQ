@@ -99,7 +99,7 @@ class TableToolbar extends Component {
           {numSelected > 0 ? (
             <p>{numSelected} selected</p>
           ) : (
-            <h3>All Users</h3>
+            null
           )}
         </div>
         <div className={toolbarStyles.spacer} />

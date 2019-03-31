@@ -75,8 +75,8 @@ class AdminDashboard extends Component {
             titleArray.push(title)
           }
           this.setState({
-            dateArray: dateArray,
-            titleArray: titleArray,
+            dateArray: dateArray.reverse(),
+            titleArray: titleArray.reverse(),
           })
         }
       })

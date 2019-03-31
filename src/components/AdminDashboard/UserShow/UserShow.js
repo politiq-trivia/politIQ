@@ -16,6 +16,7 @@ import '../dashboard.css';
 import TableHeader from './TableHeader';
 import TableToolbar from './TableToolbar';
 import DeleteModal from '../DeleteModal';
+import { TextField } from '@material-ui/core';
 
 let counter = 0;
 
@@ -55,6 +56,7 @@ class UserShow extends Component {
       page: 0,
       rowsPerPage: 5,
       showDeleteModal: false,
+      search: "",
     }
   }
 
@@ -233,16 +235,39 @@ class UserShow extends Component {
   handleViewUser = (uid) => {
     this.props.history.push(`/profile/${uid}`)
   }
+  
+  handleChange = (event) => {
+    this.setState({
+      [event.target.id]: event.target.value,
+    })
+  }
 
   render() {
     const { data, order, orderBy, selected, rowsPerPage, page } = this.state;
     const emptyRows = this.state.rowsPerPage - Math.min(rowsPerPage, data.length - page * rowsPerPage);
+
+    // logic to power the search component
+    const filteredData = data.filter((data) => {
+      return data.username.indexOf(this.state.search) !== -1 || data.email.indexOf(this.state.search) !== -1
+    })
+
     return (
       <Paper className="userShow">
         {this.state.showDeleteModal
           ? <DeleteModal handleDeleteUser={this.handleDeleteUser} toggleDeleteModal={this.toggleDeleteModal} selected={this.state.selected} users="true"/>
           : null
         }
+        <h3>All Users</h3>
+        <TextField
+          id="search"
+          label="Search"
+          value={this.state.search}
+          onChange={this.handleChange}
+          margin="dense"
+          variant="outlined"
+          fullWidth
+          // style={{ margin: '0' }}
+        />
         <TableToolbar
           numSelected={selected.length}
           selected={this.state.selected}
@@ -260,7 +285,7 @@ class UserShow extends Component {
             rowCount={data.length}
           />
           <TableBody>
-            {stableSort(data, getSorting(order, orderBy))
+            {stableSort(filteredData, getSorting(order, orderBy))
               .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
               .map(n => {
                 const isSelected = this.isSelected(n.uid);
