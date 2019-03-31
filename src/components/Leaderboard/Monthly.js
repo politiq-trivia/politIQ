@@ -45,6 +45,12 @@ class MonthlyLeaderboard extends Component {
     await db.getScores()
       .then(response => {
         const data = response.val()
+        if (data === null) {
+          this.setState({
+            isLoaded: true,
+          })
+          return;
+        }
         const usernames = Object.keys(data)
         usernames.forEach((user, i) => {
           db.getDisplayNames(usernames[i])

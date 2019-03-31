@@ -190,7 +190,7 @@ class BarChart extends Component {
           })
         .attr('dy', (d, i) => yScale(d.party) + (yScale.bandwidth() / 2) + 6)
         .text(d => {
-          if (d.score === 0) return null
+          if (d.score === 0 || isNaN(d.score)) return null
           else return d.score.toString().split('.')[0]
         })
 
@@ -233,7 +233,7 @@ class BarChart extends Component {
           <>
             {this.state.loading 
               ? <p>Loading...</p>
-              : <>{this.drawChart()}</>
+              : <>{isNaN(this.state.Republican) && isNaN(this.state.Democrat) && isNaN(this.state.Independent) ? null : this.drawChart()}</>
             }
           </>
         )
