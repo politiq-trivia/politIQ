@@ -48,3 +48,7 @@
     stroke: #000;
     shape-rendering: crispEdges;
 }
+
+.axis {
+  font-family: 'Quicksand', sans-serif;
+}

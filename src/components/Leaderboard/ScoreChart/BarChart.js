@@ -142,14 +142,13 @@ class BarChart extends Component {
 
       const maxValue = Math.max(...data.map(d => d.score));
 
-      const yScale = this.yScale
-        .padding(0.5)
+      const xScale = d3.scaleBand()
         .domain(data.map(d => d.party))
-        .range([0, height])
-
-      const xScale = this.xScale
-        .domain([0, maxValue])
         .range([0, width])
+
+      const yScale = d3.scaleLinear()
+        .domain([0, maxValue])
+        .range([height, 0])
 
       const colorScale = d3.scaleOrdinal(['blue', 'red', 'green'])
 
@@ -158,16 +157,10 @@ class BarChart extends Component {
         .enter()
         .append('rect')
         .classed('bar', true)
-        .attr('x', d => {
-          if (isNaN(d.score)) return 0
-          else return width - xScale(d.score) + margin.right
-        })
-        .attr('y', d => yScale(d.party))
-        .attr('height', d => yScale.bandwidth())
-        .attr('width', d => {
-          if (isNaN(d.score)) return 0
-          else return xScale(d.score) - margin.right;
-        })
+        .attr('x', d => xScale(d.party))
+        .attr('y', d => yScale(d.score))
+        .attr('height', d => (height - yScale(d.score)))
+        .attr('width', d => xScale.bandwidth())
         .style('fill', (d, i) => colorScale(i))
 
       chart.selectAll('.bar-label')
@@ -175,39 +168,38 @@ class BarChart extends Component {
         .enter()
         .append('text')
         .classed('bar-label', true)
-        .attr('x', d => {
-          if (isNaN(d.party)) return 0
-          else return xScale(d.party)
-        })
-        .attr('dx', d => {
-          if (isNaN(d.score)) return 0
-          else return width - xScale(d.score) + 65
-        })
-        .attr('y', d => {
-            if (isNaN(d.score)) {
-              return 0
-            } else return yScale(d.score) + yScale.bandwidth() / 2
-          })
-        .attr('dy', (d, i) => yScale(d.party) + (yScale.bandwidth() / 2) + 6)
+        .attr('x', d => xScale(d.party) + xScale.bandwidth()/2)
+        .attr('dx', 0)
+        .attr('y', d => yScale(d.score))
+        .attr('dy', -6)
         .text(d => {
           if (d.score === 0 || isNaN(d.score)) return null
           else return d.score.toString().split('.')[0]
         })
 
-      const yAxis = d3.axisRight()
+      const xAxis = d3.axisBottom()
           .ticks(3)
-          .scale(yScale)
+          .scale(xScale)
 
       chart.append('g')
-          .classed('y-axis', true)
-          .attr('transform', `translate(${width}, 0)`)
-          .call(yAxis)
+          .classed('x axis', true)
+          .attr('transform', `translate(0, ${height})`)
+          .call(xAxis)
+      
+      chart.select('.x.axis')
+        .append('text')
+        .attr('x', width/2)
+        .attr('y', 60)
+        .attr('fill', '#000')
+        .style('font-size', '20px')
+        .style('text-anchor', 'middle')
+        .text('Party PolitIQs')
     }
 
     drawChart() {
-      const margin = { top: 40, right: 100, bottom: 60, left: 100 };
+      const margin = { top: 40, right: 100, bottom: 100, left: 100 };
       const width = this.state.containerWidth;
-      const height = 250;
+      const height = 300;
       
       const el = new Element('div');
       const svg = d3.select(el)
