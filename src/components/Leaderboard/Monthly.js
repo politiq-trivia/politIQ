@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
+import MediaQuery from 'react-responsive';
 
 import moment from 'moment';
 
@@ -156,9 +157,11 @@ class MonthlyLeaderboard extends Component {
           <TableCell style={{ width: '10%'}} padding="default">
             {i + 1}.
           </TableCell>
-          <TableCell style={{ width: '10%' }}>
-            <Avatar style={{ backgroundColor: colorArray[random] }} >{stat[0][0]}</Avatar>
-          </TableCell>
+          <MediaQuery minWidth={416}>
+            <TableCell style={{ width: '10%' }}>
+              <Avatar style={{ backgroundColor: colorArray[random] }} >{stat[0][0]}</Avatar>
+            </TableCell>
+          </MediaQuery>
           <TableCell style={{ width: '40%'}} padding="none">
             {stat[0]}
           </TableCell>
@@ -185,15 +188,17 @@ class MonthlyLeaderboard extends Component {
                 <TableCell style={{ minWidth: '30px'}} padding="default">
                   Ranking
                 </TableCell>
-                <TableCell>
-                </TableCell>
+                <MediaQuery minWidth={416}>
+                  <TableCell>
+                  </TableCell>
+                </MediaQuery>
                 <TableCell style={{ minWidth: '50px'}} padding="none">
                   User
                 </TableCell>
-                <TableCell style={{ minWidth: '30px'}} padding="default">
+                <TableCell style={{ minWidth: '30px'}} padding="none">
                   Score
                 </TableCell>
-                <TableCell style={{ minWidth: '30px' }} padding="default">
+                <TableCell style={{ minWidth: '30px' }} padding="none">
                   PolitIQ
                 </TableCell>
               </TableRow>
