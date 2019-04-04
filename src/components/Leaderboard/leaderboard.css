@@ -252,3 +252,19 @@
   color: rgba(45, 45, 45, 0.80);
   margin-bottom: 0;
 }
+
+/* ----------------- high score box styles ------------------ */
+
+.highScore {
+  background-color: blue;
+  padding-bottom: 4vh;
+  width: 40%;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+@media screen and (max-width: 415px) {
+  .highScore {
+    width: 90%;
+  }
+}

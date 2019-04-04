@@ -27,6 +27,7 @@ import PrivacyPolicy from './StaticPages/PrivacyPolicy';
 import AddToHomescreen from './StaticPages/AddToHomescreen';
 import QuizRedirect from './QuizEngine/QuizRedirect';
 import NoMatch from './StaticPages/NoMatch';
+import FAQ from './StaticPages/FAQ';
 
 import * as routes from '../constants/routes';
 import { firebase } from '../firebase';
@@ -178,6 +179,10 @@ class App extends Component {
                 <Route
                   exact path={routes.ABOUT}
                   component={About}
+                />
+                <Route 
+                  exact path={routes.FAQ}
+                  component={FAQ}
                 />
                 <Route
                   exact path={routes.SUBMIT_QUESTION}

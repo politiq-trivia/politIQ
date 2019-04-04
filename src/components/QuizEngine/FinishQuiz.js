@@ -80,7 +80,6 @@ class FinishQuiz extends Component {
                     <div className="finish-quiz-buttons">
                         <NextAvailableQuizButton getNextQuiz={this.props.getNextQuiz}/>
                         <Link to={SIGN_UP} style={{ textDecoration: 'none' }}><Button color="primary" variant="contained" className="end-button">Sign Up to Save Your Score</Button></Link>
-                        <Link to={QUIZ_ARCHIVE} style={{textDecoration: "none"}}><Button color="primary" variant="contained" className="end-button">View Quiz Archive</Button></Link>
                     </div>
                 </div>
             )

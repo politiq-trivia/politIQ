@@ -1,8 +1,11 @@
 import React, { Component } from 'react';
-import { db } from '../../firebase';
-import { getPolitIQ } from '../../utils/calculatePolitIQ';
 
 import Card from '@material-ui/core/Card';
+
+import { db } from '../../firebase';
+import { getPolitIQ } from '../../utils/calculatePolitIQ';
+import './leaderboard.css';
+
 
 class HighestScore extends Component {
     constructor(props) {
@@ -70,7 +73,7 @@ class HighestScore extends Component {
             <>
                 {this.state.highScore !== 0
                     ?
-                     <Card style={{ paddingBottom: '4vh', width: '40%', marginLeft: 'auto', marginRight: 'auto' }}>
+                     <Card className="highScore">
                         <h2>Current politIQ Leader:</h2>
                         <div className="highScoreHolder">
                             <h1>{this.state.name}</h1>

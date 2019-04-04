@@ -17,6 +17,7 @@ export const LEADERBOARD = '/leaderboard';
 export const ABOUT = '/about';
 export const QUIZ = '/quiz/:id';
 export const USER_PROFILES = '/profile/:uid'
+export const FAQ = '/frequently-asked-questions';
 
 // admn routes
 export const ADMIN_DASHBOARD = '/admin';

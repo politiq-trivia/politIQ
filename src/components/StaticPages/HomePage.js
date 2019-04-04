@@ -186,6 +186,7 @@ class HomePage extends Component {
 
 
         <h4>The more you play, the better you score!</h4>
+        <h4 style={{ marginTop: '0' }}>Don't forget to submit your own question for a chance to win points!</h4>
 
       </Paper>
     );

@@ -17,7 +17,7 @@ const LandingPage = () =>
 
     <img src={bg} id="bg-image" alt="democrats and republicans face off"/>
 
-    <TodaysQuizButton buttonText="Click Here To Find Out" id="home-button" disabled={false} />
+    <TodaysQuizButton buttonText="Click HERE to find out!" id="home-button" disabled={false} />
 
     <div className="home-description">
       <h4> INTERESTED IN POLITICS AND CONSTANTLY CONSUMED BY THE NEWS?</h4>
@@ -54,7 +54,7 @@ const LandingPage = () =>
     </div>
 
     <div className="home-description2">
-      <h4>THINK <span style={{ color: "#a54ee8"}}>ITS BIASED?</span> CONTEST A QUESTION OR ADD ONE OF YOUR OWN AND WIN POINTS</h4>
+      <h4>THINK <span style={{ color: "#a54ee8"}}>ITS BIASED?</span> CONTEST A QUESTION OR ADD ONE OF YOUR OWN AND <span style={{ color: "#a54ee8" }}>WIN POINTS</span></h4>
       <p>If you believe the answer to a question is incorrect, then submit your argument (with a valid source) and you will receive an additional <span style={{ fontWeight: 'bold' }}>2 points</span> and the question will be fixed. If you wish to submit your own question to be included on the site, you can receive an additional <span style={{ fontWeight: 'bold' }}>3 points</span> (depending upon approval of its content and validity). All are welcome to contribute!</p>
       <Link to="/signup" style={{ textDecoration: 'none' }}><Button size="large" variant="contained" color="secondary" className="home-button" style={{ textTransform: 'none', fontSize: '20px', fontWeight: '300', letterSpacing: '0.5px', marginTop: '2vh'}}>Create an Account and Start Playing</Button></Link>
 

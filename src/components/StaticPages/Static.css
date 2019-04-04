@@ -275,7 +275,7 @@ h6 {
 
 .text {
   text-align: left !important;
-  width: 75%;
+  width: 60%;
   line-height: 1.5em;
   font-size: 15px;
   margin-left: auto;
@@ -286,6 +286,12 @@ h6 {
   font-weight: 500;
   height: auto;
   padding-bottom: 5vh;
+}
+
+@media screen and (max-width: 415px) {
+  .text {
+    width: 80%;
+  }
 }
 
 .heading {

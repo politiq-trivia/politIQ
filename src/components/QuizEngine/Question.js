@@ -144,7 +144,7 @@ class Question extends Component {
 
                 <MediaQuery maxWidth={415}>
                         <div className={clicked ? 'dontShowClock' : 'showClock'} style={{ marginLeft: '43%', marginRight: 'auto', marginTop: '4vh', width: '21%' }} >
-                            <ReactCountdownClock key={this.props.currentQ} seconds={60} size={60} color="#a54ee8" style={{ marginLeft: 'auto', marginRight: 'auto' }} alpha={0.9} onComplete={() => this.props.checkCorrect()} paused={this.state.clicked}/>
+                            <ReactCountdownClock key={this.props.currentQ} seconds={40} size={60} color="#a54ee8" style={{ marginLeft: 'auto', marginRight: 'auto' }} alpha={0.9} onComplete={() => this.props.checkCorrect()} paused={this.state.clicked}/>
                         </div>
                 </MediaQuery>
                 </FormControl>

@@ -17,20 +17,36 @@ import './Auth.css';
 import FacebookAuth from './FacebookAuth';
 
 
-const SignInPage = ({ history, getSignedInUser, scoreObject, checkAdmin }) => {
-  return (
-    <Paper className="authCard signIn">
-      <Helmet>
-        <title>Sign In | politIQ</title>
-      </Helmet>
-      <h1>Sign In</h1>
-      <SignInForm  history={history} getSignedInUser={getSignedInUser} scoreObject={scoreObject} checkAdmin={checkAdmin}/>
-      <FacebookAuth getSignedInUser={getSignedInUser} scoreObject={scoreObject}/>
-      <PasswordForgetLink />
-      <SignUpLink />
-    </Paper>
-  )
-}
+class SignInPage extends Component {
+  constructor(props) {
+    super(props)
+    this.state = {
+      error: false
+    }
+  }
+
+  fbError = () => {
+    this.setState({
+      error: true,
+    })
+  }
+
+  render() {
+    const { history, getSignedInUser, scoreObject, checkAdmin } = this.props
+    return (
+      <Paper className="authCard signIn">
+        <Helmet>
+          <title>Sign In | politIQ</title>
+        </Helmet>
+        <h1>Sign In</h1>
+        <SignInForm  history={history} getSignedInUser={getSignedInUser} scoreObject={scoreObject} checkAdmin={checkAdmin}/>
+        <FacebookAuth getSignedInUser={getSignedInUser} scoreObject={scoreObject} fbError={this.fbError}/>
+        <PasswordForgetLink />
+        <SignUpLink />
+      </Paper>
+    )
+  }
+} 
 
 const byPropKey = (propertyName, value) => () => ({
   [propertyName]: value,
