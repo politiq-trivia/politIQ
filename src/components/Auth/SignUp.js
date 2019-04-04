@@ -75,18 +75,6 @@ const INITIAL_STATE = {
   tooltip2Open: false,
 };
 
-const affiliations = [
-  {
-    value: 'Democrat',
-  },
-  {
-    value: 'Republican',
-  },
-  {
-    value: 'Independent / Other',
-  },
-];
-
 const byPropKey = (propertyName, value) => () => ({
   [propertyName]: value,
 });
@@ -305,11 +293,16 @@ class SignUpFormBase extends Component {
           margin="normal"
           fullWidth
         >
-          {affiliations.map(option => (
-            <MenuItem key={option.value} value={option.value}>
-              {option.value}
-            </MenuItem>
-          ))}
+          <MenuItem key="Republican" value="Republican">
+            Republican
+          </MenuItem>
+          <MenuItem key="Democrat" value="Democrat">
+            Democrat
+          </MenuItem>
+          <MenuItem key="Independent" value="Independent">
+            Independent / Other
+          </MenuItem>
+
         </TextField>
         <div style={{ display: 'flex', justifyContent: 'space-between'}}>
           <FormHelperText>Affiliation will not be shared publicly.</FormHelperText>

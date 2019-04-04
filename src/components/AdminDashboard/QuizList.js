@@ -12,12 +12,12 @@ import IconButton from '@material-ui/core/IconButton';
 import DeleteIcon from '@material-ui/icons/Delete';
 import Checkbox from '@material-ui/core/Checkbox';
 import TableBody from '@material-ui/core/TableBody';
-import TextField from '@material-ui/core/TextField';
-import Select from '@material-ui/core/Select';
-import MenuItem from '@material-ui/core/MenuItem';
+// import TextField from '@material-ui/core/TextField';
+// import Select from '@material-ui/core/Select';
+// import MenuItem from '@material-ui/core/MenuItem';
 
 import DeleteModal from './DeleteModal';
-import { OutlinedInput } from '@material-ui/core';
+// import { OutlinedInput } from '@material-ui/core';
 
 const toolbarStyles = theme => ({
   root: {
