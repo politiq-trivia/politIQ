@@ -66,6 +66,10 @@ export const editUser = (uid, updates) => {
   return user;
 }
 
+export const awardMoney = (uid, amount) => {
+  db.ref('users').child(uid).child('moneyWon').set(amount);
+}
+
 // -------------------------------------------------------------------------
 
 // QUIZZES

@@ -20,6 +20,14 @@ class PublicProfilePhoto extends Component {
     this.getPhoto()
   }
 
+  // shouldComponentUpdate(nextProps) {
+  //   console.log(nextProps, 'this is prevProps')
+  //   if(this.props.uid !== nextProps.uid) {
+  //     // this.getPhoto()
+  //     return true;
+  //   } else return false;
+  // }
+
   getPhoto = () => {
     const set = () => {
       this.setState({

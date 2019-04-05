@@ -88,6 +88,8 @@ class TableToolbar extends Component {
       this.resetScore('alltime')
     } else if (this.state.action === "View User") {
         this.props.handleViewUser(this.props.selected[0])
+    } else if (this.state.action === "Award Money") {
+        this.props.toggleAwardMoneyModal()
     }
   }
 
@@ -112,6 +114,7 @@ class TableToolbar extends Component {
                 </Link>
                 <Button color="primary" onClick={() => this.resetScore("monthly")}>Reset Monthly Score</Button>
                 <Button color="primary" onClick={() => this.resetScore("alltime")}>Reset All Time Score</Button>
+                <Button color="primary" onClick={() => this.props.toggleAwardMoneyModal()}>Award Money</Button>
                 <Tooltip title="Delete">
                   <IconButton aria-label="Delete">
                     <DeleteIcon onClick={this.props.toggleDeleteModal}/>
@@ -134,6 +137,7 @@ class TableToolbar extends Component {
                     <option value="Delete User">Delete User</option>
                     <option value="Reset Monthly Score">Reset Monthly Score</option>
                     <option value="Reset All Time Score">Reset All Time Score</option>
+                    <option value="Award Money">Award Money</option>
                   </Select>
                 </FormControl>
                 <IconButton

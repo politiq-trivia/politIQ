@@ -33,7 +33,7 @@ class AdminDashboard extends Component {
       editingQuiz: false,
       showDash: true,
       showQuiz: false,
-      showUsers: false,
+      showUsers: true,
       showLeaders: false,
       dateArray: [],
       titleArray: [],

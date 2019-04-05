@@ -22,12 +22,34 @@ class UserScoreboard extends Component {
 
   componentWillReceiveProps = () => {
     this.getMyScore()
+    if (this.props.moneyWon !== undefined) {
+      this.setState({
+        moneyWon: '$' + this.props.moneyWon
+      })
+    }
     if (this.props.public) {
       const uid = window.location.href.split('/')[4]
       this.getMyPolitIQ(uid, "month")
     } else {
       const uid = this.props.uid
       this.getMyPolitIQ(uid, 'month')
+    }
+  }
+
+  componentDidUpdate = (prevProps) => {
+    if (this.props.moneyWon !== prevProps.moneyWon) {
+      if (this.props.moneyWon !== undefined) {
+        this.setState({
+          moneyWon: '$' + this.props.moneyWon
+        })
+      } else {
+        this.setState({
+          moneyWon: '$0'
+        })
+      }
+      return true;
+    } else {
+      return false;
     }
   }
 

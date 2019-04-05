@@ -13,6 +13,7 @@ const rows = [
   { id: 'affiliation', numeric: false, disablePadding: true, label: "Affiliation", className: 'hidden' },
   { id: 'monthlyscore', numeric: true, disablePadding: false, label: 'Monthly Score', style: 'true' },
   { id: 'alltimescore', numeric: true, disablePadding: false, label: 'All Time Score', className: 'toggleMargins' },
+  { id: 'moneywon', numeric: true, disablePadding: true, label: "Money Won", style: 'true', className: "hidden" },
   { id: 'lastactive', numeric: true, disablePadding: false, label: 'Last Active', className: 'hidden' },
 ];
 

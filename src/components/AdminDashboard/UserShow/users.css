@@ -1,0 +1,39 @@
+.awardMoneyModal {
+    width: 50vw;
+    margin-left: 25vw !important;
+}
+
+@media screen and (max-width: 415px) {
+    .awardMoneyModal {
+        width: 100vw;
+        margin-left: auto !important;
+        margin-right: auto;
+    }
+}
+
+.awardText {
+    padding: 3vh;
+    padding-top: 0;
+    padding-bottom: 1vh;
+    text-align: center;
+}
+
+.awardButton {
+    display: inline-block;
+    width: 50%;
+    margin-left: auto !important;
+    margin-right: auto !important;
+    margin-bottom: 2vh !important;
+}
+
+.awardLabel {
+    margin-left: 5vh;
+    margin-right: 5vh;
+    margin-top: 3vh;
+}
+
+.awardInput {
+    margin: 5vh;
+    margin-top: 0;
+    margin-bottom: 8vh;
+}

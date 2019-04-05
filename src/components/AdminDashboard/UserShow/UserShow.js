@@ -11,12 +11,13 @@ import TableCell from '@material-ui/core/TableCell';
 import TablePagination from '@material-ui/core/TablePagination';
 import TableRow from '@material-ui/core/TableRow';
 import Checkbox from '@material-ui/core/Checkbox';
+import { TextField } from '@material-ui/core';
 
 import '../dashboard.css';
 import TableHeader from './TableHeader';
 import TableToolbar from './TableToolbar';
+import AwardMoneyModal from './AwardMoneyModal';
 import DeleteModal from '../DeleteModal';
-import { TextField } from '@material-ui/core';
 
 let counter = 0;
 
@@ -56,6 +57,7 @@ class UserShow extends Component {
       page: 0,
       rowsPerPage: 5,
       showDeleteModal: false,
+      showAwardMoneyModal: false,
       search: "",
     }
   }
@@ -82,6 +84,13 @@ class UserShow extends Component {
                 lastactive = index.lastActive
               } else {
                 lastactive = ''
+              }
+
+              let moneyWon;
+              if(index.moneyWon) {
+                moneyWon = index.moneyWon
+              } else {
+                moneyWon = 0
               }
 
               // get the scores
@@ -129,7 +138,8 @@ class UserShow extends Component {
                 monthlyscore: monthlyscore,
                 alltimescore: alltimescore,
                 lastactive: lastactive,
-                uid: uidList[i]
+                uid: uidList[i],
+                moneyWon: moneyWon,
               }
               counter += 1;
               componentData.push(userInfo)
@@ -232,6 +242,12 @@ class UserShow extends Component {
     })
   }
 
+  toggleAwardMoneyModal = () => {
+    this.setState({
+      showAwardMoneyModal: !this.state.showAwardMoneyModal
+    })
+  }
+
   handleViewUser = (uid) => {
     this.props.history.push(`/profile/${uid}`)
   }
@@ -251,10 +267,19 @@ class UserShow extends Component {
       return data.username.indexOf(this.state.search) !== -1 || data.email.indexOf(this.state.search) !== -1
     })
 
+    let userObj = {}
+    if (this.state.selected) {
+      userObj = this.state.data[this.state.selectedIndex]
+    }
+
     return (
       <Paper className="userShow">
         {this.state.showDeleteModal
           ? <DeleteModal handleDeleteUser={this.handleDeleteUser} toggleDeleteModal={this.toggleDeleteModal} selected={this.state.selected} users="true"/>
+          : null
+        }
+        {this.state.showAwardMoneyModal 
+          ? <AwardMoneyModal selected={this.state.selected} user={userObj} toggleAwardMoneyModal={this.toggleAwardMoneyModal}/>
           : null
         }
         <h3>All Users</h3>
@@ -274,6 +299,7 @@ class UserShow extends Component {
           refreshTable={this.refreshTable}
           toggleDeleteModal={this.toggleDeleteModal}
           handleViewUser={this.handleViewUser}
+          toggleAwardMoneyModal={this.toggleAwardMoneyModal}
         />
         <Table>
           <TableHeader
@@ -314,6 +340,7 @@ class UserShow extends Component {
                     </TableCell>
                     <TableCell numeric style={{ minWidth: '10px', padding: '4px 0 4px 10px'}}>{n.monthlyscore}</TableCell>
                     <TableCell numeric style={{ width: '20px'}} className="toggleMargins">{n.alltimescore}</TableCell>
+                    <TableCell numeric style={{ width: '20px' }} className="toggleMargins hidden">${n.moneyWon}</TableCell>
                     <TableCell numeric className="hidden" style={{ paddingLeft: '0'}}>{n.lastactive}</TableCell>
                   </TableRow>
                 );

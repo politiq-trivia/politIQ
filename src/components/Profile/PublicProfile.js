@@ -114,7 +114,7 @@ class PublicProfile extends Component {
 
               <h3>About {displayName2}</h3>
               <p>{this.state.userData.bio}</p>
-              <UserScoreboard uid={this.state.uid} public="true" name={displayName2}/>
+              <UserScoreboard uid={this.state.uid} public="true" name={displayName2} moneyWon={this.state.userData.moneyWon}/>
 
               {this.state.showingComments 
                 ? <div>
