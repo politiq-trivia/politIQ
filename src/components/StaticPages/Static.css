@@ -1,12 +1,12 @@
 #home-button {
   background-color: black;
-  margin-top: 5vh !important;
+  margin-top: 2vh !important;
   width: 80vw;
   text-transform: none;
   color: white;
   text-decoration: none;
   /* width: 80vw; */
-  margin-bottom: 5vh;
+  /* margin-bottom: 5vh; */
   height: 8vh;
   font-weight: 300;
   max-width: 400px;
@@ -94,7 +94,7 @@
 .home-holder {
   margin-top: 7.5vh;
   text-align: center;
-  padding-top: 5vh;
+  padding-top: 4vh;
   height: auto;
   min-height: 68vh;
 }
@@ -286,6 +286,10 @@ h6 {
   font-weight: 500;
   height: auto;
   padding-bottom: 5vh;
+}
+
+.text h3 {
+  margin-top: 1vh;
 }
 
 @media screen and (max-width: 415px) {

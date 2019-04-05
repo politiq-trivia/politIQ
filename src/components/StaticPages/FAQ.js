@@ -1,5 +1,9 @@
 import React from 'react';
-import Paper from '@material-ui/core/Paper'
+import Paper from '@material-ui/core/Paper';
+import ExpansionPanel from '@material-ui/core/ExpansionPanel';
+import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
+import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
+import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import { Helmet } from 'react-helmet';
 
 const FAQ = () => {
@@ -12,35 +16,97 @@ const FAQ = () => {
                 <h1>Frequently Asked Questions</h1>
             </div>
             <div className="text">
-                <h3>What is the point of politIQ?</h3>
-                <p>To facilitate fact-based political dialogue through friendly competition, and provide a fun alternative for how people consume news and become politically engaged.</p>
+                <ExpansionPanel>
+                    <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
+                        <h3>What is the point of politIQ?</h3>
+                    </ExpansionPanelSummary>
+                    <ExpansionPanelDetails>
+                        <p>To facilitate fact-based political dialogue through friendly competition, and provide a fun alternative for how people consume news and become politically engaged.</p>
+                    </ExpansionPanelDetails>
+                </ExpansionPanel>
 
-                <h3>Where do you get your questions from? </h3>
-                <p>Our team responsible for generating questions includes individuals from all political backgrounds and experience. It is our hope that by combining liberal and conservative voices when creating questions each day, we are able to highlight the issues that matter to most Americans around the country, regardless of their political party or experience in politics. Before publishing a question we make sure to corroborate the information included with multiple reputable news sources. </p>
+                <ExpansionPanel>
+                    <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
+                        <h3>Where do you get your questions from? </h3>
+                    </ExpansionPanelSummary>
+                    <ExpansionPanelDetails>
+                        <p>Our team responsible for generating questions includes individuals from all political backgrounds and experience. It is our hope that by combining liberal and conservative voices when creating questions each day, we are able to highlight the issues that matter to most Americans around the country, regardless of their political party or experience in politics. Before publishing a question we make sure to corroborate the information included with multiple reputable news sources. </p>
+                    </ExpansionPanelDetails>
+                </ExpansionPanel>
 
-                <h3>Why don’t you include a source of information for each question? </h3>
-                <p>This site is intended to encourage skepticism and force users to do their own research instead of blindly accepting the validity of questions they feel are inaccurate. That is why even though we try very hard to provide questions centered around indisputable facts, we also make it very easy and beneficial for a user to contest a question should they find conflicting data. The decision not to include names of publications or news sources is also deliberate. Many people tend to already have preconceived biases towards most sources, therefore we thought it best to just focus on the facts themselves. </p>
+                <ExpansionPanel>
+                    <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
+                        <h3>Why don’t you include a source of information for each question? </h3>
+                    </ExpansionPanelSummary>
+                    <ExpansionPanelDetails>
+                        <p>This site is intended to encourage skepticism and force users to do their own research instead of blindly accepting the validity of questions they feel are inaccurate. That is why even though we try very hard to provide questions centered around indisputable facts, we also make it very easy and beneficial for a user to contest a question should they find conflicting data. The decision not to include names of publications or news sources is also deliberate. Many people tend to already have preconceived biases towards most sources, therefore we thought it best to just focus on the facts themselves. </p>
+                    </ExpansionPanelDetails>
+                </ExpansionPanel>
 
-                <h3>How do you decide which submitted questions are accepted and posted to the site? </h3>
-                <p>Submitted and contested questions are reviewed by a team of individuals who fall on both sides of the political spectrum. If you submitted a question that was not accepted by our panel, it is likely because: the source of information was not legitimate; the question was misleading or not political in focus; a similar question already exists or was previously generated by a member of our team. Please note that it is entirely within our discretion to accept or reject any questions that are submitted, however we hope that does not discourage anyone from contributing. </p>
+                <ExpansionPanel>
+                    <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
+                        <h3>How do you decide which submitted questions are accepted and posted to the site? </h3>
+                    </ExpansionPanelSummary>
+                    <ExpansionPanelDetails>
+                        <p>Submitted and contested questions are reviewed by a team of individuals who fall on both sides of the political spectrum. If you submitted a question that was not accepted by our panel, it is likely because: the source of information was not legitimate; the question was misleading or not political in focus; a similar question already exists or was previously generated by a member of our team. Please note that it is entirely within our discretion to accept or reject any questions that are submitted, however we hope that does not discourage anyone from contributing. </p>
+                    </ExpansionPanelDetails>
+                </ExpansionPanel>
 
-                <h3>What’s the difference between the weekly and monthly challenges/ jackpots? </h3>
-                <p>The weekly jackpot is a smaller amount of money awarded every Sunday night to the top user on the weekly userboard (whoever answered most questions correctly for that week will receive an email with instructions). The monthly jackpot is a larger amount of money that will be allocated to the top users of each political party based on their performance on a recorded video game-show, with the first place winner receiving most of the jackpot and the other two users splitting the rest. New users are able to still compete in the current weekly and monthly challenges (as quizzes are only deleted at the end of the month); however, they will be at a disadvantage (at first) if they join halfway through a month because they will have to go back and complete quizzes from previous weeks in order to catch up to other users. </p>
-                
-                <h3>What if there are multiple users in first place on the weekly leaderboard? </h3>
-                <p>Then the weekly jackpot would be split equally among those users. </p>
+                <ExpansionPanel>
+                    <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
+                        <h3>What’s the difference between the weekly and monthly challenges/ jackpots? </h3>
+                    </ExpansionPanelSummary>
+                    <ExpansionPanelDetails>
+                        <p>The weekly jackpot is a smaller amount of money awarded every Sunday night to the top user on the weekly userboard (whoever answered most questions correctly for that week will receive an email with instructions). The monthly jackpot is a larger amount of money that will be allocated to the top users of each political party based on their performance on a recorded video game-show, with the first place winner receiving most of the jackpot and the other two users splitting the rest. New users are able to still compete in the current weekly and monthly challenges (as quizzes are only deleted at the end of the month); however, they will be at a disadvantage (at first) if they join halfway through a month because they will have to go back and complete quizzes from previous weeks in order to catch up to other users. </p>
+                    </ExpansionPanelDetails>
+                </ExpansionPanel>
 
-                <h3>I made it to the top of the monthly leaderboard. Do I have to compete in the video game-show in order to receive the monthly jackpot? </h3>
-                <p>Yes. The user with the highest monthly score for each party will receive an email at the end of the month with instructions for participating in the video game-show. Users will have a few dates and times to choose from for when the game-show will be held, and they will need access to a computer or smartphone with a strong internet connection in order to compete. Users must also download a free video conferencing app (which they can later delete), but they do NOT need to share their video and can instead call in/ appear anonymous if they wish. The recorded video game-show will be edited and posted to the site as well as politIQ’s YouTube channel, therefore signed consent is also required. I know we’re asking a lot here, but we’re also offering free money, so… </p>
+                <ExpansionPanel>
+                    <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
+                        <h3>What if there are multiple users in first place on the weekly leaderboard? </h3>
+                    </ExpansionPanelSummary>
+                    <ExpansionPanelDetails>
+                        <p>Then the weekly jackpot would be split equally among those users. </p>
+                    </ExpansionPanelDetails>
+                </ExpansionPanel>
 
-                <h3>How is my politIQ different from my monthly or weekly scores?</h3>
-                <p>*It is the average of all your previous weekly scores. </p>
+                <ExpansionPanel>
+                    <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
+                        <h3>I made it to the top of the monthly leaderboard. Do I have to compete in the video game-show in order to receive the monthly jackpot? </h3>
+                    </ExpansionPanelSummary>
+                    <ExpansionPanelDetails>
+                        <p>Yes. The user with the highest monthly score for each party will receive an email at the end of the month with instructions for participating in the video game-show. Users will have a few dates and times to choose from for when the game-show will be held, and they will need access to a computer or smartphone with a strong internet connection in order to compete. Users must also download a free video conferencing app (which they can later delete), but they do NOT need to share their video and can instead call in/ appear anonymous if they wish. The recorded video game-show will be edited and posted to the site as well as politIQ’s YouTube channel, therefore signed consent is also required. I know we’re asking a lot here, but we’re also offering free money, so… </p>
+                    </ExpansionPanelDetails>
+                </ExpansionPanel>
 
-                <h3>How do I delete my account?</h3>
-                <p>Go to your profile page, click “Edit Profile” and then “Delete Account”. This will remove your profile and data from the site. </p>
+                <ExpansionPanel>
+                    <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
+                        <h3>How is my politIQ different from my monthly or weekly scores?</h3>
+                    </ExpansionPanelSummary>
+                    <ExpansionPanelDetails>
+                        <p>It is the average of all your previous weekly scores. </p>
+                    </ExpansionPanelDetails>
+                </ExpansionPanel>
 
-                <h3>How do I reach out if I have a question or concern? </h3>
-                <p>Email <a href="mailto:info@whatsmypolitiq.com">info@whatsmypolitiq.com</a> and we will try and get back to you ASAP. </p>
+
+                <ExpansionPanel>
+                    <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
+                        <h3>How do I delete my account?</h3>
+                    </ExpansionPanelSummary>
+                    <ExpansionPanelDetails>
+                        <p>Go to your profile page, click “Edit Profile” and then “Delete Account”. This will remove your profile and data from the site. </p>
+                    </ExpansionPanelDetails>
+                </ExpansionPanel>
+
+                <ExpansionPanel>
+                    <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
+                        <h3>How do I reach out if I have a question or concern? </h3>
+                    </ExpansionPanelSummary>
+                    <ExpansionPanelDetails>
+                        <p>Email <a href="mailto:info@whatsmypolitiq.com">info@whatsmypolitiq.com</a> and we will try and get back to you ASAP. </p>
+                    </ExpansionPanelDetails>
+                </ExpansionPanel>
+
             </div>
         </Paper>
     )

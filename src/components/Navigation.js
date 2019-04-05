@@ -162,6 +162,11 @@ class NavigationAuth extends Component {
                     <ListItemText primary="Profile" />
                   </ListItem>
                 </Link>
+                <Link to={routes.FAQ} style={{ textDecoration: 'none' }}>
+                  <ListItem button>
+                    <ListItemText primary="Frequently Asked Questions" />
+                  </ListItem>
+                </Link>
                 <ListItem button component="a" onClick={this.signOut}>
                   <ListItemText primary="Sign Out" />
                 </ListItem>
@@ -194,6 +199,11 @@ class NavigationAuth extends Component {
                 <Link to={`/profile/${this.state.signedInUser}`} style={{ textDecoration: 'none'}}>
                   <ListItem button>
                     <ListItemText primary="Profile" />
+                  </ListItem>
+                </Link>
+                <Link to={routes.FAQ} style={{ textDecoration: 'none' }}>
+                  <ListItem button>
+                    <ListItemText primary="Frequently Asked Questions" />
                   </ListItem>
                 </Link>
                 <ListItem button component="a" onClick={this.signOut}>

@@ -1,5 +1,7 @@
 import React from 'react';
 import { Helmet } from 'react-helmet';
+import { Link } from 'react-router-dom';
+import { FAQ } from '../../constants/routes';
 
 import Paper from '@material-ui/core/Paper';
 
@@ -22,7 +24,7 @@ const About = () => {
 
         <p>If you agree, or simply want to spread the word about an easy way to win some money, invite your friends and foes alike to join politIQ!</p>
 
-        <p style={{ marginTop: '8vh'}}>Have a question or want to send me some hate mail? Email me at <a href="mailto: info@whatsmypolitiq.com">info@whatsmypolitiq.com</a></p>
+        <p style={{ marginTop: '8vh'}}>Have a question or want to send me some hate mail? Check out our <Link to={FAQ}>Frequently Asked Questions</Link> or email me at <a href="mailto: info@whatsmypolitiq.com">info@whatsmypolitiq.com</a></p>
       </div>
     </Paper>
   );

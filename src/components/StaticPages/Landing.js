@@ -18,6 +18,7 @@ const LandingPage = () =>
     <img src={bg} id="bg-image" alt="democrats and republicans face off"/>
 
     <TodaysQuizButton buttonText="Click HERE to find out!" id="home-button" disabled={false} />
+    <p style={{ marginTop: '1vh' }}>or scroll down for more info</p>
 
     <div className="home-description">
       <h4> INTERESTED IN POLITICS AND CONSTANTLY CONSUMED BY THE NEWS?</h4>
