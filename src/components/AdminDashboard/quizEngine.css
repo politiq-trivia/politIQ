@@ -128,6 +128,12 @@
   }
 }
 
+.showQuestion {
+  -webkit-user-select: text !important;
+  -webkit-tap-highlight-color: #ECD6FD;
+  -webkit-touch-callout: default;
+}
+
 @media screen and (max-width: 416px) {
   .show {
     width: 90vw;

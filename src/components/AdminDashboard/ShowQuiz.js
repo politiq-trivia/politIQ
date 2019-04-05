@@ -77,9 +77,9 @@ class ShowQuiz extends Component {
 
           <RadioGroup
             aria-label={q[1]["q1"]}
-            inputref="none"
+            inputref={null}
           >
-            <div className="show" style={{ display: 'flex'}} inputref="none">
+            <div className="show" style={{ display: 'flex'}} inputref={null}>
               <FormControlLabel value={q[1]["a1text"]} control={<Radio
                 checked={false}
                 icon={<RadioButtonUncheckedIcon />}
