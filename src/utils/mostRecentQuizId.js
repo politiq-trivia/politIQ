@@ -6,12 +6,13 @@ let scoreData;
 const getMostRecentQuizId = async () => {
     if (localStorage.hasOwnProperty('authUser')) {
         const uid = JSON.parse(localStorage.authUser).uid
-        db.getScoresByUid(uid)
-            .then(response => {
+        const scoreReply = db.getScoresByUid(uid)
+            .then(async response => {
                 scoreData = response.val()
+                const reply = await getMostRecentQuizIdForUser(scoreData)
+                return reply;
             })
-            const reply = await getMostRecentQuizIdForUser(scoreData)
-            return reply;
+        return scoreReply;
     } else {
         const response = await getMostRecentQuizIdForUser()
         return response;
@@ -19,7 +20,7 @@ const getMostRecentQuizId = async () => {
 
 }
 
-const getMostRecentQuizIdForUser = async () => {
+const getMostRecentQuizIdForUser = async (scoreData) => {
     const quizId = await db.getQuizzes()
         .then(response => {
             const data = response.val();
@@ -31,8 +32,9 @@ const getMostRecentQuizIdForUser = async () => {
             }
             let counter = 1;
             let mostRecent = dateArray[dateArray.length-counter]
+            // if the user has scores, loop through those scores to find the first quiz they do not have a score for
             if (scoreData) {
-                while(scoreData[mostRecent && counter < dateArray.length]) {
+                while(scoreData[mostRecent] && counter < dateArray.length) {
                     counter++;
                     mostRecent = dateArray[dateArray.length-counter]
                     if (scoreData[mostRecent === undefined]) {

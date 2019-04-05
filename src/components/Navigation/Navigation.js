@@ -12,14 +12,15 @@ import Toolbar from '@material-ui/core/Toolbar';
 import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
 import AccountCircle from '@material-ui/icons/AccountCircle';
-import Button from '@material-ui/core/Button';
 
-import { auth, firebase } from '../firebase';
-import { AuthUserContext, withAuthentication } from './Auth/index';
-import * as routes from '../constants/routes';
-import getMostRecentQuizId from '../utils/mostRecentQuizId';
+import { auth, firebase } from '../../firebase';
+import { db } from '../../firebase/firebase';
+import { AuthUserContext, withAuthentication } from '../Auth';
+import * as routes from '../../constants/routes';
+import getMostRecentQuizId from '../../utils/mostRecentQuizId';
+import NavigationNonAuth from './NonAuth';
 
-import Logo from './logo1.png';
+import Logo from '../logo1.png';
 
 const Navigation = ({ clearStateOnSignout }) => {
   return (
@@ -45,7 +46,6 @@ const styles = theme => ({
   },
   appBar: {
     zIndex: theme.zIndex.drawer + 1,
-    // marginBottom: '-17vh',
   },
   drawerPaper: {
     position: 'relative',
@@ -82,18 +82,21 @@ class NavigationAuth extends Component {
     })
     if (localStorage.authUser) {
       const authUser = JSON.parse(localStorage.authUser)
+      this.scores = db.ref().child('scores').child(`${authUser.uid}`)
+      this.scores.on('value', snapshot => {
+        if (snapshot.val() !== this.state.snapshot) {
+          this.setState({
+            snapshot: snapshot.val()
+          })
+          this.getMostRecentQuizId()
+        }
+      })
+
       this.setState({
         signedInUser: authUser.uid,
         isAdmin: true
       })
     }
-  }
-
-  componentDidUpdate = () => {
-    if (window.location.href.includes('/quiz')) {
-      this.getMostRecentQuizId()
-      return true;
-    } else return false;
   }
 
   toggleDrawer = (side, open) => () => {
@@ -269,54 +272,7 @@ class NavigationAuth extends Component {
 // const NavigationAuth = withAuthentication(NavigationAuthBase);
 
 
-class NavigationNonAuth extends Component {
-  constructor(props) {
-    super(props);
 
-    this.state = {
-      top: false,
-    };
-  }
-
-  toggleDrawer = (side, open) => () => {
-    this.setState({
-      [side]: open,
-    })
-  }
-
-  render() {
-    return (
-      <div className={styles.root}>
-        <AppBar position="fixed" className={styles.appBar}>
-          <Toolbar>
-            <Link to={routes.LANDING} style={{ textDecoration: 'none' }}>
-              <img src={Logo} alt="PolitIQ" style={{ height: '7vh', marginTop: '3px'}}/>
-            </Link>
-            <div style={{ width: '100%' }}>
-
-              <Link to={routes.SIGN_IN} style={{ textDecoration: 'none', marginLeft: 'auto', marginRight: '0', color: 'white', float: 'right'}}>
-                <Button
-                  aria-haspopup='true'
-                  color="inherit"
-                >
-                  Sign In
-                </Button>
-              </Link>
-              <Link to={routes.ABOUT} style={{ textDecoration: 'none', marginLeft: 'auto', marginRight: '0', color: 'white', float: 'right'}}>
-                <Button
-                  aria-haspopup='true'
-                  color="inherit"
-                >
-                  About
-                </Button>
-              </Link>
-            </div>
-          </Toolbar>
-        </AppBar>
-      </div>
-    )
-  }
-}
 
 
   export default withAuthentication(Navigation);

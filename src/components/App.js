@@ -6,7 +6,7 @@ import {
 import './App.css';
 import { db, withFirebase } from '../firebase';
 
-import Navigation from './Navigation';
+import Navigation from './Navigation/Navigation';
 import LandingPage from './StaticPages/Landing';
 import SignUpPage from './Auth/SignUp';
 import SignInPage from './Auth/SignIn';
