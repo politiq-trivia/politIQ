@@ -74,6 +74,7 @@ class AdminDashboard extends Component {
             const title = data[date]["quiz-title"]
             titleArray.push(title)
           }
+
           this.setState({
             dateArray: dateArray.reverse(),
             titleArray: titleArray.reverse(),

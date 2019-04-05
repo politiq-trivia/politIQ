@@ -12,12 +12,12 @@ import IconButton from '@material-ui/core/IconButton';
 import DeleteIcon from '@material-ui/icons/Delete';
 import Checkbox from '@material-ui/core/Checkbox';
 import TableBody from '@material-ui/core/TableBody';
-// import TextField from '@material-ui/core/TextField';
-// import Select from '@material-ui/core/Select';
-// import MenuItem from '@material-ui/core/MenuItem';
+import TextField from '@material-ui/core/TextField';
+import Select from '@material-ui/core/Select';
+import MenuItem from '@material-ui/core/MenuItem';
 
 import DeleteModal from './DeleteModal';
-// import { OutlinedInput } from '@material-ui/core';
+import { OutlinedInput } from '@material-ui/core';
 
 const toolbarStyles = theme => ({
   root: {
@@ -51,7 +51,7 @@ class QuizList extends Component {
       numSelected: 0,
       rowCount: 0,
       page: 0,
-      rowsPerPage: 5,
+      rowsPerPage: 15,
       selected: [],
       selectAll: false,
       showDeleteModal: false,
@@ -131,52 +131,43 @@ class QuizList extends Component {
   }
 
   render () {
-    console.log(this.state, 'state')
     const { rowsPerPage, page } = this.state;
     const emptyRows = rowsPerPage - Math.min(rowsPerPage, this.props.quizDates.length - page * rowsPerPage);
 
     const quizDates = this.props.quizDates
     const quizTitles = this.props.quizTitles
 
-    // let filteredQuizDates = [];
-    // let filteredQuizTitles = [];
+    let filteredQuizDates = [];
+    let filteredQuizTitles = [];
 
-    // if (this.state.search === "") {
-    //   filteredQuizDates = quizDates;
-    //   filteredQuizTitles = quizTitles;
-    // } else if (this.state.searchCategory === "date") {
-    //   filteredQuizDates = quizDates.filter((date) => {
-    //     const index = date.toLowerCase().indexOf(this.state.search)
-    //     if (index !== -1) {
-    //       filteredQuizTitles.push(quizTitles[index])
-    //     }
-    //     return date.toLowerCase().indexOf(this.state.search) !== -1
-    //   })
-    // } else if (this.state.searchCategory === 'title') {
-    //   filteredQuizTitles = quizTitles.filter((title) => {
-    //     const index = title.toLowerCase().indexOf(this.state.search)
-    //     if (index !== -1) {
-    //       console.log(title)
-    //       const titleIndex = quizTitles.indexOf(title)
-    //       console.log((titleIndex), 'quizDate index thing')
-    //       console.log(quizDates[titleIndex], 'this is the date')
-    //       filteredQuizDates.push(quizDates[index])
-    //     }
-    //     return title.toLowerCase().indexOf(this.state.search) !== -1
-    //   })
-    // }
+    if (this.state.search === "") {
+      filteredQuizDates = quizDates;
+      filteredQuizTitles = quizTitles;
+    } else if (this.state.searchCategory === "title") {
+      // loop through the quiz titles
+      quizTitles.forEach((title, i) => {
+        // if the title contains the search query, push it into the filtered titles array 
+        if (title.toLowerCase().includes(this.state.search.toLowerCase())) {
+          filteredQuizTitles.push(title)
+          // find the index of the corresponding date for that title
+          // push that date into the filtered dates array 
+          filteredQuizDates.push(quizDates[i])
+        }
+      })
+    } else if (this.state.searchCategory === 'date') {
+      quizDates.forEach((date, i) => {
+        if (date.includes(this.state.search)) {
+          filteredQuizDates.push(date)
+          filteredQuizTitles.push(quizTitles[i])
+        }
+      })
+    }
 
-    // console.log(filteredQuizDates)
-    // console.log(filteredQuizTitles)
-
-    const newList = quizDates.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage);
-    const newTitles = quizTitles.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+    const newList = filteredQuizDates.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage);
+    const newTitles = filteredQuizTitles.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
     const List = newList.map((date, i) => {
       let id = date;
       let title = newTitles[i]
-      // console.log(date, 'this is the date')
-      // console.log(title, 'this is title')
-      // console.log('--------------')
       let shortDate = date.slice(0, 10)
       return (
         <TableRow id={date} key={id} className="tableItem">
@@ -223,7 +214,7 @@ class QuizList extends Component {
                   ) : null }
                 </div>
               </Toolbar>
-              {/* <TextField 
+              <TextField 
                 id="search"
                 label="Search"
                 value={this.state.search}
@@ -245,7 +236,7 @@ class QuizList extends Component {
               >
                 <MenuItem value={"title"}>Quiz Title</MenuItem>
                 <MenuItem value={"date"}>Date</MenuItem>
-              </Select> */}
+              </Select>
               <Table>
                 <TableHead>
                   <TableRow>
