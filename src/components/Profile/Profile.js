@@ -53,9 +53,14 @@ class ProfilePage extends Component {
   }
 
   toggleEditProfile = () => {
-    if (this.state.editingProfile) {
-      this.getUserInfo(this.state.userInfo.uid)
-    }
+    // if (this.state.editingProfile) {
+    //   console.log('calling getUserinfo in toggleEditProfile')
+    //   console.log(this.state.userInfo.uid, 'should be uid')
+    //   console.log(this.state.userInfo, 'should be full userInfo obj')
+    //   // originally, the userInfo is pulled from localStorage and not directly from the db
+    //   // this method is used to update info once it is changed. 
+    //   this.getUserInfo(this.state.userInfo.uid)
+    // }
     this.setState({
       editingProfile: !this.state.editingProfile,
     })
@@ -67,29 +72,29 @@ class ProfilePage extends Component {
     })
   }
 
-  unsubscribe = () => {
-    navigator.serviceWorker.ready.then(registration => {
-      // find the registered push subscription in the service worker
-      registration.pushManager  
-        .getSubscription()
-        .then(subscription => {
-          if (!subscription) {
-            return;
-            // if there's no subscription, there's nothing to do.
-          }
+  // unsubscribe = () => {
+  //   navigator.serviceWorker.ready.then(registration => {
+  //     // find the registered push subscription in the service worker
+  //     registration.pushManager  
+  //       .getSubscription()
+  //       .then(subscription => {
+  //         if (!subscription) {
+  //           return;
+  //           // if there's no subscription, there's nothing to do.
+  //         }
 
-          subscription
-            .unsubscribe()
-            .then(() => {
-              // delete the user from the db 
-              console.log({subscription})
-              console.log({registration})
-              console.log('delete user from db')
-            })
-            .catch(err => console.error(err))
-        })
-    })
-  }
+  //         subscription
+  //           .unsubscribe()
+  //           .then(() => {
+  //             // delete the user from the db 
+  //             console.log({subscription})
+  //             console.log({registration})
+  //             console.log('delete user from db')
+  //           })
+  //           .catch(err => console.error(err))
+  //       })
+  //   })
+  // }
 
   toPublicProfile = () => {
     this.props.history.push(`/profile/${this.state.userInfo.uid}`)

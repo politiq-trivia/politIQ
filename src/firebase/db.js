@@ -57,6 +57,7 @@ export const lastActive = (uid, date) => {
 }
 
 export const getOneUser = (uid) => {
+  console.log({uid}, 'in db')
   const user = db.ref('users').child(uid).once('value')
   return user;
 }

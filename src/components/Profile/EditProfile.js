@@ -21,12 +21,15 @@ class EditProfile extends Component {
   }
 
   componentDidMount = () => {
+    // rather than passing the user info as props, I'm going to grab it from local storage again to avoid errors.
+    const userInfo = JSON.parse(localStorage.getItem('authUser'))
+    console.log({userInfo})
     this.setState({
-      displayName: this.props.displayName,
-      email: this.props.email,
-      bio: this.props.bio,
-      uid: this.props.uid,
-      affiliation: this.props.affiliation,
+      displayName: userInfo.displayName,
+      email: userInfo.email,
+      bio: userInfo.bio,
+      uid: userInfo.uid,
+      affiliation: userInfo.affiliation,
     })
   }
 
@@ -43,7 +46,11 @@ class EditProfile extends Component {
       affiliation: this.state.affiliation,
       bio: this.state.bio,
     }
-    await db.editUser(this.props.uid, updates)
+
+    const oldUserInfo = JSON.parse(localStorage.getItem('authUser'))
+    console.log({oldUserInfo}, 'before changes')
+    const uid = oldUserInfo.uid
+    await db.editUser(uid, updates)
 
     if (this.props.email !== this.state.email) {
       const user = firebase.auth().currentUser
@@ -53,8 +60,18 @@ class EditProfile extends Component {
         console.error(error)
       })
     }
+    // this is getting called twice which is causing it to error out I think?
+    this.props.getUserInfo(oldUserInfo.uid)
 
-    this.props.getUserInfo(this.props.uid)
+    // once the user saves their info, update the local storage object as well because that's used throughout the applicaiton
+    oldUserInfo.displayName = updates.displayName;
+    oldUserInfo.email = updates.email;
+    oldUserInfo.affiliation = updates.affiliation;
+    oldUserInfo.bio = updates.bio
+
+    console.log({oldUserInfo}, 'after changes')
+    localStorage.setItem('authUser', JSON.stringify(oldUserInfo))
+
 
     if(localStorage.hasOwnProperty('fbAuth')) {
       localStorage.removeItem('fbAuth')
@@ -81,7 +98,8 @@ class EditProfile extends Component {
       })
     }
 
-    this.props.getUserInfo(this.props.uid)
+    // commenting bc might be being called twice
+    // this.props.getUserInfo(this.props.uid)
 
     if(localStorage.hasOwnProperty('fbAuth')) {
       localStorage.removeItem('fbAuth')
