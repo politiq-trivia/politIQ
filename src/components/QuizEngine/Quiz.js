@@ -96,6 +96,7 @@ class Quiz extends PureComponent {
           finished: false,
           clicked: false,
           currentQ: 1,
+          score: 0,
         })
       })
   }

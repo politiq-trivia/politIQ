@@ -57,7 +57,7 @@ class FinishQuiz extends Component {
                             <FacebookShareButton url={ getHref() } className="shareable" quote={`I scored ${score} out of ${quizLength} points on today's quiz! Click here to see how you rank up!`}>
                                 <FacebookIcon round={true} size={32} />
                             </FacebookShareButton>
-                            <LinkedinShareButton url={ getHref() } className="shareable" title="Can you beat my score?" description={`I got ${score} out of ${quizLength} points on today's quiz. Click below to see how you rank up!`}>  
+                            <LinkedinShareButton url={ getHref() } className="shareable" title="Can you beat my score?" description={`I got ${score} out of ${quizLength} points on today's quiz. Click here to see how you rank up!`}>  
                                 <LinkedinIcon round={true} size={32} />
                             </LinkedinShareButton>
                             <TwitterShareButton url={ getHref() } title="Can you beat my score?" className="shareable">
@@ -66,7 +66,7 @@ class FinishQuiz extends Component {
                             <WhatsappShareButton url={ getHref() } className="shareable" title="Can you beat my score?">
                                 <WhatsappIcon round={true} size={32} />
                             </WhatsappShareButton>
-                            <EmailShareButton url={ getHref() } className="shareable" subject="Can you beat my score?" body={`I scored ${score} out of ${quizLength} points on today's quiz. Click below to see how you rank up!`}>
+                            <EmailShareButton url={ getHref() } className="shareable" subject="Can you beat my score?" body={`I scored ${score} out of ${quizLength} points on today's quiz. Click here to see how you rank up!`}>
                                 <EmailIcon round={true} size={32} />
                             </EmailShareButton>
                         </div>
