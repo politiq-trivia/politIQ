@@ -1,7 +1,6 @@
 // calculate a politIQ for a single user 
 import { db } from '../firebase';
 
-
 export const getPolitIQ = async (uid) => {
     // get all the quizzes
     const quizNum = await getQuizzes()
@@ -15,20 +14,21 @@ export const getPolitIQ = async (uid) => {
 }
 
 const getQuizzes = async () => {
-    let quizNum;
+    let qNum;
     await db.getQuizzes()
         .then(response => {
             const data = response.val()
             const quizDates = Object.keys(data);
-            const fromSelectedRange = [];
+            let questionCounter = 0;
             for (let i = 0; i < quizDates.length; i++) {
-                // if (quizDates[i] > moment().startOf(timeframe).format('YYYY-MM-DD')) {
-                    fromSelectedRange.push(quizDates[i])
-                // }
+                if (quizDates[i] > '2019-04-01T00:00') {
+                    const quizLength = Object.keys(data[quizDates[i]]).length - 1
+                    questionCounter += quizLength
+                }
             }
-            quizNum = fromSelectedRange.length;
+            qNum = questionCounter;
         })
-    return quizNum;
+    return qNum;
 }
 
 const getScores = async (uid) => {
@@ -41,11 +41,12 @@ const getScores = async (uid) => {
             } else {
                 const scoreDates = Object.keys(data);
                 for (let i = 0; i < scoreDates.length; i++) {
-                    // if (scoreDates[i] > moment().startOf(timeframe).format('YYYY-MM-DD')) {
+                    if (scoreDates[i] > '2019-04-01T00:00') {
                         if(scoreDates[i] !== "submitted") {
+                            // this one adds up the total score
                             score += data[scoreDates[i]]
                         }
-                    // }
+                    }
                 }
             }
             return score;
@@ -54,9 +55,6 @@ const getScores = async (uid) => {
 }
 
 const calculatePolitIQ = (score, quizNum) => {
-    const qNum = 5;
-    const averageScore = score / qNum;
-    const politIQ = Math.round((averageScore / quizNum) * 100);
-
+    const politIQ = Math.round((score / quizNum) * 100);
     return politIQ;
 }
