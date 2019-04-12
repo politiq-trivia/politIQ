@@ -66,7 +66,7 @@ class Quiz extends PureComponent {
 
   componentWillUnmount = () => {
     window.clearTimeout(this.timer)
-    window.clearInterval(this.progressBar)
+    // window.clearInterval(this.progressBar)
   }
 
   getUser = () => {
@@ -183,13 +183,14 @@ class Quiz extends PureComponent {
   }
 
   checkCorrect = (value) => {
+    console.log('check correct called', value)
     // if the user has not selected a value and the quiz is finished, return 
     if (value === undefined && this.state.finished) {
       return;
     } else {
       // stop the timers
       window.clearTimeout(this.timer)
-      window.clearInterval(this.progressBar)
+      // window.clearInterval(this.progressBar)
       const selected = value;
       const question = this.state.questionsArray[this.state.currentQ - 1];
       const str = "a" + selected + "correct"
@@ -237,6 +238,7 @@ class Quiz extends PureComponent {
       this.setState({ selectedValue: value });
       this.checkCorrect(value)
     } else if (event !== undefined && (event.target.tagName === "SPAN")) {
+      console.log('handle submit else called')
       const value = event.target.parentNode.id;
       this.setState({ selectedValue: value });
       this.checkCorrect(value)
@@ -285,7 +287,7 @@ class Quiz extends PureComponent {
                   </div>
                   <MediaQuery minWidth={416}>
                     <div style={{ float: 'right' }} className={this.state.clicked ? 'dontShowClock' : 'showClock'}>
-                      <ReactCountdownClock key={this.state.currentQ} seconds={40} size={50} color="#a54ee8" alpha={0.9} onComplete={() => this.checkCorrect()}/>
+                      <ReactCountdownClock key={this.state.currentQ} seconds={40} size={50} color="#a54ee8" alpha={0.9} onComplete={this.state.selectedValue === '' ? () => this.checkCorrect() : null}/>
                     </div>
                   </MediaQuery>
 

@@ -170,7 +170,7 @@ class WeeklyLeaderboard extends Component {
           <TableCell style={{ width: '40%'}} padding="none">
             {stat[0]}
           </TableCell>
-          <TableCell>
+          <TableCell style={{ fontWeight: 'bold' }}>
             {stat[1]}
           </TableCell>
           <TableCell>
@@ -200,7 +200,7 @@ class WeeklyLeaderboard extends Component {
                 <TableCell style={{ minWidth: '50px' }} padding="none">
                   User
                 </TableCell>
-                <TableCell style={{ minWidth: '30px'}} padding="none">
+                <TableCell style={{ minWidth: '30px', fontWeight: 'bold'}} padding="none">
                   Score
                 </TableCell>
                 <TableCell style={{ minWidth: '30px'}} padding="none">
