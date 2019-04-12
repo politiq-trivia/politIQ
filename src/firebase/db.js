@@ -57,7 +57,6 @@ export const lastActive = (uid, date) => {
 }
 
 export const getOneUser = (uid) => {
-  console.log({uid}, 'in db')
   const user = db.ref('users').child(uid).once('value')
   return user;
 }
@@ -69,6 +68,13 @@ export const editUser = (uid, updates) => {
 
 export const awardMoney = (uid, amount) => {
   db.ref('users').child(uid).child('moneyWon').set(amount);
+}
+
+export const getAffiliation = (uid) => {
+  const affiliation = db.ref('users').child(uid).child('affiliation').once('value', function(snapshot) {
+    return snapshot.val()
+  })
+  return affiliation;
 }
 
 // -------------------------------------------------------------------------

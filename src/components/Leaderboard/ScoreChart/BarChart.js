@@ -4,6 +4,7 @@ import { scaleBand, scaleLinear } from 'd3-scale';
 import * as d3 from 'd3';
 import { Element } from 'react-faux-dom';
 import { db } from '../../../firebase';
+import { getPolitIQ } from '../../../utils/calculatePolitIQ';
 
 import ResponsiveChart from './ChartWrapper';
 import "./Axis.css";
@@ -25,97 +26,61 @@ class BarChart extends Component {
     
       componentDidMount = () => {
         this.getScores(this.props.timeFrame)
-        this.getQuizzes(this.props.timeFrame)
         this.fitParentContainer();
-      }
-
-      componentDidUpdate(prevProps) {
-        if (prevProps.timeFrame !== this.props.timeFrame) {
-          this.getScores(this.props.timeFrame)
-          this.getQuizzes(this.props.timeFrame)
-          return true;
-        } else {
-          return false;
-        }
-      }
-
-      getQuizzes = async (timeFrame) => {
-        await db.getQuizzes()
-          .then(response => {
-            const data = response.val()
-            const quizDates = Object.keys(data)
-            let quizCounter = 0;
-            for (let i = 0; i < quizDates.length; i++) {
-              if (quizDates[i] > moment().startOf(timeFrame).format('YYYY-MM-DD')) {
-                quizCounter += 1
-              }
-            }
-            this.setState({
-              numQuizzes: quizCounter,
-            })
-          })
       }
 
       getScores = async (timeFrame) => {
         await db.getScores()
           .then(response => {
             const data = response.val()
-            this.getDemScores(data, 'Democrat', timeFrame)
-            this.getDemScores(data, 'Republican', timeFrame)
-            this.getDemScores(data, 'Independent', timeFrame)
+            const uidArray = Object.keys(data)
+            this.sortUserByAffiliation(uidArray)
           })
-          .then(() => {
-            this.setState({
-              loading: false
-            })
-          })
+
       }
-    
-      getDemScores = async (data, affiliation, timeFrame) => {
-        if (data === null) {return;}
-        const userScores = []
-        await db.getUserByAffiliation(affiliation)
-          .then(usernames => {
-            const numUsers = Object.keys(usernames).length;
-            usernames.forEach((user, i) => {
-              const dateObject = data[usernames[i]]
-              let quizDates = []
-              let submitted = []
-              if (dateObject !== undefined) {
-                quizDates = Object.keys(dateObject)
-                // submitted scores don't get counted in the original monthly score
-                if (quizDates[quizDates.length -1] === 'submitted') {
-                  submitted = dateObject["submitted"]
-                  quizDates.pop()
-                }
-              }
-              let scoreCounter = 0;
-              for (let j = 0; j < quizDates.length; j++) {
-                if (quizDates[j] > moment().startOf(timeFrame).format('YYYY-MM-DD')) {
-                  if (data[usernames[i]][quizDates[j]]) {
-                    scoreCounter += data[usernames[i]][quizDates[j]]
-                  }
-                }
-              }
-              // getting the submitted scores from the last month and adding them to the total user score
-              if (submitted !== []) {
-                const dates = Object.keys(submitted)
-                for (let j = 0; j < dates.length; j++) {
-                  if (dates[j].slice(10) > moment().startOf(timeFrame).format('YYYY-MM-DD')) {
-                    scoreCounter += 1
-                  }
-                }
-              }
-              userScores.push(scoreCounter)
-            })
-            const totalScore = userScores.reduce((a, b) => a + b, 0);
-            // const totalAverageScore = totalScore / (this.state.numQuizzes * 5)
-            const lengthLabel = affiliation + "length"
-            this.setState({
-              [affiliation]: totalScore,
-              [lengthLabel]: numUsers,
-            })
-          })
+
+      sortUserByAffiliation = async (data) => {
+        // the data is an array of UIDs. 
+        let republicans = [];
+        let democrats = [];
+        let independents = [];
+        let i = 0;
+        while (i < data.length) {
+          const user = data[i]
+          const rawAffiliation = await db.getAffiliation(user)
+          const affiliation = rawAffiliation.val()
+          if (affiliation === "Republican") {
+            republicans.push(user)
+          } else if (affiliation === "Democrat") {
+            democrats.push(user)
+          } else if (affiliation === "Independent") {
+            independents.push(user)
+          }
+          i++
+        }
+        this.getAvgPolitIQs('Democrat', democrats)
+        this.getAvgPolitIQs('Republican', republicans)
+        this.getAvgPolitIQs('Independent', independents)
+
+        this.setState({
+          loading: false,
+        })
+      }
+
+      getAvgPolitIQs = async (affiliation, data) => {
+        // data is an array of uids
+        const numUsers = data.length;
+        let totalPolitIQs = 0;
+        let i = 0;
+        while (i < data.length) {
+          const politIQ = await getPolitIQ(data[i])
+          totalPolitIQs += politIQ
+          i++
+        }
+        const avgPolitIQ = Math.round(totalPolitIQs / numUsers)
+        this.setState({
+          [affiliation]: avgPolitIQ
+        })
       }
 
       fitParentContainer() {
@@ -134,10 +99,11 @@ class BarChart extends Component {
     }
 
     plot(chart, width, height, margin) {
+      // the data should be average score for each team - the score divided by the number of people on each team.
       const data = [
-        { party: 'D', score: (((this.state.Democrat * this.state.Democratlength) / this.state.Democratlength).toString()) },
-        { party: 'R', score: ((this.state.Republican * this.state.Republicanlength) / this.state.Republicanlength)},
-        { party: 'I', score: ((this.state.Independent * this.state.Independentlength) / this.state.Independentlength)},
+        { party: 'D', score: this.state.Democrat },
+        { party: 'R', score: this.state.Republican},
+        { party: 'I', score: this.state.Independent},
       ]
 
       const maxValue = Math.max(...data.map(d => d.score));
