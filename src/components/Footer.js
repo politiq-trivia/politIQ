@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 
 import { Link } from 'react-router-dom'
 import * as routes from '../constants/routes';
+import getMostRecentQuizId from '../utils/mostRecentQuizId';
 import { db } from '../firebase';
 
 import {
@@ -42,7 +43,8 @@ class Footer extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      mostRecentQuizURL: ""
+      mostRecentQuizURL: "",
+      noQuizzes: false
     }
   }
 
@@ -51,19 +53,30 @@ class Footer extends Component {
   }
 
   getMostRecentQuizId = async () => {
-    await db.getQuizzes()
-      .then(response => {
-        if (response.val() !== null) {
-          const data = response.val();
-          const dateArray = Object.keys(data);
-          const mostRecent = dateArray[dateArray.length-1]
-  
-          this.setState({
-            mostRecentQuizURL: "quiz/" + mostRecent
-          })
-
-        }
+    const quizId = await getMostRecentQuizId()
+    if (quizId === 'No Available Quizzes') {
+      this.setState({
+        noQuizzes: true,
       })
+    } else {
+      this.setState({
+        mostRecentQuizURL: quizId
+      })
+    }
+
+    // await db.getQuizzes()
+    //   .then(response => {
+    //     if (response.val() !== null) {
+    //       const data = response.val();
+    //       const dateArray = Object.keys(data);
+    //       const mostRecent = dateArray[dateArray.length-1]
+  
+    //       this.setState({
+    //         mostRecentQuizURL: "quiz/" + mostRecent
+    //       })
+
+    //     }
+    //   })
   }
 
   render() {
@@ -119,7 +132,7 @@ class Footer extends Component {
 
         </div>
         <div className="bottom-nav">
-          <Link to={this.state.mostRecentQuizURL} id="play">Play Now</Link>
+          <Link to={this.state.mostRecentQuizURL} id="play" disabled={this.state.noQuizzes}>Play Now</Link>
           <Link to="/leaderboard">Leaderboard</Link>
           <Link to="/about">About PolitIQ</Link>
         </div>

@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import moment from 'moment';
 import { scaleBand, scaleLinear } from 'd3-scale';
 import * as d3 from 'd3';
 import { Element } from 'react-faux-dom';
@@ -159,7 +158,7 @@ class BarChart extends Component {
         .attr('fill', '#000')
         .style('font-size', '20px')
         .style('text-anchor', 'middle')
-        .text('Party PolitIQs')
+        .text('Average Party PolitIQs')
     }
 
     drawChart() {
