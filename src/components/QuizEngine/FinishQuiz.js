@@ -50,10 +50,10 @@ class FinishQuiz extends Component {
                         <Button color="primary" variant="contained" onClick={toggleContest} className="end-button">Contest a Question</Button>
                         <Link to={SUBMIT_QUESTION} style={{ textDecoration: 'none' }}><Button color="primary" variant="contained" className="end-button">Submit Your Own Question</Button> </Link>
                     </div>
-                    <MediaQuery maxWidth={415}>
+                    {/* <MediaQuery maxWidth={415}> */}
                         <h3 style={{ textAlign: 'center', marginTop: '2vh' }}>Share Your Score:</h3>
 
-                        <div className="socials" style={{ display: 'flex', justifyContent: 'space-around', marginTop: '2vh', width: '70%', marginLeft: 'auto', marginRight: 'auto' }}>
+                        <div style={{ display: 'flex', justifyContent: 'space-around', marginTop: '2vh', width: '70%', marginLeft: 'auto', marginRight: 'auto', maxWidth: '200px' }}>
                             <FacebookShareButton url={ getHref() } className="shareable" quote={`I scored ${score} out of ${quizLength} points on today's quiz! Click here to see how you rank up!`}>
                                 <FacebookIcon round={true} size={32} />
                             </FacebookShareButton>
@@ -70,7 +70,7 @@ class FinishQuiz extends Component {
                                 <EmailIcon round={true} size={32} />
                             </EmailShareButton>
                         </div>
-                    </MediaQuery>
+                    {/* </MediaQuery> */}
                 </div>
             )
         } else {

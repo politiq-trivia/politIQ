@@ -3,6 +3,23 @@ import { Link } from 'react-router-dom';
 import { Helmet } from 'react-helmet';
 import { compose } from 'recompose';
 import axios from 'axios';
+import MediaQuery from 'react-responsive';
+
+import {
+  FacebookShareButton,
+  LinkedinShareButton,
+  TwitterShareButton,
+  WhatsappShareButton,
+  EmailShareButton
+} from 'react-share';
+
+import {
+  FacebookIcon,
+  TwitterIcon,
+  WhatsappIcon,
+  LinkedinIcon,
+  EmailIcon,
+} from 'react-share';
 
 
 import { withAuthorization, withEmailVerification } from '../Auth/index';
@@ -19,6 +36,10 @@ import CloseIcon from '@material-ui/icons/Close';
 import TodaysQuizButton from './TodaysQuizButton';
 
 import './Static.css';
+
+const getHref = () => {
+  return (window.location.href).toString();
+}
 
 class HomePage extends Component {
   constructor(props) {
@@ -187,6 +208,30 @@ class HomePage extends Component {
 
         <h4>The more you play, the better you score!</h4>
         <h4 style={{ marginTop: '0' }}>Don't forget to submit your own question for a chance to win points!</h4>
+
+        <MediaQuery maxWidth={415}>
+          <hr />
+          <h5>Share Your Score on Social Media:</h5>
+          <div className="mobile-socials" style={{ display: 'flex', marginTop: '1vh' }}>
+
+            <FacebookShareButton url={ getHref() } className="shareable" quote="Check out my politIQ:">
+              <FacebookIcon round={true} size={32} />
+            </FacebookShareButton>
+            <LinkedinShareButton url={ getHref() } className="shareable" title="Check out my politIQ" description="Are you smarter than a Republican? Democrat? Independent? Find out!">
+              <LinkedinIcon round={true} size={32}/>
+            </LinkedinShareButton>
+            <TwitterShareButton url={ getHref() } title="Check out my politIQ:" className="shareable" >
+              <TwitterIcon round={true} size={32} />
+            </TwitterShareButton>
+            <WhatsappShareButton url={ getHref() } className="shareable" title="Check out my politIQ:">
+              <WhatsappIcon round={true} size={32} />
+            </WhatsappShareButton>
+            <EmailShareButton url={ getHref() } className="shareable" subject="Check out my politIQ:" body="Are you smarter than a Republican? Democrat? Independent? Find out!">
+              <EmailIcon round={true} size={32} />
+            </EmailShareButton>
+
+          </div>
+        </MediaQuery>
 
       </Paper>
     );

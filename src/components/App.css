@@ -95,6 +95,13 @@ h3 {
   display: none;
 }
 
+hr {
+  border: 1px solid rgba(45, 45, 45, 0.80);
+  margin-left: auto;
+  margin-right: auto;
+  width: 80%;
+}
+
 @media (max-width: 680px) {
   .description, .sharing, .links {
     display: none;
