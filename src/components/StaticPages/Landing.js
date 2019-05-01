@@ -13,7 +13,19 @@ const LandingPage = () =>
   <Paper className="home-holder">
     <h1 id="main">Welcome to polit<span id="iq">IQ</span></h1>
     <h2 style={{ fontSize: '20px' }}>where you can answer the question... </h2>
-    <h2>Are you smarter than a: <span id="rep">REPUBLICAN</span>? <span id="dem">DEMOCRAT</span>? <span id="ind">INDEPENDENT</span>?</h2>
+    <h2>Are you smarter than a: </h2>
+      <div class="title anim-h1">
+        <span>Republican?</span>
+      </div>
+      
+      <div class="title anim-h2">
+        <span>Democrat?</span>
+      </div>
+
+      <div class="title anim-h3">
+        <span>Independent?</span>
+      </div>
+    {/* <span id="rep" class="party">REPUBLICAN?</span> <span id="dem" class="party">DEMOCRAT?</span><span id="ind" class="party">INDEPENDENT?</span> */}
 
     <img src={bg} id="bg-image" alt="democrats and republicans face off"/>
 
