@@ -231,6 +231,7 @@ class QuizList extends Component {
                   <OutlinedInput
                     name="searchCategory"
                     id="searchCategory"
+                    labelWidth={100}
                   />
                 }
               >

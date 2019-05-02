@@ -47,7 +47,7 @@ class QuizArchive extends Component {
       .then(response => {
         const data = response.val();
         const allDates = Object.keys(data);
-        const dateArray = allDates.filter(date => date < moment().format('YYYY-MM-DDTHH:mm') && date > moment().startOf('month').format('YYYY-MM-DDTHH:mm'));
+        const dateArray = allDates.filter(date => date < moment().format('YYYY-MM-DDTHH:mm') && date > moment().startOf('year').format('YYYY-MM-DDTHH:mm'));
         if (dateArray.length === 0 ) {
           this.setState({
             noQuizzes: true,

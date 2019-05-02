@@ -35,7 +35,7 @@ class ContestAQuestion extends Component {
     }
 
     handleSubmit = () => {
-        db.contestQuestion(this.props.quizID, this.state.contestedQuestion, this.props.uid, this.state.issue, this.state.source)
+        db.contestQuestion(this.props.quizID, this.state.contestedQuestion, this.props.uid, this.state.issue, this.state.source, this.props.email)
         if (this.props.atEndOfQuiz === true) {
             this.props.back()
         } else {
@@ -82,6 +82,7 @@ class ContestAQuestion extends Component {
     }
 
     render() {
+        console.log(this.props.email)
         const quizQs = Object.keys(this.props.quiz)
         quizQs.pop()
         const showQs = quizQs.map((q, i) => {

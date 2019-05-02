@@ -102,9 +102,10 @@ class ReviewQuestions extends Component {
     }
     const question = () => {
       if (this.state.loaded) {
-        console.log(q, 'this is q')
         return (
           <div className="questionHolder">
+            <p style={{ fontWeight: 'bold' }}>Submitted by: <Link to={`profile/${q["fromUser"]}`}>{q['displayName'] !== undefined ? q["displayName"] : 'User'}</Link></p>
+            <p style={{ fontWeight: 'bold' }}>User Email: {q["userEmail"] !== undefined ? <a href={`mailto:${q['userEmail']}`} style={{ fontWeight: 'normal' }}>{q['userEmail']}</a> : 'N / A' }</p> 
             <h3>{q["q1"]}</h3>
             <div style={{ display: 'flex' }}>
               <FormControlLabel value={q["a1text"]} control={<Radio />} label={q["a1text"]}/>

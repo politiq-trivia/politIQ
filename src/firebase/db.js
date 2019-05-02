@@ -211,7 +211,7 @@ export const setSubmittedOrContestedScoreByUid = (uid, date, score) => {
 // ----------------------------------------------------------
 
 // save a user-submitted question
-export const submitQuestion = (uid, date, qtext, a1text, a1correct, a2text, a2correct, a3text, a3correct, source) => {
+export const submitQuestion = (uid, date, qtext, a1text, a1correct, a2text, a2correct, a3text, a3correct, source, email, displayName) => {
   const question = db.ref().child('q4review').child(date)
   question.child('q1').set(qtext)
   question.child('a1text').set(a1text)
@@ -222,6 +222,8 @@ export const submitQuestion = (uid, date, qtext, a1text, a1correct, a2text, a2co
   question.child('a3correct').set(a3correct)
   question.child('source').set(source)
   question.child('fromUser').set(uid)
+  question.child('userEmail').set(email)
+  question.child('displayName').set(displayName)
 }
 
 // retrieve one user submitted question from the db for review
@@ -263,10 +265,12 @@ export const removeFromQBank = (date) => {
 
 // --------------------------------------------------------
 
-export const contestQuestion = (date, qID, uid, issue, source) => {
+export const contestQuestion = (date, qID, uid, issue, source, email) => {
   const contested = db.ref('contestedQ').child(date).child(qID).child(uid)
   contested.child('issue').set(issue)
   contested.child('source').set(source)
+  contested.child('userEmail').set(email)
+  contested.child('uid').set(uid)
 }
 
 export const getContestedQuiz = () => {

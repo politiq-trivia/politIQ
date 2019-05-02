@@ -86,6 +86,14 @@ class ReviewContestedQuestions extends Component {
         let qNum = this.state.qNum
         let qVal = this.state.qVal
         const data = this.state.data
+        if (Object.keys(data)[0] === undefined) {
+            this.setState({
+                selectedQuizId: '',
+                selectedQuiz: {},
+                // noQuestionsRemaining: true,
+            })
+            return;
+        }
         const date = Object.keys(data)[0]
         const objectWithUids = data[date]
         const uid = Object.keys(Object.values(objectWithUids)[qNum])[qVal];
@@ -212,7 +220,6 @@ class ReviewContestedQuestions extends Component {
             })
             return;
         }
-
         if (question) {
             return (
                 <div>
@@ -244,7 +251,8 @@ class ReviewContestedQuestions extends Component {
                         </div>
                     </div>
                     <hr />
-                    <p style={{ fontWeight: 'bold' }}>From user: {this.state.currentQDisplayName}</p>
+                    <p style={{ fontWeight: 'bold' }}>From user: <Link to={`profile/${contestedData.uid}`}>{this.state.currentQDisplayName}</Link></p>
+                    <p style={{ fontWeight: 'bold' }}>Email address: <a href={`mailto:${contestedData.userEmail}`} style={{ fontWeight: 'normal' }}>{contestedData.userEmail}</a></p>
                     <p><span style={{ fontWeight: 'bold' }}>Issue:</span> {contestedData.issue}</p>
                     <p><span style={{ fontWeight: 'bold' }}>Source: </span>{contestedData.source}</p>
                 </div>

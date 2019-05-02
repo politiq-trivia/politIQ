@@ -44,9 +44,14 @@ class QuestionSubmitForm extends Component {
   componentDidMount = () => {
     const authUserItem = localStorage.getItem('authUser')
     const parsedAuthUserItem = JSON.parse(authUserItem)
+    console.log(parsedAuthUserItem, 'authUserItem')
     const uid = parsedAuthUserItem.uid
+    const email = parsedAuthUserItem.email
+    const displayName = parsedAuthUserItem.displayName
     this.setState({
       uid,
+      email,
+      displayName
     })
   }
 
@@ -97,7 +102,9 @@ class QuestionSubmitForm extends Component {
       this.state.a2correct,
       this.state.a3text,
       this.state.a3correct,
-      this.state.source
+      this.state.source,
+      this.state.email,
+      this.state.displayName
     )
     this.setState({
       done: true,

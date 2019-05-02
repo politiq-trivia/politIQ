@@ -74,7 +74,8 @@ class Quiz extends PureComponent {
     if(localStorage.hasOwnProperty('authUser')) {
       const userInfo = JSON.parse(localStorage.authUser)
       const uid = userInfo.uid
-      this.setState({uid})
+      const email = userInfo.email
+      this.setState({uid, email})
     }
   }
 
@@ -176,6 +177,7 @@ class Quiz extends PureComponent {
           quiz={this.state.selectedQuiz} 
           quizID={this.state.selectedQuizId} 
           uid={uid} 
+          email={this.state.email}
           back={this.toggleContest}
           atEndOfQuiz={true}
         />
@@ -318,6 +320,7 @@ class Quiz extends PureComponent {
                         quiz={this.state.selectedQuiz} 
                         quizID={this.state.selectedQuizId} 
                         uid={authUser.uid} 
+                        email={this.state.email}
                         back={this.toggleContest}
                         currentQ={this.state.finished ? null : this.state.currentQ}
                         atEndOfQuiz={this.state.finished}
