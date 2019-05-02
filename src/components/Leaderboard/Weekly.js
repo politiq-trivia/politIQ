@@ -190,7 +190,7 @@ class WeeklyLeaderboard extends Component {
           <Table>
             <TableHead>
               <TableRow>
-                <TableCell style={{ minWidth: '30px'}} padding="default">
+                <TableCell padding="none" style={{ minWidth: '30px', paddingLeft: '10px'}}>
                   Ranking
                 </TableCell>
                 <MediaQuery minWidth={416}>
@@ -200,7 +200,7 @@ class WeeklyLeaderboard extends Component {
                 <TableCell style={{ minWidth: '50px' }} padding="none">
                   User
                 </TableCell>
-                <TableCell style={{ minWidth: '30px', fontWeight: 'bold'}} padding="none">
+                <TableCell style={{ minWidth: '30px', fontWeight: 'bold', paddingLeft: '18px'}} padding="none">
                   Score
                 </TableCell>
                 <TableCell style={{ minWidth: '30px'}} padding="none">
