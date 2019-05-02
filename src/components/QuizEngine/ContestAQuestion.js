@@ -16,6 +16,7 @@ class ContestAQuestion extends Component {
             contestedQuestion: '',
             issue: '',
             source: '',
+            submitted: false,
         }
     }
 
@@ -36,6 +37,12 @@ class ContestAQuestion extends Component {
 
     handleSubmit = () => {
         db.contestQuestion(this.props.quizID, this.state.contestedQuestion, this.props.uid, this.state.issue, this.state.source, this.props.email)
+        this.setState({
+            submitted: true,
+        })
+    }
+
+    backToQuiz = () => {
         if (this.props.atEndOfQuiz === true) {
             this.props.back()
         } else {
@@ -82,7 +89,6 @@ class ContestAQuestion extends Component {
     }
 
     render() {
-        console.log(this.props.email)
         const quizQs = Object.keys(this.props.quiz)
         quizQs.pop()
         const showQs = quizQs.map((q, i) => {
@@ -95,55 +101,65 @@ class ContestAQuestion extends Component {
 
         return (
             <div style={{ paddingTop: '5vh'}}>
-                <h1>Contest a Question</h1>
-                <p>Think you found a mistake? Let us know below. You can contest each question once. Please provide a credible source to back up your explanation.</p>
-                <div>
-                    {this.props.currentQ === undefined || this.props.currentQ === null 
-                        ? <FormControl style={{ width: '100%'}}>
-                            <InputLabel htmlFor="question">{this.state.contestedQuestion !== "" ? this.props.quiz[this.state.contestedQuestion]["q1"] : "Select a Question to Contest"}</InputLabel>
-                            <NativeSelect 
-                            onChange={this.handleChange}
-                                name="contestedQuestion"
-                             >
-                                <option value=""/>
-                                {showQs}
-                            </NativeSelect>
-                        </FormControl>
+                {this.state.submitted 
+                    ? <>
+                        <h1>Thank you for your input!</h1>
+                        <p>The politIQ team will review your submission. If we accept your contest, <span style={{ fontWeight: 'bold'}}>2 points</span> will be added to your score. </p>
+                        {this.props.atEndOfQuiz === false ? <Button onClick={this.backToQuiz}>Return to Quiz</Button> : null }
+                      </>  
+                    :
+                <>
+                    <h1>Contest a Question</h1>
+                    <p>Think you found a mistake? Let us know below. You can contest each question once. Please provide a credible source to back up your explanation.</p>
+                    <div>
+                        {this.props.currentQ === undefined || this.props.currentQ === null 
+                            ? <FormControl style={{ width: '100%'}}>
+                                <InputLabel htmlFor="question">Select a Question to Contest</InputLabel>
+                                <NativeSelect 
+                                onChange={this.handleChange}
+                                    name="contestedQuestion"
+                                >
+                                    <option value=""/>
+                                    {showQs}
+                                </NativeSelect>
+                            </FormControl>
+                            : null
+                        }
+                        {this.renderQ()}
+                    </div>
+
+                    {this.props.atEndOfQuiz === false || this.state.contestedQuestion !== ""
+                        ? <div>
+                            <TextField 
+                                id="standard-multiline-flexible"
+                                label="Please explain the issue with this question"
+                                multiline
+                                onChange={this.handleChange}
+                                margin="normal"
+                                name="issue"
+                                fullWidth
+                            />
+                            <TextField 
+                                label="Provide a credible source"
+                                fullWidth
+                                onChange={this.handleChange}
+                                margin="normal"
+                                name="source"
+                            />
+                            <Button color="primary" variant="contained" style={{ marginTop: '3vh'}} onClick={this.back}>Back</Button>
+                            <Button 
+                                color="primary" 
+                                variant="contained" 
+                                onClick={this.handleSubmit} 
+                                style={{ marginTop: '3vh', float: 'right'}} 
+                                disabled={this.state.issue === "" || this.state.source === ""}
+                            >
+                                Submit
+                            </Button>
+                        </div>
                         : null
                     }
-                    {this.renderQ()}
-                </div>
-
-                {this.props.atEndOfQuiz === false || this.state.contestedQuestion !== ""
-                    ? <div>
-                        <TextField 
-                            id="standard-multiline-flexible"
-                            label="Please explain the issue with this question"
-                            multiline
-                            onChange={this.handleChange}
-                            margin="normal"
-                            name="issue"
-                            fullWidth
-                        />
-                        <TextField 
-                            label="Provide a credible source"
-                            fullWidth
-                            onChange={this.handleChange}
-                            margin="normal"
-                            name="source"
-                        />
-                        <Button color="primary" variant="contained" style={{ marginTop: '3vh'}} onClick={this.back}>Back</Button>
-                        <Button 
-                            color="primary" 
-                            variant="contained" 
-                            onClick={this.handleSubmit} 
-                            style={{ marginTop: '3vh', float: 'right'}} 
-                            disabled={this.state.issue === "" || this.state.source === ""}
-                        >
-                            Submit
-                        </Button>
-                    </div>
-                    : null
+                </>
                 }
                     
             </div>

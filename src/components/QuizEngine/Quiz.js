@@ -186,7 +186,6 @@ class Quiz extends PureComponent {
   }
 
   checkCorrect = (value) => {
-    console.log('check correct called', value)
     // if the user has not selected a value and the quiz is finished, return 
     if (value === undefined && this.state.finished) {
       return;
@@ -241,7 +240,6 @@ class Quiz extends PureComponent {
       this.setState({ selectedValue: value });
       this.checkCorrect(value)
     } else if (event !== undefined && (event.target.tagName === "SPAN")) {
-      console.log('handle submit else called')
       const value = event.target.parentNode.id;
       this.setState({ selectedValue: value });
       this.checkCorrect(value)
@@ -298,7 +296,20 @@ class Quiz extends PureComponent {
                     </div>
                   </MediaQuery>
 
-
+                  {this.state.contestQuestion && authUser
+                    ? <ContestAQuestion 
+                        quiz={this.state.selectedQuiz} 
+                        quizID={this.state.selectedQuizId} 
+                        uid={authUser.uid} 
+                        email={this.state.email}
+                        back={this.toggleContest}
+                        currentQ={this.state.finished ? null : this.state.currentQ}
+                        atEndOfQuiz={this.state.finished}
+                        toggleContest={this.closeContest}
+                        state={this.state}
+                      />
+                    : null
+                  }
 
                   {this.state.finished 
                     ? <FinishQuiz 
@@ -315,20 +326,7 @@ class Quiz extends PureComponent {
                         }
                       </div>
                   }
-                  {this.state.contestQuestion && authUser
-                    ? <ContestAQuestion 
-                        quiz={this.state.selectedQuiz} 
-                        quizID={this.state.selectedQuizId} 
-                        uid={authUser.uid} 
-                        email={this.state.email}
-                        back={this.toggleContest}
-                        currentQ={this.state.finished ? null : this.state.currentQ}
-                        atEndOfQuiz={this.state.finished}
-                        toggleContest={this.closeContest}
-                        state={this.state}
-                      />
-                    : null
-                  }
+
                 </div>
 
             }
