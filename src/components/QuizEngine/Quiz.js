@@ -3,7 +3,7 @@ import loadingGif from '../../loadingGif.gif';
 import { Helmet } from 'react-helmet';
 import AuthUserContext from '../Auth/AuthUserContext';
 import MediaQuery from 'react-responsive';
-
+// import { Prompt } from 'react-router-dom';
 
 import Paper from '@material-ui/core/Paper';
 import ContestAQuestion from './ContestAQuestion';
@@ -49,6 +49,7 @@ class Quiz extends PureComponent {
 
     this.getUser();
 
+    // I think this was for checking if the user is contesting the question
     if (localStorage.hasOwnProperty('state')) {
       const newState = JSON.parse(localStorage.state) 
       console.log(newState, 'this is newState')
@@ -66,7 +67,7 @@ class Quiz extends PureComponent {
 
   componentWillUnmount = () => {
     window.clearTimeout(this.timer)
-    // window.clearInterval(this.progressBar)
+    // maybe should also store the score so the user can't take the quiz again ? 
   }
 
   getUser = () => {
@@ -268,6 +269,10 @@ class Quiz extends PureComponent {
             <Helmet>
               <title>Play | politIQ</title>
             </Helmet>
+
+            {/* <Prompt 
+              message={`Are you sure you want to leave? Your score will be saved as ${this.state.score} and you will not be able to retake this quiz.`}
+            /> */}
 
             { this.state.questionsArray.length === 0 
               ? <img src={loadingGif} alt="loading gif" className="quiz-loading-gif"/>

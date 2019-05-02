@@ -2,7 +2,7 @@ import { auth } from './firebase';
 import * as db from './db';
 
 // Sign Up
-export const doCreateUserWithEmailAndPassword = (email, password) =>
+export const doCreateUserWithEmailAndPassword = (email, password) => 
   auth.createUserWithEmailAndPassword(email, password);
 
 // Sign In

@@ -90,7 +90,7 @@ const ERROR_MSG_ACCOUNT_EXISTS = `
 `;
 
 const affiliationText = `
-Poltical ID is required in order to contribute to your political party's average team score, which is represented on the leaderboard page.
+Political ID is required in order to contribute to your political party's average team score, which is represented on the leaderboard page.
 It will not be viewable to other users and you may change this on your profile at any time.
 `
 
