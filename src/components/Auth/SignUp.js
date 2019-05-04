@@ -145,7 +145,7 @@ class SignUpFormBase extends Component {
             this.setState({ ...INITIAL_STATE });
             if(emailSubscribe) {
               console.log('this is being called')
-              this.subscribeToEmailUpdates(email)
+              this.subscribeToEmailUpdates(email, username)
             }
             history.push(routes.HOME);
           })
@@ -209,11 +209,12 @@ class SignUpFormBase extends Component {
     })
   }
 
-  subscribeToEmailUpdates = (email) => {
+  subscribeToEmailUpdates = (email, displayName) => {
     console.log('subscribe to emails called')
     console.log(process.env.REACT_APP_SERVER_URL + '/email-subscribe')
     axios.post("https://politiq.herokuapp.com/email-subscribe", {
       email: email,
+      displayName: displayName
     })
   }
 
