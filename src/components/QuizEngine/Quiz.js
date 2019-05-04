@@ -3,7 +3,7 @@ import loadingGif from '../../loadingGif.gif';
 import { Helmet } from 'react-helmet';
 import AuthUserContext from '../Auth/AuthUserContext';
 import MediaQuery from 'react-responsive';
-// import { Prompt } from 'react-router-dom';
+import { Prompt } from 'react-router-dom';
 
 import Paper from '@material-ui/core/Paper';
 import ContestAQuestion from './ContestAQuestion';
@@ -68,6 +68,7 @@ class Quiz extends PureComponent {
   componentWillUnmount = () => {
     window.clearTimeout(this.timer)
     // maybe should also store the score so the user can't take the quiz again ? 
+    this.submitScore(this.state.selectedQuizId, this.state.uid)
   }
 
   getUser = () => {
@@ -270,9 +271,10 @@ class Quiz extends PureComponent {
               <title>Play | politIQ</title>
             </Helmet>
 
-            {/* <Prompt 
+            <Prompt 
+              when={this.state.selectedQuiz !== {}}
               message={`Are you sure you want to leave? Your score will be saved as ${this.state.score} and you will not be able to retake this quiz.`}
-            /> */}
+            />
 
             { this.state.questionsArray.length === 0 
               ? <img src={loadingGif} alt="loading gif" className="quiz-loading-gif"/>
