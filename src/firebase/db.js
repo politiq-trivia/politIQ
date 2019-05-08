@@ -77,6 +77,10 @@ export const getAffiliation = (uid) => {
   return affiliation;
 }
 
+export const addMailchimpId = (uid, mailchimpId, freq) => {
+  db.ref('users').child(uid).child('mailchimpId').child(freq).set(mailchimpId)
+}
+
 // -------------------------------------------------------------------------
 
 // QUIZZES

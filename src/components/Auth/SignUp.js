@@ -116,14 +116,11 @@ class SignUpFormBase extends Component {
       emailSubscribe
     } = this.state;
 
-    console.log(emailSubscribe, 'this is email subscribe in onclick')
-
     const rolesArray = [];
 
     if (isAdmin) {
       rolesArray.push(roles.ADMIN)
     }
-    console.log(rolesArray, 'this is roles')
     const {
       history,
       scoreObject
@@ -144,8 +141,8 @@ class SignUpFormBase extends Component {
             this.props.getSignedInUser(authUser.user.uid)
             this.setState({ ...INITIAL_STATE });
             if(emailSubscribe) {
-              console.log('this is being called')
-              this.subscribeToEmailUpdates(email, username)
+              this.subscribeToEmailUpdates(email, username, authUser.user.uid, 'weekly')
+              this.subscribeToEmailUpdates(email, username, authUser.user.uid, 'daily')
             }
             history.push(routes.HOME);
           })
@@ -209,12 +206,16 @@ class SignUpFormBase extends Component {
     })
   }
 
-  subscribeToEmailUpdates = (email, displayName) => {
-    console.log('subscribe to emails called')
-    console.log(process.env.REACT_APP_SERVER_URL + '/email-subscribe')
-    axios.post("https://politiq.herokuapp.com/email-subscribe", {
+  // writing this one to be reuseable - subscribe user to a weekly and daily email update
+  // and then save the mailchimp id of each user on each list in the user object in the firebase db.
+  // this is necessary to be able to unsubscribe the user in the future. 
+  subscribeToEmailUpdates = (email, displayName, uid, freq) => {
+    axios.post(`https://politiq.herokuapp.com/email-subscribe-${freq}`, {
+    // axios.post(`http://localhost:3001/email-subscribe-${freq}`, {
       email: email,
       displayName: displayName
+    }).then(response => {
+      db.addMailchimpId(uid, response.data.mailchimpId, freq)
     })
   }
 
