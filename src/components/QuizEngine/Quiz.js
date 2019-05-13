@@ -68,7 +68,7 @@ class Quiz extends PureComponent {
   componentWillUnmount = () => {
     window.clearTimeout(this.timer)
     // maybe should also store the score so the user can't take the quiz again ? 
-    this.submitScore(this.state.selectedQuizId, this.state.uid)
+    this.submitScore(this.state.score, this.state.uid)
   }
 
   getUser = () => {
