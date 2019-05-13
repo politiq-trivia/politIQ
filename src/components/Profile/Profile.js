@@ -10,6 +10,8 @@ import ProfilePhoto from './ProfilePhoto';
 import Button from '@material-ui/core/Button';
 import Tooltip from '@material-ui/core/Tooltip';
 import Help from '@material-ui/icons/Help';
+import Checkbox from '@material-ui/core/Checkbox';
+import FormGroup from '@material-ui/core/FormGroup';
 import './profile.css';
 
 import { AuthUserContext, withAuthorization, withEmailVerification } from '../Auth/index';
@@ -18,6 +20,7 @@ import EditProfile from './EditProfile';
 import UserScoreboard from '../Leaderboard/UserScoreboard';
 
 import Paper from '@material-ui/core/Paper';
+import { FormControlLabel } from '@material-ui/core';
 
 const affiliationText = `
   Party ID is required in order to contribute to your political party team competition aspect of the site and help prove that your party knows the news and has the highest political IQ.
@@ -30,11 +33,16 @@ class ProfilePage extends Component {
       userInfo: {},
       editingProfile: false,
       showPasswordReset: false,
+      showNotifications: false,
+      weeklyChecked: true,
+      dailyChecked: true
     }
   }
 
   componentDidMount = () => {
     const userInfo = JSON.parse(localStorage.getItem('authUser'))
+    console.log(userInfo)
+    // check if the user is subscribed to the mailchimp lists and then use that to set the state
     this.setState({
       userInfo,
     })
@@ -72,6 +80,39 @@ class ProfilePage extends Component {
     })
   }
 
+  toggleShowNotifications = () => {
+    this.setState({
+      showNotifications: !this.state.showNotifications
+    })
+  }
+
+  updateNotificationChecks = (e) => {
+    console.log(e.target.value)
+    const name = e.target.value
+    this.setState({
+      [name]: !this.state[name]
+    })
+  }
+
+  saveNotificationChanges = () => {
+    if (!this.state.dailyChecked) {
+      this.unsubscribeDaily(this.state.userInfo.uid)
+    }
+    if (!this.state.weeklyChecked) {
+      this.unsubscribeWeekly(this.state.userInfo.uid)
+    }
+    this.toggleShowNotifications()
+  }
+
+  unsubscribeDaily = () => {
+    console.log("daily unsubscribe")
+  }
+
+  unsubscribeWeekly = () => {
+    console.log('weekly unsubscribe')
+  }
+
+  // UNSUBSCRIBE FROM PUSH NOTIFICATIONS
   // unsubscribe = () => {
   //   navigator.serviceWorker.ready.then(registration => {
   //     // find the registered push subscription in the service worker
@@ -101,6 +142,7 @@ class ProfilePage extends Component {
   }
 
   render() {
+    console.log(this.state)
     return (
       <AuthUserContext.Consumer>
         {authUser =>
@@ -166,6 +208,7 @@ class ProfilePage extends Component {
                         <Link to={`/profile/${authUser.uid}`} style={{ textDecoration: 'none', display: 'flex', justifyContent: 'center'}}>
                           <Button color="primary">View Public Profile</Button>
                         </Link>
+                        <Button onClick={this.toggleShowNotifications}>Notification Settings</Button>
                         <Button onClick={this.toggleResetPassword}>Reset Password</Button>
                         <Button><span style={{color: 'red'}}>Delete Account</span></Button>
                       </div>
@@ -177,6 +220,35 @@ class ProfilePage extends Component {
                   ? <div>
                       <p> <span style={{ fontWeight: 'bold'}}>Reset Your Password:</span> </p>
                       <PasswordChangeForm toggleResetPassword={this.toggleResetPassword}/>
+                    </div>
+                  : null
+                }
+
+                {this.state.showNotifications
+                  ? <div>
+                      <FormGroup row>
+                        <FormControlLabel
+                          control={
+                            <Checkbox
+                              checked={this.state.weeklyChecked}
+                              onChange={this.updateNotificationChecks}
+                              value={"weeklyChecked"}
+                            />
+                          }
+                          label="Receive weekly updates about the latest quizzes and events from PolitIQ"
+                        />
+                        <FormControlLabel
+                          control={
+                            <Checkbox
+                              checked={this.state.dailyChecked}
+                              onChange={this.updateNotificationChecks}
+                              value={"dailyChecked"}
+                            />
+                          }
+                          label="Receive daily updates from PolitIQ to keep up-to-date with the latest quizzes."
+                        />
+                      </FormGroup>
+                      <Button color="primary" onClick={this.saveNotificationChanges}>Save Changes</Button>
                     </div>
                   : null
                 }
