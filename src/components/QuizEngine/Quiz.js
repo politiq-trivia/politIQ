@@ -272,7 +272,7 @@ class Quiz extends PureComponent {
             </Helmet>
 
             <Prompt 
-              when={this.state.selectedQuiz !== {}}
+              when={this.state.selectedQuiz !== {} && this.state.finished === false}
               message={`Are you sure you want to leave? Your score will be saved as ${this.state.score} and you will not be able to retake this quiz.`}
             />
 

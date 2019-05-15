@@ -254,6 +254,7 @@ class ProfilePage extends Component {
                   ? <div className="notification-settings">
                       <FormGroup row>
                         <FormControlLabel
+                          className
                           control={
                             <Checkbox
                               checked={this.state.weeklyChecked}
