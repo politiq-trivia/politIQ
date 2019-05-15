@@ -251,7 +251,7 @@ class ProfilePage extends Component {
                 }
 
                 {this.state.showNotifications
-                  ? <div>
+                  ? <div className="notification-settings">
                       <FormGroup row>
                         <FormControlLabel
                           control={

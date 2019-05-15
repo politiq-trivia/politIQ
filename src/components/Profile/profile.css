@@ -202,3 +202,23 @@
     margin-left: 6vw;
   }
 }
+
+.notification-settings {
+  width: 60%;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.notification-settings label {
+  text-align: left;
+}
+
+@media screen and (max-width: 415px) {
+  .notification-settings {
+    width: 90%;
+  }
+  .notification-settings label {
+    margin-bottom: 2vh;
+    text-align: left;
+  }
+}
