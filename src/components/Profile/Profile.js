@@ -4,6 +4,7 @@ import { db, withFirebase } from '../../firebase';
 import { Link } from 'react-router-dom';
 import { compose } from 'recompose';
 import MediaQuery from 'react-responsive';
+import axios from 'axios';
 
 import ProfilePhoto from './ProfilePhoto';
 
@@ -35,14 +36,18 @@ class ProfilePage extends Component {
       showPasswordReset: false,
       showNotifications: false,
       weeklyChecked: true,
-      dailyChecked: true
+      dailyChecked: true,
+      dailyChanged: false,
+      weeklyChanged: false
     }
   }
 
   componentDidMount = () => {
     const userInfo = JSON.parse(localStorage.getItem('authUser'))
-    console.log(userInfo)
     // check if the user is subscribed to the mailchimp lists and then use that to set the state
+    // make an API call to the backend
+    this.checkMailchimpStatus(userInfo.mailchimpId.daily, "weekly")
+    this.checkMailchimpStatus(userInfo.mailchimpId.daily, "daily")
     this.setState({
       userInfo,
     })
@@ -61,14 +66,6 @@ class ProfilePage extends Component {
   }
 
   toggleEditProfile = () => {
-    // if (this.state.editingProfile) {
-    //   console.log('calling getUserinfo in toggleEditProfile')
-    //   console.log(this.state.userInfo.uid, 'should be uid')
-    //   console.log(this.state.userInfo, 'should be full userInfo obj')
-    //   // originally, the userInfo is pulled from localStorage and not directly from the db
-    //   // this method is used to update info once it is changed. 
-    //   this.getUserInfo(this.state.userInfo.uid)
-    // }
     this.setState({
       editingProfile: !this.state.editingProfile,
     })
@@ -80,6 +77,26 @@ class ProfilePage extends Component {
     })
   }
 
+  // make an api call to the backend to see which lists the user is subscribed to. 
+  checkMailchimpStatus = (mailchimpId, freq) => {
+    axios(`https://politiq.herokuapp.com/get-email-subscription-${freq}/${mailchimpId}`)
+    // axios.get(`http://localhost:3001/get-email-subscription-${freq}/${mailchimpId}`)
+      .then(response => {
+        const status = response.data.mailchimpStatus
+        const statusHolder = freq + "Checked"
+        // if status is subscribed, set state to true 
+        if (status === "subscribed") {
+          this.setState({
+            [statusHolder]: true,
+          })
+        } else {
+          this.setState({
+            [statusHolder]: false,
+          })
+        }
+      })
+  }
+
   toggleShowNotifications = () => {
     this.setState({
       showNotifications: !this.state.showNotifications
@@ -87,29 +104,39 @@ class ProfilePage extends Component {
   }
 
   updateNotificationChecks = (e) => {
-    console.log(e.target.value)
     const name = e.target.value
+    const checked = name + "Checked"
+    const changed = name + "Changed"
     this.setState({
-      [name]: !this.state[name]
+      [checked]: !this.state[checked],
+      [changed]: true,
     })
   }
 
   saveNotificationChanges = () => {
-    if (!this.state.dailyChecked) {
-      this.unsubscribeDaily(this.state.userInfo.uid)
+    if (this.state.dailyChanged) {
+      this.unsubscribe("daily", this.state.userInfo.mailchimpId.weekly)
     }
-    if (!this.state.weeklyChecked) {
-      this.unsubscribeWeekly(this.state.userInfo.uid)
+    if (this.state.weeklyChanged) {
+      this.unsubscribe("weekly", this.state.userInfo.mailchimpId.weekly)
     }
     this.toggleShowNotifications()
   }
 
-  unsubscribeDaily = () => {
-    console.log("daily unsubscribe")
-  }
-
-  unsubscribeWeekly = () => {
-    console.log('weekly unsubscribe')
+  unsubscribe = (freq, mailchimpId) => {
+    const statusHolder = freq + "Checked"
+    const status = this.state[statusHolder]
+    let action;
+    if (status === true) {
+      action = "subscribed"
+    } else {
+      action = "unsubscribed"
+    }
+    // make an axios call to the back end which will hit the patch request for mailchimp 
+    axios.patch(`http://politiq.herokuapp.com/update-email-subscription-${freq}/${mailchimpId}`, {
+    // axios.patch(`http://localhost:3001/update-email-subscription-${freq}/${mailchimpId}`, {
+      status: action
+    })
   }
 
   // UNSUBSCRIBE FROM PUSH NOTIFICATIONS
@@ -142,7 +169,6 @@ class ProfilePage extends Component {
   }
 
   render() {
-    console.log(this.state)
     return (
       <AuthUserContext.Consumer>
         {authUser =>
@@ -232,7 +258,7 @@ class ProfilePage extends Component {
                             <Checkbox
                               checked={this.state.weeklyChecked}
                               onChange={this.updateNotificationChecks}
-                              value={"weeklyChecked"}
+                              value={"weekly"}
                             />
                           }
                           label="Receive weekly updates about the latest quizzes and events from PolitIQ"
@@ -242,7 +268,7 @@ class ProfilePage extends Component {
                             <Checkbox
                               checked={this.state.dailyChecked}
                               onChange={this.updateNotificationChecks}
-                              value={"dailyChecked"}
+                              value={"daily"}
                             />
                           }
                           label="Receive daily updates from PolitIQ to keep up-to-date with the latest quizzes."
