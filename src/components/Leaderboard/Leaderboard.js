@@ -48,7 +48,7 @@ class Leaderboard extends Component {
     return (
       <>
         <AppBar position="static" className="leaderboard-appbar" style={{ marginTop: '8vh', background: 'linear-gradient(to top, rgba(239,188,77,1) 0%, rgba(239,188,77,1) 24%, rgba(244,207,126,1) 50%, rgba(255,244,219,1) 100%)', color: 'black', position: 'fixed', top: '0', zIndex: '100'}}>
-          <Toolbar style={{ fontWeight: 'bold', color: 'rgba(45, 45, 45, 0.80)', marginLeft: 'auto', marginRight: 'auto'}}>
+          <Toolbar className="leaderboard-banner-text">
             {this.state.value === 0 
               ? "Weekly leader receives $10!"
               : "Monthly leader of each party eligible to compete for $50!"

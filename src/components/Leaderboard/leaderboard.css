@@ -269,3 +269,18 @@
     width: 90%;
   }
 }
+
+/* ------------------- appbar styles -------------------- */
+.leaderboard-banner-text {
+  font-weight: bold;
+  color: rgba(45, 45, 45, 0.80);
+  margin-left: auto;
+  margin-right: auto;
+  font-size: 28px;
+}
+
+@media screen and (max-width: 415px) {
+  .leaderboard-banner-text {
+    font-size: 20px;
+  }
+}

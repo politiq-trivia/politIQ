@@ -44,7 +44,7 @@ class FinishQuiz extends Component {
                     <div style={{ marginTop: '2vh', marginBottom: '5vh'}}>Your score: {score} out of {quizLength} points.</div>
                     <div className="finish-quiz-buttons">
                         <NextAvailableQuizButton getNextQuiz={this.props.getNextQuiz} uid={uid}/>
-                        <Link to={QUIZ_ARCHIVE} style={{textDecoration: "none" }}><Button color="primary" variant="contained" className="end-button">View Quiz Archive</Button></Link>
+                        <Link to={QUIZ_ARCHIVE} style={{textDecoration: "none" }}><Button color="primary" variant="contained" className="end-button">See Previous Quizzes</Button></Link>
                         <Link to={LEADERBOARD} style={{textDecoration: "none" }}><Button color="primary" variant="contained" className="end-button">View Leaderboard</Button></Link>
                         <Button color="primary" variant="contained" onClick={toggleContest} className="end-button">Contest a Question</Button>
                         <Link to={SUBMIT_QUESTION} style={{ textDecoration: 'none' }}><Button color="primary" variant="contained" className="end-button">Submit Your Own Question</Button> </Link>
