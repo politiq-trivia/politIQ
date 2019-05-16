@@ -16,11 +16,13 @@ import AddQuiz from './AddQuiz';
 import QuizList from './QuizList';
 import ShowQuiz from './ShowQuiz';
 import EditQuiz from './EditQuiz';
+import ManageQuizzes from './ManageQuizzes';
 import QuestionsToReview from './QuestionsToReview';
 import ContestedQuestions from './ContestedQuestions';
 import Scoreboard from '../Leaderboard/Scoreboard';
 import UserShow from './UserShow/UserShow';
 import PartyLeaders from '../Leaderboard/PartyLeaders';
+
 
 import loadingGif from '../../loadingGif.gif';
 
@@ -35,6 +37,7 @@ class AdminDashboard extends Component {
       showQuiz: false,
       showUsers: false,
       showLeaders: false,
+      managingQuizzes: false,
       dateArray: [],
       titleArray: [],
       value: 0,
@@ -58,6 +61,7 @@ class AdminDashboard extends Component {
       editingQuiz: false,
       showQuiz: false,
       showLeaders: false,
+      managingQuizzes: false
     })
   }
 
@@ -91,6 +95,7 @@ class AdminDashboard extends Component {
       showUsers: false,
       showLeaders: false,
       editingQuiz: false,
+      managingQuizzes: false
     })
   }
 
@@ -101,6 +106,7 @@ class AdminDashboard extends Component {
       showQuiz: false,
       showUsers: true,
       showLeaders: false,
+      managingQuizzes: false
     })
   }
 
@@ -115,6 +121,7 @@ class AdminDashboard extends Component {
       editingQuiz: false,
       showUsers: false,
       showLeaders: false,
+      managingQuizzes: false
     })
   }
 
@@ -139,6 +146,7 @@ class AdminDashboard extends Component {
       showQuiz: false,
       showUsers: false,
       showLeaders: false,
+      managingQuizzes: false
     })
   }
 
@@ -182,6 +190,19 @@ class AdminDashboard extends Component {
       showQuiz: false,
       showUsers: false,
       showLeaders: true,
+      managingQuizzes: false
+    })
+  }
+
+  toggleManageQuizzes = () => {
+    this.setState({
+      managingQuizzes: true,
+      addingQuiz: false,
+      editingQuiz: false,
+      showDash: false,
+      showQuiz: false,
+      showUsers: false,
+      showLeaders: false,
     })
   }
 
@@ -210,6 +231,7 @@ class AdminDashboard extends Component {
           <Tabs variant="fullWidth" value={value} onChange={this.handleChange} style={{ marginTop: '8.5vh'}}>
             <Tab label="Dashboard" onClick={this.toggleDashboard} />
             <Tab label="Create New Quiz" onClick={this.toggleAddQuiz} />
+            <Tab label="Manage Quizzes" onClick={this.toggleManageQuizzes} />
             <Tab label="Manage Users" onClick={this.toggleUserShow}/>
             <Tab label="Leaders" onClick={this.toggleLeaderShow} />
           </Tabs>
@@ -223,19 +245,21 @@ class AdminDashboard extends Component {
             { this.state.showUsers ? <UserShow />
               : <div>
               {this.state.showLeaders ? <PartyLeaders />
-                : <div className="dashboard">
-                    <Paper className="dashContainer">
-                      {isLoaded()}
-                    </Paper>
-                    <div className="dashContainer2">
-                      <Link to={LEADERBOARD} style={{textDecoration: 'none'}}>
-                        <Scoreboard />
-                      </Link>
-                      <QuestionsToReview />
-                      <ContestedQuestions />
+                : <div>
+                  { this.state.managingQuizzes ? <ManageQuizzes />
+                  : <div className="dashboard">
+                      <Paper className="dashContainer">
+                        {isLoaded()}
+                      </Paper>
+                      <div className="dashContainer2">
+                        <Link to={LEADERBOARD} style={{textDecoration: 'none'}}>
+                          <Scoreboard />
+                        </Link>
+                        <QuestionsToReview />
+                        <ContestedQuestions />
+                      </div>
                     </div>
-
-                  </div>
+                  }</div>
                 } </div>
               }</div>
             }</div>
