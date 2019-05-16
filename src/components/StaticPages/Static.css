@@ -47,7 +47,7 @@
   margin-right: auto;
   display: block;
   height: 45vh;
-  margin-top: 10vh;
+  margin-top: 2vh;
 }
 @media screen and (max-width: 415px) {
   #bg-image{
@@ -107,6 +107,7 @@
   max-width: 1100px;
   letter-spacing: 1px;
   margin-bottom: 0;
+  margin-top: 0;
 }
 @media screen and (max-width: 415px) {
   .home-holder {
@@ -173,7 +174,7 @@ h4 {
   filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#23599d",endColorstr="#b92626",GradientType=1);
   padding-top: 9vh;
   padding-bottom: 8vh;
-  margin-top: 5vh;
+  margin-top: 15vh;
 }
 .home-description h4 {
   color: white;

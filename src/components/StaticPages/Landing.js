@@ -1,8 +1,6 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
 
 import Paper from '@material-ui/core/Paper';
-import Button from '@material-ui/core/Button';
 
 import TodaysQuizButton from './TodaysQuizButton';
 import bg from './politiq-bg2.jpg';
@@ -13,6 +11,9 @@ const LandingPage = () =>
   <Paper className="home-holder">
     <h1 id="main">Welcome to polit<span id="iq">IQ</span></h1>
     <h2 style={{ fontSize: '20px' }}>where you can answer the question... </h2>
+
+    <img src={bg} id="bg-image" alt="democrats and republicans face off"/>
+
     <h2>Are you smarter than a: </h2>
       <div className="title anim-h1">
         <span>Republican?</span>
@@ -26,10 +27,6 @@ const LandingPage = () =>
         <span>Independent?</span>
       </div>
 
-    <img src={bg} id="bg-image" alt="democrats and republicans face off"/>
-
-    <TodaysQuizButton buttonText="Click HERE to find out!" id="home-button" disabled={false} />
-    <p style={{ marginTop: '1vh' }}>or scroll down for more info</p>
 
     <div className="home-description">
       <h4> INTERESTED IN POLITICS AND CONSTANTLY CONSUMED BY THE NEWS?</h4>
@@ -68,8 +65,7 @@ const LandingPage = () =>
     <div className="home-description2">
       <h4>THINK <span style={{ color: "#a54ee8"}}>ITS BIASED?</span> CONTEST A QUESTION OR ADD ONE OF YOUR OWN AND <span style={{ color: "#a54ee8" }}>WIN POINTS</span></h4>
       <p>If you believe the answer to a question is incorrect, then submit your argument (with a valid source) and you will receive an additional <span style={{ fontWeight: 'bold' }}>2 points</span> and the question will be fixed. If you wish to submit your own question to be included on the site, you can receive an additional <span style={{ fontWeight: 'bold' }}>3 points</span> (depending upon approval of its content and validity). All are welcome to contribute!</p>
-      <Link to="/signup" style={{ textDecoration: 'none' }}><Button size="large" variant="contained" color="secondary" className="home-button" style={{ textTransform: 'none', fontSize: '20px', fontWeight: '300', letterSpacing: '0.5px', marginTop: '2vh'}}>Create an Account and Start Playing</Button></Link>
-
+      <TodaysQuizButton buttonText="Click HERE to take today's quiz!" id="home-button" disabled={false} />
     </div>
 
   </Paper>
