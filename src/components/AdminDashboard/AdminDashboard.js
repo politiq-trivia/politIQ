@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { compose } from 'recompose';
+import moment from 'moment';
 
 import { db, withFirebase } from '../../firebase';
 import { LEADERBOARD } from '../../constants/routes';
@@ -71,11 +72,13 @@ class AdminDashboard extends Component {
       .then(response => {
         if (response.val() !== null) {
           const data = response.val();
-          const dateArray = Object.keys(data);
+          const allDates = Object.keys(data);
+          const dateArray = allDates.filter(date => date > moment().startOf('month').format('YYYY-MM-DDTHH:mm'));
           let titleArray = [];
           for (let i = 0; i < dateArray.length; i++) {
             let date = dateArray[i]
             const title = data[date]["quiz-title"]
+
             titleArray.push(title)
           }
 
