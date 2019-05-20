@@ -110,9 +110,9 @@ class AdminDashboard extends Component {
     })
   }
 
-  toggleQuizShow = () => {
+  toggleQuizShow = (id) => {
     if(this.state.editingQuiz) {
-      this.getQuiz()
+      this.getQuiz(id)
     }
     this.setState({
       addingQuiz: false,
@@ -127,6 +127,7 @@ class AdminDashboard extends Component {
 
   // this one gets an individual quiz so that the admin can view it.
   getQuiz = (date) => {
+    console.log(date, 'date in getQuiz, getQuiz called')
     db.getQuiz(date)
       .then(response => {
         const quiz = response.val()
@@ -219,11 +220,18 @@ class AdminDashboard extends Component {
 
       } else {
         return (
-          <QuizList quizDates={this.state.dateArray} quizTitles={this.state.titleArray} toggleQuizShow={this.getQuiz} removeQuizzes={this.removeQuizzes} toggleDeleteModal={this.toggleDeleteModal} deleteQuiz={this.deleteQuiz} showDeleteModal={this.state.showDeleteModal}/>
+          <QuizList 
+            quizDates={this.state.dateArray} 
+            quizTitles={this.state.titleArray} 
+            toggleQuizShow={this.getQuiz} 
+            removeQuizzes={this.removeQuizzes} 
+            toggleDeleteModal={this.toggleDeleteModal} 
+            deleteQuiz={this.deleteQuiz} 
+            showDeleteModal={this.state.showDeleteModal}
+          />
         )
       }
     }
-
 
     return (
       <div>
@@ -246,18 +254,25 @@ class AdminDashboard extends Component {
               : <div>
               {this.state.showLeaders ? <PartyLeaders />
                 : <div>
-                  { this.state.managingQuizzes ? <ManageQuizzes />
-                  : <div className="dashboard">
-                      <Paper className="dashContainer">
-                        {isLoaded()}
-                      </Paper>
-                      <div className="dashContainer2">
-                        <Link to={LEADERBOARD} style={{textDecoration: 'none'}}>
-                          <Scoreboard />
-                        </Link>
-                        <QuestionsToReview />
-                        <ContestedQuestions />
-                      </div>
+                  { this.state.managingQuizzes 
+                    ? <ManageQuizzes 
+                        toggleQuizShow={this.toggleQuizShow} 
+                        getQuiz={this.getQuiz}
+                        toggleDeleteModal={this.toggleDeleteModal}
+                        deleteQuiz={this.deleteQuiz}
+                        showDeleteModal={this.state.showDeleteModal}
+                      />
+                    : <div className="dashboard">
+                        <Paper className="dashContainer">
+                          {isLoaded()}
+                        </Paper>
+                        <div className="dashContainer2">
+                          <Link to={LEADERBOARD} style={{textDecoration: 'none'}}>
+                            <Scoreboard />
+                          </Link>
+                          <QuestionsToReview />
+                          <ContestedQuestions />
+                        </div>
                     </div>
                   }</div>
                 } </div>

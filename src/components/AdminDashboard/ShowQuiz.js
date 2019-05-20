@@ -24,6 +24,7 @@ class ShowQuiz extends Component {
   }
   componentDidMount = () => {
     const quiz = this.props.quiz;
+    console.log(quiz, 'this is quiz. should not be null')
     const quizQs = Object.keys(quiz);
     quizQs.pop()
     const quizLength = quizQs.length;

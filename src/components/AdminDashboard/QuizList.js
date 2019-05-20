@@ -131,6 +131,7 @@ class QuizList extends Component {
   }
 
   render () {
+    
     const { rowsPerPage, page } = this.state;
     const emptyRows = rowsPerPage - Math.min(rowsPerPage, this.props.quizDates.length - page * rowsPerPage);
 
