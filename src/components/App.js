@@ -156,10 +156,31 @@ class App extends Component {
                   exact path={routes.HOME}
                   render={(props) => <HomePage {...props} signedInUser={this.state.signedInUser}/>}
                 />
+
+                {/* Admin Dashboard Routes */}
+                <Route 
+                  exact path={routes.CREATE_NEW_QUIZ}
+                  render={(props) => <AdminDashboard {...props} renderPage={"Create New Quiz"} />}
+                />
+                <Route 
+                  exact path={routes.MANAGE_QUIZZES}
+                  render={(props) => <AdminDashboard {...props} renderPage={"Manage Quizzes"}/>}
+                />
+                <Route 
+                  exact path={routes.MANAGE_USERS}
+                  render={(props) => <AdminDashboard {...props} renderPage={"Manage Users"} />}
+                />
+                <Route
+                  exact path={routes.ADMIN_LEADERBOARD}
+                  render={(props) => <AdminDashboard {...props} renderPage={"Leaderboard"}/>}
+                />
                 <Route
                   exact path={routes.ADMIN_DASHBOARD}
-                  component={AdminDashboard}
+                  render={(props) => <AdminDashboard {...props} renderPage={""}/>}
                 />
+
+
+                {/* Quiz Routes */}
                 <Route
                   exact path={routes.QUIZ_ARCHIVE}
                   render={(props) => <QuizArchive {...props} signedInUser={this.state.signedInUser} />}

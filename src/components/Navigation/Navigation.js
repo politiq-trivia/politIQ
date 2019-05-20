@@ -12,6 +12,9 @@ import Toolbar from '@material-ui/core/Toolbar';
 import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
 import AccountCircle from '@material-ui/icons/AccountCircle';
+import ExpandLess from '@material-ui/icons/ExpandLess';
+import ExpandMore from '@material-ui/icons/ExpandMore';
+import Collapse from '@material-ui/core/Collapse';
 
 import { auth, firebase } from '../../firebase';
 import { db } from '../../firebase/firebase';
@@ -70,6 +73,7 @@ class NavigationAuth extends Component {
       mostRecentQuizURL: "",
       isAdmin: false,
       noQuizzes: false,
+      open: false,
     };
   }
 
@@ -122,9 +126,16 @@ class NavigationAuth extends Component {
     auth.doSignOut()
     this.props.clearStateOnSignout()
     localStorage.removeItem('authUser')
+    this.toggleDrawer('top', false)
     window.location.replace('/')
   }
 
+  handleAdminClick = () => {
+    console.log('handleAdminClick called')
+    this.setState({
+      open: !this.state.open
+    })
+  }
   
   render() {
     const fullList = (
@@ -134,38 +145,68 @@ class NavigationAuth extends Component {
             <MediaQuery query="(max-width: 415px)">
               <List component="nav">
                 {authUser && authUser.roles.includes("ADMIN") ?
-                <Link to={routes.ADMIN_DASHBOARD} style={{ textDecoration: 'none'}}>
-                  <ListItem button>
-                    <ListItemText primary="Admin Dashboard" />
-                  </ListItem>
-                </Link>
+                  <>
+                    <ListItem button onClick={this.handleAdminClick}>
+                      <ListItemText primary="Admin Dashboard" />
+                      {this.state.open ? <ExpandLess /> : <ExpandMore />}
+                    </ListItem>
+                    <Collapse in={this.state.open} timeout="auto" unmountOnExit>
+                      <List component="div" disablePadding>
+                        <Link to={routes.ADMIN_DASHBOARD} style={{ textDecoration: 'none'}}>
+                          <ListItem button onClick={this.toggleDrawer('top', false)}>
+                            <ListItemText inset primary="Dashboard Home" />
+                          </ListItem>
+                        </Link>
+                        <Link to={routes.CREATE_NEW_QUIZ} style={{ textDecoration: 'none'}}>
+                          <ListItem button onClick={this.toggleDrawer('top', false)}>
+                            <ListItemText inset primary="Create New Quiz" />
+                          </ListItem>
+                        </Link>
+                        <Link to={routes.MANAGE_QUIZZES} style={{ textDecoration: 'none' }}>
+                          <ListItem button onClick={this.toggleDrawer('top', false)}>
+                            <ListItemText inset primary="Manage Quizzes" />
+                          </ListItem>
+                        </Link>
+                        <Link to={routes.MANAGE_USERS} style={{ textDecoration: 'none' }} >
+                          <ListItem button onClick={this.toggleDrawer('top', false)}>
+                            <ListItemText inset primary="Manage Users" />
+                          </ListItem>
+                        </Link> 
+                        <Link to={routes.ADMIN_LEADERBOARD} style={{ textDecoration: 'none' }}>
+                          <ListItem button onClick={this.toggleDrawer('top', false)}>
+                            <ListItemText inset primary="Party Leaders" />
+                          </ListItem>
+                        </Link>
+                      </List>
+                    </Collapse>
+                  </>
                 : null }
-                <Link to={this.state.mostRecentQuizURL} style={{ textDecoration: 'none'}}>
+                <Link to={this.state.mostRecentQuizURL} style={{ textDecoration: 'none'}} onClick={this.toggleDrawer('top', false)}>
                   <ListItem button disabled={this.state.noQuizzes}>
                     <ListItemText primary={this.state.noQuizzes ? "No Available Quizzes" : "Play Game"} />
                   </ListItem>
                 </Link>
-                <Link to={routes.QUIZ_ARCHIVE} style={{ textDecoration: 'none'}}>
+                <Link to={routes.QUIZ_ARCHIVE} style={{ textDecoration: 'none'}} onClick={this.toggleDrawer('top', false)}>
                   <ListItem button>
                     <ListItemText primary="Quiz Archive" />
                   </ListItem>
                 </Link>
-                <Link to={routes.LEADERBOARD} style={{ textDecoration: 'none'}}>
+                <Link to={routes.LEADERBOARD} style={{ textDecoration: 'none'}} onClick={this.toggleDrawer('top', false)}>
                   <ListItem button>
                     <ListItemText primary="Leaderboard" />
                   </ListItem>
                 </Link>
-                <Link to={routes.SUBMIT_QUESTION} className="mobile-only" style={{ textDecoration: 'none'}}>
+                <Link to={routes.SUBMIT_QUESTION} className="mobile-only" style={{ textDecoration: 'none'}} onClick={this.toggleDrawer('top', false)}>
                   <ListItem button>
                     <ListItemText primary="Submit A Question"/>
                   </ListItem>
                 </Link>
-                <Link to={`/profile/${this.state.signedInUser}`} style={{ textDecoration: 'none'}}>
+                <Link to={`/profile/${this.state.signedInUser}`} style={{ textDecoration: 'none'}} onClick={this.toggleDrawer('top', false)}>
                   <ListItem button>
                     <ListItemText primary="Profile" />
                   </ListItem>
                 </Link>
-                <Link to={routes.FAQ} style={{ textDecoration: 'none' }}>
+                <Link to={routes.FAQ} style={{ textDecoration: 'none' }} onClick={this.toggleDrawer('top', false)}>
                   <ListItem button>
                     <ListItemText primary="Frequently Asked Questions" />
                   </ListItem>
@@ -241,8 +282,8 @@ class NavigationAuth extends Component {
                 <div
                   tabIndex={0}
                   role="button"
-                  onClick={this.toggleDrawer('top', false )}
-                  onKeyDown={this.toggleDrawer('top', false )}
+                  // onClick={this.toggleDrawer('top', false )}
+                  // onKeyDown={this.toggleDrawer('top', false )}
                 >
                   {fullList}
                 </div>

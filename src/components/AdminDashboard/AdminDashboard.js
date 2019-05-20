@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { compose } from 'recompose';
 import moment from 'moment';
+import MediaQuery from 'react-responsive';
 
 import { db, withFirebase } from '../../firebase';
 import { LEADERBOARD } from '../../constants/routes';
@@ -50,6 +51,31 @@ class AdminDashboard extends Component {
 
   componentDidMount = () => {
     this.getQuizzesFromDb();
+    this.redirectComponents();
+  }
+
+  componentDidUpdate (prevProps) {
+    if (this.props.renderPage !== prevProps.renderPage) {
+      this.redirectComponents()
+    } else return false;
+  }
+
+  // the mobile nav changes the component using react router. 
+  // this function tells the admin dashboard which component to load based
+  // on the props it receives from react router.
+  redirectComponents = () => {
+    const renderPage = this.props.renderPage
+    if (renderPage === "Create New Quiz") {
+      this.toggleAddQuiz()
+    } else if (renderPage === "Manage Quizzes") {
+      this.toggleManageQuizzes()
+    } else if (renderPage === "Manage Users") {
+      this.toggleUserShow()
+    } else if (renderPage === "Leaderboard") {
+      this.toggleLeaderShow()
+    } else if (renderPage === "") {
+      this.toggleDashboard()
+    }
   }
 
   toggleAddQuiz = () => {
@@ -238,15 +264,17 @@ class AdminDashboard extends Component {
 
     return (
       <div>
-        <AppBar position="static" color="default">
-          <Tabs variant="fullWidth" value={value} onChange={this.handleChange} style={{ marginTop: '8.5vh'}}>
-            <Tab label="Dashboard" onClick={this.toggleDashboard} />
-            <Tab label="Create New Quiz" onClick={this.toggleAddQuiz} />
-            <Tab label="Manage Quizzes" onClick={this.toggleManageQuizzes} />
-            <Tab label="Manage Users" onClick={this.toggleUserShow}/>
-            <Tab label="Leaders" onClick={this.toggleLeaderShow} />
-          </Tabs>
-        </AppBar>
+        <MediaQuery minWidth={415}>
+          <AppBar position="static" color="default">
+            <Tabs variant="fullWidth" value={value} onChange={this.handleChange} style={{ marginTop: '8.5vh'}}>
+              <Tab label="Dashboard" onClick={this.toggleDashboard} />
+              <Tab label="Create New Quiz" onClick={this.toggleAddQuiz} />
+              <Tab label="Manage Quizzes" onClick={this.toggleManageQuizzes} />
+              <Tab label="Manage Users" onClick={this.toggleUserShow}/>
+              <Tab label="Leaders" onClick={this.toggleLeaderShow} />
+            </Tabs>
+          </AppBar>
+        </MediaQuery>
         { this.state.addingQuiz ? <AddQuiz toggleAddQuiz={this.toggleAddQuiz} toggleDashboard={this.toggleDashboard}/>
           : <div>
           { this.state.showQuiz ? <ShowQuiz toggleDashboard={this.toggleDashboard} quiz={this.state.selectedQuiz} quizId={this.state.selectedQuizId} toggleEditQuiz={this.toggleEditQuiz}/>

@@ -23,3 +23,7 @@ export const FAQ = '/frequently-asked-questions';
 export const ADMIN_DASHBOARD = '/admin';
 export const REVIEW = '/review';
 export const CONTEST = '/contest';
+export const CREATE_NEW_QUIZ = '/admin/create-new-quiz';
+export const MANAGE_QUIZZES = '/admin/manage-quizzes';
+export const MANAGE_USERS = '/admin/manage-users';
+export const ADMIN_LEADERBOARD = '/admin/leaderboard';

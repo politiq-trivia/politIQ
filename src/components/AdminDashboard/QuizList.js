@@ -222,7 +222,7 @@ class QuizList extends Component {
                 onChange={this.handleInput}
                 margin="dense"
                 variant="outlined"
-                style={{ width: '72%', height: '6vh', marginTop: '0' }}
+                style={{ width: '64%', height: '6vh', marginTop: '0' }}
               />
               <Select 
                 value={this.state.searchCategory}
