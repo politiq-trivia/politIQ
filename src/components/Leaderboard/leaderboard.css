@@ -17,6 +17,7 @@
     /* height: 60vh; */
     /* max-height: unset; */
     margin-bottom: 2vh;
+    margin-top: 22vh;
   }
 }
 
@@ -276,11 +277,12 @@
   color: rgba(45, 45, 45, 0.80);
   margin-left: auto;
   margin-right: auto;
-  font-size: 28px;
+  font-size: 22px;
 }
 
 @media screen and (max-width: 415px) {
   .leaderboard-banner-text {
-    font-size: 20px;
+    font-size: 18px;
+    margin-top: 2vh;
   }
 }
