@@ -65,7 +65,7 @@ const LandingPage = () =>
     <div className="home-description2">
       <h4>THINK <span style={{ color: "#a54ee8"}}>ITS BIASED?</span> CONTEST A QUESTION OR ADD ONE OF YOUR OWN AND <span style={{ color: "#a54ee8" }}>WIN POINTS</span></h4>
       <p>If you believe the answer to a question is incorrect, then submit your argument (with a valid source) and you will receive an additional <span style={{ fontWeight: 'bold' }}>2 points</span> and the question will be fixed. If you wish to submit your own question to be included on the site, you can receive an additional <span style={{ fontWeight: 'bold' }}>3 points</span> (depending upon approval of its content and validity). All are welcome to contribute!</p>
-      <TodaysQuizButton buttonText="Click HERE to take today's quiz!" id="home-button" disabled={false} />
+      <TodaysQuizButton buttonText="Click HERE to start playing!" id="home-button" disabled={false} />
     </div>
 
   </Paper>

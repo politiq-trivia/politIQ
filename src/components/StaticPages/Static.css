@@ -1,3 +1,4 @@
+/* ----- play quiz button on homepage ------------- */
 #home-button {
   background-color: black;
   margin-top: 2vh !important;
@@ -10,22 +11,28 @@
   height: 8vh;
   font-weight: 300;
   max-width: 400px;
-  font-size: 20px;
+  font-size: 18px;
   letter-spacing: 0.5px;
 }
 #home-button > span {
   color: white;
 }
 @media screen and (max-width: 1024px) {
-  .home-button {
+  #home-button {
     width: 40vw !important;
     max-width: none;
   }
 }
 @media screen and (max-width: 790px) {
-  .home-button {
+  #home-button {
     width: 80vw !important;
     max-width: none;
+  }
+}
+
+@media screen and (max-width: 320px) {
+  #home-button {
+    font-size: 15px;
   }
 }
 
@@ -347,11 +354,11 @@ h6 {
 /* ------------ ANIMATION STYLES ------------------------ */
 
 .title {
-  width: 50%;
+  width: 60%;
   height: auto;
   min-height: 80px;
   position: absolute;
-  left: 25%;
+  left: 20%;
   margin-bottom: 10vh;
 }
 
@@ -395,7 +402,7 @@ h6 {
 
 .anim-h2{ 
   position: absolute;
-  left: 25%;
+  left: 20%;
   color: blue;
 }
 
@@ -410,9 +417,8 @@ h6 {
 }
 
 .anim-h3 {
-  top: ;
   position: absolute;
-  left: 25%;
+  left: 20%;
   color: green;
 }
 
