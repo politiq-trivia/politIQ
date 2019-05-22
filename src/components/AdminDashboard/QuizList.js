@@ -18,6 +18,7 @@ import MenuItem from '@material-ui/core/MenuItem';
 
 import DeleteModal from './DeleteModal';
 import { OutlinedInput } from '@material-ui/core';
+import './dashboard.css';
 
 const toolbarStyles = theme => ({
   root: {
@@ -216,18 +217,19 @@ class QuizList extends Component {
                 </div>
               </Toolbar>
               <TextField 
-                id="search"
                 label="Search"
                 value={this.state.search}
                 onChange={this.handleInput}
                 margin="dense"
                 variant="outlined"
-                style={{ width: '64%', height: '6vh', marginTop: '0' }}
+                style={{ height: '6vh', marginTop: '0', width: '100%;' }}
+                id="search"
               />
               <Select 
                 value={this.state.searchCategory}
                 onChange={this.handleChange}
-                style={{ float: 'right', height: '6vh' }}
+                // id="searchCategoryContainer"
+                style={{ float: 'right', height: '6vh', marginTop: '0.7vh' }}
                 input={
                   <OutlinedInput
                     name="searchCategory"

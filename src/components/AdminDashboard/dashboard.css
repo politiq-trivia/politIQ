@@ -188,3 +188,10 @@
     margin-top: 10vh;
   }
 }
+
+/* ------------------ quiz list styles --------------- */
+#search {
+  width: 64%;
+  height: 2vh;
+  margin-top: 0;
+}

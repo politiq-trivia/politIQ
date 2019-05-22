@@ -219,33 +219,33 @@ class NavigationAuth extends Component {
             <MediaQuery query="(min-width: 416px)">
             <List component="nav">
                 {this.props.authUser && this.props.authUser.roles.includes("ADMIN") ?
-                <Link to={routes.ADMIN_DASHBOARD} style={{ textDecoration: 'none'}}>
+                <Link to={routes.ADMIN_DASHBOARD} style={{ textDecoration: 'none'}} onClick={this.toggleDrawer('top', false )}>
                   <ListItem button>
                     <ListItemText primary="Admin Dashboard" />
                   </ListItem>
                 </Link>
                 : null }
-                <Link to={this.state.mostRecentQuizURL} style={{ textDecoration: 'none'}}>
+                <Link to={this.state.mostRecentQuizURL} style={{ textDecoration: 'none'}} onClick={this.toggleDrawer('top', false )}>
                   <ListItem button disabled={this.state.noQuizzes}>
                     <ListItemText primary={this.state.noQuizzes ? "No Available Quizzes" : "Play Game"} />
                   </ListItem>
                 </Link>
-                <Link to={routes.QUIZ_ARCHIVE} style={{ textDecoration: 'none'}}>
+                <Link to={routes.QUIZ_ARCHIVE} style={{ textDecoration: 'none'}} onClick={this.toggleDrawer('top', false )}>
                   <ListItem button>
                     <ListItemText primary="Quiz Archive" />
                   </ListItem>
                 </Link>
-                <Link to={routes.LEADERBOARD} style={{ textDecoration: 'none'}}>
+                <Link to={routes.LEADERBOARD} style={{ textDecoration: 'none'}} onClick={this.toggleDrawer('top', false )}>
                   <ListItem button>
                     <ListItemText primary="Leaderboard" />
                   </ListItem>
                 </Link>
-                <Link to={`/profile/${this.state.signedInUser}`} style={{ textDecoration: 'none'}}>
+                <Link to={`/profile/${this.state.signedInUser}`} style={{ textDecoration: 'none'}} onClick={this.toggleDrawer('top', false )}>
                   <ListItem button>
                     <ListItemText primary="Profile" />
                   </ListItem>
                 </Link>
-                <Link to={routes.FAQ} style={{ textDecoration: 'none' }}>
+                <Link to={routes.FAQ} style={{ textDecoration: 'none' }} onClick={this.toggleDrawer('top', false )}>
                   <ListItem button>
                     <ListItemText primary="Frequently Asked Questions" />
                   </ListItem>
@@ -283,7 +283,7 @@ class NavigationAuth extends Component {
                   tabIndex={0}
                   role="button"
                   // onClick={this.toggleDrawer('top', false )}
-                  // onKeyDown={this.toggleDrawer('top', false )}
+                  onKeyDown={this.toggleDrawer('top', false )}
                 >
                   {fullList}
                 </div>
