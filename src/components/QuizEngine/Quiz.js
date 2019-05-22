@@ -15,6 +15,7 @@ import FinishQuiz from './FinishQuiz';
 import ReactCountdownClock from 'react-countdown-clock';
 
 import './quiz.css';
+import audioUrl from './error.wav'
 
 class Quiz extends PureComponent {
   constructor(props) {
@@ -40,6 +41,8 @@ class Quiz extends PureComponent {
     }
     this.myRef=React.createRef();
   }
+
+  audio = new Audio(audioUrl)
 
 
 
@@ -219,6 +222,8 @@ class Quiz extends PureComponent {
         })
       // otherwise, if the user answers wrong or doesn't answer
       } else if (isCorrect === false || isCorrect === undefined) {
+        window.navigator.vibrate([200, 50, 200, 50, 200])
+        this.audio.play()
 
         // toggle the answer show (in theory)
         this.setState({

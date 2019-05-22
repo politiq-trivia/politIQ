@@ -81,7 +81,6 @@ class Question extends Component {
 
                 <FormControl className="question" style={{ marginBottom: '5vh'}}>
 
-
                 <RadioGroup aria-label={qtext}>
                     <Paper style={{ backgroundColor: backgroundColor("1") }} id="1" onClick={ wrong === null ? handleSubmit : null } className="answer">
                         <FormControlLabel value={a1text} id="1" control={
