@@ -17,7 +17,9 @@ import TableHead from '@material-ui/core/TableHead';
 import TableBody from '@material-ui/core/TableBody';
 import TableFooter from '@material-ui/core/TableFooter';
 import TablePaginationActions from './TablePaginationActions';
+import Select from '@material-ui/core/Select';
 import Button from '@material-ui/core/Button';
+import OutlinedInput from '@material-ui/core/OutlinedInput';
 import './quiz.css';
 import bg from '../StaticPages/politiq-bg2.jpg';
 
@@ -37,11 +39,14 @@ class QuizArchive extends Component {
 
   componentDidMount = () => {
     this.setState({
-      signedInUser: this.props.signedInUser
+      signedInUser: this.props.signedInUser,
+      selectedMonth: moment().format('MMMM')
     })
     this.getQuizzesFromDb();
   }
 
+  // user should be able to select a month for a dropdown and then retrieve the quizzes for that month. 
+  // the default on page load will be the current month
   getQuizzesFromDb = async () => {
     await db.getQuizzes()
       .then(response => {
@@ -105,7 +110,14 @@ class QuizArchive extends Component {
     })
   }
 
+  handleChangeMonth = (month) => {
+    this.setState({
+      selectedMonth: month
+    })
+  }
+
   render() {
+    console.log(this.state.selectedMonth)
     const {dateArray, titleArray, rowsPerPage, page } = this.state;
     const emptyRows = rowsPerPage - Math.min(rowsPerPage, dateArray.length - page * rowsPerPage)
 
@@ -197,6 +209,25 @@ class QuizArchive extends Component {
 
             </Table>
             { Object.keys(this.state.scoreObject).length !== this.state.dateArray.length ? null : <p className="archive-warning">You have taken all of the available quizzes. Check back tomorrow for the latest challenge!</p>}
+            <hr style={{ marginBottom: '5vh', marginTop: '3vh'}} />
+            <div className="viewOlder">
+              <p style={{ width: '25vw', marginRight: '3vw', marginTop: '0' }}>View quizzes from previous months: </p>
+              <Select
+                native
+                value={this.state.selectedMonth}
+                onChange={event => this.handleChangeMonth(event.target.value)}
+                style={{ height: '6vh'}}
+                input={
+                  <OutlinedInput name="month" fullWidth id={"selectedMonth"} style={{ height: '6vh' }} />
+                }
+              >
+                {/* <option value="February" /> */}
+                {/* <option value="March" /> */}
+                <option value="April">April</option>
+                <option value="May">May</option>
+              </Select>
+              <Button style={{ minWidth: '10vw', height: '6vh', marginLeft: '3vw' }} variant="contained" color="primary">View</Button>
+            </div>
           </div>
         )
       }
@@ -212,7 +243,7 @@ class QuizArchive extends Component {
         </div>
         <div className="mobile-archive-header">
           <Link to={routes.HOME} style={{ textDecoration: 'none'}} className="mobile-back"><Button color="primary">Back</Button></Link>
-          <h1 style={{ display: 'inline'}}>Past Quizzes</h1>
+          <h1 style={{ display: 'inline'}}>{moment().format('MMMM')} Quizzes</h1>
         </div>
         {isLoading()}
       </Paper>
