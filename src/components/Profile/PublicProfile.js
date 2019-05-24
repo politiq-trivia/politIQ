@@ -9,11 +9,31 @@ import { withAuthorization, withEmailVerification } from '../Auth/index';
 import Paper from '@material-ui/core/Paper';
 import Button from '@material-ui/core/Button';
 
+import {
+  FacebookShareButton,
+  LinkedinShareButton,
+  TwitterShareButton,
+  WhatsappShareButton,
+  EmailShareButton,
+} from 'react-share';
+
+import {
+  FacebookIcon,
+  TwitterIcon,
+  WhatsappIcon,
+  LinkedinIcon,
+  EmailIcon,
+} from 'react-share';
+
 import loadingGif from '../../loadingGif.gif';
 import UserScoreboard from '../Leaderboard/UserScoreboard';
 import PublicProfilePhoto from './PublicProfilePhoto';
 import CommentWidget from './Comment/CommentWidget';
 import './profile.css';
+
+const getHref = () => {
+  return (window.location.href).toString();
+}
 
 class PublicProfile extends Component {
   constructor(props) {
@@ -109,8 +129,61 @@ class PublicProfile extends Component {
 
 
               </div>
-
               <h1>{this.state.userData.displayName}</h1>
+
+              <div className="socials">
+                  <FacebookShareButton 
+                    url={ getHref() } 
+                    // className="shareable" 
+                    quote={ this.state.match
+                      ? `Check out my profile on politIQ! Click here to see how you rank up!`
+                      : `Check out ${displayName}'s profile on politIQ! Click here to see how you rank up!`
+                    }
+                  >
+                    <FacebookIcon round={true} size={32} />
+                  </FacebookShareButton>
+                  <LinkedinShareButton 
+                    url={ getHref() }
+                    // className=""
+                    description={this.state.match
+                      ? `Check out my profile on politIQ! Click here to see how you rank up!`
+                      : `Check out ${displayName}'s profile on politIQ! Click here to see how you rank up!`
+                    }
+                  >
+                    <LinkedinIcon round={true} size={32} />
+                  </LinkedinShareButton>
+                  <TwitterShareButton
+                    url={ getHref() }
+                    title= { this.state.match 
+                      ? `Check out my profile on politIQ! Click here to see how you rank up!`  
+                      : `Check out ${displayName}'s profile on politIQ! Click here to see how you rank up!`
+                    }
+                  >
+                    <TwitterIcon round={true} size={32} />
+                  </TwitterShareButton>
+                  <WhatsappShareButton
+                    url={ getHref ()}
+                    title={ this.state.match 
+                      ? `Check out my profile on politIQ! Click here to see how you rank up!`
+                      : `Check out ${displayName}'s profile on politIQ! Click here to see how you rank up!`
+                    }
+                  >
+                    <WhatsappIcon round={true} size={32} />
+                  </WhatsappShareButton>
+                  <EmailShareButton
+                    url={ getHref() }
+                    subject={this.state.match
+                      ? `Check out my proflie on politIQ!`
+                      : `Check out ${displayName}'s profile on politIQ!`
+                    }
+                    body={this.state.match
+                      ? `Click here to see how you rank up!`
+                      : `Click here to see how you rank up!`
+                    }
+                  >
+                      <EmailIcon round={true} size={32} />
+                  </EmailShareButton>
+              </div>
 
               <h3>About {displayName2}</h3>
               <p>{this.state.userData.bio}</p>

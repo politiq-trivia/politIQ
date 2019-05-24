@@ -30,7 +30,7 @@
 .profile h1 {
   text-align: center;
   /* margin-left: 15vw; */
-  margin-top: 14vh;
+  margin-top: 16vh;
 }
 .public-profile h1, {
   text-align: center;
@@ -41,16 +41,34 @@
   margin-left: 15vw;
 }
 
+/* --------heading for most phone screens ----- */
 @media screen and (max-width: 415px) {
   .public-profile h1 {
     margin-top: 5vh;
   }
   .profile h1 {
-    margin-top: 5vh;
+    margin-top: 7vh;
     margin-left: 0;
   }
   #profile-heading {
     margin-left: 0;
+  }
+}
+/* -------- iPhone 5 and equivalent phone screens ---- */
+@media screen and (max-width: 320px) {
+  .profile h1 {
+    margin-top: 12vh;
+    margin-bottom: 1vh;
+  }
+  #profile-heading {
+    margin-top: 14vh;
+  }
+}
+
+/* ------- iPad ------------ */
+@media screen and (max-width: 768px) {
+  .profile h1 {
+    margin-top: 8vh;
   }
 }
 .public-profile p, .public-profile h3 {
@@ -59,11 +77,13 @@
   margin-right: auto;
   text-align: left;
 }
+
 @media screen and (max-width: 415px) {
   .public-profile h3, .public-profile p {
     width: 90%;
   }
 }
+
 .user-scoreboard-public {
   margin-left: auto;
   margin-right: auto;
@@ -220,5 +240,26 @@
   .notification-settings label {
     margin-bottom: 2vh;
     text-align: left;
+  }
+}
+
+/* ------ sharing button styles --------------- */
+
+.socials {
+  width: 80%;
+  margin-left: auto;
+  margin-right: auto;
+  display: flex;
+}
+@media screen and (max-width: 415px) {
+  .socials {
+    justify-content: center;
+    margin-bottom: 2vh;
+  }
+}
+
+@media screen and (max-width: 320px) {
+  .socials {
+    margin-bottom: 4vh;
   }
 }
