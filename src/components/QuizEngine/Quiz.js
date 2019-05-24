@@ -86,6 +86,10 @@ class Quiz extends PureComponent {
   getQuiz = async(date) => {
     await db.getQuiz(date)
       .then(response => {
+        if (response.val() === null || response.val() === undefined) {
+          console.error('no quiz')
+          return;
+        }
         const quiz = response.val();
         const quizQs = Object.keys(quiz);
         quizQs.pop();
@@ -222,7 +226,9 @@ class Quiz extends PureComponent {
         })
       // otherwise, if the user answers wrong or doesn't answer
       } else if (isCorrect === false || isCorrect === undefined) {
-        window.navigator.vibrate([200, 50, 200, 50, 200])
+        if (window.navigator.vibrate) {
+          window.navigator.vibrate([200, 50, 200, 50, 200])
+        }
         this.audio.play()
 
         // toggle the answer show (in theory)
@@ -268,6 +274,19 @@ class Quiz extends PureComponent {
 
   render() {
     const quizHeader = this.state.selectedQuizId.slice(0, 10);
+
+    // for variable question durations
+    let timerDuration;
+    if (this.state.selectedQuiz[this.state.currentQ] !== undefined) {
+      const question = this.state.selectedQuiz[this.state.currentQ]
+      if (question.timerDuration === null || question.timerDuration === undefined) {
+        timerDuration = 40
+      } else {
+        const duration = this.state.selectedQuiz[this.state.currentQ]["timerDuration"]
+        timerDuration = duration
+      }
+    } 
+
     return (
       <AuthUserContext.Consumer>
         {authUser =>
@@ -299,7 +318,7 @@ class Quiz extends PureComponent {
                   </div>
                   <MediaQuery minWidth={416}>
                     <div style={{ float: 'right' }} className={this.state.clicked ? 'dontShowClock' : 'showClock'}>
-                      <ReactCountdownClock key={this.state.currentQ} seconds={40} size={50} color="#a54ee8" alpha={0.9} onComplete={this.state.selectedValue === '' ? () => this.checkCorrect() : null}/>
+                      <ReactCountdownClock key={this.state.currentQ} seconds={timerDuration} size={50} color="#a54ee8" alpha={0.9} onComplete={this.state.selectedValue === '' ? () => this.checkCorrect() : null}/>
                     </div>
                   </MediaQuery>
 

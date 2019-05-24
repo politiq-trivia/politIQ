@@ -8,6 +8,7 @@ import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Radio from '@material-ui/core/Radio';
 import RadioGroup from '@material-ui/core/RadioGroup';
 import Paper from '@material-ui/core/Paper';
+import Typography from '@material-ui/core/Typography';
 
 import './quiz.css';
 
@@ -63,6 +64,12 @@ class Question extends Component {
         let a2text = questionObj["a2text"];
         let a3text = questionObj["a3text"];
         let answerExplanation = questionObj["answerExplanation"];
+        let timerDuration;
+        if (questionObj["timerDuration"] === null || questionObj["timerDuration"] === undefined) {
+            timerDuration = 40
+        } else {
+            timerDuration = questionObj["timerDuration"]
+        }
 
         const backgroundColor = (num) => {
             if (selectedValue === '') return;
@@ -82,7 +89,7 @@ class Question extends Component {
                 <FormControl className="question" style={{ marginBottom: '5vh'}}>
 
                 <RadioGroup aria-label={qtext}>
-                    <Paper style={{ backgroundColor: backgroundColor("1") }} id="1" onClick={ wrong === null ? handleSubmit : null } className="answer">
+                    <Paper style={{ backgroundColor: backgroundColor("1") }} id="1" onClick={ wrong === null ? handleSubmit : null } className="answer" inputref={this.props.inputref}>
                         <FormControlLabel value={a1text} id="1" control={
                         <Radio
                             checked={selectedValue === "1"}
@@ -118,33 +125,33 @@ class Question extends Component {
                     </Paper>
 
                 </RadioGroup>
-                <div>
+                <Typography component="div">
                 {wrong === true
                     ? 
-                        <div style={{ marginTop: '3vh'}} id="explanation"ref={this.props.myRef}>
-                            <h3 style={{ color: 'red', display: 'inline', marginRight: '1vw'}}>INCORRECT</h3>
+                        <Typography component="div" style={{ marginTop: '3vh'}} id="explanation"ref={this.props.myRef}>
+                            <Typography component="h3" style={{ color: 'red', display: 'inline', marginRight: '1vw'}}>INCORRECT</Typography>
                             <p style={{ display: 'inline'}}>The correct answer was <span style={{ color: 'green' }}>{correctAnswer}</span>.</p>
                             <p>{answerExplanation}</p>
                             <Button variant="contained" color="primary" onClick={nextQ} style={{ display: 'block', marginBottom: '2vh'}}>Continue</Button>
                             <Button variant="contained" onClick={this.openNewTab}>Contest This Question</Button>
-                        </div>
+                        </Typography>
                     : null 
                 }
                 { wrong === false
                     ? 
-                        <div style={{ marginTop: '3vh'}} id="explanation" ref={this.props.myRef}>
+                        <Typography component="div" style={{ marginTop: '3vh'}} id="explanation" ref={this.props.myRef}>
                             <h3 style={{ color: 'green'}}>CORRECT</h3>
                             <p>{answerExplanation}</p>
                             <Button variant="contained" color="primary" onClick={nextQ} style={{ display: 'block', marginBottom: '2vh'}}>Continue</Button>
-                        </div>
+                        </Typography>
                     : null
                 }
-                </div>
+                </Typography>
 
                 <MediaQuery maxWidth={415}>
-                        <div className={clicked ? 'dontShowClock' : 'showClock'} style={{ marginLeft: '43%', marginRight: 'auto', marginTop: '4vh', width: '21%' }} >
-                            <ReactCountdownClock key={this.props.currentQ} seconds={40} size={60} color="#a54ee8" style={{ marginLeft: 'auto', marginRight: 'auto' }} alpha={0.9} onComplete={this.props.selectedValue === '' ? () => this.props.checkCorrect() : null} paused={this.state.clicked}/>
-                        </div>
+                        <Typography component="div" className={clicked ? 'dontShowClock' : 'showClock'} style={{ marginLeft: '43%', marginRight: 'auto', marginTop: '4vh', width: '21%' }} >
+                            <ReactCountdownClock key={this.props.currentQ} seconds={timerDuration} size={60} color="#a54ee8" style={{ marginLeft: 'auto', marginRight: 'auto' }} alpha={0.9} onComplete={this.props.selectedValue === '' ? () => this.props.checkCorrect() : null} paused={this.state.clicked}/>
+                        </Typography>
                 </MediaQuery>
                 </FormControl>
 
