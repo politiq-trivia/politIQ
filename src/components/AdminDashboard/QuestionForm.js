@@ -5,6 +5,9 @@ import TextField from '@material-ui/core/TextField';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
 import Button from '@material-ui/core/Button';
+import FormControl from '@material-ui/core/FormControl';
+import InputLabel from '@material-ui/core/InputLabel';
+import Select from '@material-ui/core/Select';
 
 import { db } from '../../firebase';
 
@@ -27,6 +30,7 @@ class QuestionForm extends Component {
       answerExplanation: "",
       counter: 0,
       atLeastOneChecked: false,
+      timerDuration: 40,
     }
   }
 
@@ -60,6 +64,12 @@ class QuestionForm extends Component {
     }
   }
 
+  handleDurationChange = input => {
+    this.setState({
+      timerDuration: input
+    })
+  }
+
   saveData = () => {
     // when I click submit, I want to take all the information from state
     // PLUS the quiz id from props and make a firebase db write with that info.
@@ -74,6 +84,7 @@ class QuestionForm extends Component {
       this.state.a3text,
       this.state.a3correct,
       this.state.answerExplanation,
+      this.state.timerDuration,
     )
   }
 
@@ -92,8 +103,8 @@ class QuestionForm extends Component {
       a2correct: false,
       a3correct: false,
       answerExplanation: "",
+      timerDuration: 40,
     })
-    console.log('this is state after you submit (should be empty)', this.state)
   }
 
   // submits the data to the firebase db and then returns the user to the admin dashboard
@@ -227,6 +238,28 @@ class QuestionForm extends Component {
             type="text"
             placeholder="Correct Answer Explanation"
           />
+          <FormControl fullWidth margin="normal">
+            <InputLabel htmlFor="timer-duration">Timer Duration (seconds)</InputLabel>
+            <Select
+              native
+              autoWidth={true}
+              value={this.state.timerDuration}
+              onChange={event => this.handleDurationChange(event.target.value)}
+              inputProps={{
+                name: 'timerDuration',
+                id: 'timer-duration'
+              }}
+            >
+              <option value="30">30</option> 
+              <option value="40">40</option>
+              <option value="50">50</option>
+              <option value="60">60</option>
+              <option value="70">70</option>
+              <option value="80">80</option>
+              <option value="90">90</option>
+              
+            </Select>
+          </FormControl>
           <div className="quizButtonHolder">
             <Button color="primary" variant="contained" onClick={this.handleQuit}>
               Exit Without Saving
