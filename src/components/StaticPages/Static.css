@@ -439,11 +439,17 @@ h6 {
       -webkit-clip-path: polygon(100% 0, 100% 100%, 0 100%, 0 80%);
       clip-path: polygon(100% 0, 100% 100%, 0 100%, 0 80%);
   }
-  30% {
-       transform: translateY(0);
-       opacity: 1;
+  40% {
+       transform: translateY(-25px);
+       opacity: 0.15;
       -webkit-clip-path: polygon(100% 0, 100% 100%, 0 100%, 0 15%);
       clip-path: polygon(100% 0, 100% 100%, 0 100%, 0 15%);
+  }
+  80% {
+    transform: translateY(0);
+    opacity: 1;
+    -webkit-clip-path: polygon(100% 0, 100% 100%, 0 100%, 0 15%);
+    clip-path: polygon(100% 0, 100% 100%, 0 100%, 0 15%);
   }
   100% {
        transform: translateY(50px);

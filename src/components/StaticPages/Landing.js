@@ -14,7 +14,7 @@ const LandingPage = () =>
 
     <img src={bg} id="bg-image" alt="democrats and republicans face off"/>
 
-    <h2>Are you smarter than a: </h2>
+    <h2 style={{ marginBottom: '2vh' }}>Are you smarter than a: </h2>
       <div className="title anim-h1">
         <span>Republican?</span>
       </div>
