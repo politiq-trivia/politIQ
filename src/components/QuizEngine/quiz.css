@@ -68,6 +68,32 @@
   justify-content: center;
 }
 
+.olderDescription {
+  width: 25vw;
+  margin-right: 3vw;
+  margin-top: 0;
+}
+
+.olderButton {
+  min-width: 10vw;
+  height: 6vh;
+  margin-left: 3vw !important;
+}
+
+@media screen and (max-width: 415px) {
+  .viewOlder {
+    display: block;
+  }
+  
+  .olderDescription {
+    width: auto;
+  }
+
+  .olderButton {
+    margin-top: 3vh !important;
+  }
+}
+
 /* ------------- QUIZ STYLES ----------------- */
 
 .quiz-body {

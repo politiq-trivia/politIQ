@@ -239,7 +239,7 @@ class QuizArchive extends Component {
             { Object.keys(this.state.scoreObject).length !== this.state.dateArray.length ? null : <p className="archive-warning">You have taken all of the available quizzes. Check back tomorrow for the latest challenge!</p>}
             <hr style={{ marginBottom: '5vh', marginTop: '3vh'}} />
             <div className="viewOlder">
-              <p style={{ width: '25vw', marginRight: '3vw', marginTop: '0' }}>View quizzes from previous months: </p>
+              <p className="olderDescription">View quizzes from previous months: </p>
               <Select
                 native
                 value={this.state.selectedMonth}
@@ -253,7 +253,7 @@ class QuizArchive extends Component {
                   <option value={month} key={month}>{moment(month).format('MMMM')}</option>
                 ))}
               </Select>
-              <Button style={{ minWidth: '10vw', height: '6vh', marginLeft: '3vw' }} variant="contained" color="primary" onClick={this.getQuizzesFromDb}>View</Button>
+              <Button className="olderButton" variant="contained" color="primary" onClick={this.getQuizzesFromDb}>View</Button>
             </div>
           </div>
         )
