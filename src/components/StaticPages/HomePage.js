@@ -4,6 +4,7 @@ import { Helmet } from 'react-helmet';
 import { compose } from 'recompose';
 import axios from 'axios';
 import MediaQuery from 'react-responsive';
+import ReactGA from 'react-ga';
 
 import {
   FacebookShareButton,
@@ -53,6 +54,7 @@ class HomePage extends Component {
   componentDidMount() {
     // this.subscribeToPushNotifications()
     this.addToHomeScreen()
+    // ReactGA.pageview('/logged-in-home')
 
     // axios.post(process.env.SERVER_URL + '/subscribe', {pushSubscription: "this is the subscription"})
     // .then(res => {

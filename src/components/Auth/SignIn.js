@@ -15,6 +15,7 @@ import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import './Auth.css';
 import FacebookAuth from './FacebookAuth';
+import { trackEvent } from '../../utils/googleAnalytics';
 
 
 class SignInPage extends Component {
@@ -107,6 +108,8 @@ class SignInFormBase extends Component {
           db.setScore(authUser.user.uid, scoreObject.date, scoreObject.score)
             .catch(error => console.log(error))
         }
+
+        trackEvent('Account', 'Sign In', 'SIGN_IN')
       })
       .catch(error => {
         this.setState(byPropKey('error', error));

@@ -3,10 +3,18 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './components/App';
 import * as serviceWorker from './serviceWorker';
-import { BrowserRouter as Router} from 'react-router-dom';
+import { Router } from 'react-router-dom';
+import ReactGA from 'react-ga';
+import createHistory from 'history/createBrowserHistory';
+
+const history = createHistory()
+ReactGA.initialize('UA-141105324-1');
+history.listen((location, action) => {
+  ReactGA.pageview(location.pathname);
+})
 
 ReactDOM.render(
-  <Router>
+  <Router history={history}>
     <App />
   </Router>, document.getElementById('root'));
 

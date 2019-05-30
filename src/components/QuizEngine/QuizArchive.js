@@ -54,7 +54,6 @@ class QuizArchive extends Component {
       monthsArray.push(moment(date).startOf('month').format('YYYY-MM-DDTHH:mm'))
       date = moment(date).subtract(1, 'month').format('YYYY-MM-DDTHH:mm')
     }
-    console.log(monthsArray, 'this is the months array')
     this.setState({
       monthsArray,
     })

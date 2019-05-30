@@ -9,6 +9,8 @@ import { HOME } from '../../constants/routes';
 import { FacebookIcon } from 'react-share';
 import Button from '@material-ui/core/Button';
 
+import { trackEvent } from '../../utils/googleAnalytics';
+
 const ERROR_CODE_ACCOUNT_EXISTS =
   'auth/account-exists-with-different-credential';
 
@@ -69,6 +71,7 @@ class FacebookAuth extends Component {
                     isAdmin: true
                   })
                 }
+                trackEvent('Account', 'Sign up with Facebook', 'SIGN_UP')
             } else { // if the user already has an account
               const date = moment().format('YYYY-MM-DD')
               db.lastActive(uid, date)

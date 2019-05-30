@@ -20,6 +20,7 @@ import {
 
 import { QUIZ_ARCHIVE, LEADERBOARD, SIGN_UP, SUBMIT_QUESTION } from '../../constants/routes';
 import NextAvailableQuizButton from './NextAvailableQuizButton';
+import { trackEvent } from '../../utils/googleAnalytics';
 
 // change this back into stateless component 
 
@@ -28,6 +29,9 @@ const getHref = () => {
   }
 
 class FinishQuiz extends Component {
+    componentDidMount() {
+        trackEvent('Quizzes', 'Quiz Completed', 'QUIZ_COMPLETE')
+    }
     shouldComponentUpdate(nextProps) {
         if (nextProps === this.props) {
             return false

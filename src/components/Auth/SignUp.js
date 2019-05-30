@@ -25,6 +25,7 @@ import ClickAwayListener from '@material-ui/core/ClickAwayListener';
 import './Auth.css';
 
 import FacebookAuth from './FacebookAuth'
+import { trackEvent } from '../../utils/googleAnalytics';
 
 class SignUpPage extends Component { 
   constructor(props) {
@@ -144,6 +145,7 @@ class SignUpFormBase extends Component {
               this.subscribeToEmailUpdates(email, username, authUser.user.uid, 'weekly')
               this.subscribeToEmailUpdates(email, username, authUser.user.uid, 'daily')
             }
+            trackEvent('account', 'Sign up with email and password', "SIGN_UP")
             history.push(routes.HOME);
           })
           .catch(error => {

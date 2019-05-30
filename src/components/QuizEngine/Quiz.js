@@ -4,15 +4,16 @@ import { Helmet } from 'react-helmet';
 import AuthUserContext from '../Auth/AuthUserContext';
 import MediaQuery from 'react-responsive';
 import { Prompt } from 'react-router-dom';
+import ReactCountdownClock from 'react-countdown-clock';
 
 import Paper from '@material-ui/core/Paper';
-import ContestAQuestion from './ContestAQuestion';
 
 import { db } from '../../firebase';
+import { trackEvent } from '../../utils/googleAnalytics';
 
 import Question from './Question';
 import FinishQuiz from './FinishQuiz';
-import ReactCountdownClock from 'react-countdown-clock';
+import ContestAQuestion from './ContestAQuestion'; 
 
 import './quiz.css';
 import audioUrl from './error.wav'
@@ -66,12 +67,17 @@ class Quiz extends PureComponent {
       })
       this.getQuiz(date)
     }
+
+    trackEvent('Quizzes', 'Quiz loaded', 'QUIZ_LOADED')
   }
 
   componentWillUnmount = () => {
     window.clearTimeout(this.timer)
     // maybe should also store the score so the user can't take the quiz again ? 
-    this.submitScore(this.state.score, this.state.uid)
+    if (this.state.finished === false) {
+      trackEvent('Quizzes', 'Quiz forfeited', 'QUIZ_FORFEIT')
+      this.submitScore(this.state.score, this.state.uid)
+    }
   }
 
   getUser = () => {

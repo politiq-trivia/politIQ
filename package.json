@@ -61,6 +61,7 @@
     "react-faux-dom": "^4.4.0",
     "react-firebase-file-uploader": "^2.4.2",
     "react-firebaseui": "^3.1.2",
+    "react-ga": "^2.5.7",
     "react-google-charts": "^3.0.10",
     "react-helmet": "^5.2.0",
     "react-responsive": "^6.0.1",

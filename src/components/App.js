@@ -127,6 +127,7 @@ class App extends Component {
 
   render() {
     return (
+      // <Router history
       <MuiThemeProvider theme={theme}>
 
             <Navigation signedInUser={this.state.signedInUser} clearStateOnSignout={this.clearStateOnSignout}/>
