@@ -38,11 +38,38 @@ class QuizArchive extends Component {
   }
 
   componentDidMount = () => {
+    this.createMonthOptionsArray()
     this.setState({
       signedInUser: this.props.signedInUser,
-      selectedMonth: moment().format('MMMM')
+      selectedMonth: moment().startOf('month').format('YYYY-MM-DDTHH:mm')
     })
     this.getQuizzesFromDb();
+  }
+
+  createMonthOptionsArray = () => {
+    let date = moment().format('YYYY-MM-DDTHH:mm')
+    let monthsArray = []
+    // for every month that is greater than April 2019, push those values into an array
+    while (date >= '2019-04-01T00:00') {
+      monthsArray.push(moment(date).startOf('month').format('YYYY-MM-DDTHH:mm'))
+      date = moment(date).subtract(1, 'month').format('YYYY-MM-DDTHH:mm')
+    }
+    console.log(monthsArray, 'this is the months array')
+    this.setState({
+      monthsArray,
+    })
+  }
+
+  dateFilter = (date) => {
+    if (this.state.selectedMonth === moment().startOf('month').format('YYYY-MM-DDTHH:mm')) {
+      // dates that are less than the current date
+      // dates that are greater than the start of the current month
+      return date < moment().format('YYYY-MM-DDTHH:mm') && date > moment().startOf('month').format('YYYY-MM-DDTHH:mm');
+    } else {
+        // dates that are greater than the start of the selected month 
+        // dates that are less than the end of the selected month
+        return date > moment(this.state.selectedMonth).startOf('month').format('YYYY-MM-DDTHH:mm') && date < moment(this.state.selectedMonth).add(1, 'month').format('YYYY-MM-DDTHH:mm')
+    }
   }
 
   // user should be able to select a month for a dropdown and then retrieve the quizzes for that month. 
@@ -52,7 +79,8 @@ class QuizArchive extends Component {
       .then(response => {
         const data = response.val();
         const allDates = Object.keys(data);
-        const dateArray = allDates.filter(date => date < moment().format('YYYY-MM-DDTHH:mm') && date > moment().startOf('month').format('YYYY-MM-DDTHH:mm'));
+
+        const dateArray = allDates.filter(date => this.dateFilter(date))
         if (dateArray.length === 0 ) {
           this.setState({
             noQuizzes: true,
@@ -71,7 +99,8 @@ class QuizArchive extends Component {
         this.setState({
           dateArray: dateArray.reverse(),
           titleArray: titleArray.reverse(),
-          loading: false
+          loading: false, 
+          page: 0,
         })
         this.getTheLoggedInUsersScores()
       })
@@ -117,7 +146,6 @@ class QuizArchive extends Component {
   }
 
   render() {
-    console.log(this.state.selectedMonth)
     const {dateArray, titleArray, rowsPerPage, page } = this.state;
     const emptyRows = rowsPerPage - Math.min(rowsPerPage, dateArray.length - page * rowsPerPage)
 
@@ -218,20 +246,20 @@ class QuizArchive extends Component {
                 onChange={event => this.handleChangeMonth(event.target.value)}
                 style={{ height: '6vh'}}
                 input={
-                  <OutlinedInput name="month" fullWidth id={"selectedMonth"} style={{ height: '6vh' }} />
+                  <OutlinedInput name="month" fullWidth id={"selectedMonth"} style={{ height: '6vh' }} labelWidth={0}/>
                 }
               >
-                {/* <option value="February" /> */}
-                {/* <option value="March" /> */}
-                <option value="April">April</option>
-                <option value="May">May</option>
+                {this.state.monthsArray && this.state.monthsArray.map((month, i) => (
+                  <option value={month} key={month}>{moment(month).format('MMMM')}</option>
+                ))}
               </Select>
-              <Button style={{ minWidth: '10vw', height: '6vh', marginLeft: '3vw' }} variant="contained" color="primary">View</Button>
+              <Button style={{ minWidth: '10vw', height: '6vh', marginLeft: '3vw' }} variant="contained" color="primary" onClick={this.getQuizzesFromDb}>View</Button>
             </div>
           </div>
         )
       }
     }
+
     return (
       <Paper className="home archive-holder">
         <Helmet>
