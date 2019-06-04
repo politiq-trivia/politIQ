@@ -31,6 +31,7 @@ class QuestionForm extends Component {
       counter: 0,
       atLeastOneChecked: false,
       timerDuration: 40,
+      atLeastOneSaved: false,
     }
   }
 
@@ -38,6 +39,14 @@ class QuestionForm extends Component {
     this.setState({
       counter: this.props.counter,
     })
+  }
+
+  componentWillUnmount() {
+    // remove the quiz if the user has not saved any questions.
+    // empty quizzes cause bugs later on in the game.
+    if (this.state.atLeastOneSaved === false) {
+      db.deleteQuiz(this.props.quizId)
+    }
   }
 
   handleCheck = (event) => {
@@ -86,12 +95,16 @@ class QuestionForm extends Component {
       this.state.answerExplanation,
       this.state.timerDuration,
     )
+
+    this.setState({
+      atLeastOneSaved: true,
+    })
   }
 
   // submits the data to the firebase db, resets the form so that the user can
   // add another question
-  handleSubmit = () => {
-    this.saveData()
+  handleSubmit = async () => {
+    await this.saveData()
     let counter = this.state.counter + 1;
     this.setState({
       counter: counter,
@@ -104,12 +117,14 @@ class QuestionForm extends Component {
       a3correct: false,
       answerExplanation: "",
       timerDuration: 40,
+      atLeastOneSaved: true,
     })
   }
 
   // submits the data to the firebase db and then returns the user to the admin dashboard
-  handleReturn = () => {
-    this.saveData();
+  handleReturn = async () => {
+    await this.saveData();
+    // this.setState()
     // const newUnixDate = parseInt((new Date(this.props.quizId).getTime() / 1000).toFixed(0) + '000')
     // if (newUnixDate < Date.now()) {
     //   this.sendNotification()
@@ -120,6 +135,7 @@ class QuestionForm extends Component {
   }
 
   handleQuit = () => {
+    // if the user hasn't saved any quizzes
     this.props.toggleAddQuiz()
   }
 
@@ -151,7 +167,6 @@ class QuestionForm extends Component {
 
   render() {
     const qNum = "Question " + this.state.counter;
-
     return (
       <div>
         <Button onClick={this.props.goBack} color="primary" variant="contained" style={{ float: 'left'}}>Back</Button>
