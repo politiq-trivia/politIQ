@@ -278,11 +278,18 @@
   margin-left: auto;
   margin-right: auto;
   font-size: 22px;
+  text-align: center;
 }
 
 @media screen and (max-width: 415px) {
   .leaderboard-banner-text {
     font-size: 18px;
+    margin-top: 1vh;
+  }
+}
+
+@media screen and (max-width: 320px) {
+  .leaderboard-banner-text {
     margin-top: 2vh;
   }
 }
