@@ -11,6 +11,7 @@ import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 
 import './quiz.css';
+import countdownUrl from './sounds/countdown.flac';
 
 
 class Question extends Component {
@@ -22,6 +23,12 @@ class Question extends Component {
         }
     }
 
+    countdown = new Audio(countdownUrl)
+
+    componentDidMount = () => {
+        this.playCountdown()
+    }
+
     shouldComponentUpdate(nextProps) {
         if (nextProps.qNum !== this.props.qNum || nextProps.selectedValue !== this.props.selectedValue || nextProps.wrong !== this.props.wrong) {
             return true;
@@ -31,19 +38,31 @@ class Question extends Component {
     }
 
     componentDidUpdate() {
+        // I believe it moves down to myRef when there is an answer chosen, 
+        // meaning that it moves back up to the top then where is a new question.
+        // this is in theory when the countdown should restart?
         if(this.props.myRef.current !== null) {
+            window.clearTimeout()
+            this.countdown.src = null;
+
             window.scrollTo({
                 left: 0, 
                 top:this.props.myRef.current.offsetTop,
                 behavior: 'smooth'
             })
         } else {
+            this.countdown.src = "/static/media/countdown.f63efcde.flac";
+            this.playCountdown();
             window.scrollTo({
                 top: 0,
                 left: 0,
                 behavior: 'smooth',
             })
         }
+    }
+
+    componentWillUnmount = () => {
+        window.clearTimeout()
     }
 
     openNewTab = () => {
@@ -53,6 +72,24 @@ class Question extends Component {
         localStorage.setItem("state", newStateJson)
         const url = 'quiz/' + this.props.quizID
         window.open(`/${url}`);
+    }
+
+    playCountdown = () => {
+        // take the timer duration
+        const { questionObj } = this.props;
+        let timerDuration;
+        if (questionObj["timerDuration"] === null || questionObj["timerDuration"] === undefined) {
+            timerDuration = 40
+        } else {
+            timerDuration = questionObj["timerDuration"]
+        }
+        const tenLess = (timerDuration - 10) * 1000;
+
+        setTimeout(() => {
+            if (this.countdown.src.includes("/static/media/countdown.f63efcde.flac")) {
+                this.countdown.play()
+            }
+        }, tenLess)
     }
 
     scrollToMyRef = () => window.scrollTo(0, this.props.myRef.offsetTop)
@@ -125,33 +162,33 @@ class Question extends Component {
                     </Paper>
 
                 </RadioGroup>
-                <Typography component="div">
+                <div>
                 {wrong === true
                     ? 
-                        <Typography component="div" style={{ marginTop: '3vh'}} id="explanation"ref={this.props.myRef}>
-                            <Typography component="h3" style={{ color: 'red', display: 'inline', marginRight: '1vw'}}>INCORRECT</Typography>
+                        <div style={{ marginTop: '3vh'}} id="explanation"ref={this.props.myRef}>
+                            <h3 style={{ color: 'red', display: 'inline', marginRight: '1vw'}}>INCORRECT</h3>
                             <p style={{ display: 'inline'}}>The correct answer was <span style={{ color: 'green' }}>{correctAnswer}</span>.</p>
                             <p>{answerExplanation}</p>
                             <Button variant="contained" color="primary" onClick={nextQ} style={{ display: 'block', marginBottom: '2vh'}}>Continue</Button>
                             <Button variant="contained" onClick={this.openNewTab}>Contest This Question</Button>
-                        </Typography>
+                        </div>
                     : null 
                 }
                 { wrong === false
                     ? 
-                        <Typography component="div" style={{ marginTop: '3vh'}} id="explanation" ref={this.props.myRef}>
+                        <div style={{ marginTop: '3vh'}} id="explanation" ref={this.props.myRef}>
                             <h3 style={{ color: 'green'}}>CORRECT</h3>
                             <p>{answerExplanation}</p>
                             <Button variant="contained" color="primary" onClick={nextQ} style={{ display: 'block', marginBottom: '2vh'}}>Continue</Button>
-                        </Typography>
+                        </div>
                     : null
                 }
-                </Typography>
+                </div>
 
                 <MediaQuery maxWidth={415}>
-                        <Typography component="div" className={clicked ? 'dontShowClock' : 'showClock'} style={{ marginLeft: '43%', marginRight: 'auto', marginTop: '4vh', width: '21%' }} >
+                        <div className={clicked ? 'dontShowClock' : 'showClock'} style={{ marginLeft: '43%', marginRight: 'auto', marginTop: '4vh', width: '21%' }} >
                             <ReactCountdownClock key={this.props.currentQ} seconds={timerDuration} size={60} color="#a54ee8" style={{ marginLeft: 'auto', marginRight: 'auto' }} alpha={0.9} onComplete={this.props.selectedValue === '' ? () => this.props.checkCorrect() : null} paused={this.state.clicked}/>
-                        </Typography>
+                        </div>
                 </MediaQuery>
                 </FormControl>
 

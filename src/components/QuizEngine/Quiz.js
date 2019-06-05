@@ -16,7 +16,9 @@ import FinishQuiz from './FinishQuiz';
 import ContestAQuestion from './ContestAQuestion'; 
 
 import './quiz.css';
-import audioUrl from './error.wav'
+import errorUrl from './sounds/error.wav';
+import wrongUrl from './sounds/wrong.wav';
+import correctUrl from './sounds/correct.wav';
 
 class Quiz extends PureComponent {
   constructor(props) {
@@ -43,9 +45,8 @@ class Quiz extends PureComponent {
     this.myRef=React.createRef();
   }
 
-  audio = new Audio(audioUrl)
-
-
+  error = new Audio(errorUrl)
+  correct = new Audio(correctUrl)
 
   componentDidMount = () => {
     const url = window.location.href;
@@ -223,6 +224,7 @@ class Quiz extends PureComponent {
       }
       // if the answer is correct, add a point and then render the next question after a slight delay
       if (isCorrect) {
+        this.correct.play()
         const score = this.state.score + 1;
         this.setState({
           score: score,
@@ -235,7 +237,11 @@ class Quiz extends PureComponent {
         if (window.navigator.vibrate) {
           window.navigator.vibrate([200, 50, 200, 50, 200])
         }
-        this.audio.play()
+        this.error.play()
+        this.error.onended = function() {
+          let wrong = new Audio(wrongUrl)
+          wrong.play()
+        }
 
         // toggle the answer show (in theory)
         this.setState({
