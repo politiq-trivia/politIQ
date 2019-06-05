@@ -39,8 +39,10 @@ class QuizArchive extends Component {
 
   componentDidMount = () => {
     this.createMonthOptionsArray()
+    const userObject = JSON.parse(localStorage.getItem('authUser'))
+    const uid = userObject.uid
     this.setState({
-      signedInUser: this.props.signedInUser,
+      signedInUser: uid,
       selectedMonth: moment().startOf('month').format('YYYY-MM-DDTHH:mm')
     })
     this.getQuizzesFromDb();
@@ -154,7 +156,8 @@ class QuizArchive extends Component {
       let shortDate = date.slice(0,10)
       let title = newTitleArray[i]
       let score;
-      if (this.state.scoreObject[date]) {
+
+      if (Object.keys(this.state.scoreObject).includes(date)) {
         score = this.state.scoreObject[date]
       } else {
         score = "--"
