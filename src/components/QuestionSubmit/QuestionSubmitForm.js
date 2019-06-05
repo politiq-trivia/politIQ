@@ -144,7 +144,7 @@ class QuestionSubmitForm extends Component {
     return (
         <Paper className="pageStyle submitForm">
           <Helmet>
-            <title>Submit Question</title>
+            <title>Submit Question | politIQ trivia</title>
           </Helmet>
           { this.state.done
             ? <div className="afterSubmit">

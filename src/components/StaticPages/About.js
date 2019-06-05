@@ -9,7 +9,7 @@ const About = () => {
   return (
     <Paper className="about-holder">
       <Helmet>
-        <title>About | politIQ </title>
+        <title>About | politIQ trivia</title>
       </Helmet>
       <div className="heading">
         <h1>About Us</h1>

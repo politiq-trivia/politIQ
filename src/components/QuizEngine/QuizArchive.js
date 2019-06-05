@@ -262,7 +262,7 @@ class QuizArchive extends Component {
     return (
       <Paper className="home archive-holder">
         <Helmet>
-          <title>Quiz Archive | politIQ</title>
+          <title>Quiz Archive | politIQ trivia</title>
         </Helmet>
         <div className="archive-header">
           <Link to={routes.HOME} style={{ textDecoration: 'none' }}><Button variant="contained" color="primary">Home</Button></Link>

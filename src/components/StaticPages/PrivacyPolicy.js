@@ -1,10 +1,14 @@
 import React from 'react';
+import Helmet from 'react-helmet';
 
 import Paper from '@material-ui/core/Paper'
 
 const PrivacyPolicy = () => {
     return (
         <Paper className="home-holder" style={{ width: '65vw', textAlign: 'left', marginLeft: 'auto', marginRight: 'auto', padding: '5vw', marginBottom: '5vw'}}>
+            <Helmet>
+                <title>Privacy Policy | politIQ trivia</title>
+            </Helmet>
             <h1 style={{ textAlign: 'center'}}>PolitIQ Privacy Policy</h1>
 
             <p>Effective date: January 08, 2019</p>

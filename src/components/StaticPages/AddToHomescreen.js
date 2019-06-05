@@ -1,6 +1,7 @@
 import React from 'react';
 import MediaQuery from 'react-responsive';
 import { Link } from 'react-router-dom';
+import Helmet from 'react-helmet';
 
 import Button from '@material-ui/core/Button';
 import Paper from '@material-ui/core/Paper';
@@ -14,6 +15,9 @@ import addToHomescreen from './addToHomescreen.png';
 const AddToHomescreen = () => {
     return (
         <Paper className="home" style={{ marginBottom: '4vh' }}>
+            <Helmet>
+                <title>Add To Homescreen | politIQ trivia</title>
+            </Helmet>
             <h1 style={{ fontSize: '2.5em' }}>Add politIQ to your homescreen</h1>
             <div style={{ display: 'flex', justifyContent: 'center', height: '32px' }}>
                 <p style={{ marginTop: 'auto', marginBottom: 'auto', marginRight: '1vw' }}>Tap the</p> 

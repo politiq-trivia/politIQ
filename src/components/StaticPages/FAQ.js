@@ -10,7 +10,7 @@ const FAQ = () => {
     return (
         <Paper className="about-holder">
             <Helmet>
-                <title>Frequently Asked Questions | politIQ </title>
+                <title>Frequently Asked Questions | politIQ trivia</title>
             </Helmet>
             <div className="heading" style={{ height: '20vh' }}>
                 <h1>Frequently Asked Questions</h1>

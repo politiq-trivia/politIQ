@@ -109,7 +109,7 @@ class ProfilePage extends Component {
         {authUser =>
           <Paper className="profile">
             <Helmet>
-              <title>Profile | politIQ</title>
+              <title>Profile | politIQ trivia</title>
             </Helmet>
             <div className="public-profile-top">
               <div style={{ display: "flex", justifyContent: 'space-between', marginBottom: '3vh'}}>

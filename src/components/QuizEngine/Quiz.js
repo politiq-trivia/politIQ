@@ -298,7 +298,7 @@ class Quiz extends PureComponent {
         {authUser =>
           <Paper className="quiz-body">
             <Helmet>
-              <title>Play | politIQ</title>
+              <title>Play | politIQ trivia</title>
             </Helmet>
 
             <Prompt 

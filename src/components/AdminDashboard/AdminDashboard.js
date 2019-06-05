@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { compose } from 'recompose';
 import moment from 'moment';
 import MediaQuery from 'react-responsive';
+import Helmet from 'react-helmet';
 
 import { db, withFirebase } from '../../firebase';
 import { LEADERBOARD } from '../../constants/routes';
@@ -264,6 +265,9 @@ class AdminDashboard extends Component {
 
     return (
       <div>
+        <Helmet>
+          <title>Admin Dashboard | politIQ trivia</title>
+        </Helmet>
         <MediaQuery minWidth={415}>
           <AppBar position="static" color="default">
             <Tabs variant="fullWidth" value={value} onChange={this.handleChange} style={{ marginTop: '8.5vh'}}>

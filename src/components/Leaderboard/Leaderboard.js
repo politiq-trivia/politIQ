@@ -57,7 +57,7 @@ class Leaderboard extends Component {
         </AppBar>
         <Paper className="leaderboard">
           <Helmet>
-            <title>Leaderboard | politIQ</title>
+            <title>Leaderboard | politIQ trivia</title>
           </Helmet>
 
           <MediaQuery minWidth={416}>

@@ -164,7 +164,7 @@ class HomePage extends Component {
     return (
       <Paper className="pageStyle home">
         <Helmet>
-          <title>Home | politIQ </title>
+          <title>Home | politIQ trivia</title>
         </Helmet>
         <Snackbar 
           anchorOrigin={{

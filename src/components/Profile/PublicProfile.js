@@ -109,7 +109,7 @@ class PublicProfile extends Component {
         return (
           <div>
             <Helmet>
-              <title>{displayName} Profile | PolitIQ</title>
+              <title>{displayName} Profile | politIQ trivia</title>
             </Helmet>
             <div className="public-profile">
               <div className="public-profile-top">

@@ -46,7 +46,7 @@ class SignUpPage extends Component {
     return (
       <Paper className="authCard signUp">
       <Helmet>
-        <title>Sign Up | politIQ</title>
+        <title>Sign Up | politIQ trivia</title>
       </Helmet>
       <h1>Sign Up</h1>
       {this.state.error 

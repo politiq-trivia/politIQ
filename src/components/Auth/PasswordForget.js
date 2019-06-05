@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
+import Helmet from 'react-helmet';
 
 import { auth, withFirebase } from '../../firebase';
 import * as routes from '../../constants/routes';
@@ -53,6 +54,9 @@ class PasswordForgetFormBase extends Component {
 
     return (
       <Paper style={{ padding: '5vh', marginBottom: '40vh', marginTop: '10vh', width: '80vw', marginLeft: 'auto', marginRight: 'auto', textAlign: 'center' }}>
+        <Helmet>
+          <title>Reset Password | politIQ trivia</title>
+        </Helmet>
         <h2>Forgot Your Password?</h2>
         <form onSubmit={this.onSubmit}>
           <TextField

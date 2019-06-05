@@ -37,7 +37,7 @@ class SignInPage extends Component {
     return (
       <Paper className="authCard signIn">
         <Helmet>
-          <title>Sign In | politIQ</title>
+          <title>Sign In | politIQ trivia</title>
         </Helmet>
         <h1>Sign In</h1>
         <SignInForm  history={history} getSignedInUser={getSignedInUser} scoreObject={scoreObject} checkAdmin={checkAdmin}/>
