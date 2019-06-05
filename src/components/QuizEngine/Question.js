@@ -62,6 +62,7 @@ class Question extends Component {
     }
 
     componentWillUnmount = () => {
+        this.countdown.src = null;
         window.clearTimeout()
     }
 
