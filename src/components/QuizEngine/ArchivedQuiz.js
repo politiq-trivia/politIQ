@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import Helmet from 'react-helmet';
+import MediaQuery from 'react-responsive';
 
 import Paper from '@material-ui/core/Paper';
 import FormControl from '@material-ui/core/FormControl';
@@ -9,6 +10,8 @@ import RadioGroup from '@material-ui/core/RadioGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Radio from '@material-ui/core/Radio';
 import RadioButtonUncheckedIcon from '@material-ui/icons/RadioButtonUnchecked';
+import RadioButtonCheckedIcon from '@material-ui/icons/RadioButtonChecked';
+import Check from '@material-ui/icons/DoneAll';
 
 import { db } from '../../firebase';
 
@@ -54,6 +57,9 @@ class ArchivedQuiz extends Component {
         } else return null;
 
         const renderQs = quizArray.map((q, i) => {
+            const correct1 = q[1]["a1correct"]
+            const correct2 = q[1]["a2correct"]
+            const correct3 = q[1]["a3correct"]
             return (
                 <FormControl className="showQuestion" key={i} id={q[0]} style={{ display: 'block'}}>
                     <FormLabel>{i+1}. {q[1]["q1"]}</FormLabel>
@@ -63,25 +69,40 @@ class ArchivedQuiz extends Component {
                     >
                         <div className="show" style={{ display: 'flex' }} inputref={null}>
                             <FormControlLabel value={q[1]["a1text"]} control={<Radio
-                                checked={false}
-                                icon={<RadioButtonUncheckedIcon />}
+                                icon={correct1 ? <RadioButtonCheckedIcon /> : <RadioButtonUncheckedIcon />}
+                                className={correct1 ? "isGreen" : null}
                             />} label={q[1]["a1text"]} />
-                            {q[1]["a1correct"] ? <p style={{ color: 'green' }}>Correct Answer</p> : null}
+                            <MediaQuery minWidth={416}>
+                                {correct1 ? <p className="isGreen">Correct Answer</p> : null}
+                            </MediaQuery>
+                            <MediaQuery maxWidth={415}>
+                                {correct1 ? <Check className="isGreen check" /> : null}
+                            </MediaQuery>
 
                         </div>
                         <div className="show" style={{ display: 'flex' }} inputref={null}>
                             <FormControlLabel value={q[1]["a2text"]} control={<Radio
-                                checked={false}
-                                icon={<RadioButtonUncheckedIcon />}
+                                icon={correct2 ? <RadioButtonCheckedIcon /> : <RadioButtonUncheckedIcon />}
+                                className={correct2 ? "isGreen" : null }
                             />} label={q[1]["a2text"]} />
-                            {q[1]["a2correct"] ? <p style={{ color: 'green' }}>Correct Answer</p> : null}
+                            <MediaQuery minWidth={416}>
+                                {correct2 ? <p style={{ color: 'green' }}>Correct Answer</p> : null}
+                            </MediaQuery>
+                            <MediaQuery maxWidth={415}>
+                                {correct2 ? <Check className="isGreen check" /> : null }
+                            </MediaQuery>
                         </div>
                         <div className="show" style={{ display: 'flex'}}>
                             <FormControlLabel value={q[1]["a3text"]} control={<Radio
-                                checked={false}
-                                icon={<RadioButtonUncheckedIcon />}
+                                icon={correct3 ? <RadioButtonCheckedIcon /> : <RadioButtonUncheckedIcon />}
+                                className={correct3 ? "isGreen" : null }
                             />} label={q[1]["a3text"]}/>
-                            {q[1]["a3correct"] ? <p style={{ color: 'green' }}>Correct Answer</p> : null}
+                            <MediaQuery minWidth={416}>
+                                {correct3 ? <p style={{ color: 'green' }}>Correct Answer</p> : null}
+                            </MediaQuery>
+                            <MediaQuery maxWidth={415}>
+                                {correct3 ? <Check className="isGreen check" /> : null }
+                            </MediaQuery>
                         </div>
                     </RadioGroup>
                     <p><span style={{ color: 'green', fontWeight: 'bold' }}>Explanation: </span>{q[1]["answerExplanation"]}</p>
@@ -95,7 +116,7 @@ class ArchivedQuiz extends Component {
                 <Helmet>
                     <title>Archived Quizzes | politIQ trivia</title>
                 </Helmet>
-                <div className="showQuizButtons">
+                <div className="archive-showQuizButtons">
                     <Button id="backButton" onClick={() => this.props.history.goBack()} variant="contained" color="primary">
                         Back
                     </Button>

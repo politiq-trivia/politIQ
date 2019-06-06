@@ -102,7 +102,7 @@
   width: 70vw;
 }
 
-.showQuizButtons {
+.archive-showQuizButtons {
   width: 70vw;
   margin-left: 10vw;
   margin-bottom: 5vh;
@@ -119,6 +119,15 @@
   margin-right: 10vw;
 }
 
+.isGreen {
+  color: green !important;
+}
+
+.check {
+  margin-top: auto;
+  margin-bottom: auto;
+}
+
 .archive-questionHolder {
   width: 70vw;
   padding-left: 10vw;
@@ -132,7 +141,7 @@
 
 @media screen and (max-width: 416px) {
   .show {
-    width: 90vw;
+    width: 74vw;
   }
 }
 
