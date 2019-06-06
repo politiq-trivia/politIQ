@@ -94,6 +94,49 @@
   }
 }
 
+/* ---------------INDIVIDUAL ARCHIVED QUIZ SHOW STYLES ----- */
+
+.showQuestion {
+  margin-bottom: 5vh !important;
+  text-align: left;
+  width: 70vw;
+}
+
+.showQuizButtons {
+  width: 70vw;
+  margin-left: 10vw;
+  margin-bottom: 5vh;
+}
+
+#backButton {
+  width: 10vw;
+  float: left;
+}
+
+#quizTitle {
+  text-align: center;
+  /* margin-left: 15vw; */
+  margin-right: 10vw;
+}
+
+.archive-questionHolder {
+  width: 70vw;
+  padding-left: 10vw;
+}
+
+.archive-questionHolder hr {
+  margin-top: 4vh;
+  margin-bottom: 4vh;
+  width: 100%;
+}
+
+@media screen and (max-width: 416px) {
+  .show {
+    width: 90vw;
+  }
+}
+
+
 /* ------------- QUIZ STYLES ----------------- */
 
 .quiz-body {

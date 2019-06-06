@@ -34,6 +34,7 @@ class QuizArchive extends Component {
       rowsPerPage: 10,
       page: 0,
       loading: true,
+      selectedMonth: "",
     }
   }
 
@@ -146,6 +147,21 @@ class QuizArchive extends Component {
     })
   }
 
+  handleQuizClick = (date, score) => {
+    const thisMonth = moment().startOf('month').format('YYYY-MM-DDTHH:mm')
+    // if the selected month is equal to the corrent month and there is no score, handle click
+    // else if it's not the selected month - they can click anything they want but it should
+    // redirect them to the archived view
+    // if it's the current month and they do have a score (the else), do nothing
+    if (this.state.selectedMonth === thisMonth && score === "--") {
+      this.handleClick()
+    } else if (this.state.selectedMonth !== thisMonth) {
+      this.props.history.push(`/archived/${date}`)
+    } else {
+      return null;
+    }
+  }
+
   render() {
     const {dateArray, titleArray, rowsPerPage, page } = this.state;
     const emptyRows = rowsPerPage - Math.min(rowsPerPage, dateArray.length - page * rowsPerPage)
@@ -165,13 +181,13 @@ class QuizArchive extends Component {
 
       return (
         <TableRow id={date} key={id} className={ score !== "--" ? "taken" : "tableItem" }>
-          <TableCell onClick={score === "--" ? this.handleClick : null}>
+          <TableCell onClick={() => {this.handleQuizClick(date, score)}}>
             {shortDate}
           </TableCell>
-          <TableCell onClick={score === "--" ? this.handleClick : null} padding="none">
+          <TableCell onClick={() => this.handleQuizClick(date, score)} padding="none">
             {title}
           </TableCell>
-          <TableCell onClick={score === "--" ? this.handleClick : null} style={{ paddingLeft: '8vw'}}>
+          <TableCell onClick={() => this.handleQuizClick(date, score)} style={{ paddingLeft: '8vw'}}>
             {score}
           </TableCell>
         </TableRow>
