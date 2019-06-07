@@ -4,7 +4,6 @@ import { Helmet } from 'react-helmet';
 import { compose } from 'recompose';
 import axios from 'axios';
 import MediaQuery from 'react-responsive';
-import ReactGA from 'react-ga';
 
 import {
   FacebookShareButton,
@@ -27,7 +26,10 @@ import { withAuthorization, withEmailVerification } from '../Auth/index';
 
 import * as routes from '../../constants/routes';
 import { urlB64ToUint8Array } from '../../utils/urlB64ToUint8Array';
-import { db } from '../../firebase';
+import { db, messaging } from '../../firebase';
+// import { getToken } from '../../firebase/messaging';
+
+// /Users/hannahwerman/politiq-full/politiq/src/firebase/firebase.js
 
 import Paper from '@material-ui/core/Paper';
 import Button from '@material-ui/core/Button';
@@ -52,9 +54,12 @@ class HomePage extends Component {
   }
 
   componentDidMount() {
+    const userInfo = JSON.parse(localStorage.getItem('authUser'))
+    const uid = userInfo.uid
+    console.log(uid)
     // this.subscribeToPushNotifications()
     this.addToHomeScreen()
-    // ReactGA.pageview('/logged-in-home')
+    this.requestPushPermissions(uid)
 
     // axios.post(process.env.SERVER_URL + '/subscribe', {pushSubscription: "this is the subscription"})
     // .then(res => {
@@ -99,54 +104,68 @@ class HomePage extends Component {
     })
   }
 
-  subscribeToPushNotifications = async () => {
-    if(!global.registration) return;
+  // subscribeToPushNotifications = async () => {
+  //   if(!global.registration) return;
 
-    const key = process.env.REACT_APP_VAPID_KEY
+  //   const key = process.env.REACT_APP_VAPID_KEY
 
 
-    await global.registration.pushManager.subscribe({
-      userVisibleOnly: true,
-      applicationServerKey: urlB64ToUint8Array(key)
-    }).then((pushSubscription) => {
-      console.log({pushSubscription})
-      console.log('Subscribed')
-      console.log(process.env.SERVER_URL)
-      axios.post('localhost:3001/subscribe', { pushSubscription: pushSubscription })
-        .then(res => {
-          console.log(res)
-        })
+  //   await global.registration.pushManager.subscribe({
+  //     userVisibleOnly: true,
+  //     applicationServerKey: urlB64ToUint8Array(key)
+  //   }).then((pushSubscription) => {
+  //     console.log({pushSubscription})
+  //     console.log('Subscribed')
+  //     console.log(process.env.SERVER_URL)
+  //     axios.post('localhost:3001/subscribe', { pushSubscription: pushSubscription })
+  //       .then(res => {
+  //         console.log(res)
+  //       })
       
-      // get the keys, convert them to strings, and store them in firebase
-      const p256dhAB = pushSubscription.getKey('p256dh')
-      function ab2str(buf) {
-        return String.fromCharCode.apply(null, new Int8Array(buf));
-      }
-      const p256dhStr = ab2str(p256dhAB)
-      function ab2str2(buf) {
-        return String.fromCharCode.apply(null, new Uint8Array(buf));
-      }
-      const auth = pushSubscription.getKey('auth');
-      const authStr = ab2str2(auth)
+  //     // get the keys, convert them to strings, and store them in firebase
+  //     const p256dhAB = pushSubscription.getKey('p256dh')
+  //     function ab2str(buf) {
+  //       return String.fromCharCode.apply(null, new Int8Array(buf));
+  //     }
+  //     const p256dhStr = ab2str(p256dhAB)
+  //     function ab2str2(buf) {
+  //       return String.fromCharCode.apply(null, new Uint8Array(buf));
+  //     }
+  //     const auth = pushSubscription.getKey('auth');
+  //     const authStr = ab2str2(auth)
 
 
-      const subscriptionObject = {
-        endpoint: pushSubscription.endpoint,
-        keys: {
-          p256dh: p256dhStr,
-          auth: authStr,
-        }
-      }
+  //     const subscriptionObject = {
+  //       endpoint: pushSubscription.endpoint,
+  //       keys: {
+  //         p256dh: p256dhStr,
+  //         auth: authStr,
+  //       }
+  //     }
       
-      // saves it in firebase
-      db.subscribeUser(subscriptionObject);    
+  //     // saves it in firebase
+  //     db.subscribeUser(subscriptionObject);    
         
       
-    }).catch(err => {
-      console.log(err)
-      console.log('Did not subscribe')
+  //   }).catch(err => {
+  //     console.log(err)
+  //     console.log('Did not subscribe')
+  //   })
+  // }
+
+  requestPushPermissions = (uid) => {
+    Notification.requestPermission().then(function(permission) {
+      if(permission ==='granted') {
+        console.log('permission granted')
+        messaging.getToken(uid)
+        // TO DO: retrieve instance id token for use with FCM
+      } else {
+        console.log('Unable to get permission to notify')
+      }
     })
   }
+
+
 
   handleClose = () => {
     this.setState({

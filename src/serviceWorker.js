@@ -10,6 +10,15 @@
 // To learn more about the benefits of this model and instructions on how to
 // opt-in, read http://bit.ly/CRA-PWA
 
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('../firebase-messaging-sw.js')
+  .then(function(registration) {
+    console.log('Messaging SW registration successful, scope is', registration.scope);
+  }).catch(function(err) {
+    console.log('Service worker registration railed, error:', err);
+  })
+}
+
 const isLocalhost = Boolean(
   window.location.hostname === 'localhost' ||
     // [::1] is the IPv6 localhost address.

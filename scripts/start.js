@@ -14,7 +14,7 @@ process.on('unhandledRejection', err => {
 // Ensure environment variables are read.
 require('../config/env');
 
-
+const https = require('https');
 const fs = require('fs');
 const chalk = require('chalk');
 const webpack = require('webpack');
@@ -114,3 +114,11 @@ checkBrowsers(paths.appPath, isInteractive)
     }
     process.exit(1);
   });
+
+  // const options = {
+  //   hostname: "demo.local",
+  //   key: fs.readFileSync('demo.local.key'),
+  //   cert: fs.readFileSync('demo.local.crt'),
+  // };
+
+  // https.createServer

@@ -53,7 +53,6 @@ class ArchivedQuiz extends Component {
             });
             result.pop();
             quizArray = [...result]
-            console.log(quizArray)
         } else return null;
 
         const renderQs = quizArray.map((q, i) => {
@@ -67,7 +66,7 @@ class ArchivedQuiz extends Component {
                         aria-label={q[1]["q1"]}
                         inputref={null}
                     >
-                        <div className="show" style={{ display: 'flex' }} inputref={null}>
+                        <div className="show" style={{ display: 'flex' }}>
                             <FormControlLabel value={q[1]["a1text"]} control={<Radio
                                 icon={correct1 ? <RadioButtonCheckedIcon /> : <RadioButtonUncheckedIcon />}
                                 className={correct1 ? "isGreen" : null}
