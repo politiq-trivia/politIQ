@@ -27,6 +27,7 @@ import PublicProfile from './Profile/PublicProfile';
 import PrivacyPolicy from './StaticPages/PrivacyPolicy';
 import AddToHomescreen from './StaticPages/AddToHomescreen';
 import QuizRedirect from './QuizEngine/QuizRedirect';
+import ProfileToQuizRedirect from './QuizEngine/ProfileToQuizRedirect';
 import NoMatch from './StaticPages/NoMatch';
 import FAQ from './StaticPages/FAQ';
 
@@ -194,6 +195,10 @@ class App extends Component {
                 <Route
                   exact path={routes.QUIZ_REDIRECT}
                   component={QuizRedirect}
+                />
+                <Route
+                  exact path={routes.PROFILE_TO_QUIZ_REDIRECT}
+                  component={ProfileToQuizRedirect}
                 />
                 <Route 
                   exact path={routes.ARCHIVED_QUIZ}

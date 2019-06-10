@@ -4,7 +4,6 @@ import { Helmet } from 'react-helmet';
 import { compose } from 'recompose';
 import axios from 'axios';
 import MediaQuery from 'react-responsive';
-import ReactGA from 'react-ga';
 
 import {
   FacebookShareButton,
