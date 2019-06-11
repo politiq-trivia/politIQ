@@ -17,7 +17,6 @@ export const SUBMIT_QUESTION = '/submit-question';
 export const LEADERBOARD = '/leaderboard';
 export const ABOUT = '/about';
 export const QUIZ = '/quiz/:id';
-export const ARCHIVED_QUIZ = '/archived/:id';
 export const USER_PROFILES = '/profile/:uid'
 export const FAQ = '/frequently-asked-questions';
 

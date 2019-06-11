@@ -16,7 +16,6 @@ import ProfilePage from './Profile/Profile';
 import Footer from './Footer';
 import AdminDashboard from './AdminDashboard/AdminDashboard';
 import QuizArchive from './QuizEngine/QuizArchive';
-import ArchivedQuiz from './QuizEngine/ArchivedQuiz';
 import Quiz from './QuizEngine/Quiz';
 import Leaderboard from './Leaderboard/Leaderboard';
 import About from './StaticPages/About';
@@ -199,10 +198,6 @@ class App extends Component {
                 <Route
                   exact path={routes.PROFILE_TO_QUIZ_REDIRECT}
                   component={ProfileToQuizRedirect}
-                />
-                <Route 
-                  exact path={routes.ARCHIVED_QUIZ}
-                  render={(props) => <ArchivedQuiz {...props} />}
                 />
                 <Route
                   exact path={routes.LEADERBOARD}
