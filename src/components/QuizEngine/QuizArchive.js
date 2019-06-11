@@ -287,7 +287,7 @@ class QuizArchive extends Component {
         </div>
         <div className="mobile-archive-header">
           <Link to={routes.HOME} style={{ textDecoration: 'none'}} className="mobile-back"><Button color="primary">Back</Button></Link>
-          <h1 style={{ display: 'inline'}}>{moment().format('MMMM')} Quizzes</h1>
+          <h1 style={{ display: 'inline'}}>{moment(this.state.selectedMonth).format('MMMM')} Quizzes</h1>
         </div>
         {isLoading()}
       </Paper>
