@@ -289,7 +289,7 @@ class QuizArchive extends Component {
           <Link to={routes.HOME} style={{ textDecoration: 'none'}} className="mobile-back"><Button color="primary">Back</Button></Link>
           <h1 style={{ display: 'inline'}}>{moment(this.state.selectedMonth).format('MMMM')} Quizzes</h1>
           {moment().format('MMMM') !== moment(this.state.selectedMonth).format('MMMM')
-            ? <p>You may continue taking past quizzes to boost your politIQ, but they will not affect your rankings for this month.</p>
+            ? <p id="archive-disclaimer">You may take past quizzes to boost your politIQ, but they will not affect your rankings for this month.</p>
             : null
           }
         </div>
