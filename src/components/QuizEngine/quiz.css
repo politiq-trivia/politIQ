@@ -299,6 +299,7 @@
 .quiz-header {
   display: flex;
   justify-content: space-between;
+  margin-bottom: 3vh;
 }
 
 @media screen and (max-width: 415px) {
@@ -320,4 +321,8 @@
 
 .dontShowClock {
   display: none;
+}
+
+#volume {
+  margin-left: auto;
 }

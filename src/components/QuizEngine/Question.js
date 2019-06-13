@@ -8,7 +8,6 @@ import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Radio from '@material-ui/core/Radio';
 import RadioGroup from '@material-ui/core/RadioGroup';
 import Paper from '@material-ui/core/Paper';
-import Typography from '@material-ui/core/Typography';
 
 import './quiz.css';
 import countdownUrl from './sounds/countdown.flac';
@@ -30,7 +29,7 @@ class Question extends Component {
     }
 
     shouldComponentUpdate(nextProps) {
-        if (nextProps.qNum !== this.props.qNum || nextProps.selectedValue !== this.props.selectedValue || nextProps.wrong !== this.props.wrong) {
+        if (nextProps.qNum !== this.props.qNum || nextProps.selectedValue !== this.props.selectedValue || nextProps.wrong !== this.props.wrong || nextProps.volumeUp !== this.props.volumeUp) {
             return true;
         } else {
             return false;
@@ -63,7 +62,7 @@ class Question extends Component {
 
     componentWillUnmount = () => {
         this.countdown.src = null;
-        window.clearTimeout()
+        window.clearTimeout(this.countdownInterval)
     }
 
     openNewTab = () => {
@@ -86,8 +85,9 @@ class Question extends Component {
         }
         const tenLess = (timerDuration - 10) * 1000;
 
-        setTimeout(() => {
-            if (this.countdown.src.includes("/static/media/countdown.f63efcde.flac")) {
+        this.countdownInterval = setTimeout(() => {
+            if (this.countdown.src.includes("/static/media/countdown.f63efcde.flac") && this.props.volumeUp === true) {
+                console.log('true inside if')
                 this.countdown.play()
             }
         }, tenLess)

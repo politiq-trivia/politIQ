@@ -105,6 +105,7 @@ class QuizArchive extends Component {
           page: 0,
         })
         this.getTheLoggedInUsersScores()
+        window.scrollTo(0,0)
       })
   }
 
@@ -161,6 +162,7 @@ class QuizArchive extends Component {
   }
 
   render() {
+    console.log(this.state, 'state in quiz archive')
     const {dateArray, titleArray, rowsPerPage, page } = this.state;
     const emptyRows = rowsPerPage - Math.min(rowsPerPage, dateArray.length - page * rowsPerPage)
 
