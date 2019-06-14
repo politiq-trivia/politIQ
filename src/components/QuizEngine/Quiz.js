@@ -78,6 +78,7 @@ class Quiz extends PureComponent {
 
   componentWillUnmount = () => {
     window.clearTimeout(this.timer)
+    window.clearTimeout(this.sadTrombone)
     // maybe should also store the score so the user can't take the quiz again ? 
     if (this.state.finished === false) {
       trackEvent('Quizzes', 'Quiz forfeited', 'QUIZ_FORFEIT')
@@ -255,7 +256,10 @@ class Quiz extends PureComponent {
           // play the sad trombone sound if the user runs out of time
           this.wrong.volume = 0.5
           if (this.state.volumeUp === true) {
-            this.wrong.play()
+            // add one more second after when the timer ends and when the trombone plays
+            this.sadTrombone = setTimeout(() => {
+              this.wrong.play()
+            }, 1000)
           }
         }
 
