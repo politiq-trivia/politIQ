@@ -2,7 +2,7 @@ import React from 'react';
 
 const SecuritySettings = () => {
     return (
-        <p>Security Settings Page</p>
+        <h1 id="settings-heading">Security Settings</h1>
     )
 }
 

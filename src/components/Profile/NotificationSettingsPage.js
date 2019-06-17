@@ -2,7 +2,7 @@ import React from 'react';
 
 const NotificationSettingsPage = () => {
     return (
-        <p>Notification Settings Page</p>
+        <h1 id="settings-heading">Notification Settings</h1>
     )
 }
 

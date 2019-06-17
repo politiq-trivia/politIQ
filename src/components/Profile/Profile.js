@@ -34,8 +34,8 @@ class ProfilePage extends Component {
     super(props);
     this.state = {
       userInfo: {},
-      showEditProfile: true,
-      showStatsPage: false,
+      showEditProfile: false,
+      showStatsPage: true,
       showNotificationSettings: false,
       showSecurity: false,
       showPasswordReset: false,
@@ -82,7 +82,6 @@ class ProfilePage extends Component {
   }
 
   toggleShowNotifications = () => {
-    console.log('show notifications clicked')
     this.setState({
       showEditProfile: false,
       showStatsPage: false,
@@ -142,7 +141,6 @@ class ProfilePage extends Component {
   }
 
   render() {
-    console.log(this.state, 'this is state')
     return (
       <AuthUserContext.Consumer>
         {authUser =>
@@ -195,7 +193,7 @@ class ProfilePage extends Component {
                 : null
               }
               {this.state.showStatsPage
-                ? <StatsPage />
+                ? <StatsPage uid={authUser.uid} moneyWon={this.state.userInfo.moneyWon}/>
                 : null
               }
               {this.state.showNotificationSettings
@@ -262,15 +260,7 @@ export default compose(
           <p> <span style={{ fontWeight: 'bold'}}>Affiliation:</span> {this.state.userInfo.affiliation} </p>
           <p> <span style={{ fontWeight: 'bold', marginBottom: '5vh'}}>Bio:</span> {this.state.userInfo.bio} </p>
         </div>
-        <UserScoreboard uid={authUser.uid} moneyWon={this.state.userInfo.moneyWon}/>
-
         <div className="profile-button-holder">
-          <MediaQuery maxWidth={415}>
-            <Button color="primary" onClick={this.toggleEditProfile} style={{ float: 'right' }}>Edit Information</Button>
-          </MediaQuery>
-          <Link to={`/profile/${authUser.uid}`} style={{ textDecoration: 'none', display: 'flex', justifyContent: 'center'}}>
-            <Button color="primary">View Public Profile</Button>
-          </Link>
           <Button onClick={this.toggleShowNotifications}>Notification Settings</Button>
           <Button onClick={this.toggleResetPassword}>Reset Password</Button>
           <Button><span style={{color: 'red'}}>Delete Account</span></Button>

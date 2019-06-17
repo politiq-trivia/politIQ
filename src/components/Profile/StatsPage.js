@@ -1,8 +1,12 @@
 import React from 'react';
+import UserScoreboard from '../Leaderboard/UserScoreboard';
 
-const StatsPage = () => {
+const StatsPage = (props) => {
     return (
-        <p>Stats Page</p>
+        <>
+            <h1 id="settings-heading">Quiz Stats</h1>
+            <UserScoreboard uid={props.uid} moneyWon={props.moneyWon} />
+        </>
     )
 }
 
