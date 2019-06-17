@@ -10,18 +10,20 @@ import ProfilePhoto from './ProfilePhoto';
 import Button from '@material-ui/core/Button';
 import Tooltip from '@material-ui/core/Tooltip';
 import Help from '@material-ui/icons/Help';
-
+import Paper from '@material-ui/core/Paper';
 
 import './profile.css';
 
 import { AuthUserContext, withAuthorization, withEmailVerification } from '../Auth/index';
 import PasswordChangeForm from '../Auth/PasswordChange';
-import EditProfile from './EditProfile';
+import EditProfileForm from './EditProfileForm';
 import UserScoreboard from '../Leaderboard/UserScoreboard';
 import NotificationSettings from './NotificationSettings';
 import Drawer from './Drawer';
+import StatsPage from './StatsPage';
+import NotificationSettingsPage from './NotificationSettingsPage';
+import SecuritySettings from './SecuritySettings';
 
-import Paper from '@material-ui/core/Paper';
 
 const affiliationText = `
   Party ID is required in order to contribute to your political party team competition aspect of the site and help prove that your party knows the news and has the highest political IQ.
@@ -33,6 +35,9 @@ class ProfilePage extends Component {
     this.state = {
       userInfo: {},
       showEditProfile: true,
+      showStatsPage: false,
+      showNotificationSettings: false,
+      showSecurity: false,
       showPasswordReset: false,
       showNotifications: false,
     }
@@ -60,7 +65,38 @@ class ProfilePage extends Component {
 
   toggleEditProfile = () => {
     this.setState({
-      showEditProfile: !this.state.showEditProfile,
+      showEditProfile: true,
+      showStatsPage: false,
+      showNotificationSettings: false,
+      showSecurity: false,
+    })
+  }
+
+  toggleShowStats = () => {
+    this.setState({
+      showEditProfile: false,
+      showStatsPage: true,
+      showNotificationSettings: false,
+      showSecurity: false,
+    })
+  }
+
+  toggleShowNotifications = () => {
+    console.log('show notifications clicked')
+    this.setState({
+      showEditProfile: false,
+      showStatsPage: false,
+      showNotificationSettings: true,
+      showSecurity: false,
+    })
+  }
+
+  toggleShowSecurity = () => {
+    this.setState({
+      showEditProfile: false,
+      showStatsPage: false,
+      showNotificationSettings: false,
+      showSecurity: true,
     })
   }
 
@@ -70,11 +106,11 @@ class ProfilePage extends Component {
     })
   }
 
-  toggleShowNotifications = () => {
-    this.setState({
-      showNotifications: !this.state.showNotifications
-    })
-  }
+  // toggleShowNotifications = () => {
+  //   this.setState({
+  //     showNotifications: !this.state.showNotifications
+  //   })
+  // }
 
   // UNSUBSCRIBE FROM PUSH NOTIFICATIONS
   // unsubscribe = () => {
@@ -114,9 +150,12 @@ class ProfilePage extends Component {
             <Helmet>
               <title>Settings | politIQ trivia</title>
             </Helmet>
-            <Drawer />
-              
-
+            <Drawer 
+              toggleEditProfile={this.toggleEditProfile} 
+              toggleShowStats={this.toggleShowStats} 
+              toggleShowNotifications={this.toggleShowNotifications} 
+              toggleShowSecurity={this.toggleShowSecurity}
+            />
 
               {this.state.showEditProfile 
                 ? <>
@@ -135,7 +174,7 @@ class ProfilePage extends Component {
                     </MediaQuery>
 
                     <div className="edit-holder">
-                      <EditProfile
+                      <EditProfileForm
                         toggleEditProfile={this.toggleEditProfile}
                         displayName={this.state.userInfo.displayName}
                         email={authUser.email}
@@ -155,6 +194,19 @@ class ProfilePage extends Component {
                   </>
                 : null
               }
+              {this.state.showStatsPage
+                ? <StatsPage />
+                : null
+              }
+              {this.state.showNotificationSettings
+                ? <NotificationSettingsPage />
+                : null
+              }
+              {this.state.showSecurity
+                ? <SecuritySettings />
+                : null
+              }
+
 
 
 

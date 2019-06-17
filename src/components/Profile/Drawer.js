@@ -11,6 +11,10 @@ import ListItemText from '@material-ui/core/ListItemText';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import MailIcon from '@material-ui/icons/Mail';
+import AccountCircle from '@material-ui/icons/AccountCircle';
+import Lock from '@material-ui/icons/Lock';
+import TrendingUp from '@material-ui/icons/TrendingUp'
+import Notifications from '@material-ui/icons/Notifications';
 
 class ResponsiveDrawer extends Component {
     constructor(props) {
@@ -65,13 +69,23 @@ class ResponsiveDrawer extends Component {
                     <Divider style={{ width: '100%' }}/>
                 </MediaQuery>        
 
-                <List>
-                {['Edit Profile', 'Stats', 'Notification Settings', "Security"].map((text, index) => (
-                    <ListItem button key={text}>
-                    <ListItemIcon><MailIcon /></ListItemIcon>
-                    <ListItemText primary={text} />
+                <List style={{ paddingTop: '20px' }}>
+                    <ListItem button onClick={this.props.toggleEditProfile}>
+                        <ListItemIcon><AccountCircle /></ListItemIcon>
+                        <ListItemText primary={"Edit Profile"} />
                     </ListItem>
-                ))}
+                    <ListItem button onClick={this.props.toggleShowStats}>
+                        <ListItemIcon><TrendingUp /></ListItemIcon>
+                        <ListItemText primary={"Stats"} />
+                    </ListItem>
+                    <ListItem button onClick={this.props.toggleShowNotifications}>
+                        <ListItemIcon><Notifications /></ListItemIcon>
+                        <ListItemText primary={"Notification Settings"} />
+                    </ListItem>
+                    <ListItem button onClick={this.props.toggleShowSecurity}>
+                        <ListItemIcon><Lock /></ListItemIcon>
+                        <ListItemText primary={"Security"} />
+                    </ListItem>
                 </List>
             </Drawer>
         )
