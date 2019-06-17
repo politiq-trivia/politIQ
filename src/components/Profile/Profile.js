@@ -32,7 +32,7 @@ class ProfilePage extends Component {
     super(props);
     this.state = {
       userInfo: {},
-      editingProfile: false,
+      showEditProfile: true,
       showPasswordReset: false,
       showNotifications: false,
     }
@@ -60,7 +60,7 @@ class ProfilePage extends Component {
 
   toggleEditProfile = () => {
     this.setState({
-      editingProfile: !this.state.editingProfile,
+      showEditProfile: !this.state.showEditProfile,
     })
   }
 
@@ -106,98 +106,46 @@ class ProfilePage extends Component {
   }
 
   render() {
+    console.log(this.state, 'this is state')
     return (
       <AuthUserContext.Consumer>
         {authUser =>
           <Paper className="profile settings-page">
             <Helmet>
-              <title>Profile | politIQ trivia</title>
+              <title>Settings | politIQ trivia</title>
             </Helmet>
             <Drawer />
 
-            <div className="public-profile-top">
-              <div style={{ display: "flex", justifyContent: 'space-between', marginBottom: '3vh'}}>
-                <Button className="back-button" onClick={this.props.history.goBack}>Back</Button>
-                {/* <Link to={`/profile/${authUser.uid}`} style={{ textDecoration: 'none', display: 'flex', justifyContent: 'center'}}> */}
-                  <Button className="back-button" onClick={this.toPublicProfile} style={{ marginRight: '1vw !important' }}>View Public Profile</Button>
-                {/* </Link> */}
-              </div>
+              <Link to={`/profile/${authUser.uid}`} style={{ textDecoration: 'none', display: 'flex', justifyContent: 'center', float: 'right'}}>
+                <Button className="back-button" onClick={this.toPublicProfile} style={{ marginRight: '1vw !important' }}>View Public Profile</Button>
+              </Link>
 
-              <ProfilePhoto authUser={authUser} />
-            </div>
-              <div>
-                <div>
-                  <MediaQuery minWidth={416}>
-                    <Button color="primary" onClick={this.toggleEditProfile} style={{ float: 'right', marginRight: '1vw !important' }}>Edit Information</Button>
-                  </MediaQuery>
-                  <h1 id="profile-heading">Your Profile</h1>
-                </div>
-                {localStorage.hasOwnProperty('fbAuth')
-                  ? <div style={{ border: '2px solid #a54ee8', width: '80%', marginLeft: 'auto', marginRight: 'auto', marginBottom: '2vh', paddingBottom: '1vh'}}>
-                    <h3>Welcome to PolitIQ!</h3>
-                    <div style={{ display: 'flex', justifyContent: "center", width: '85%', marginLeft: 'auto', marginRight: 'auto', marginTop: '2vh', marginBottom: '2vh'}}>
-                      <p style={{ display: 'inline', margin: '0' }}>Please add a political affiliation to complete your registration.</p>
-                      <Tooltip title={affiliationText} placement="right-start">
-                        <Help color="primary" style={{ height: '15'}}/>
-                      </Tooltip>
+              {this.state.showEditProfile 
+                ? <>
+                    <h1 id="settings-heading">Edit Profile</h1>
+                    <div className="edit-holder">
+                      <EditProfile
+                        toggleEditProfile={this.toggleEditProfile}
+                        displayName={this.state.userInfo.displayName}
+                        email={authUser.email}
+                        bio={this.state.userInfo.bio}
+                        affiliation={this.state.userInfo.affiliation}
+                        uid={this.state.userInfo.uid}
+                        initialSignUpMessage={this.props.initialSignUpMessage}
+                        setFBAuth={this.props.setFBAuth}
+                        getUserInfo={this.getUserInfo}
+                      />
+                      <ProfilePhoto authUser={authUser} />
                     </div>
-                    <Button color="primary" onClick={this.toggleEditProfile}>Edit Information</Button>
-                  </div>
-                  : null
-                }
-                {this.state.editingProfile
-                  ? <EditProfile
-                      toggleEditProfile={this.toggleEditProfile}
-                      displayName={this.state.userInfo.displayName}
-                      email={authUser.email}
-                      bio={this.state.userInfo.bio}
-                      affiliation={this.state.userInfo.affiliation}
-                      uid={this.state.userInfo.uid}
-                      initialSignUpMessage={this.props.initialSignUpMessage}
-                      setFBAuth={this.props.setFBAuth}
-                      getUserInfo={this.getUserInfo}
-                    />
-                  : <div>
-                      <div className="profile-info">
-                        <p> <span style={{ fontWeight: 'bold'}}>Display Name:</span> {this.state.userInfo.displayName}</p>
-                        <p> <span style={{ fontWeight: 'bold'}}>Email Address:</span> {authUser.email}</p>
-                        <p> <span style={{ fontWeight: 'bold'}}>Affiliation:</span> {this.state.userInfo.affiliation} </p>
-                        <p> <span style={{ fontWeight: 'bold', marginBottom: '5vh'}}>Bio:</span> {this.state.userInfo.bio} </p>
-                      </div>
-                      <UserScoreboard uid={authUser.uid} moneyWon={this.state.userInfo.moneyWon}/>
+                  </>
+                : null
+              }
 
-                      <div className="profile-button-holder">
-                        <MediaQuery maxWidth={415}>
-                          <Button color="primary" onClick={this.toggleEditProfile} style={{ float: 'right' }}>Edit Information</Button>
-                        </MediaQuery>
-                        <Link to={`/profile/${authUser.uid}`} style={{ textDecoration: 'none', display: 'flex', justifyContent: 'center'}}>
-                          <Button color="primary">View Public Profile</Button>
-                        </Link>
-                        <Button onClick={this.toggleShowNotifications}>Notification Settings</Button>
-                        <Button onClick={this.toggleResetPassword}>Reset Password</Button>
-                        <Button><span style={{color: 'red'}}>Delete Account</span></Button>
-                      </div>
-                      <br/>
-                    </div>
-                }
 
-                {this.state.showPasswordReset
-                  ? <div>
-                      <p> <span style={{ fontWeight: 'bold'}}>Reset Your Password:</span> </p>
-                      <PasswordChangeForm toggleResetPassword={this.toggleResetPassword}/>
-                    </div>
-                  : null
-                }
 
-                {this.state.showNotifications
-                  ? <NotificationSettings toggleShowNotifications={this.toggleShowNotifications}/>
-                  : null
-                }
 
-                {/* <Button onClick={this.unsubscribe}>Turn Off Push Notifications</Button> */}
 
-          
-              </div>
+
           </Paper>
         }
       </AuthUserContext.Consumer>
@@ -213,3 +161,71 @@ export default compose(
   withAuthorization(authCondition),
   withFirebase
 )(ProfilePage);
+
+// {/* <div className="public-profile-top">
+
+
+{/* 
+</div>
+<div> */}
+  {/* <div>
+    <MediaQuery minWidth={416}>
+      <Button color="primary" onClick={this.toggleEditProfile} style={{ float: 'right', marginRight: '1vw !important' }}>Edit Information</Button>
+    </MediaQuery>
+  </div> */}
+  {/* {localStorage.hasOwnProperty('fbAuth')
+    ? <div style={{ border: '2px solid #a54ee8', width: '80%', marginLeft: 'auto', marginRight: 'auto', marginBottom: '2vh', paddingBottom: '1vh'}}>
+      <h3>Welcome to PolitIQ!</h3>
+      <div style={{ display: 'flex', justifyContent: "center", width: '85%', marginLeft: 'auto', marginRight: 'auto', marginTop: '2vh', marginBottom: '2vh'}}>
+        <p style={{ display: 'inline', margin: '0' }}>Please add a political affiliation to complete your registration.</p>
+        <Tooltip title={affiliationText} placement="right-start">
+          <Help color="primary" style={{ height: '15'}}/>
+        </Tooltip>
+      </div>
+      <Button color="primary" onClick={this.toggleEditProfile}>Edit Information</Button>
+    </div>
+    : null
+  } */}
+  {/* {this.state.editingProfile
+    ? 
+    : <div>
+        <div className="profile-info">
+          <p> <span style={{ fontWeight: 'bold'}}>Display Name:</span> {this.state.userInfo.displayName}</p>
+          <p> <span style={{ fontWeight: 'bold'}}>Email Address:</span> {authUser.email}</p>
+          <p> <span style={{ fontWeight: 'bold'}}>Affiliation:</span> {this.state.userInfo.affiliation} </p>
+          <p> <span style={{ fontWeight: 'bold', marginBottom: '5vh'}}>Bio:</span> {this.state.userInfo.bio} </p>
+        </div>
+        <UserScoreboard uid={authUser.uid} moneyWon={this.state.userInfo.moneyWon}/>
+
+        <div className="profile-button-holder">
+          <MediaQuery maxWidth={415}>
+            <Button color="primary" onClick={this.toggleEditProfile} style={{ float: 'right' }}>Edit Information</Button>
+          </MediaQuery>
+          <Link to={`/profile/${authUser.uid}`} style={{ textDecoration: 'none', display: 'flex', justifyContent: 'center'}}>
+            <Button color="primary">View Public Profile</Button>
+          </Link>
+          <Button onClick={this.toggleShowNotifications}>Notification Settings</Button>
+          <Button onClick={this.toggleResetPassword}>Reset Password</Button>
+          <Button><span style={{color: 'red'}}>Delete Account</span></Button>
+        </div>
+        <br/>
+      </div>
+  } */}
+
+  {/* {this.state.showPasswordReset
+    ? <div>
+        <p> <span style={{ fontWeight: 'bold'}}>Reset Your Password:</span> </p>
+        <PasswordChangeForm toggleResetPassword={this.toggleResetPassword}/>
+      </div>
+    : null
+  } */}
+
+  {/* {this.state.showNotifications
+    ? <NotificationSettings toggleShowNotifications={this.toggleShowNotifications}/>
+    : null
+  } */}
+
+  {/* <Button onClick={this.unsubscribe}>Turn Off Push Notifications</Button> */}
+
+
+{/* </div> */}

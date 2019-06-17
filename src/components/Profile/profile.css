@@ -182,22 +182,36 @@
 }
 
 .edit-profile {
-  width: 85%;
-  margin-left: auto;
-  margin-right: auto;
+  width: 60%;
+  /* margin-left: auto; */
+  /* margin-right: auto; */
+}
+
+.edit-holder {
+  display: flex;
+  justify-content: space-between;
+  padding-left: 5vw;
+  padding-right: 5vw;
 }
 
 @media screen and (min-width: 416px) {
   .upload-holder {
     display: flex;
-    flex-direction: row-reverse;
+    flex-direction: column-reverse;
   }
 }
 .upload-button {
-  margin-top: auto !important;
+  /* margin-top: auto !important; */
   margin-bottom: auto !important;
-  height: 3vh;
-  margin-right: 10vw !important;
+  height: 6vh;
+  padding: 1vw !important;
+  width: 20vw;
+  margin-top: 3vh !important;
+  /* margin-right: 10vw !important; */
+}
+
+.upload-button > span {
+  margin-left: 4vw;
 }
 @media screen and (max-width: 415px) {
   .upload-button {
@@ -304,8 +318,8 @@
 
 @media screen and (min-width: 769px) {
   .settings-page {
-    width: 68vw;
-    margin-left: 30vw;
+    width: 65vw;
+    margin-left: 32vw;
   }
 }
 
@@ -327,4 +341,8 @@
   .settings-page {
     margin-left: 21vw;
   }
+}
+
+#settings-heading {
+  margin-top: 6vh;
 }
