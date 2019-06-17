@@ -263,3 +263,19 @@
     margin-bottom: 4vh;
   }
 }
+
+/*  ---------- drawer styles ----------- */
+.drawer > div {
+  z-index: 2 !important;
+  top: 8vh;
+  max-width: 250px;
+}
+
+.drawer-open > div {
+  width: 250px;
+}
+
+.drawer-closed > div{
+  overflow-x: hidden;
+  width: 56px;
+}

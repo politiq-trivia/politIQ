@@ -11,6 +11,7 @@ import Button from '@material-ui/core/Button';
 import Tooltip from '@material-ui/core/Tooltip';
 import Help from '@material-ui/icons/Help';
 
+
 import './profile.css';
 
 import { AuthUserContext, withAuthorization, withEmailVerification } from '../Auth/index';
@@ -18,6 +19,7 @@ import PasswordChangeForm from '../Auth/PasswordChange';
 import EditProfile from './EditProfile';
 import UserScoreboard from '../Leaderboard/UserScoreboard';
 import NotificationSettings from './NotificationSettings';
+import Drawer from './Drawer';
 
 import Paper from '@material-ui/core/Paper';
 
@@ -111,6 +113,8 @@ class ProfilePage extends Component {
             <Helmet>
               <title>Profile | politIQ trivia</title>
             </Helmet>
+            <Drawer />
+
             <div className="public-profile-top">
               <div style={{ display: "flex", justifyContent: 'space-between', marginBottom: '3vh'}}>
                 <Button className="back-button" onClick={this.props.history.goBack}>Back</Button>
