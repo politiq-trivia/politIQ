@@ -177,14 +177,21 @@
 }
 @media screen and (max-width: 415px) {
   .profile-button-holder {
-    flex-direction: column;
+    flex-direction: row;
+    /* margin-left: 0; */
   }
 }
 
 .edit-profile {
   width: 60%;
-  /* margin-left: auto; */
-  /* margin-right: auto; */
+}
+
+@media screen and (max-width: 415px) {
+  .edit-profile {
+    width: 80%;
+    padding-right: 8vw;
+    padding-left: 8vw;
+  }
 }
 
 .edit-holder {
@@ -194,12 +201,40 @@
   padding-right: 5vw;
 }
 
+@media screen and (max-width: 415px) {
+  .edit-holder {
+    flex-direction: column;
+    padding-left: 0;
+    padding-right: 0;
+  }
+}
+
 @media screen and (min-width: 416px) {
   .upload-holder {
     display: flex;
     flex-direction: column-reverse;
   }
 }
+
+@media screen and (max-width: 415px) {
+  .upload-holder {
+    height: 40vh;
+    display: flex;
+    flex-direction: column-reverse;
+    width: 90%;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 2vh;
+  }
+
+  .upload-holder > button {
+    width: 90%;
+    margin-left: auto;
+    margin-right: auto !important;
+    margin-top: 3vh !important;
+  }
+}
+
 .upload-button {
   /* margin-top: auto !important; */
   margin-bottom: auto !important;
@@ -345,4 +380,5 @@
 
 #settings-heading {
   margin-top: 6vh;
+  margin-bottom: 1vh;
 }

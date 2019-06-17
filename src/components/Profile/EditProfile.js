@@ -2,11 +2,14 @@ import React, { Component } from 'react';
 import { db } from '../../firebase';
 import firebase from 'firebase/app';
 import { withRouter } from 'react-router-dom';
+import MediaQuery from 'react-responsive';
 
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 import Select from '@material-ui/core/Select';
 import { FormHelperText } from '@material-ui/core';
+
+import ProfilePhoto from './ProfilePhoto';
 
 class EditProfile extends Component {
   constructor(props) {
@@ -151,6 +154,10 @@ class EditProfile extends Component {
               onChange={event => this.handleChange('bio', event.target.value)}
             />
         </form>
+
+        <MediaQuery maxWidth={415}>
+              <ProfilePhoto authUser={this.props.authUser} />
+        </MediaQuery>
         <div className="profile-button-holder">
           <Button color="primary" onClick={this.props.toggleEditProfile}>Cancel</Button>
           <Button color="primary" onClick={this.handleSave}>Save</Button>

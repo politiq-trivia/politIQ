@@ -115,14 +115,25 @@ class ProfilePage extends Component {
               <title>Settings | politIQ trivia</title>
             </Helmet>
             <Drawer />
+              
 
-              <Link to={`/profile/${authUser.uid}`} style={{ textDecoration: 'none', display: 'flex', justifyContent: 'center', float: 'right'}}>
-                <Button className="back-button" onClick={this.toPublicProfile} style={{ marginRight: '1vw !important' }}>View Public Profile</Button>
-              </Link>
 
               {this.state.showEditProfile 
                 ? <>
+                    <MediaQuery minWidth={416}>
+                      <Link to={`/profile/${authUser.uid}`} style={{ textDecoration: 'none', display: 'flex', justifyContent: 'center', float: 'right'}}>
+                        <Button className="back-button" onClick={this.toPublicProfile} style={{ marginRight: '1vw !important' }}>View Public Profile</Button>
+                      </Link>
+                    </MediaQuery>
+
                     <h1 id="settings-heading">Edit Profile</h1>
+
+                    <MediaQuery maxWidth={415}>
+                      <Link to={`/profile/${authUser.uid}`} style={{ textDecoration: 'none', display: 'flex', justifyContent: 'center' }}>
+                          <Button className="back-button" onClick={this.toPublicProfile} style={{ marginRight: '1vw !important' }}>View Public Profile</Button>
+                        </Link>
+                    </MediaQuery>
+
                     <div className="edit-holder">
                       <EditProfile
                         toggleEditProfile={this.toggleEditProfile}
@@ -134,8 +145,12 @@ class ProfilePage extends Component {
                         initialSignUpMessage={this.props.initialSignUpMessage}
                         setFBAuth={this.props.setFBAuth}
                         getUserInfo={this.getUserInfo}
+                        authUser={authUser}
                       />
-                      <ProfilePhoto authUser={authUser} />
+
+                      <MediaQuery minWidth={416}>
+                        <ProfilePhoto authUser={authUser} />
+                      </MediaQuery>
                     </div>
                   </>
                 : null
