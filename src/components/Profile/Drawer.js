@@ -123,7 +123,7 @@ class ResponsiveDrawer extends Component {
                 className={this.state.open ? "drawer drawer-open" : "drawer drawer-closed" }
                 open={this.state.open}
             >
-                <MediaQuery maxWidth={415}>
+                <MediaQuery maxWidth={768}>
                     <div>
                         {this.state.open 
                             ? <IconButton onClick={this.handleDrawerClose} style={{ float: 'right' }}>

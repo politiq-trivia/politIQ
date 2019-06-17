@@ -279,3 +279,52 @@
   overflow-x: hidden;
   width: 56px;
 }
+
+/* -------- settings page styles ---------------- */
+
+.settings-page {
+  width: 85vw;
+  margin-left: 66px;
+}
+
+
+
+@media screen and (max-width: 415px) {
+  .settings-page {
+    margin-left: 66px;
+    width: 81vw;
+  }
+}
+
+@media screen and (max-width: 320px) {
+  .settings-page {
+    width: 77vw;
+  }
+}
+
+@media screen and (min-width: 769px) {
+  .settings-page {
+    width: 68vw;
+    margin-left: 30vw;
+  }
+}
+
+@media screen and (min-width: 1000px) {
+  .settings-page {
+    width: 74vw;
+    margin-left: 25vw;
+  }
+}
+
+@media screen and (min-width: 1120px) {
+  .settings-page {
+    margin-left: 23vw;
+    /* width: 76vw; */
+  }
+}
+
+@media screen and (min-width: 1200px) {
+  .settings-page {
+    margin-left: 21vw;
+  }
+}

@@ -109,7 +109,7 @@ class ProfilePage extends Component {
     return (
       <AuthUserContext.Consumer>
         {authUser =>
-          <Paper className="profile">
+          <Paper className="profile settings-page">
             <Helmet>
               <title>Profile | politIQ trivia</title>
             </Helmet>
