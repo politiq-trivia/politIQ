@@ -32,7 +32,7 @@ class ResponsiveDrawer extends Component {
         // on mobile, you should open to see the small drawer
         // then, you can click on the menu icon to open the full drawer
         // once you click an option, the drawer should close and then load that tab
-        console.log(window.innerWidth,' this this width')
+
         if (window.innerWidth < 768) {
             this.setState({
                 open: false,
@@ -98,13 +98,13 @@ class ResponsiveDrawer extends Component {
                         <ListItemIcon><Notifications /></ListItemIcon>
                         <ListItemText primary={"Notification Settings"} />
                     </ListItem>
-                    {/* <ListItem button onClick={() => {
+                    <ListItem button onClick={() => {
                         this.props.toggleGameSettings()
                         this.handleDrawerClose()
                     }}>
                         <ListItemIcon><Settings /></ListItemIcon>
                         <ListItemText primary={"Game Settings"} />
-                    </ListItem> */}
+                    </ListItem>
                     <ListItem button onClick={() => {
                         this.props.toggleShowSecurity()
                         this.handleDrawerClose()

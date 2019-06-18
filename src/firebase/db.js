@@ -81,6 +81,11 @@ export const addMailchimpId = (uid, mailchimpId, freq) => {
   db.ref('users').child(uid).child('mailchimpId').child(freq).set(mailchimpId)
 }
 
+// add or update users sound preferences
+export const soundSettings = (uid, soundPref) => {
+  db.ref('users').child(uid).child('soundsOn').set(soundPref)
+}
+
 // -------------------------------------------------------------------------
 
 // QUIZZES
