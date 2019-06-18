@@ -23,6 +23,7 @@ import Drawer from './Drawer';
 import StatsPage from './StatsPage';
 import NotificationSettingsPage from './NotificationSettingsPage';
 import SecuritySettings from './SecuritySettings';
+import GameSettings from './GameSettings';
 
 
 const affiliationText = `
@@ -69,6 +70,7 @@ class ProfilePage extends Component {
       showStatsPage: false,
       showNotificationSettings: false,
       showSecurity: false,
+      showGameSettings: false,
     })
   }
 
@@ -78,6 +80,7 @@ class ProfilePage extends Component {
       showStatsPage: true,
       showNotificationSettings: false,
       showSecurity: false,
+      showGameSettings: false,
     })
   }
 
@@ -87,6 +90,7 @@ class ProfilePage extends Component {
       showStatsPage: false,
       showNotificationSettings: true,
       showSecurity: false,
+      showGameSettings: false,
     })
   }
 
@@ -96,6 +100,17 @@ class ProfilePage extends Component {
       showStatsPage: false,
       showNotificationSettings: false,
       showSecurity: true,
+      showGameSettings: false,
+    })
+  }
+
+  toggleGameSettings = () => {
+    this.setState({
+      showEditProfile: false,
+      showStatsPage: false,
+      showNotificationSettings: false,
+      showSecurity: false,
+      showGameSettings: true,
     })
   }
 
@@ -153,6 +168,7 @@ class ProfilePage extends Component {
               toggleShowStats={this.toggleShowStats} 
               toggleShowNotifications={this.toggleShowNotifications} 
               toggleShowSecurity={this.toggleShowSecurity}
+              toggleGameSettings={this.toggleGameSettings}
             />
 
               {this.state.showEditProfile 
@@ -198,6 +214,10 @@ class ProfilePage extends Component {
               }
               {this.state.showNotificationSettings
                 ? <NotificationSettingsPage />
+                : null
+              }
+              {this.state.showGameSettings
+                ? <GameSettings />
                 : null
               }
               {this.state.showSecurity

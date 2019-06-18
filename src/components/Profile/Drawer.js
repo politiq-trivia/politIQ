@@ -15,6 +15,7 @@ import AccountCircle from '@material-ui/icons/AccountCircle';
 import Lock from '@material-ui/icons/Lock';
 import TrendingUp from '@material-ui/icons/TrendingUp'
 import Notifications from '@material-ui/icons/Notifications';
+import Settings from '@material-ui/icons/Settings';
 
 class ResponsiveDrawer extends Component {
     constructor(props) {
@@ -81,6 +82,10 @@ class ResponsiveDrawer extends Component {
                     <ListItem button onClick={this.props.toggleShowNotifications}>
                         <ListItemIcon><Notifications /></ListItemIcon>
                         <ListItemText primary={"Notification Settings"} />
+                    </ListItem>
+                    <ListItem button onClick={this.props.toggleGameSettings}>
+                        <ListItemIcon><Settings /></ListItemIcon>
+                        <ListItemText primary={"Game Settings"} />
                     </ListItem>
                     <ListItem button onClick={this.props.toggleShowSecurity}>
                         <ListItemIcon><Lock /></ListItemIcon>
