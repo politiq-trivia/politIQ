@@ -32,13 +32,13 @@ class ProfilePage extends Component {
     super(props);
     this.state = {
       userInfo: {},
-      showEditProfile: false,
+      showEditProfile: true,
       showStatsPage: false,
       showNotificationSettings: false,
       showSecurity: false,
       showPasswordReset: false,
       showNotifications: false,
-      showGameSettings: true,
+      showGameSettings: false
     }
   }
 

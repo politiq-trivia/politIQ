@@ -57,63 +57,63 @@ class ResponsiveDrawer extends Component {
 
     render() {
         return (
-            <Drawer
-                variant="permanent"
-                className={this.state.open ? "drawer drawer-open" : "drawer drawer-closed" }
-                open={this.state.open}
-            >
-                <MediaQuery maxWidth={768}>
-                    <div>
-                        {this.state.open 
-                            ? <IconButton onClick={this.handleDrawerClose} style={{ float: 'right' }}>
-                                <ChevronLeftIcon />
-                              </IconButton>
-                            : <IconButton onClick={this.handleDrawerOpen}>
-                                <ChevronRightIcon/>
-                              </IconButton>
-                        }
-                    </div>
-                    <Divider style={{ width: '100%' }}/>
-                </MediaQuery>        
+                <Drawer
+                    variant="permanent"
+                    className={this.state.open ? "drawer drawer-open" : "drawer drawer-closed" }
+                    open={this.state.open}
+                >
+                    <MediaQuery maxWidth={768}>
+                        <div>
+                            {this.state.open 
+                                ? <IconButton onClick={this.handleDrawerClose} style={{ float: 'right' }}>
+                                    <ChevronLeftIcon />
+                                </IconButton>
+                                : <IconButton onClick={this.handleDrawerOpen}>
+                                    <ChevronRightIcon/>
+                                </IconButton>
+                            }
+                        </div>
+                        <Divider style={{ width: '100%' }}/>
+                    </MediaQuery>        
 
-                <List style={{ paddingTop: '20px' }}>
-                    <ListItem button onClick={() => {
-                        this.props.toggleEditProfile()
-                        this.handleDrawerClose()
-                    }}>
-                        <ListItemIcon><AccountCircle /></ListItemIcon>
-                        <ListItemText primary={"Edit Profile"} />
-                    </ListItem>
-                    <ListItem button onClick={() => {
-                        this.props.toggleShowStats()
-                        this.handleDrawerClose()
-                    }}>
-                        <ListItemIcon><TrendingUp /></ListItemIcon>
-                        <ListItemText primary={"Stats"} />
-                    </ListItem>
-                    <ListItem button onClick={() => {
-                        this.props.toggleShowNotifications()
-                        this.handleDrawerClose()
-                    }}>
-                        <ListItemIcon><Notifications /></ListItemIcon>
-                        <ListItemText primary={"Notification Settings"} />
-                    </ListItem>
-                    <ListItem button onClick={() => {
-                        this.props.toggleGameSettings()
-                        this.handleDrawerClose()
-                    }}>
-                        <ListItemIcon><Settings /></ListItemIcon>
-                        <ListItemText primary={"Game Settings"} />
-                    </ListItem>
-                    <ListItem button onClick={() => {
-                        this.props.toggleShowSecurity()
-                        this.handleDrawerClose()
-                    }}>
-                        <ListItemIcon><Lock /></ListItemIcon>
-                        <ListItemText primary={"Security"} />
-                    </ListItem>
-                </List>
-            </Drawer>
+                    <List style={{ paddingTop: '20px' }}>
+                        <ListItem button onClick={() => {
+                            this.props.toggleEditProfile()
+                            this.handleDrawerClose()
+                        }}>
+                            <ListItemIcon><AccountCircle /></ListItemIcon>
+                            <ListItemText primary={"Edit Profile"} />
+                        </ListItem>
+                        <ListItem button onClick={() => {
+                            this.props.toggleShowStats()
+                            this.handleDrawerClose()
+                        }}>
+                            <ListItemIcon><TrendingUp /></ListItemIcon>
+                            <ListItemText primary={"Stats"} />
+                        </ListItem>
+                        <ListItem button onClick={() => {
+                            this.props.toggleShowNotifications()
+                            this.handleDrawerClose()
+                        }}>
+                            <ListItemIcon><Notifications /></ListItemIcon>
+                            <ListItemText primary={"Notification Settings"} />
+                        </ListItem>
+                        <ListItem button onClick={() => {
+                            this.props.toggleGameSettings()
+                            this.handleDrawerClose()
+                        }}>
+                            <ListItemIcon><Settings /></ListItemIcon>
+                            <ListItemText primary={"Game Settings"} />
+                        </ListItem>
+                        <ListItem button onClick={() => {
+                            this.props.toggleShowSecurity()
+                            this.handleDrawerClose()
+                        }}>
+                            <ListItemIcon><Lock /></ListItemIcon>
+                            <ListItemText primary={"Security"} />
+                        </ListItem>
+                    </List>
+                </Drawer>
         )
     }
 }

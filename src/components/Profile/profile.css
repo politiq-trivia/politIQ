@@ -328,11 +328,13 @@
 
 .drawer-open > div {
   width: 250px;
+  transition: width 300ms ease;
 }
 
 .drawer-closed > div{
   overflow-x: hidden;
   width: 56px;
+  transition: 300ms ease;
 }
 
 /* -------- settings page styles ---------------- */
