@@ -273,9 +273,15 @@
 }
 
 .notification-settings {
-  width: 60%;
-  margin-left: auto;
+  width: 80%;
+  margin-left: 5vw;
   margin-right: auto;
+  margin-top: 3vh;
+}
+
+.notification-settings > button {
+  margin-top: 2vh;
+  margin-bottom: 2vh;
 }
 
 .notification-settings label {
@@ -381,4 +387,10 @@
 #settings-heading {
   margin-top: 6vh;
   margin-bottom: 1vh;
+}
+
+.settings-subheading {
+  text-align: left;
+  margin-left: 5vw;
+  margin-bottom: 0;
 }

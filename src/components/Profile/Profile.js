@@ -18,10 +18,10 @@ import { AuthUserContext, withAuthorization, withEmailVerification } from '../Au
 import PasswordChangeForm from '../Auth/PasswordChange';
 import EditProfileForm from './EditProfileForm';
 import UserScoreboard from '../Leaderboard/UserScoreboard';
-import NotificationSettings from './NotificationSettings';
+import NotificationSettings from './NotificationSettings/EmailNotificationSettings';
 import Drawer from './Drawer';
 import StatsPage from './StatsPage';
-import NotificationSettingsPage from './NotificationSettingsPage';
+import NotificationSettingsPage from './NotificationSettings/NotificationSettingsPage';
 import SecuritySettings from './SecuritySettings';
 import GameSettings from './GameSettings';
 
@@ -36,8 +36,8 @@ class ProfilePage extends Component {
     this.state = {
       userInfo: {},
       showEditProfile: false,
-      showStatsPage: true,
-      showNotificationSettings: false,
+      showStatsPage: false,
+      showNotificationSettings: true,
       showSecurity: false,
       showPasswordReset: false,
       showNotifications: false,
