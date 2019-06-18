@@ -47,10 +47,13 @@ class ResponsiveDrawer extends Component {
     }
 
     handleDrawerClose = () => {
-        this.setState({
-            open: false,
-        })
+        if (window.innerWidth < 768) {
+            this.setState({
+                open: false,
+            })
+        }
     }
+
 
     render() {
         return (
@@ -95,13 +98,13 @@ class ResponsiveDrawer extends Component {
                         <ListItemIcon><Notifications /></ListItemIcon>
                         <ListItemText primary={"Notification Settings"} />
                     </ListItem>
-                    <ListItem button onClick={() => {
+                    {/* <ListItem button onClick={() => {
                         this.props.toggleGameSettings()
                         this.handleDrawerClose()
                     }}>
                         <ListItemIcon><Settings /></ListItemIcon>
                         <ListItemText primary={"Game Settings"} />
-                    </ListItem>
+                    </ListItem> */}
                     <ListItem button onClick={() => {
                         this.props.toggleShowSecurity()
                         this.handleDrawerClose()
