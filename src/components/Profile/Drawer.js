@@ -10,7 +10,6 @@ import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
-import MailIcon from '@material-ui/icons/Mail';
 import AccountCircle from '@material-ui/icons/AccountCircle';
 import Lock from '@material-ui/icons/Lock';
 import TrendingUp from '@material-ui/icons/TrendingUp'
