@@ -6,7 +6,6 @@ import Switch from '@material-ui/core/Switch';
 import Button from '@material-ui/core/Button';
 
 const GameSettings = () => {
-    console.log('game settings component run')
     return (
         <>
             <h1 id="settings-heading">Game Settings</h1>

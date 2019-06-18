@@ -32,8 +32,12 @@ class ResponsiveDrawer extends Component {
         // on mobile, you should open to see the small drawer
         // then, you can click on the menu icon to open the full drawer
         // once you click an option, the drawer should close and then load that tab
-        // profile will need some refactoring
-
+        console.log(window.innerWidth,' this this width')
+        if (window.innerWidth < 768) {
+            this.setState({
+                open: false,
+            })
+        }
     }
 
     handleDrawerOpen = () => {
@@ -70,23 +74,38 @@ class ResponsiveDrawer extends Component {
                 </MediaQuery>        
 
                 <List style={{ paddingTop: '20px' }}>
-                    <ListItem button onClick={this.props.toggleEditProfile}>
+                    <ListItem button onClick={() => {
+                        this.props.toggleEditProfile()
+                        this.handleDrawerClose()
+                    }}>
                         <ListItemIcon><AccountCircle /></ListItemIcon>
                         <ListItemText primary={"Edit Profile"} />
                     </ListItem>
-                    <ListItem button onClick={this.props.toggleShowStats}>
+                    <ListItem button onClick={() => {
+                        this.props.toggleShowStats()
+                        this.handleDrawerClose()
+                    }}>
                         <ListItemIcon><TrendingUp /></ListItemIcon>
                         <ListItemText primary={"Stats"} />
                     </ListItem>
-                    <ListItem button onClick={this.props.toggleShowNotifications}>
+                    <ListItem button onClick={() => {
+                        this.props.toggleShowNotifications()
+                        this.handleDrawerClose()
+                    }}>
                         <ListItemIcon><Notifications /></ListItemIcon>
                         <ListItemText primary={"Notification Settings"} />
                     </ListItem>
-                    <ListItem button onClick={this.props.toggleGameSettings}>
+                    <ListItem button onClick={() => {
+                        this.props.toggleGameSettings()
+                        this.handleDrawerClose()
+                    }}>
                         <ListItemIcon><Settings /></ListItemIcon>
                         <ListItemText primary={"Game Settings"} />
                     </ListItem>
-                    <ListItem button onClick={this.props.toggleShowSecurity}>
+                    <ListItem button onClick={() => {
+                        this.props.toggleShowSecurity()
+                        this.handleDrawerClose()
+                    }}>
                         <ListItemIcon><Lock /></ListItemIcon>
                         <ListItemText primary={"Security"} />
                     </ListItem>
