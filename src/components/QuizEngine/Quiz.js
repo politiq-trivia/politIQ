@@ -1,4 +1,4 @@
-import React, { PureComponent } from 'react';
+import React, { Component } from 'react';
 import loadingGif from '../../loadingGif.gif';
 import { Helmet } from 'react-helmet';
 import AuthUserContext from '../Auth/AuthUserContext';
@@ -22,7 +22,7 @@ import errorUrl from './sounds/error.wav';
 import wrongUrl from './sounds/wrong.wav';
 import correctUrl from './sounds/correct.wav';
 
-class Quiz extends PureComponent {
+class Quiz extends Component {
   constructor(props) {
     super(props);
 
@@ -76,6 +76,14 @@ class Quiz extends PureComponent {
     trackEvent('Quizzes', 'Quiz loaded', 'QUIZ_LOADED')
   }
 
+  // if the user changed their game settings and then went back to take the quiz, check to make sure the settings are right
+  // shouldComponentUpdate = (nextProps, nextState) => {
+  //   const volumeUp = JSON.parse(localStorage.getItem('authUser')).soundsOn
+  //   if (volumeUp !== this.state.volumeUp) {
+  //     return true;
+  //   } else return false;
+  // }
+
   componentWillUnmount = () => {
     window.clearTimeout(this.timer)
     window.clearTimeout(this.sadTrombone)
@@ -91,7 +99,21 @@ class Quiz extends PureComponent {
       const userInfo = JSON.parse(localStorage.authUser)
       const uid = userInfo.uid
       const email = userInfo.email
-      this.setState({uid, email})
+      if (userInfo.hasOwnProperty('soundsOn')) {
+        if (userInfo.soundsOn === false) {
+          this.setState({
+            uid,
+            email,
+            volumeUp: false
+          })
+        } 
+      } else {
+        this.setState({
+          uid, 
+          email,
+          volumeUp: true,
+        })
+      }
     }
   }
 
@@ -243,9 +265,9 @@ class Quiz extends PureComponent {
         })
       // otherwise, if the user answers wrong or doesn't answer
       } else if (isCorrect === false || isCorrect === undefined) {
-        if (window.navigator.vibrate) {
-          window.navigator.vibrate([200, 50, 200, 50, 200])
-        }
+        // if (window.navigator.vibrate) {
+        //   window.navigator.vibrate([200, 50, 200, 50, 200])
+        // }
         // play the buzzer sound if the user gets the answer wrong
         if (isCorrect === false) {
           this.error.volume = 0.5
@@ -308,6 +330,14 @@ class Quiz extends PureComponent {
     this.setState({
       volumeUp: !this.state.volumeUp
     })
+
+    // set the local storage 
+    const userInfo = JSON.parse(localStorage.getItem('authUser'))
+    userInfo.soundsOn = !this.state.volumeUp
+    localStorage.setItem('authUser', JSON.stringify(userInfo))
+
+    // also change the database?
+    db.soundSettings(this.state.uid, !this.state.volumeUp)
   }
 
   render() {

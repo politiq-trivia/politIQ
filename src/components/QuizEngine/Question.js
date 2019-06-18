@@ -87,7 +87,6 @@ class Question extends Component {
 
         this.countdownInterval = setTimeout(() => {
             if (this.countdown.src.includes("/static/media/countdown.f63efcde.flac") && this.props.volumeUp === true) {
-                console.log('true inside if')
                 this.countdown.play()
             }
         }, tenLess)
