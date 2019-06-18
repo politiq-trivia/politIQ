@@ -1,31 +1,22 @@
 import React, { Component } from 'react';
 import { Helmet } from 'react-helmet';
 import { db, withFirebase } from '../../firebase';
-import { Link } from 'react-router-dom';
 import { compose } from 'recompose';
-import MediaQuery from 'react-responsive';
 
-import ProfilePhoto from './ProfilePhoto';
-
-import Button from '@material-ui/core/Button';
-import Tooltip from '@material-ui/core/Tooltip';
-import Help from '@material-ui/icons/Help';
 import Paper from '@material-ui/core/Paper';
 
 import './profile.css';
 
 import { AuthUserContext, withAuthorization, withEmailVerification } from '../Auth/index';
-import EditProfileForm from './EditProfileForm';
 import Drawer from './Drawer';
 import StatsPage from './StatsPage';
 import NotificationSettingsPage from './NotificationSettings/NotificationSettingsPage';
 import SecuritySettings from './SecuritySettings';
 import GameSettings from './GameSettings';
+import EditProfilePage from './EditProfile/EditProfilePage';
 
 
-const affiliationText = `
-  Party ID is required in order to contribute to your political party team competition aspect of the site and help prove that your party knows the news and has the highest political IQ.
-`
+
 
 class ProfilePage extends Component {
   constructor(props) {
@@ -158,54 +149,7 @@ class ProfilePage extends Component {
             />
 
               {this.state.showEditProfile 
-                ? <>
-                    <MediaQuery minWidth={416}>
-                      <Link to={`/profile/${authUser.uid}`} style={{ textDecoration: 'none', display: 'flex', justifyContent: 'center', float: 'right'}}>
-                        <Button className="back-button" onClick={this.toPublicProfile} style={{ marginRight: '1vw !important' }}>View Public Profile</Button>
-                      </Link>
-                    </MediaQuery>
-
-                    <h1 id="settings-heading">Edit Profile</h1>
-
-                    <MediaQuery maxWidth={415}>
-                      <Link to={`/profile/${authUser.uid}`} style={{ textDecoration: 'none', display: 'flex', justifyContent: 'center' }}>
-                          <Button className="back-button" onClick={this.toPublicProfile} style={{ marginRight: '1vw !important' }}>View Public Profile</Button>
-                        </Link>
-                    </MediaQuery>
-
-                    {localStorage.hasOwnProperty('fbAuth')
-                      ? <div className="fbAuthBox">
-                        <h3>Welcome to PolitIQ!</h3>
-                        <div style={{ display: 'flex', justifyContent: "center", width: '85%', marginLeft: 'auto', marginRight: 'auto', marginTop: '2vh', marginBottom: '2vh'}}>
-                          <p style={{ display: 'inline', margin: '0' }}>Please add a political affiliation to complete your registration.</p>
-                          <Tooltip title={affiliationText} placement="right-start">
-                            <Help color="primary" style={{ height: '15'}}/>
-                          </Tooltip>
-                        </div>
-                      </div>
-                       : null
-                    }
-
-                    <div className="edit-holder">
-
-                      <EditProfileForm
-                        toggleEditProfile={this.toggleEditProfile}
-                        displayName={this.state.userInfo.displayName}
-                        email={authUser.email}
-                        bio={this.state.userInfo.bio}
-                        affiliation={this.state.userInfo.affiliation}
-                        uid={this.state.userInfo.uid}
-                        initialSignUpMessage={this.props.initialSignUpMessage}
-                        setFBAuth={this.props.setFBAuth}
-                        getUserInfo={this.getUserInfo}
-                        authUser={authUser}
-                      />
-
-                      <MediaQuery minWidth={416}>
-                        <ProfilePhoto authUser={authUser} />
-                      </MediaQuery>
-                    </div>
-                  </>
+                ? <EditProfilePage authUser={authUser} getUserInfo={this.getUserInfo}/>
                 : null
               }
               {this.state.showStatsPage

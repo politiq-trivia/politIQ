@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { db } from '../../firebase';
+import { db } from '../../../firebase';
 import firebase from 'firebase/app';
 import { withRouter } from 'react-router-dom';
 import MediaQuery from 'react-responsive';
@@ -9,7 +9,7 @@ import TextField from '@material-ui/core/TextField';
 import Select from '@material-ui/core/Select';
 import { FormHelperText } from '@material-ui/core';
 
-import ProfilePhoto from './ProfilePhoto';
+import ProfilePhoto from '../ProfilePhoto';
 
 class EditProfile extends Component {
   constructor(props) {
