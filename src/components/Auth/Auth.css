@@ -21,3 +21,10 @@
 .signIn {
   margin-bottom: 18vh;
 }
+
+.password-change-form {
+  width: 87%;
+  margin-left: 5vw;
+  margin-right: 5vw;
+  margin-top: 3vh;
+}

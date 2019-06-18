@@ -37,10 +37,11 @@ class ProfilePage extends Component {
       userInfo: {},
       showEditProfile: false,
       showStatsPage: false,
-      showNotificationSettings: true,
+      showNotificationSettings: false,
       showSecurity: false,
       showPasswordReset: false,
       showNotifications: false,
+      showGameSettings: true
     }
   }
 
