@@ -105,6 +105,7 @@ class QuizArchive extends Component {
           page: 0,
         })
         this.getTheLoggedInUsersScores()
+        window.scrollTo(0,0)
       })
   }
 
@@ -147,22 +148,21 @@ class QuizArchive extends Component {
     })
   }
 
-  handleQuizClick = (date, score) => {
+  handleQuizClick = (event, score) => {
     const thisMonth = moment().startOf('month').format('YYYY-MM-DDTHH:mm')
     // if the selected month is equal to the corrent month and there is no score, handle click
-    // else if it's not the selected month - they can click anything they want but it should
-    // redirect them to the archived view
     // if it's the current month and they do have a score (the else), do nothing
     if (this.state.selectedMonth === thisMonth && score === "--") {
-      this.handleClick()
-    } else if (this.state.selectedMonth !== thisMonth) {
-      this.props.history.push(`/archived/${date}`)
+      this.handleClick(event)
+    } else if (this.state.selectedMonth !== thisMonth && score === "--") {
+      this.handleClick(event)
     } else {
       return null;
     }
   }
 
   render() {
+    console.log(this.state, 'state in quiz archive')
     const {dateArray, titleArray, rowsPerPage, page } = this.state;
     const emptyRows = rowsPerPage - Math.min(rowsPerPage, dateArray.length - page * rowsPerPage)
 
@@ -181,13 +181,13 @@ class QuizArchive extends Component {
 
       return (
         <TableRow id={date} key={id} className={ score !== "--" ? "taken" : "tableItem" }>
-          <TableCell onClick={() => {this.handleQuizClick(date, score)}}>
+          <TableCell onClick={(event) => {this.handleQuizClick(event, score)}}>
             {shortDate}
           </TableCell>
-          <TableCell onClick={() => this.handleQuizClick(date, score)} padding="none">
+          <TableCell onClick={(event) => this.handleQuizClick(event, score)} padding="none">
             {title}
           </TableCell>
-          <TableCell onClick={() => this.handleQuizClick(date, score)} style={{ paddingLeft: '8vw'}}>
+          <TableCell onClick={(event) => this.handleQuizClick(event, score)} style={{ paddingLeft: '8vw'}}>
             {score}
           </TableCell>
         </TableRow>
@@ -289,7 +289,11 @@ class QuizArchive extends Component {
         </div>
         <div className="mobile-archive-header">
           <Link to={routes.HOME} style={{ textDecoration: 'none'}} className="mobile-back"><Button color="primary">Back</Button></Link>
-          <h1 style={{ display: 'inline'}}>{moment().format('MMMM')} Quizzes</h1>
+          <h1 style={{ display: 'inline'}}>{moment(this.state.selectedMonth).format('MMMM')} Quizzes</h1>
+          {moment().format('MMMM') !== moment(this.state.selectedMonth).format('MMMM')
+            ? <p id="archive-disclaimer">You may take past quizzes to boost your politIQ, but they will not affect your rankings for this month.</p>
+            : null
+          }
         </div>
         {isLoading()}
       </Paper>

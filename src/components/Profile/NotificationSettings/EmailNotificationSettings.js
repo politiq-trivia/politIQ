@@ -19,16 +19,18 @@ class NotificationSettings extends Component {
 
     componentDidMount = () => {
         const userInfo = JSON.parse(localStorage.getItem('authUser'))
-        const mailchimpId = userInfo.mailchimpId.daily
+        if (userInfo.mailchimpId) {
+          const mailchimpId = userInfo.mailchimpId.daily
 
-        // check if the user is subscribed to the mailchimp lists and then use that to set the state
-        // make an API call to the backend
-        this.checkMailchimpStatus(userInfo.mailchimpId.daily, "weekly")
-        this.checkMailchimpStatus(userInfo.mailchimpId.daily, "daily")
-
-        this.setState({
-            mailchimpId
-        })
+          // check if the user is subscribed to the mailchimp lists and then use that to set the state
+          // make an API call to the backend
+          this.checkMailchimpStatus(userInfo.mailchimpId.daily, "weekly")
+          this.checkMailchimpStatus(userInfo.mailchimpId.daily, "daily")
+  
+          this.setState({
+              mailchimpId
+          })
+        }
     }
 
     // make an api call to the backend to see which lists the user is subscribed to. 

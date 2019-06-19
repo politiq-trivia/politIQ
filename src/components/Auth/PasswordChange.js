@@ -49,13 +49,14 @@ class PasswordChangeForm extends Component {
       passwordOne === '';
 
     return (
-      <form onSubmit={this.onSubmit} style={{ width: '80%', marginLeft: 'auto', marginRight: 'auto' }}>
+      <form onSubmit={this.onSubmit} className="password-change-form">
         <TextField
           fullWidth
           value={passwordOne}
           onChange={event => this.setState(byPropKey('passwordOne', event.target.value ))}
           type="password"
           placeholder="New Password"
+          margin="normal"
         />
         <TextField
           fullWidth
@@ -63,6 +64,7 @@ class PasswordChangeForm extends Component {
           onChange={event => this.setState(byPropKey('passwordTwo', event.target.value))}
           type="password"
           placeholder="Confirm New Password"
+          margin="normal"
         />
         <Button color="primary" variant="contained" disabled={isInvalid} type="submit" style={{ marginTop: "3vh"}}>
           Reset My Password

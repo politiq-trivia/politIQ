@@ -12,11 +12,11 @@ export const ADD_TO_HOMESCREEN = '/add-to-homescreen';
 export const PLAY_GAME = '/play';
 export const QUIZ_ARCHIVE = '/quiz-archive';
 export const QUIZ_REDIRECT = '/quiz/quiz/:id'
+export const PROFILE_TO_QUIZ_REDIRECT = '/profile/quiz/:id';
 export const SUBMIT_QUESTION = '/submit-question';
 export const LEADERBOARD = '/leaderboard';
 export const ABOUT = '/about';
 export const QUIZ = '/quiz/:id';
-export const ARCHIVED_QUIZ = '/archived/:id';
 export const USER_PROFILES = '/profile/:uid'
 export const FAQ = '/frequently-asked-questions';
 

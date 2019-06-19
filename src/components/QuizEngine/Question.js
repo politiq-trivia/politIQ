@@ -29,7 +29,7 @@ class Question extends Component {
     }
 
     shouldComponentUpdate(nextProps) {
-        if (nextProps.qNum !== this.props.qNum || nextProps.selectedValue !== this.props.selectedValue || nextProps.wrong !== this.props.wrong) {
+        if (nextProps.qNum !== this.props.qNum || nextProps.selectedValue !== this.props.selectedValue || nextProps.wrong !== this.props.wrong || nextProps.volumeUp !== this.props.volumeUp) {
             return true;
         } else {
             return false;
@@ -62,7 +62,7 @@ class Question extends Component {
 
     componentWillUnmount = () => {
         this.countdown.src = null;
-        window.clearTimeout()
+        window.clearTimeout(this.countdownInterval)
     }
 
     openNewTab = () => {
@@ -85,8 +85,8 @@ class Question extends Component {
         }
         const tenLess = (timerDuration - 10) * 1000;
 
-        setTimeout(() => {
-            if (this.countdown.src.includes("/static/media/countdown.f63efcde.flac")) {
+        this.countdownInterval = setTimeout(() => {
+            if (this.countdown.src.includes("/static/media/countdown.f63efcde.flac") && this.props.volumeUp === true) {
                 this.countdown.play()
             }
         }, tenLess)

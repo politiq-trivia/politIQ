@@ -81,6 +81,11 @@ export const addMailchimpId = (uid, mailchimpId, freq) => {
   db.ref('users').child(uid).child('mailchimpId').child(freq).set(mailchimpId)
 }
 
+// add or update users sound preferences
+export const soundSettings = (uid, soundPref) => {
+  db.ref('users').child(uid).child('soundsOn').set(soundPref)
+}
+
 // -------------------------------------------------------------------------
 
 // QUIZZES
@@ -152,6 +157,11 @@ export const deleteQuiz = (date) => {
 export const editQuiz = (date, updates) => {
   const quiz = db.ref().child('quizzes/' + date).update(updates)
   return quiz;
+}
+
+// add quiz to RSS feed 
+export const addToRSS = (date, title) => {
+  db.ref().child('rssQuiz').child(date).set(title)
 }
 
 // -----------------------------------------------

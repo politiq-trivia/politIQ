@@ -177,27 +177,76 @@
 }
 @media screen and (max-width: 415px) {
   .profile-button-holder {
-    flex-direction: column;
+    flex-direction: row;
+    /* margin-left: 0; */
   }
 }
 
 .edit-profile {
-  width: 85%;
-  margin-left: auto;
-  margin-right: auto;
+  width: 60%;
+}
+
+@media screen and (max-width: 415px) {
+  .edit-profile {
+    width: 80%;
+    padding-right: 8vw;
+    padding-left: 8vw;
+  }
+}
+
+.edit-holder {
+  display: flex;
+  justify-content: space-between;
+  padding-left: 5vw;
+  padding-right: 5vw;
+}
+
+@media screen and (max-width: 415px) {
+  .edit-holder {
+    flex-direction: column;
+    padding-left: 0;
+    padding-right: 0;
+  }
 }
 
 @media screen and (min-width: 416px) {
   .upload-holder {
     display: flex;
-    flex-direction: row-reverse;
+    flex-direction: column-reverse;
   }
 }
+
+@media screen and (max-width: 415px) {
+  .upload-holder {
+    height: 40vh;
+    display: flex;
+    flex-direction: column-reverse;
+    width: 90%;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 2vh;
+  }
+
+  .upload-holder > button {
+    width: 90%;
+    margin-left: auto;
+    margin-right: auto !important;
+    margin-top: 3vh !important;
+  }
+}
+
 .upload-button {
-  margin-top: auto !important;
+  /* margin-top: auto !important; */
   margin-bottom: auto !important;
-  height: 3vh;
-  margin-right: 10vw !important;
+  height: 6vh;
+  padding: 1vw !important;
+  width: 20vw;
+  margin-top: 3vh !important;
+  /* margin-right: 10vw !important; */
+}
+
+.upload-button > span {
+  margin-left: 4vw;
 }
 @media screen and (max-width: 415px) {
   .upload-button {
@@ -224,9 +273,15 @@
 }
 
 .notification-settings {
-  width: 60%;
-  margin-left: auto;
+  width: 80%;
+  margin-left: 5vw;
   margin-right: auto;
+  margin-top: 3vh;
+}
+
+.notification-settings > button {
+  margin-top: 2vh;
+  margin-bottom: 2vh;
 }
 
 .notification-settings label {
@@ -261,5 +316,106 @@
 @media screen and (max-width: 320px) {
   .socials {
     margin-bottom: 4vh;
+  }
+}
+
+/*  ---------- drawer styles ----------- */
+.drawer > div {
+  z-index: 2 !important;
+  top: 8vh;
+  max-width: 250px;
+}
+
+.drawer-open > div {
+  width: 250px;
+  transition: width 300ms ease;
+}
+
+.drawer-closed > div{
+  overflow-x: hidden;
+  width: 56px;
+  transition: 300ms ease;
+}
+
+/* -------- settings page styles ---------------- */
+
+.settings-page {
+  width: 85vw;
+  margin-left: 66px;
+}
+
+
+
+@media screen and (max-width: 415px) {
+  .settings-page {
+    margin-left: 66px;
+    width: 81vw;
+  }
+}
+
+@media screen and (max-width: 320px) {
+  .settings-page {
+    width: 77vw;
+  }
+}
+
+@media screen and (min-width: 769px) {
+  .settings-page {
+    width: 65vw;
+    margin-left: 32vw;
+  }
+}
+
+@media screen and (min-width: 1000px) {
+  .settings-page {
+    width: 74vw;
+    margin-left: 25vw;
+  }
+}
+
+@media screen and (min-width: 1120px) {
+  .settings-page {
+    margin-left: 23vw;
+    /* width: 76vw; */
+  }
+}
+
+@media screen and (min-width: 1200px) {
+  .settings-page {
+    margin-left: 21vw;
+  }
+}
+
+#settings-heading {
+  margin-top: 6vh;
+  margin-bottom: 1vh;
+}
+
+.settings-subheading {
+  text-align: left;
+  margin-left: 5vw;
+  margin-bottom: 0;
+}
+
+#delete-account-button {
+  margin-top: 5vh;
+  float: left;
+  margin-left: 5vw;
+}
+
+.fbAuthBox {
+  border: 2px solid #a54ee8;
+  border-radius: 5px;
+  width: 80%;
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: 2vh;
+  padding-bottom: 1vh;
+}
+
+@media screen and (max-width: 415px) {
+  .fbAuthBox {
+    width: 90%;
+    margin-top: 2vh;
   }
 }

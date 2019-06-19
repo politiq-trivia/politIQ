@@ -132,6 +132,9 @@ class QuestionForm extends Component {
     //   this.sendDelayedNotification(newUnixDate)
     // }
     this.props.toggleAddQuiz()
+
+    // save to RSS
+    this.props.addToRss(this.props.quizId, this.props.title)
   }
 
   handleQuit = () => {
@@ -139,31 +142,31 @@ class QuestionForm extends Component {
     this.props.toggleAddQuiz()
   }
 
-  sendNotification = () => {
-    global.registration.showNotification('New! New! New!', {
-      body: "Take the latest quiz now!",
-      icon: '../logo.png',
-      vibrate: [100, 50, 100],
-      data: {
-        primaryKey: this.props.quizId
-      },
-    })
-  }
+  // sendNotification = () => {
+  //   global.registration.showNotification('New! New! New!', {
+  //     body: "Take the latest quiz now!",
+  //     icon: '../logo.png',
+  //     vibrate: [100, 50, 100],
+  //     data: {
+  //       primaryKey: this.props.quizId
+  //     },
+  //   })
+  // }
 
-  sendDelayedNotification = (date) => {
-    const quizId = this.props.quizId
-    schedule.scheduleJob(date, () => {
-      global.registration.showNotification('New quiz!', {
-        body: 'Take the latest politIQ quiz now!',
-        icon: '../logo.png',
-        vibrate: [100, 50, 100],
-        data: {
-          primaryKey: quizId,
-          dateOfArrival: date
-        }
-      })
-    })
-  }
+  // sendDelayedNotification = (date) => {
+  //   const quizId = this.props.quizId
+  //   schedule.scheduleJob(date, () => {
+  //     global.registration.showNotification('New quiz!', {
+  //       body: 'Take the latest politIQ quiz now!',
+  //       icon: '../logo.png',
+  //       vibrate: [100, 50, 100],
+  //       data: {
+  //         primaryKey: quizId,
+  //         dateOfArrival: date
+  //       }
+  //     })
+  //   })
+  // }
 
   render() {
     const qNum = "Question " + this.state.counter;

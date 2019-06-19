@@ -36,6 +36,12 @@
   }
 }
 
+@media screen and (max-width: 320px) {
+  .archive-holder {
+    width: 100%;
+  }
+}
+
 .archive-table {
   width: 90% !important;
   margin-left: auto;
@@ -93,6 +99,26 @@
     margin-top: 3vh !important;
   }
 }
+
+#archive-disclaimer {
+  width: 70%;
+  margin-left: auto;
+  margin-right: auto;
+  color: #8643BA;
+  margin-bottom: 0;
+}
+
+@media screen and (max-width: 415px) {
+  #archive-disclaimer {
+    width: 90%;
+    font-size: 13px;
+  }
+
+  .archive-table {
+    margin-top: 1vh;
+  }
+}
+
 
 /* ---------------INDIVIDUAL ARCHIVED QUIZ SHOW STYLES ----- */
 
@@ -273,6 +299,7 @@
 .quiz-header {
   display: flex;
   justify-content: space-between;
+  margin-bottom: 3vh;
 }
 
 @media screen and (max-width: 415px) {
@@ -294,4 +321,8 @@
 
 .dontShowClock {
   display: none;
+}
+
+#volume {
+  margin-left: auto;
 }

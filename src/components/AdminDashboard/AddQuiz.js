@@ -106,6 +106,11 @@ class AddQuiz extends Component {
     }
   }
 
+  addToRss = (date, title) => {
+    // once a quiz is created and has questions in it, post the name and the date of the quiz to the rss feed
+    db.addToRSS(date, title)
+  }
+
   render() {
     return (
       <div>
@@ -120,8 +125,8 @@ class AddQuiz extends Component {
                       </div>
                     </div>
                   : <div> {this.state.fromQBank
-                      ?  <QuestionBankSelect toggleAddQuiz={this.props.toggleAddQuiz} counter={this.state.questionCounter} incrementCounter={this.incrementCounter} quizId={this.state.date} goBack={this.goBack}/>
-                      :  <QuestionForm quizId={this.state.date} counter={this.state.questionCounter} incrementCounter={this.incrementCounter} toggleAddQuiz={this.props.toggleAddQuiz} goBack={this.goBack}/>
+                      ?  <QuestionBankSelect toggleAddQuiz={this.props.toggleAddQuiz} counter={this.state.questionCounter} incrementCounter={this.incrementCounter} quizId={this.state.date} goBack={this.goBack} addToRss={this.addToRss} title={this.state.quizTitle}/>
+                      :  <QuestionForm quizId={this.state.date} counter={this.state.questionCounter} incrementCounter={this.incrementCounter} toggleAddQuiz={this.props.toggleAddQuiz} goBack={this.goBack} addToRss={this.addToRss} title={this.state.quizTitle}/>
                   }</div>
                 } </div>
               :

@@ -1,12 +1,15 @@
 import React, { Component } from 'react';
-import { db } from '../../firebase';
+import { db } from '../../../firebase';
 import firebase from 'firebase/app';
 import { withRouter } from 'react-router-dom';
+import MediaQuery from 'react-responsive';
 
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 import Select from '@material-ui/core/Select';
 import { FormHelperText } from '@material-ui/core';
+
+import ProfilePhoto from '../ProfilePhoto';
 
 class EditProfile extends Component {
   constructor(props) {
@@ -23,7 +26,6 @@ class EditProfile extends Component {
   componentDidMount = () => {
     // rather than passing the user info as props, I'm going to grab it from local storage again to avoid errors.
     const userInfo = JSON.parse(localStorage.getItem('authUser'))
-    console.log({userInfo})
     this.setState({
       displayName: userInfo.displayName,
       email: userInfo.email,
@@ -48,7 +50,6 @@ class EditProfile extends Component {
     }
 
     const oldUserInfo = JSON.parse(localStorage.getItem('authUser'))
-    console.log({oldUserInfo}, 'before changes')
     const uid = oldUserInfo.uid
     await db.editUser(uid, updates)
 
@@ -69,7 +70,6 @@ class EditProfile extends Component {
     oldUserInfo.affiliation = updates.affiliation;
     oldUserInfo.bio = updates.bio
 
-    console.log({oldUserInfo}, 'after changes')
     localStorage.setItem('authUser', JSON.stringify(oldUserInfo))
 
 
@@ -151,6 +151,10 @@ class EditProfile extends Component {
               onChange={event => this.handleChange('bio', event.target.value)}
             />
         </form>
+
+        <MediaQuery maxWidth={415}>
+              <ProfilePhoto authUser={this.props.authUser} />
+        </MediaQuery>
         <div className="profile-button-holder">
           <Button color="primary" onClick={this.props.toggleEditProfile}>Cancel</Button>
           <Button color="primary" onClick={this.handleSave}>Save</Button>

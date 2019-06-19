@@ -78,6 +78,7 @@ class QuizBankSelect extends Component {
   handleReturn = (q) => {
     this.saveData(q)
     this.props.toggleAddQuiz()
+    this.props.addToRss(this.props.quizId, this.props.title)
   }
 
   renderQ = () => {

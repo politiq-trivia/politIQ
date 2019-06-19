@@ -1,4 +1,4 @@
-import React, { PureComponent } from 'react';
+import React, { Component } from 'react';
 import loadingGif from '../../loadingGif.gif';
 import { Helmet } from 'react-helmet';
 import AuthUserContext from '../Auth/AuthUserContext';
@@ -7,6 +7,8 @@ import { Prompt } from 'react-router-dom';
 import ReactCountdownClock from 'react-countdown-clock';
 
 import Paper from '@material-ui/core/Paper';
+import VolumeUp from '@material-ui/icons/VolumeUp';
+import VolumeOff from '@material-ui/icons/VolumeOff';
 
 import { db } from '../../firebase';
 import { trackEvent } from '../../utils/googleAnalytics';
@@ -20,7 +22,7 @@ import errorUrl from './sounds/error.wav';
 import wrongUrl from './sounds/wrong.wav';
 import correctUrl from './sounds/correct.wav';
 
-class Quiz extends PureComponent {
+class Quiz extends Component {
   constructor(props) {
     super(props);
 
@@ -41,12 +43,14 @@ class Quiz extends PureComponent {
       stopRendering: false,
       uid: "",
       clicked: false,
+      volumeUp: true,
     }
     this.myRef=React.createRef();
   }
 
   error = new Audio(errorUrl)
   correct = new Audio(correctUrl)
+  wrong = new Audio(wrongUrl)
 
   componentDidMount = () => {
     const url = window.location.href;
@@ -72,8 +76,17 @@ class Quiz extends PureComponent {
     trackEvent('Quizzes', 'Quiz loaded', 'QUIZ_LOADED')
   }
 
+  // if the user changed their game settings and then went back to take the quiz, check to make sure the settings are right
+  // shouldComponentUpdate = (nextProps, nextState) => {
+  //   const volumeUp = JSON.parse(localStorage.getItem('authUser')).soundsOn
+  //   if (volumeUp !== this.state.volumeUp) {
+  //     return true;
+  //   } else return false;
+  // }
+
   componentWillUnmount = () => {
     window.clearTimeout(this.timer)
+    window.clearTimeout(this.sadTrombone)
     // maybe should also store the score so the user can't take the quiz again ? 
     if (this.state.finished === false) {
       trackEvent('Quizzes', 'Quiz forfeited', 'QUIZ_FORFEIT')
@@ -86,7 +99,21 @@ class Quiz extends PureComponent {
       const userInfo = JSON.parse(localStorage.authUser)
       const uid = userInfo.uid
       const email = userInfo.email
-      this.setState({uid, email})
+      if (userInfo.hasOwnProperty('soundsOn')) {
+        if (userInfo.soundsOn === false) {
+          this.setState({
+            uid,
+            email,
+            volumeUp: false
+          })
+        } 
+      } else {
+        this.setState({
+          uid, 
+          email,
+          volumeUp: true,
+        })
+      }
     }
   }
 
@@ -184,6 +211,7 @@ class Quiz extends PureComponent {
           checkCorrect={this.checkCorrect}
           clicked={this.state.clicked}
           myRef={this.myRef}
+          volumeUp={this.state.volumeUp}
         />
       )
     } else if (this.state.finished === true && this.state.contestQuestion === true) {
@@ -224,7 +252,10 @@ class Quiz extends PureComponent {
       }
       // if the answer is correct, add a point and then render the next question after a slight delay
       if (isCorrect) {
-        this.correct.play()
+        this.correct.volume = 0.5
+        if (this.state.volumeUp === true) {
+          this.correct.play()
+        }
         const score = this.state.score + 1;
         this.setState({
           score: score,
@@ -234,13 +265,24 @@ class Quiz extends PureComponent {
         })
       // otherwise, if the user answers wrong or doesn't answer
       } else if (isCorrect === false || isCorrect === undefined) {
-        if (window.navigator.vibrate) {
-          window.navigator.vibrate([200, 50, 200, 50, 200])
-        }
-        this.error.play()
-        this.error.onended = function() {
-          let wrong = new Audio(wrongUrl)
-          wrong.play()
+        // if (window.navigator.vibrate) {
+        //   window.navigator.vibrate([200, 50, 200, 50, 200])
+        // }
+        // play the buzzer sound if the user gets the answer wrong
+        if (isCorrect === false) {
+          this.error.volume = 0.5
+          if (this.state.volumeUp === true) {
+            this.error.play()
+          }
+        } else if (isCorrect === undefined) {
+          // play the sad trombone sound if the user runs out of time
+          this.wrong.volume = 0.5
+          if (this.state.volumeUp === true) {
+            // add one more second after when the timer ends and when the trombone plays
+            this.sadTrombone = setTimeout(() => {
+              this.wrong.play()
+            }, 1000)
+          }
         }
 
         // toggle the answer show (in theory)
@@ -284,6 +326,20 @@ class Quiz extends PureComponent {
     }
   }
 
+  toggleVolume = () => {
+    this.setState({
+      volumeUp: !this.state.volumeUp
+    })
+
+    // set the local storage 
+    const userInfo = JSON.parse(localStorage.getItem('authUser'))
+    userInfo.soundsOn = !this.state.volumeUp
+    localStorage.setItem('authUser', JSON.stringify(userInfo))
+
+    // also change the database?
+    db.soundSettings(this.state.uid, !this.state.volumeUp)
+  }
+
   render() {
     const quizHeader = this.state.selectedQuizId.slice(0, 10);
 
@@ -317,16 +373,24 @@ class Quiz extends PureComponent {
               : <div style={{ height: '100%'}}>
                   <div className="quiz-header">
                     <h3>{this.state.selectedQuiz["quiz-title"]} ({quizHeader})</h3>
-                    {this.state.currentQ <= this.state.quizLength ? 
-                      <>
-                        <MediaQuery minWidth={416}>
-                          <h5>Question {this.state.currentQ} of {this.state.quizLength}</h5> 
-                        </MediaQuery>
-                        <MediaQuery maxWidth={415}>
-                          <h5>{this.state.currentQ} of {this.state.quizLength}</h5>
-                        </MediaQuery>
-                      </>
-                      : null }
+                      <div style={{ display: 'flex', flexDirection: 'column' }}>
+                        {this.state.currentQ <= this.state.quizLength ? 
+                          <>
+                            <MediaQuery minWidth={416}>
+                              <h5 style={{ marginBottom: '8px'}}>Question {this.state.currentQ} of {this.state.quizLength}</h5> 
+                            </MediaQuery>
+                            <MediaQuery maxWidth={415}>
+                              <h5 style={{ marginBottom: '3px' }}>{this.state.currentQ} of {this.state.quizLength}</h5>
+                            </MediaQuery>
+                          </>
+                        : null }
+                        {this.state.finished 
+                          ? null 
+                          : <>
+                              {this.state.volumeUp === true ?  <VolumeOff onClick={this.toggleVolume} id="volume"/> : <VolumeUp color="primary" onClick={this.toggleVolume} id="volume"/>}
+                            </>
+                        }
+                      </div>
                   </div>
                   <MediaQuery minWidth={416}>
                     <div style={{ float: 'right' }} className={this.state.clicked ? 'dontShowClock' : 'showClock'}>

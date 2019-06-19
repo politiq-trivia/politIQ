@@ -16,7 +16,6 @@ import ProfilePage from './Profile/Profile';
 import Footer from './Footer';
 import AdminDashboard from './AdminDashboard/AdminDashboard';
 import QuizArchive from './QuizEngine/QuizArchive';
-import ArchivedQuiz from './QuizEngine/ArchivedQuiz';
 import Quiz from './QuizEngine/Quiz';
 import Leaderboard from './Leaderboard/Leaderboard';
 import About from './StaticPages/About';
@@ -27,6 +26,7 @@ import PublicProfile from './Profile/PublicProfile';
 import PrivacyPolicy from './StaticPages/PrivacyPolicy';
 import AddToHomescreen from './StaticPages/AddToHomescreen';
 import QuizRedirect from './QuizEngine/QuizRedirect';
+import ProfileToQuizRedirect from './QuizEngine/ProfileToQuizRedirect';
 import NoMatch from './StaticPages/NoMatch';
 import FAQ from './StaticPages/FAQ';
 
@@ -195,9 +195,9 @@ class App extends Component {
                   exact path={routes.QUIZ_REDIRECT}
                   component={QuizRedirect}
                 />
-                <Route 
-                  exact path={routes.ARCHIVED_QUIZ}
-                  render={(props) => <ArchivedQuiz {...props} />}
+                <Route
+                  exact path={routes.PROFILE_TO_QUIZ_REDIRECT}
+                  component={ProfileToQuizRedirect}
                 />
                 <Route
                   exact path={routes.LEADERBOARD}
