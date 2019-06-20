@@ -42,7 +42,7 @@ class Question extends Component {
         // this is in theory when the countdown should restart?
         if(this.props.myRef.current !== null) {
             window.clearTimeout()
-            this.countdown.src = null;
+            // this.countdown.src = null;
 
             window.scrollTo({
                 left: 0, 
@@ -50,7 +50,7 @@ class Question extends Component {
                 behavior: 'smooth'
             })
         } else {
-            this.countdown.src = "/static/media/countdown.f63efcde.flac";
+            // this.countdown.src = "/static/media/countdown.f63efcde.flac";
             // this.playCountdown();
             window.scrollTo({
                 top: 0,
