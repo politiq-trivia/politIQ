@@ -22,10 +22,10 @@ class Question extends Component {
         }
     }
 
-    countdown = new Audio(countdownUrl)
+    // countdown = new Audio(countdownUrl)
 
     componentDidMount = () => {
-        this.playCountdown()
+        // this.playCountdown()
     }
 
     shouldComponentUpdate(nextProps) {
@@ -51,7 +51,7 @@ class Question extends Component {
             })
         } else {
             this.countdown.src = "/static/media/countdown.f63efcde.flac";
-            this.playCountdown();
+            // this.playCountdown();
             window.scrollTo({
                 top: 0,
                 left: 0,
@@ -61,8 +61,8 @@ class Question extends Component {
     }
 
     componentWillUnmount = () => {
-        this.countdown.src = null;
-        window.clearTimeout(this.countdownInterval)
+        // this.countdown.src = null;
+        // window.clearTimeout(this.countdownInterval)
     }
 
     openNewTab = () => {
@@ -74,23 +74,23 @@ class Question extends Component {
         window.open(`/${url}`);
     }
 
-    playCountdown = () => {
-        // take the timer duration
-        const { questionObj } = this.props;
-        let timerDuration;
-        if (questionObj["timerDuration"] === null || questionObj["timerDuration"] === undefined) {
-            timerDuration = 40
-        } else {
-            timerDuration = questionObj["timerDuration"]
-        }
-        const tenLess = (timerDuration - 10) * 1000;
+    // playCountdown = () => {
+    //     // take the timer duration
+    //     const { questionObj } = this.props;
+    //     let timerDuration;
+    //     if (questionObj["timerDuration"] === null || questionObj["timerDuration"] === undefined) {
+    //         timerDuration = 40
+    //     } else {
+    //         timerDuration = questionObj["timerDuration"]
+    //     }
+    //     const tenLess = (timerDuration - 10) * 1000;
 
-        this.countdownInterval = setTimeout(() => {
-            if (this.countdown.src.includes("/static/media/countdown.f63efcde.flac") && this.props.volumeUp === true) {
-                this.countdown.play()
-            }
-        }, tenLess)
-    }
+    //     this.countdownInterval = setTimeout(() => {
+    //         if (this.countdown.src.includes("/static/media/countdown.f63efcde.flac") && this.props.volumeUp === true) {
+    //             this.countdown.play()
+    //         }
+    //     }, tenLess)
+    // }
 
     scrollToMyRef = () => window.scrollTo(0, this.props.myRef.offsetTop)
 

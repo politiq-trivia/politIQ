@@ -387,7 +387,7 @@ class Quiz extends Component {
                         {this.state.finished 
                           ? null 
                           : <>
-                              {this.state.volumeUp === true ?  <VolumeOff onClick={this.toggleVolume} id="volume"/> : <VolumeUp color="primary" onClick={this.toggleVolume} id="volume"/>}
+                              {this.state.volumeUp === true ?  <VolumeUp onClick={this.toggleVolume} id="volume"/> : <VolumeOff color="primary" onClick={this.toggleVolume} id="volume"/>}
                             </>
                         }
                       </div>
