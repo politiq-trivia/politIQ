@@ -162,7 +162,6 @@ class QuizArchive extends Component {
   }
 
   render() {
-    console.log(this.state, 'state in quiz archive')
     const {dateArray, titleArray, rowsPerPage, page } = this.state;
     const emptyRows = rowsPerPage - Math.min(rowsPerPage, dateArray.length - page * rowsPerPage)
 
