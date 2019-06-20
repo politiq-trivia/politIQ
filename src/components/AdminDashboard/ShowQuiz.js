@@ -24,7 +24,6 @@ class ShowQuiz extends Component {
   }
   componentDidMount = () => {
     const quiz = this.props.quiz;
-    console.log(quiz, 'this is quiz. should not be null')
     const quizQs = Object.keys(quiz);
     quizQs.pop()
     const quizLength = quizQs.length;
@@ -33,6 +32,15 @@ class ShowQuiz extends Component {
       quizQs,
       quiz
     })
+  }
+
+  // since this component is rendered by the Admin Dashboard, we need to
+  // check if the quiz updated and then update the UI accordingly
+  // to prevent errors
+  shouldComponentUpdate (nextProps, nextState) {
+    if (nextProps.quiz !== this.state.quiz) {
+      return true;
+    } else return false;
   }
 
   handleDeleteQuestion = (event) => {

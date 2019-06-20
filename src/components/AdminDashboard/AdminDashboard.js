@@ -157,7 +157,6 @@ class AdminDashboard extends Component {
 
   // this one gets an individual quiz so that the admin can view it.
   getQuiz = (date) => {
-    console.log(date, 'date in getQuiz, getQuiz called')
     db.getQuiz(date)
       .then(response => {
         const quiz = response.val()
