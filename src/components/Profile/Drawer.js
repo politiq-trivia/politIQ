@@ -91,13 +91,13 @@ class ResponsiveDrawer extends Component {
                             <ListItemIcon><TrendingUp /></ListItemIcon>
                             <ListItemText primary={"Stats"} />
                         </ListItem>
-                        <ListItem button onClick={() => {
+                        {/* <ListItem button onClick={() => {
                             this.props.toggleShowNotifications()
                             this.handleDrawerClose()
                         }}>
                             <ListItemIcon><Notifications /></ListItemIcon>
                             <ListItemText primary={"Notification Settings"} />
-                        </ListItem>
+                        </ListItem> */}
                         <ListItem button onClick={() => {
                             this.props.toggleGameSettings()
                             this.handleDrawerClose()
