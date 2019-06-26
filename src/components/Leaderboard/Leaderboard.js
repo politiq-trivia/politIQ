@@ -41,10 +41,6 @@ class Leaderboard extends Component {
     this.setState({ ranking })
   }
   render() {
-    // background: -webkit-linear-gradient(top, #8f6B29, #FDE08D, #DF9F28);
-    // background: linear-gradient(top, #8f6B29, #FDE08D, #DF9F28);
-    // -webkit-background-clip: text;
-    // -webkit-text-fill-color: transparent;
     return (
       <>
         <AppBar position="static" className="leaderboard-appbar" style={{ marginTop: '8vh', background: 'linear-gradient(to top, rgba(239,188,77,1) 0%, rgba(239,188,77,1) 24%, rgba(244,207,126,1) 50%, rgba(255,244,219,1) 100%)', color: 'black', position: 'fixed', top: '0', zIndex: '100'}}>

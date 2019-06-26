@@ -1,5 +1,17 @@
 {
   "projects": {
     "default": "politiq-fc0e3"
+  },
+  "targets": {
+    "politiq-fc0e3": {
+      "hosting": {
+        "staging": [
+          "politiq-staging"
+        ],
+        "production": [
+          "politiq-fc0e3"
+        ]
+      }
+    }
   }
 }

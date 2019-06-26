@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { withRouter } from 'react-router-dom';
+import { Link, withRouter } from 'react-router-dom';
 import MediaQuery from 'react-responsive';
 
 import moment from 'moment';
@@ -25,13 +25,21 @@ class MonthlyLeaderboard extends Component {
     this.state = {
       isLoaded: false,
       rankedScores: {},
-      mostRecentQuizId: ''
+      mostRecentQuizId: '',
+      invisibleScore: false,
     }
   }
 
   componentDidMount = () => {
     this.monthlyLeaders();
     this.getMostRecentQuizId()
+
+    const userInfo = JSON.parse(localStorage.getItem('authUser'));
+    if (userInfo.invisibleScore && userInfo.invisibleScore === true) {
+      this.setState({
+        invisibleScore: true
+      })
+    }
   }
 
   getMostRecentQuizId = async () => {
@@ -43,9 +51,11 @@ class MonthlyLeaderboard extends Component {
 
   monthlyLeaders = async () => {
     const userScores = []
+    // get the scores
     await db.getScores()
       .then(response => {
         const data = response.val()
+        // handle an empty response
         if (data === null) {
           this.setState({
             isLoaded: true,
@@ -53,56 +63,69 @@ class MonthlyLeaderboard extends Component {
           return;
         }
         const usernames = Object.keys(data)
+        // check if that user wants their score included in the leaderboard
+        // instead of getting just the display names, get the whole user object? 
         usernames.forEach((user, i) => {
+          // get the display names
           db.getDisplayNames(usernames[i])
             .then(response => {
-              // get all the scores within the last week from this data array
-              const quizDates = Object.keys(data[usernames[i]])
-              let submitted;
-              if(quizDates[quizDates.length - 1] === 'submitted') {
-                submitted = data[usernames[i]]["submitted"]
-                quizDates.pop()
-              }
-              let lastMonth = []
-              let scoreCounter = 0;
-              for (let j = 0; j < quizDates.length; j++) {
-                if (quizDates[j] > moment().startOf('month').format('YYYY-MM-DD')) {
-                  lastMonth.push(quizDates[j])
-                  if (data[usernames[i]][quizDates[j]]) {
-                    scoreCounter += data[usernames[i]][quizDates[j]]
+              // handle empty response
+              if (response.val() === null || response.val() === undefined) { return ;}
+              const userData = response.val();
+
+              // if the user has the invisible score property AND the invisible score property is true
+              // hide their score
+              if (Object.keys(userData).includes("invisibleScore") && userData['invisibleScore'] === true) {
+                return;
+              } else {
+                // get all the scores within the last week from this data array
+                const quizDates = Object.keys(data[usernames[i]])
+                let submitted;
+                if(quizDates[quizDates.length - 1] === 'submitted') {
+                  submitted = data[usernames[i]]["submitted"]
+                  quizDates.pop()
+                }
+                let lastMonth = []
+                let scoreCounter = 0;
+                for (let j = 0; j < quizDates.length; j++) {
+                  if (quizDates[j] > moment().startOf('month').format('YYYY-MM-DD')) {
+                    lastMonth.push(quizDates[j])
+                    if (data[usernames[i]][quizDates[j]]) {
+                      scoreCounter += data[usernames[i]][quizDates[j]]
+                    }
                   }
                 }
-              }
-              let submittedScoreCounter = 0
-              if (submitted !== undefined) {
-                const dates = Object.keys(submitted)
-                for (let j = 0; j < dates.length; j++) {
-                  if (dates[j] > moment().startOf('month').format('YYYY-MM-DDTHH:mm')) {
-                    submittedScoreCounter += 1
+                let submittedScoreCounter = 0
+                if (submitted !== undefined) {
+                  const dates = Object.keys(submitted)
+                  for (let j = 0; j < dates.length; j++) {
+                    if (dates[j] > moment().startOf('month').format('YYYY-MM-DDTHH:mm')) {
+                      submittedScoreCounter += 1
+                    }
                   }
                 }
-              }
-              
-              if (scoreCounter > 0) {
-               this.getPolitIQ(usernames[i], 'month')
-                .then(politIQ => {
-                  userScores.push({
-                    username: response.val().displayName,
-                    score: scoreCounter,
-                    uid: usernames[i],
-                    politIQ: politIQ + submittedScoreCounter
-                  })
+                
+                if (scoreCounter > 0) {
+                this.getPolitIQ(usernames[i], 'month')
+                  .then(politIQ => {
+                    userScores.push({
+                      username: response.val().displayName,
+                      score: scoreCounter,
+                      uid: usernames[i],
+                      politIQ: politIQ + submittedScoreCounter
+                    })
 
-                  const rankedScores = userScores.sort(function(a,b){
-                    return a.score - b.score
-                  })
+                    const rankedScores = userScores.sort(function(a,b){
+                      return a.score - b.score
+                    })
 
-                  const rankReverse = rankedScores.reverse()
-                  this.setState({
-                    rankedScores: rankReverse,
-                    isLoaded: true,
+                    const rankReverse = rankedScores.reverse()
+                    this.setState({
+                      rankedScores: rankReverse,
+                      isLoaded: true,
+                    })
                   })
-                })
+                }
               }
             })
         })
@@ -211,17 +234,31 @@ class MonthlyLeaderboard extends Component {
       }
     }
 
-    const rank = this.getUserRank()
+    let rank;
+    if (this.state.invisibleScore === true) {
+      rank = "not set"
+    } else {
+      rank = this.getUserRank()
+    }
 
     return (
       <div>
         {isLoading()}
-        {rank === 0 || rank === undefined || !localStorage.hasOwnProperty('authUser') 
-          ? <div style={{ paddingTop: '2vh', paddingBottom: '4vh' }}>  
-              <h3 style={{ marginBottom: '2vh' }}>You don't have any scores for this month yet!</h3>
-              <Button variant="contained" color="primary" onClick={this.redirect}>Play Now</Button> 
-            </div>
-          : <UserRank ranking={rank} /> 
+        {rank === "not set" 
+          ? <>
+              <h3 style={{ marginBottom: '2vh' }}>Want to see your score in this ranking? <br />Head over to your settings page and make your scores publicly visible!</h3>
+              <Link to='/profile' style={{ textDecoration: 'none'}}>
+                <Button variant="contained" color="primary" style={{ marginBottom: '3vh' }}>Settings</Button>
+              </Link>
+            </>
+          
+          : <>{rank === 0 || rank === undefined || !localStorage.hasOwnProperty('authUser')
+              ? <div style={{ paddingTop: '2vh', paddingBottom: '4vh' }}>  
+                <h3 style={{ marginBottom: '2vh' }}>You don't have any scores for this month yet!</h3>
+                <Button variant="contained" color="primary" onClick={this.redirect}>Play Now</Button> 
+              </div>
+              : <UserRank ranking={rank} /> }
+            </>
         }
       </div>
     )

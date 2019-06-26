@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import moment from 'moment';
-import { withRouter } from 'react-router-dom';
+import { Link, withRouter } from 'react-router-dom';
 import MediaQuery from 'react-responsive';
 
 import { db } from '../../firebase';
@@ -26,12 +26,21 @@ class WeeklyLeaderboard extends Component {
       isLoaded: false,
       rankedScores: {},
       mostRecentQuizId: '',
+      invisibleScore: false,
     }
   }
 
   componentDidMount = () => {
     this.weeklyLeaders();
     this.getMostRecentQuizId()
+
+    // get the user's score preferences
+    const userInfo = JSON.parse(localStorage.getItem('authUser'));
+    if (userInfo.invisibleScore && userInfo.invisibleScore === true) {
+      this.setState({
+        invisibleScore: true,
+      })
+    }
   }
 
   getMostRecentQuizId = async () => {
@@ -56,60 +65,69 @@ class WeeklyLeaderboard extends Component {
         usernames.forEach((user, i) => {
           db.getDisplayNames(usernames[i])
             .then(response => {
-              // get all the scores within the last week from this data array
-              const quizDates = Object.keys(data[usernames[i]])
-              let submitted;
-              if(quizDates[quizDates.length - 1] === 'submitted') {
-                submitted = data["submitted"]
-                quizDates.pop()
-              }
-              const lastWeek = []
-              let scoreCounter = 0;
-              for (let j = 0; j < quizDates.length; j++) {
-                if (quizDates[j] > moment().startOf('week').format('YYYY-MM-DD')) {
-                  lastWeek.push(quizDates[j])
-                  if (data[usernames[i]][quizDates[j]]) {
-                    scoreCounter += data[usernames[i]][quizDates[j]]
+              // handle the empty response
+              if (response.val() === null || response.val() === undefined) { return; }
+              const userData = response.val();
+              // check for the invisible score property and hide that user if it's true
+              if (Object.keys(userData).includes("invisibleScore") && userData['invisibleScore'] === true) {
+                return;
+              } else {
+                // get all the scores within the last week from this data array
+                const quizDates = Object.keys(data[usernames[i]])
+                let submitted;
+                if(quizDates[quizDates.length - 1] === 'submitted') {
+                  submitted = data["submitted"]
+                  quizDates.pop()
+                }
+                const lastWeek = []
+                let scoreCounter = 0;
+                for (let j = 0; j < quizDates.length; j++) {
+                  if (quizDates[j] > moment().startOf('week').format('YYYY-MM-DD')) {
+                    lastWeek.push(quizDates[j])
+                    if (data[usernames[i]][quizDates[j]]) {
+                      scoreCounter += data[usernames[i]][quizDates[j]]
+                    }
                   }
+                }
+
+                let submittedScoreCounter = 0;
+                if (submitted !== undefined) {
+                  const dates = Object.keys(submitted)
+                  for (let j = 0; j < dates.length; j++) {
+                    if (dates[j].slice(10) > moment().startOf('week').format('YYYY-MM-DD')) {
+                      submittedScoreCounter += 1
+                    }
+                  }
+                }
+                const newDisplayName = () => {
+                  if (response.val() === null) {
+                    return ''
+                  } else {
+                    return response.val().displayName
+                  }
+                }
+                if (scoreCounter > 0) {
+                  this.getPolitIQ(usernames[i], 'week')
+                    .then(politIQ => {
+                      userScores.push({
+                        username: newDisplayName(),
+                        score: scoreCounter,
+                        uid: usernames[i],
+                        politIQ: politIQ + submittedScoreCounter,
+                      })
+
+                      const rankedScores = userScores.sort(function(a,b){
+                        return a.score - b.score
+                      })
+                      const rankReverse = rankedScores.reverse()
+                      this.setState({
+                        rankedScores: rankReverse,
+                        isLoaded: true,
+                      })
+                    })
                 }
               }
 
-              let submittedScoreCounter = 0;
-              if (submitted !== undefined) {
-                const dates = Object.keys(submitted)
-                for (let j = 0; j < dates.length; j++) {
-                  if (dates[j].slice(10) > moment().startOf('week').format('YYYY-MM-DD')) {
-                    submittedScoreCounter += 1
-                  }
-                }
-              }
-              const newDisplayName = () => {
-                if (response.val() === null) {
-                  return ''
-                } else {
-                  return response.val().displayName
-                }
-              }
-              if (scoreCounter > 0) {
-                this.getPolitIQ(usernames[i], 'week')
-                  .then(politIQ => {
-                    userScores.push({
-                      username: newDisplayName(),
-                      score: scoreCounter,
-                      uid: usernames[i],
-                      politIQ: politIQ + submittedScoreCounter,
-                    })
-
-                    const rankedScores = userScores.sort(function(a,b){
-                      return a.score - b.score
-                    })
-                    const rankReverse = rankedScores.reverse()
-                    this.setState({
-                      rankedScores: rankReverse,
-                      isLoaded: true,
-                    })
-                  })
-              }
             })
         })
       })
@@ -154,7 +172,7 @@ class WeeklyLeaderboard extends Component {
       rankingArray = [...result]
     }
     const renderWeeklyLeaders = rankingArray.map((stat, i) => {
-      if (i >= 10) {return null;}
+      // if (i >= 10) {return null;}
       const colorArray = ["#f44336", "#e91e63", "#9c27b0", "#3f51b5", "#2196f3", "#4caf50", "#8bc34a", "#cddc39", "#ffeb3b", "#ffc107", "#ff9800"]
       const random = Math.floor(Math.random() * colorArray.length)
       return (
@@ -216,17 +234,31 @@ class WeeklyLeaderboard extends Component {
       }
     }
 
-    const rank = this.getUserRank()
+    let rank;
+    if (this.state.invisibleScore === true) {
+      rank = "not set"
+    } else {
+      rank = this.getUserRank()
+    }
 
     return (
       <div>
         {isLoading()}
-        {rank === 0 || rank === undefined || !localStorage.hasOwnProperty('authUser') 
-          ? <div style={{ paddingTop: '2vh', paddingBottom: '4vh' }}>  
-              <h3 style={{ marginBottom: '2vh' }}>You don't have any scores for this week yet!</h3>
-              <Button variant="contained" color="primary" onClick={this.redirect}>Play Now</Button> 
-            </div>
-          : <UserRank ranking={rank} /> 
+        {rank === "not set" 
+          ? <>
+              <h3 style={{ marginBottom: '2vh' }}>Want to see your score in this ranking? <br />Head over to your settings page and make your scores publicly visible!</h3>
+              <Link to='/profile' style={{ textDecoration: 'none'}}>
+                <Button variant="contained" color="primary" style={{ marginBottom: '3vh' }}>Settings</Button>
+              </Link>
+            </>
+          
+          : <>{rank === 0 || rank === undefined || !localStorage.hasOwnProperty('authUser')
+              ? <div style={{ paddingTop: '2vh', paddingBottom: '4vh' }}>  
+                <h3 style={{ marginBottom: '2vh' }}>You don't have any scores for this month yet!</h3>
+                <Button variant="contained" color="primary" onClick={this.redirect}>Play Now</Button> 
+              </div>
+              : <UserRank ranking={rank} /> }
+            </>
         }
       </div>
     )

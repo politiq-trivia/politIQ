@@ -81,9 +81,14 @@ export const addMailchimpId = (uid, mailchimpId, freq) => {
   db.ref('users').child(uid).child('mailchimpId').child(freq).set(mailchimpId)
 }
 
-// add or update users sound preferences
+// update game sound settings
 export const soundSettings = (uid, soundPref) => {
   db.ref('users').child(uid).child('soundsOn').set(soundPref)
+}
+
+// update score visibility settings
+export const scoreVisibility = (uid, invisibleScore) => {
+  db.ref('users').child(uid).child('invisibleScore').set(invisibleScore)
 }
 
 // -------------------------------------------------------------------------

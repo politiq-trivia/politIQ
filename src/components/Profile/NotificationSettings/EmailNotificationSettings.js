@@ -70,7 +70,7 @@ class NotificationSettings extends Component {
         if (this.state.weeklyChanged) {
           this.unsubscribe("weekly", this.state.mailchimpId)
         }
-        this.props.toggleShowNotifications()
+        // this.props.toggleShowNotifications()
       }
     
       unsubscribe = (freq, mailchimpId) => {

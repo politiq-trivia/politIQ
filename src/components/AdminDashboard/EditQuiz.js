@@ -10,10 +10,12 @@ import FormControl from '@material-ui/core/FormControl';
 import TextField from '@material-ui/core/TextField';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
+import InputLabel from '@material-ui/core/InputLabel';
 
 import DeleteModal from './DeleteModal';
 
 import './quizEngine.css';
+import { Select } from '@material-ui/core';
 
 class EditQuiz extends Component {
   constructor(props) {
@@ -27,19 +29,31 @@ class EditQuiz extends Component {
 
   componentDidMount = () => {
     const quiz = this.props.quiz;
-    const quizQs = Object.keys(quiz);
-    quizQs.pop();
-    const quizLength = quizQs.length;
-    this.setState({
-      quizLength,
-      quizQs,
-      quiz,
-    })
+    if (quiz === {} || quiz === undefined || quiz === null) {
+      return;
+    } else {
+      const quizQs = Object.keys(quiz);
+      quizQs.pop();
+      const quizLength = quizQs.length;
+      this.setState({
+        quizLength,
+        quizQs,
+        quiz,
+      })
+    }
+  }
+
+  // since this component is rendered by the Admin Dashboard, we need to
+  // check if the quiz updated and then update the UI accordingly
+  // to prevent errors
+  shouldComponentUpdate (nextProps, nextState) {
+    if (nextProps.quiz !== this.state.quiz || nextState !== this.state) {
+      return true
+    } else return false;
   }
 
   handleChange = (event) => {
     const quiz = this.state.quiz;
-    console.log(event.target.id, 'id')
     if (event.target.id === 'quiz-title') {
       quiz['quiz-title'] = event.target.value
       this.setState({
@@ -52,6 +66,19 @@ class EditQuiz extends Component {
         quiz: quiz,
       })
     }
+  }
+
+  handleDurationChange = (event) => {
+    const quiz = this.state.quiz
+    // this is the question number.
+    // don't need any other logic here because this is only for duration
+    const id = event.target.id
+
+    quiz[id]['timerDuration'] = event.target.value
+    
+    this.setState({
+      quiz
+    })
   }
 
   handleCheck = (event) => {
@@ -70,7 +97,7 @@ class EditQuiz extends Component {
 
   render() {
     let quizArray = []
-    if (this.state.quiz) {
+    if (this.state.quiz && this.state.quiz !== {}) {
       const quiz = this.state.quiz
       const result = Object.keys(quiz).map(function(key) {
         return [key, quiz[key]]
@@ -80,6 +107,12 @@ class EditQuiz extends Component {
     }
 
     const renderQs = quizArray.map((q, i) => {
+      let timerDuration;
+      if (q[1]["timerDuration"]) {
+        timerDuration = q[1]["timerDuration"]
+      } else {
+        timerDuration = 40;
+      }
       return (
         <FormControl key={i} id={q[0]} style={{ display: 'block'}}>
             <h3 style={{ marginBottom: '1vh'}}> {q[0]}. Question:   </h3>
@@ -160,28 +193,6 @@ class EditQuiz extends Component {
               labelPlacement="start"
               style={{ marginLeft: '0'}}
             />
-            <TextField
-              margin="normal"
-              fullWidth
-              value={q[1]["a4text"]}
-              onChange={this.handleChange}
-              type="text"
-              placeholder={q[1]["a4text"]}
-              id={q[0] + " a4text"}
-            />
-            <FormControlLabel
-              control={
-                <Checkbox
-                  checked={q[1]["a4correct"]}
-                  onChange={this.handleCheck}
-                  color="primary"
-                  id={q[0] + " a4correct"}
-                />
-              }
-              label="Correct Answer"
-              labelPlacement="start"
-              style={{ marginLeft: '0'}}
-            />
             <TextField 
               margin="normal"
               fullWidth
@@ -191,6 +202,27 @@ class EditQuiz extends Component {
               placeholder={q[1]["answerExplanation"]}
               id={q[0] + " answerExplanation"}
             />
+            <FormControl fullWidth margin="normal">
+              <InputLabel htmlFor="timer-duration">Timer Duration(seconds)</InputLabel>
+              <Select
+                native
+                authWidth={true}
+                inputProps={{
+                  name: 'timerDuration',
+                  id: q[0],
+                }}
+                value={timerDuration}
+                onChange={(event) => this.handleDurationChange(event)}
+              >
+                <option value="30">30</option>
+                <option value="40">40</option>
+                <option value="50">50</option>
+                <option value="60">60</option>
+                <option value="70">70</option>
+                <option value="80">80</option>
+                <option value="90">90</option>
+              </Select>
+            </FormControl>
         </FormControl>
       )
     })
