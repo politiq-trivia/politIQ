@@ -20,6 +20,8 @@ import TablePaginationActions from './TablePaginationActions';
 import Select from '@material-ui/core/Select';
 import Button from '@material-ui/core/Button';
 import OutlinedInput from '@material-ui/core/OutlinedInput';
+import Close from '@material-ui/icons/Close';
+import Modal from '@material-ui/core/Modal';
 import './quiz.css';
 import bg from '../StaticPages/politiq-bg2.jpg';
 
@@ -35,6 +37,7 @@ class QuizArchive extends Component {
       page: 0,
       loading: true,
       selectedMonth: "",
+      modalOpen: false,
     }
   }
 
@@ -132,6 +135,11 @@ class QuizArchive extends Component {
     this.props.history.push('/quiz/' + id)
   }
 
+  handleArchiveClick = (event) => {
+    const id = event.target.parentNode.id;
+    this.props.history.push('/archived/' + id);
+  }
+
   handleChangePage = (event, page) => {
     this.setState({ page })
   }
@@ -150,15 +158,29 @@ class QuizArchive extends Component {
 
   handleQuizClick = (event, score) => {
     const thisMonth = moment().startOf('month').format('YYYY-MM-DDTHH:mm')
-    // if the selected month is equal to the corrent month and there is no score, handle click
-    // if it's the current month and they do have a score (the else), do nothing
+
+    // if it's the current month and the score is zero, play quiz
     if (this.state.selectedMonth === thisMonth && score === "--") {
       this.handleClick(event)
+      // if it's the preivous month and the score is zero, play quiz
     } else if (this.state.selectedMonth !== thisMonth && score === "--") {
       this.handleClick(event)
+      // if it's the previous month and the score is not zero, view quiz
+    } else if (this.state.selectedMonth !== thisMonth && score !== "--") {
+      this.handleArchiveClick(event);
+      // if it's the current month and the score is not zero, do nothing
     } else {
-      return null;
+      this.setState({
+        modalOpen: true,
+      })
+      // return null;
     }
+  }
+
+  toggleModal = () => {
+    this.setState({
+      modalOpen: !this.state.modalOpen
+    })
   }
 
   render() {
@@ -295,6 +317,19 @@ class QuizArchive extends Component {
           }
         </div>
         {isLoading()}
+        <Modal
+          aria-labelledby="Nice Try!"
+          aria-describedby="You can't view ths quiz right now"
+          open={this.state.modalOpen}
+          onClose={this.toggleModal}
+          className="archive-modal"
+        >
+          <Paper>
+            <Close style={{ float: 'right', padding: '1vh', display: 'block'}} onClick={this.toggleModal}/>
+            <h3>Nice try!</h3>
+            <p>You've already taken this quiz! We can't let you view it again while this month's contest is ongoing. You'll be able to review the quiz (and the correct answers!) next month!</p>
+          </Paper>
+        </Modal>
       </Paper>
     )
   }

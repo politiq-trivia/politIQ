@@ -119,6 +119,38 @@
   }
 }
 
+.archive-modal {
+  top: 25% !important;
+  left: 20% !important;
+  width: 40%;
+  background-color: 'white';
+  outline: none;
+  padding: 10vh;
+  text-align: center;
+}
+
+.archive-modal h3 {
+  padding-top: 6vh;
+  display: block;
+  /* padding-bottom: 2vh; */
+}
+
+.archive-modal p {
+  padding: 3vh;
+  padding-top: 1vh;
+}
+
+@media screen and (max-width: 415px) {
+  .archive-modal {
+    width: 80%;
+    left: -8% !important;
+    top: 20% !important;
+  }
+  .archive-modal p {
+    line-height: 1.4;
+  }
+}
+
 
 /* ---------------INDIVIDUAL ARCHIVED QUIZ SHOW STYLES ----- */
 
@@ -310,6 +342,10 @@
 
 .taken {
   background-color: lightgray;
+}
+
+.taken:hover {
+  cursor: pointer;
 }
 
 .showClock {
