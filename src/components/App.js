@@ -197,6 +197,10 @@ class App extends Component {
                   component={QuizRedirect}
                 />
                 <Route
+                  exact path={routes.RSS_REDIRECT}
+                  component={QuizRedirect}
+                />
+                <Route
                   exact path={routes.PROFILE_TO_QUIZ_REDIRECT}
                   component={ProfileToQuizRedirect}
                 />

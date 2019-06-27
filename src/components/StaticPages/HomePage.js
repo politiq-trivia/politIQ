@@ -56,10 +56,10 @@ class HomePage extends Component {
   componentDidMount() {
     const userInfo = JSON.parse(localStorage.getItem('authUser'))
     const uid = userInfo.uid
-    console.log(uid)
+    // console.log(uid)
     // this.subscribeToPushNotifications()
     this.addToHomeScreen()
-    this.requestPushPermissions(uid)
+    // this.requestPushPermissions(uid)
 
     // axios.post(process.env.SERVER_URL + '/subscribe', {pushSubscription: "this is the subscription"})
     // .then(res => {

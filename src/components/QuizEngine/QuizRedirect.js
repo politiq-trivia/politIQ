@@ -2,9 +2,20 @@ import React from 'react';
 import { Redirect } from 'react-router-dom';
 
 const QuizRedirect = () => {
-    const quizId = window.location.href.slice(26, window.location.href.length)
+    let quizId;
+    if (window.location.href.includes('rssQuiz')) {
+        quizId = '/quiz/' + window.location.href.slice(30, window.location.href.length)
+    } else {
+        quizId = window.location.href.slice(26, window.location.href.length)
+    }
+    // repurpose this to also work with the rss redirect
+    // const quizId = 
+    console.log(quizId, 'this is quizId in the redirect component')
     return (
-        <Redirect to={quizId} />
+        // <div>hi</div>
+        <Redirect to={{
+            pathname: quizId
+        }} />
     )
 }
 
