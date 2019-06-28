@@ -37,6 +37,12 @@
     width: 73vw !important;
   }
 }
+
+.noScores {
+  padding: 5vh;
+  border-bottom: 1px solid gray;
+}
+
 .scoreboard {
   display: flex;
   text-align: center;

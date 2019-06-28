@@ -27,6 +27,7 @@ class MonthlyLeaderboard extends Component {
       rankedScores: {},
       mostRecentQuizId: '',
       invisibleScore: false,
+      timeout: false,
     }
   }
 
@@ -40,6 +41,21 @@ class MonthlyLeaderboard extends Component {
         invisibleScore: true
       })
     }
+
+    // set a timeout - if there are no quizzes by the end of the timeout,
+    // render a no quizzes available component
+    this.timeout = setTimeout(() => {
+      if (Object.keys(this.state.rankedScores).length === 0) {
+        this.setState({
+          timeout: true,
+        })
+      }
+    }, 15000)
+  }
+  
+  componentWillUnmount = () => {
+    // clear the timeout on component unmount
+    window.clearTimeout(this.timeout)
   }
 
   getMostRecentQuizId = async () => {
@@ -57,6 +73,7 @@ class MonthlyLeaderboard extends Component {
         const data = response.val()
         // handle an empty response
         if (data === null) {
+          window.clearTimeout(this.timeout)
           this.setState({
             isLoaded: true,
           })
@@ -124,6 +141,7 @@ class MonthlyLeaderboard extends Component {
                       rankedScores: rankReverse,
                       isLoaded: true,
                     })
+                    window.clearTimeout(this.timeout)
                   })
                 }
               }
@@ -162,6 +180,7 @@ class MonthlyLeaderboard extends Component {
   }
 
   render() {
+    // console.log(this.state, 'stae')
     let rankingArray = [];
     if (Array.isArray(this.state.rankedScores)) {
       const ranking = this.state.rankedScores;
@@ -199,7 +218,13 @@ class MonthlyLeaderboard extends Component {
     })
 
     const isLoading = () => {
-      if (!this.state.isLoaded) {
+      if (!this.state.loaded && this.state.timeout) {
+        return (
+          <div className="noScores">
+            <h3>We're having trouble loading the leaderboard at this time. <br />Please check back later!</h3>
+          </div>
+        )
+      } else if (!this.state.isLoaded) {
         return (
           <img src={loadingGif} alt="loadingGif" className="leaderboard-mobile-loading"/>
         )

@@ -27,6 +27,7 @@ class WeeklyLeaderboard extends Component {
       rankedScores: {},
       mostRecentQuizId: '',
       invisibleScore: false,
+      timeout: false,
     }
   }
 
@@ -41,6 +42,18 @@ class WeeklyLeaderboard extends Component {
         invisibleScore: true,
       })
     }
+
+    this.timeout = setTimeout(() => {
+      if (Object.keys(this.state.rankedScores).length === 0) {
+        this.setState({
+          timeout: true,
+        })
+      }
+    }, 15000)
+  }
+
+  compomentWillUnmount = () => {
+    window.clearTimeout(this.timeout)
   }
 
   getMostRecentQuizId = async () => {
@@ -56,6 +69,7 @@ class WeeklyLeaderboard extends Component {
       .then(response => {
         const data = response.val()
         if (data === null) {
+          window.clearTimeout(this.timeout)
           this.setState({
             isLoaded: true,
           })
@@ -124,6 +138,7 @@ class WeeklyLeaderboard extends Component {
                         rankedScores: rankReverse,
                         isLoaded: true,
                       })
+                      window.clearTimeout(this.timeout)
                     })
                 }
               }
@@ -199,7 +214,13 @@ class WeeklyLeaderboard extends Component {
     })
 
     const isLoading = () => {
-      if (!this.state.isLoaded) {
+      if (!this.state.loaded && this.state.timeout) {
+        return (
+          <div className="noScores">
+            <h3>We're having trouble loading the leaderboard at this time. <br/>Please check back later!</h3>
+          </div>
+        )
+      } else if (!this.state.isLoaded) {
         return (
           <img src={loadingGif} alt="loadingGif" className="leaderboard-mobile-loading"/>
         )
