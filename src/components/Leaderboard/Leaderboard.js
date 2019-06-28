@@ -46,8 +46,8 @@ class Leaderboard extends Component {
         <AppBar position="static" className="leaderboard-appbar" style={{ marginTop: '8vh', background: 'linear-gradient(to top, rgba(239,188,77,1) 0%, rgba(239,188,77,1) 24%, rgba(244,207,126,1) 50%, rgba(255,244,219,1) 100%)', color: 'black', position: 'fixed', top: '0', zIndex: '100'}}>
           <Toolbar className="leaderboard-banner-text">
             {this.state.value === 0 
-              ? "Weekly leader receives $10!"
-              : "Monthly leader of each party eligible to compete for $50!"
+              ? "Monthly leader of each party eligible to compete for $50!"
+              : "Weekly leader receives $10!"
             }
           </Toolbar>
         </AppBar>
@@ -82,15 +82,16 @@ class Leaderboard extends Component {
               textColor="primary"
               variant="fullWidth"
             >
-              <Tab label="Weekly Leaderboard"/>
               <Tab label="Monthly Leaderboard" />
+              <Tab label="Weekly Leaderboard"/>
             </Tabs>
           </AppBar>
           <Paper>
-              <Tab onClick={this.handleChange} style={{ display: 'none'}} label="Weekly Leaderboard"></Tab>  
               <Tab onClick={this.handleChange} style={{ display: 'none'}} label="Monthly Leaderboard"></Tab>
-            {this.state.value === 0 ? <WeeklyLeaderboard /> : null }
-            {this.state.value === 1 ? <MonthlyLeaderboard /> : null }
+              <Tab onClick={this.handleChange} style={{ display: 'none'}} label="Weekly Leaderboard"></Tab>  
+            {this.state.value === 0 ? <MonthlyLeaderboard /> : null }
+            {this.state.value === 1 ? <WeeklyLeaderboard /> : null }
+
           </Paper>
 
           <div style={{ marginTop: '3vh', marginBottom: '5vh', marginLeft: '-2vw'}}>

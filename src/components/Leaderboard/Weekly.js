@@ -172,7 +172,7 @@ class WeeklyLeaderboard extends Component {
       rankingArray = [...result]
     }
     const renderWeeklyLeaders = rankingArray.map((stat, i) => {
-      // if (i >= 10) {return null;}
+      if (i >= 10) {return null;}
       const colorArray = ["#f44336", "#e91e63", "#9c27b0", "#3f51b5", "#2196f3", "#4caf50", "#8bc34a", "#cddc39", "#ffeb3b", "#ffc107", "#ff9800"]
       const random = Math.floor(Math.random() * colorArray.length)
       return (
