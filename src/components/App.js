@@ -3,8 +3,12 @@ import React, { Component } from 'react';
 import {
   Route, Switch
 } from 'react-router-dom';
+import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
+import moment from 'moment';
+
 import './App.css';
 import { db, withFirebase } from '../firebase';
+import { getLastMonthScores, getThisMonthScores, getUserScores } from '../utils/storeScoreData';
 
 import Navigation from './Navigation/Navigation';
 import LandingPage from './StaticPages/Landing';
@@ -35,7 +39,6 @@ import * as routes from '../constants/routes';
 import { firebase } from '../firebase';
 import withAuthentication from './Auth/withAuthentication';
 
-import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 
 const theme = createMuiTheme({
   palette: {
@@ -73,11 +76,14 @@ class App extends Component {
   }
 
   componentDidMount() {
+    // sets the auth user in app state
     this.listener = firebase.auth.onAuthStateChanged(authUser => {
       authUser
-        ? this.setState({ authUser })
+        ? this.initializeApp(authUser)
         : this.setState({ authUser: null });
     })
+    // checks local storage for auth user - maybe there was a user from a 
+    // previous session
     if (localStorage.authUser) {
       const authUser = JSON.parse(localStorage.authUser)
       this.setState({
@@ -89,6 +95,27 @@ class App extends Component {
 
   componentWillUnmount() {
     this.listener();
+  }
+
+  initializeApp = (authUser) => {
+    // get all the user's scores (all time)
+    getUserScores(authUser.uid)
+  
+    // check if lastMonthScores are present 
+    if (!localStorage.hasOwnProperty('lastMonthScores')) {
+      getLastMonthScores()
+    } else {
+      // check if lastMonthScores have been updated since the start of a new month. 
+      // if not, update them.
+      const lastMonthScores = JSON.parse(localStorage.getItem('lastMonthScores'))
+      if (lastMonthScores.lastUpdated < moment().startOf('month')) {
+        getLastMonthScores()
+      }
+    }
+    // get all score data from the past two months
+    // if brower is safari on IOS store it in the indexed db
+    // else store it in the cache for improved offline performance
+    this.setState({ authUser})
   }
 
   getSignedInUser = (uid) => {
