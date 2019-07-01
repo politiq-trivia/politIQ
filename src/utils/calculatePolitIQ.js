@@ -32,26 +32,19 @@ const getQuizzes = async () => {
 }
 
 const getScores = async (uid) => {
-    const scoreCounter = await db.getScoresByUid(uid)
-        .then(response => {
-            let score = 0;
-            const data = response.val();
-            if (data === null) {
-                return;
-            } else {
-                const scoreDates = Object.keys(data);
-                for (let i = 0; i < scoreDates.length; i++) {
-                    if (scoreDates[i] > '2019-04-01T00:00') {
-                        if(scoreDates[i] !== "submitted") {
-                            // this one adds up the total score
-                            score += data[scoreDates[i]]
-                        }
-                    }
-                }
+    const userScoreData = JSON.parse(localStorage.getItem('userScoreData'));
+    const data = userScoreData.data
+    let score = 0;
+    const scoreDates = Object.keys(data);
+    for (let i = 0; i < scoreDates.length; i++) {
+        if (scoreDates[i] > '2019-04-01T00:00') {
+            if(scoreDates[i] !== "submitted") {
+                // this one adds up the total score
+                score += data[scoreDates[i]]
             }
-            return score;
-        })
-    return scoreCounter;
+        }
+    }
+    return score;
 }
 
 const calculatePolitIQ = (score, quizNum) => {
