@@ -16,6 +16,7 @@ import { db } from '../../firebase';
 import { getPolitIQ } from '../../utils/calculatePolitIQ';
 import UserRank from './UserRank';
 import getMostRecentQuizId from '../../utils/mostRecentQuizId';
+import { getThisMonthScores } from '../../utils/storeScoreData';
 import loadingGif from '../../loadingGif.gif';
 import './leaderboard.css';
 
@@ -32,7 +33,9 @@ class MonthlyLeaderboard extends Component {
   }
 
   componentDidMount = () => {
-    this.monthlyLeaders();
+    // const data = getThisMonthScores()
+    // console.log(data, 'this is the data')
+    this.initLeaderboard();
     this.getMostRecentQuizId()
 
     const userInfo = JSON.parse(localStorage.getItem('authUser'));
@@ -58,6 +61,12 @@ class MonthlyLeaderboard extends Component {
     window.clearTimeout(this.timeout)
   }
 
+  initLeaderboard = async () => {
+    const data = await getThisMonthScores();
+    console.log(data, 'this is the data')
+    this.monthlyLeaders(data);
+  }
+
   getMostRecentQuizId = async () => {
     const quizId = await getMostRecentQuizId()
     this.setState({
@@ -65,12 +74,13 @@ class MonthlyLeaderboard extends Component {
     })
   }
 
-  monthlyLeaders = async () => {
+  monthlyLeaders = async (data) => {
     const userScores = []
     // get the scores
-    await db.getScores()
-      .then(response => {
-        const data = response.val()
+    // const data = JSON.parse(localStorage.getItem('userScoreData'))
+    // await db.getScores()
+    //   .then(response => {
+    //     const data = response.val()
         // handle an empty response
         if (data === null) {
           window.clearTimeout(this.timeout)
@@ -147,7 +157,7 @@ class MonthlyLeaderboard extends Component {
               }
             })
         })
-      })
+      // })
   }
 
   getUserRank = () => {

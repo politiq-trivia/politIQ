@@ -35,6 +35,7 @@ export const getThisMonthScores = async () => {
             // store the data
             store({ currentMonthScores })
         })
+    return currentMonthScores;
 }
 
 export const getLastMonthScores = async () => {
