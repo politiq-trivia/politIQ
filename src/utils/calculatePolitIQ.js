@@ -15,19 +15,16 @@ export const getPolitIQ = async (uid) => {
 
 const getQuizzes = async () => {
     let qNum;
-    await db.getQuizzes()
-        .then(response => {
-            const data = response.val()
-            const quizDates = Object.keys(data);
-            let questionCounter = 0;
-            for (let i = 0; i < quizDates.length; i++) {
-                if (quizDates[i] > '2019-04-01T00:00') {
-                    const quizLength = Object.keys(data[quizDates[i]]).length - 1
-                    questionCounter += quizLength
-                }
-            }
-            qNum = questionCounter;
-        })
+    const data = JSON.parse(localStorage.getItem('quizzes'))
+    const quizDates = Object.keys(data);
+    let questionCounter = 0;
+    for (let i = 0; i < quizDates.length; i++) {
+        if (quizDates[i] > '2019-04-01T00:00') {
+            const quizLength = Object.keys(data[quizDates[i]]).length - 1
+            questionCounter += quizLength
+        }
+    }
+    qNum = questionCounter;
     return qNum;
 }
 

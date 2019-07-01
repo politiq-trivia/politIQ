@@ -9,6 +9,7 @@ import moment from 'moment';
 import './App.css';
 import { db, withFirebase } from '../firebase';
 import { getLastMonthScores, getThisMonthScores, getUserScores } from '../utils/storeScoreData';
+import { storeQuizzes } from '../utils/storeQuizzes';
 
 import Navigation from './Navigation/Navigation';
 import LandingPage from './StaticPages/Landing';
@@ -91,6 +92,8 @@ class App extends Component {
         isAdmin: true
       })
     }
+
+    storeQuizzes()
   }
 
   componentWillUnmount() {
