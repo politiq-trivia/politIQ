@@ -29,7 +29,6 @@ export const getThisMonthScores = async () => {
                         return;
                     }
                 }
-
             })
         }).then(() => {
             // store the data
