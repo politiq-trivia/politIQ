@@ -8,7 +8,7 @@ import moment from 'moment';
 
 import './App.css';
 import { db, withFirebase } from '../firebase';
-import { getLastMonthScores, getThisMonthScores, getUserScores } from '../utils/storeScoreData';
+import { getLastMonthScores, getThisMonthScores, getUserScores, getAllScores } from '../utils/storeScoreData';
 import { storeQuizzes } from '../utils/storeQuizzes';
 
 import Navigation from './Navigation/Navigation';
@@ -111,13 +111,21 @@ class App extends Component {
       // check if lastMonthScores have been updated since the start of a new month. 
       // if not, update them.
       const lastMonthScores = JSON.parse(localStorage.getItem('lastMonthScores'))
-      if (lastMonthScores.lastUpdated < moment().startOf('month')) {
+      if (lastMonthScores.lastUpdated < moment().startOf('month').format('YYYY-MM-DDTHH:mm')) {
         getLastMonthScores()
       }
     }
-    // get all score data from the past two months
-    // if brower is safari on IOS store it in the indexed db
-    // else store it in the cache for improved offline performance
+
+    // check if allScore data is present
+    if (!localStorage.hasOwnProperty('allScores')) {
+      getAllScores()
+    } else {
+      const allScores = JSON.parse(localStorage.getItem('allScores'))
+      // update score data if the score data is older than one hour
+      if (allScores.lastUpdated < moment().subtract(1, 'hour').format('YYYY-MM-DDTHH:mm')) {
+        getAllScores()
+      }
+    }
     this.setState({ authUser})
   }
 

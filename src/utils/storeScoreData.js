@@ -62,6 +62,34 @@ export const getLastMonthScores = async () => {
         })
 }
 
+// in order for the politIQs to be calculated correctly, we should store all the scores
+// since a predetermined date (April 1, 2019) in local storage.
+// it's still not the best performance to run the calculation every time, but it's better
+// than calling the db every time for every score
+export const getAllScores = async () => {
+    console.log('getAllScores called')
+    let allScores = [];
+    await db.getScores()
+        .then(response => {
+            const data = response.val();
+            if (data === null) {
+                return 'No scores available';
+            }
+            const usernames = Object.keys(data)
+            usernames.forEach((user, i) => {
+                const dates = Object.keys(data[usernames[i]])
+                for (let k = 0; k < dates.length; k++) {
+                    if (dates[k] >= '2019-04-01T00:00') {
+                        allScores.push({ user, data: data[usernames[i]]})
+                        return;
+                    }
+                }
+            })
+        }).then(() => {
+            store({ allScores })
+        })
+}
+
 // get all the scores for the current user (all time)
 // store the data
 // this should be called on app load and every time the user submits a score

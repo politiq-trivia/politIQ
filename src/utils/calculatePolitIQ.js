@@ -1,7 +1,12 @@
 // calculate a politIQ for a single user 
 import { db } from '../firebase';
 
+let allScores;
+
 export const getPolitIQ = async (uid) => {
+    if (!matchesLoggedInUser(uid)) {
+        allScores = JSON.parse(localStorage.getItem('allScores'))
+    }
     // get all the quizzes
     const quizNum = await getQuizzes()
     if (quizNum === 0) {
@@ -29,8 +34,23 @@ const getQuizzes = async () => {
 }
 
 const getScores = async (uid) => {
-    const userScoreData = JSON.parse(localStorage.getItem('userScoreData'));
-    const data = userScoreData.data
+    let data;
+    // check if the uid = logged in user. if it does, get the score data from userScoreData
+    if (matchesLoggedInUser(uid)) {
+        const userScoreData = JSON.parse(localStorage.getItem('userScoreData'));
+        data = userScoreData.data
+    // else, get the score data from allScores data
+    } else {
+        // find the data that matches up with the uid
+        // find the index of that uid
+        let uidArray = []
+        for (let i = 0; i < allScores.data.length; i++) {
+            uidArray.push(allScores.data[i].user)
+        }
+        const index = uidArray.indexOf(uid)
+        data = allScores.data[index].data
+    }
+
     let score = 0;
     const scoreDates = Object.keys(data);
     for (let i = 0; i < scoreDates.length; i++) {
@@ -47,4 +67,11 @@ const getScores = async (uid) => {
 const calculatePolitIQ = (score, quizNum) => {
     const politIQ = Math.round((score / quizNum) * 100);
     return politIQ;
+}
+
+const matchesLoggedInUser = (uid) => {
+    const authUser = JSON.parse(localStorage.getItem('authUser')).uid
+    if (uid === authUser) {
+        return true;
+    } else return false;
 }
