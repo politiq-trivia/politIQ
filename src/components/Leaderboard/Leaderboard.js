@@ -20,6 +20,7 @@ import WeeklyLeaderboard from './Weekly';
 import MonthlyLeaderboard from './Monthly';
 import BarChart from './ScoreChart/BarChart';
 import HighestScore from './HighestScore';
+import { getThisMonthScores } from '../../utils/storeScoreData';
 
 class Leaderboard extends Component {
   constructor(props) {
@@ -27,6 +28,15 @@ class Leaderboard extends Component {
     this.state = {
       value: 0,
     }
+  }
+
+  componentDidMount () {
+    this.initLeaderboard()
+  }
+
+  initLeaderboard = async () => {
+    const data = await getThisMonthScores()
+    this.setState({ data })
   }
 
   handleChange = (event, value) => {
@@ -89,8 +99,8 @@ class Leaderboard extends Component {
           <Paper>
               <Tab onClick={this.handleChange} style={{ display: 'none'}} label="Monthly Leaderboard"></Tab>
               <Tab onClick={this.handleChange} style={{ display: 'none'}} label="Weekly Leaderboard"></Tab>  
-            {this.state.value === 0 ? <MonthlyLeaderboard /> : null }
-            {this.state.value === 1 ? <WeeklyLeaderboard /> : null }
+            {this.state.value === 0 ? <MonthlyLeaderboard data={this.state.data}/> : null }
+            {this.state.value === 1 ? <WeeklyLeaderboard data={this.state.data}/> : null }
 
           </Paper>
 

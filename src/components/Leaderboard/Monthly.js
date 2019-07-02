@@ -33,7 +33,9 @@ class MonthlyLeaderboard extends Component {
   }
 
   componentDidMount = () => {
-    this.initLeaderboard();
+    if (this.props.data !== undefined) {
+      this.monthlyLeaders(this.props.data)
+    }
     this.getMostRecentQuizId()
 
     const userInfo = JSON.parse(localStorage.getItem('authUser'));
@@ -51,17 +53,19 @@ class MonthlyLeaderboard extends Component {
           timeout: true,
         })
       }
-    }, 60000)
+    }, 15000)
+  }
+
+  componentDidUpdate = (prevProps, prevState) => {
+    if (prevProps.data !== this.props.data) {
+      this.monthlyLeaders(this.props.data)
+      return true;
+    } else return false;
   }
   
   componentWillUnmount = () => {
     // clear the timeout on component unmount
     window.clearTimeout(this.timeout)
-  }
-
-  initLeaderboard = async () => {
-    const data = await getThisMonthScores();
-    this.monthlyLeaders(data);
   }
 
   getMostRecentQuizId = async () => {
@@ -97,7 +101,6 @@ class MonthlyLeaderboard extends Component {
           const userData = response.val();
           // handle empty response
           if (userData === null || userData === undefined) { return ;}
-          
           // if the user has the invisible score property AND the invisible score property is true
           // hide their score
           if (Object.keys(userData).includes("invisibleScore") && userData['invisibleScore'] === true) {
