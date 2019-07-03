@@ -106,11 +106,11 @@ class Leaderboard extends Component {
           </Paper>
 
           <div style={{ marginTop: '3vh', marginBottom: '5vh', marginLeft: '-2vw'}}>
-            <BarChart timeFrame={this.state.value === 0 ? "month" : "week"} />
             <div style={{ display: 'flex' }}>
               <HighestScore timeFrame={this.state.value === 0 ? "month" : "week"}/>
               <LastLeaderboard timeFrame={this.state.value === 0 ? 'Month' : 'Week' }/>
             </div>
+            <BarChart timeFrame={this.state.value === 0 ? "month" : "week"} />
           </div>
           </Paper>
         </>

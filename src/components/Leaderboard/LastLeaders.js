@@ -130,8 +130,8 @@ class LastLeaders extends Component {
                     <TableCell padding="default">
                         {i + 1}.
                     </TableCell>
-                    <TableCell>
-                        {d.username ? <Avatar style={{ backgroundColor: colorArray[random] }}>{d.username.charAt(0)}</Avatar> : null }
+                    <TableCell style={{ padding: '0 10px 0 0' }}>
+                        {d.username ? <Avatar style={{ backgroundColor: colorArray[random], marginRight:'1%' }}>{d.username.charAt(0)}</Avatar> : null }
                     </TableCell>
                     <TableCell padding="none">
                         {d.username ? d.username : null}
@@ -152,14 +152,14 @@ class LastLeaders extends Component {
     render() {
         console.log('render called in last leaders')
         return (
-            <Paper>
+            <Paper className="lastLeadersBox">
                 <h2>Last {this.props.timeFrame}'s Leaders</h2>
                 {this.state.loaded && !this.state.error
                     ? <>
                         <Table>
                             <TableHead>
                                 <TableRow>
-                                    <TableCell padding="none" style={{ paddingLeft: '10px' }}>
+                                    <TableCell padding="none" style={{ paddingLeft: '10px', paddingRight: "0", maxWidth: '30px' }}>
                                         Ranking
                                     </TableCell>
                                     <TableCell padding="none">

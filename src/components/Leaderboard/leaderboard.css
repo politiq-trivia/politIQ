@@ -299,3 +299,12 @@
     margin-top: 2vh;
   }
 }
+
+/* ---------- last month leader box ------------------- */
+.lastLeadersBox {
+  padding-bottom: 4vh;
+  width: 40%;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 2vh;
+}
