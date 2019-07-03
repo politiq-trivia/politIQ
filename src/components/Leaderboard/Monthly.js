@@ -16,7 +16,6 @@ import { db } from '../../firebase';
 import { getPolitIQ } from '../../utils/calculatePolitIQ';
 import UserRank from './UserRank';
 import getMostRecentQuizId from '../../utils/mostRecentQuizId';
-import { getThisMonthScores } from '../../utils/storeScoreData';
 import loadingGif from '../../loadingGif.gif';
 import './leaderboard.css';
 

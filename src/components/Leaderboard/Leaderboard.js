@@ -20,6 +20,7 @@ import WeeklyLeaderboard from './Weekly';
 import MonthlyLeaderboard from './Monthly';
 import BarChart from './ScoreChart/BarChart';
 import HighestScore from './HighestScore';
+import LastLeaderboard from './LastLeaders';
 import { getThisMonthScores } from '../../utils/storeScoreData';
 
 class Leaderboard extends Component {
@@ -105,8 +106,11 @@ class Leaderboard extends Component {
           </Paper>
 
           <div style={{ marginTop: '3vh', marginBottom: '5vh', marginLeft: '-2vw'}}>
-            <BarChart timeFrame={this.state.value === 0 ? "week" : "month"} />
-            <HighestScore timeFrame={this.state.value === 0 ? "week" : "month"}/>
+            <BarChart timeFrame={this.state.value === 0 ? "month" : "week"} />
+            <div style={{ display: 'flex' }}>
+              <HighestScore timeFrame={this.state.value === 0 ? "month" : "week"}/>
+              <LastLeaderboard timeFrame={this.state.value === 0 ? 'Month' : 'Week' }/>
+            </div>
           </div>
           </Paper>
         </>
