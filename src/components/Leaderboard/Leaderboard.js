@@ -106,7 +106,7 @@ class Leaderboard extends Component {
           </Paper>
 
           <div style={{ marginTop: '3vh', marginBottom: '5vh', marginLeft: '-2vw'}}>
-            <div style={{ display: 'flex' }}>
+            <div className="leaderbox-holder">
               <HighestScore timeFrame={this.state.value === 0 ? "month" : "week"}/>
               <LastLeaderboard timeFrame={this.state.value === 0 ? 'Month' : 'Week' }/>
             </div>

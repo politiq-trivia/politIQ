@@ -308,3 +308,16 @@
   margin-right: auto;
   margin-top: 2vh;
 }
+
+.leaderbox-holder {
+  display: flex;
+}
+
+@media screen and (max-width: 415px) {
+  .leaderbox-holder {
+    flex-direction: column;
+  }
+  .lastLeadersBox {
+    width: 90%;
+  }
+}
