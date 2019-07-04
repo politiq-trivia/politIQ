@@ -118,12 +118,14 @@ class Leaderboard extends Component {
   }
 }
 
-const condition = authUser => {
-  return !!authUser;
-}
+// const condition = authUser => {
+//   return !!authUser;
+// }
 
-export default compose(
-  // withEmailVerification,
-  withAuthentication,
-  withAuthorization(condition)
-)(Leaderboard);
+// export default compose(
+//   // withEmailVerification,
+//   withAuthentication,
+//   withAuthorization(condition)
+// )(Leaderboard);
+
+export default Leaderboard;

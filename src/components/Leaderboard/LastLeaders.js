@@ -35,7 +35,7 @@ class LastLeaders extends Component {
         } else return false;
     }
 
-    getLastLeaders = (data, timeFrame) => {
+    getLastLeaders = async (data, timeFrame) => {
         let userScores = [];
         if (data === null || data === undefined) {
             this.setState({
@@ -91,18 +91,17 @@ class LastLeaders extends Component {
         })
 
         const rankReverse = rankedScores.reverse().slice(0,3)
-        console.log(rankReverse, 'this is rankReverse')
 
         // get the displaynames and politIQs for the top 3
         for (let n = 0; n < rankReverse.length; n++) {
-            db.getDisplayNames(rankReverse[n].uid)
-                .then(username => {
-                    rankReverse[n].username = username.val().displayName
-                    this.getPolitIQ(rankReverse[n].uid, timeFrame)
-                        .then(politIQ => {
-                            rankReverse[n].politIQ = politIQ + rankReverse[n].submittedScore
-                        })
-                })
+            const userData = await db.getDisplayNames(rankReverse[n].uid)
+            userData.displayName.then(function(name) {
+                rankReverse[n].username = name
+            })
+            this.getPolitIQ(rankReverse[n].uid, timeFrame)
+            .then(politIQ => {
+                rankReverse[n].politIQ = politIQ + rankReverse[n].submittedScore
+            })
         }
 
         this.setState({
@@ -150,7 +149,6 @@ class LastLeaders extends Component {
     }
 
     render() {
-        console.log('render called in last leaders')
         return (
             <Paper className="lastLeadersBox">
                 <h2>Last {this.props.timeFrame}'s Leaders</h2>

@@ -189,8 +189,16 @@ export const resetScores = (uid, date) => {
 }
 
 export const getDisplayNames = (username) => {
-  const displayName = db.ref().child('users/' + username).once('value')
-  return displayName;
+  const displayName = db.ref().child('users/' + username).child('displayName').once('value').then(function(snapshot) {
+    const snap = snapshot.val()
+    return snap;
+  })
+  const invisibleScore = db.ref().child('users/' + username).child('invisibleScore').once('value').then(function(snapshot) {
+    const snap = snapshot.val()
+    return snap;
+  })
+  const userData = { displayName, invisibleScore}
+  return userData;
 }
 
 export const getUserByAffiliation = (affiliation) => {

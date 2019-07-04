@@ -37,11 +37,13 @@ class MonthlyLeaderboard extends Component {
     }
     this.getMostRecentQuizId()
 
-    const userInfo = JSON.parse(localStorage.getItem('authUser'));
-    if (userInfo.invisibleScore && userInfo.invisibleScore === true) {
-      this.setState({
-        invisibleScore: true
-      })
+    if (localStorage.hasOwnProperty('authUser')) {
+      const userInfo = JSON.parse(localStorage.getItem('authUser'));
+      if (userInfo.invisibleScore && userInfo.invisibleScore === true) {
+        this.setState({
+          invisibleScore: true
+        })
+      }
     }
 
     // set a timeout - if there are no quizzes by the end of the timeout,
@@ -92,21 +94,12 @@ class MonthlyLeaderboard extends Component {
     }
 
     // check if that user wants their score included in the leaderboard
-    // instead of getting just the display names, get the whole user object? 
-    usernames.forEach((user, i) => {
-      // get the display names
-      db.getDisplayNames(usernames[i])
-        .then(response => {
-          const userData = response.val();
-          // handle empty response
-          if (userData === null || userData === undefined) { return ;}
-          // if the user has the invisible score property AND the invisible score property is true
-          // hide their score
-          if (Object.keys(userData).includes("invisibleScore") && userData['invisibleScore'] === true) {
-            return;
-          } else {
-            // get all the scores within the last week from this data array
-            const quizDates = Object.keys(data[i].data)
+    usernames.forEach(async (user, i) => {
+      const userData = await db.getDisplayNames(usernames[i])
+      userData.displayName.then((displayName) => {
+        userData.invisibleScore.then((invisibleScore) => {
+          if (invisibleScore) { return; }
+          const quizDates = Object.keys(data[i].data)
 
             let submitted;
             if(quizDates[quizDates.length - 1] === 'submitted') {
@@ -138,7 +131,7 @@ class MonthlyLeaderboard extends Component {
               this.getPolitIQ(user, 'month')
                 .then(politIQ => {
                   userScores.push({
-                    username: response.val().displayName,
+                    username: displayName,
                     score: scoreCounter,
                     uid: user,
                     politIQ: politIQ + submittedScoreCounter
@@ -156,10 +149,11 @@ class MonthlyLeaderboard extends Component {
                     window.clearTimeout(this.timeout)
                 })
             }
-          }
         })
-    })
-  }
+      })
+    }
+  );
+}
 
   getUserRank = () => {
     if(this.state.isLoaded) {

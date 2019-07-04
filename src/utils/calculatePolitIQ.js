@@ -35,6 +35,7 @@ const getQuizzes = async () => {
 
 const getScores = async (uid) => {
     let data;
+    
     // check if the uid = logged in user. if it does, get the score data from userScoreData
     if (matchesLoggedInUser(uid)) {
         const userScoreData = JSON.parse(localStorage.getItem('userScoreData'));
@@ -48,10 +49,18 @@ const getScores = async (uid) => {
             uidArray.push(allScores.data[i].user)
         }
         const index = uidArray.indexOf(uid)
-        data = allScores.data[index].data
+        // console.log(allScores.data[index].data, 'this is the index')
+        if (index !== -1) {
+            data = allScores.data[index].data
+        }
+
     }
 
     let score = 0;
+
+    if (data === null || data === undefined) {
+        return score = 0;
+    }
     const scoreDates = Object.keys(data);
     for (let i = 0; i < scoreDates.length; i++) {
         if (scoreDates[i] > '2019-04-01T00:00') {
@@ -70,8 +79,10 @@ const calculatePolitIQ = (score, quizNum) => {
 }
 
 const matchesLoggedInUser = (uid) => {
-    const authUser = JSON.parse(localStorage.getItem('authUser')).uid
-    if (uid === authUser) {
-        return true;
-    } else return false;
+    if (localStorage.hasOwnProperty('authUser')) {
+        const authUser = JSON.parse(localStorage.getItem('authUser')).uid
+        if (uid === authUser) {
+            return true;
+        } else return false;
+    }
 }
