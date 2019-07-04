@@ -129,16 +129,19 @@ class App extends Component {
     this.setState({ authUser})
   }
 
-  getSignedInUser = (uid) => {
-    db.getDisplayNames(uid)
-      .then(response => {
-        const data = response.val()
-        const displayName = data.displayName;
-        this.setState({
-          signedInUser: uid,
-          displayName,
-        })
-      })    
+  getSignedInUser = async (uid) => {
+    const userData = await db.getDisplayNames(uid)
+    userData.displayName.then((displayName) => {
+      this.setState({
+        signedInUser: uid,
+        displayName,
+      })
+    })
+      // .then(response => {
+      //   const data = response.val()
+      //   const displayName = data.displayName;
+
+      // })    
   }
 
   checkAdmin = () => {

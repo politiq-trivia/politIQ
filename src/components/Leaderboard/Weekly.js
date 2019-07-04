@@ -91,11 +91,8 @@ class WeeklyLeaderboard extends Component {
     }
 
     usernames.forEach(async (user, i) => {
-      console.log(usernames[i], 'this is the username')
       const userData = await db.getDisplayNames([usernames[i]])
-      console.log({ userData })
       userData.displayName.then((displayName) => {
-        console.log({displayName})
         userData.invisibleScore.then((invisibleScore) => {
           if (invisibleScore) { return; }
           const quizDates = Object.keys(data[i].data)
@@ -154,74 +151,7 @@ class WeeklyLeaderboard extends Component {
             }
         })
       })
-
-      // db.getDisplayNames(usernames[i])
-      //   .then(response => {
-      //     // handle the empty response
-      //     if (response.val() === null || response.val() === undefined) { return; }
-      //     const userData = response.val();
-      //     // check for the invisible score property and hide that user if it's true
-      //     if (Object.keys(userData).includes("invisibleScore") && userData['invisibleScore'] === true) {
-      //       return;
-      //     } else {
-      //       // get all the scores within the last week from this data array
-      //       // const quizDates = Object.keys(data[i].data)
-      //       // let submitted;
-      //       // if(quizDates[quizDates.length - 1] === 'submitted') {
-      //       //   submitted = data[i].data["submitted"]
-      //       //   quizDates.pop()
-      //       // }
-      //       // const lastWeek = []
-      //       // let scoreCounter = 0;
-      //       // for (let j = 0; j < quizDates.length; j++) {
-      //       //   if (quizDates[j] > moment().startOf('week').format('YYYY-MM-DD')) {
-      //       //     lastWeek.push(quizDates[j])
-      //       //     if (data[i].data[quizDates[j]]) {
-      //       //       scoreCounter += data[i].data[quizDates[j]]
-      //       //     }
-      //       //   }
-      //       // }
-
-      //       // let submittedScoreCounter = 0;
-      //       // if (submitted !== undefined) {
-      //       //   const dates = Object.keys(submitted)
-      //       //   for (let j = 0; j < dates.length; j++) {
-      //       //     if (dates[j].slice(10) > moment().startOf('week').format('YYYY-MM-DD')) {
-      //       //       submittedScoreCounter += 1
-      //       //     }
-      //       //   }
-      //       // }
-      //       // const newDisplayName = () => {
-      //       //   if (response.val() === null) {
-      //       //     return ''
-      //       //   } else {
-      //       //     return response.val().displayName
-      //       //   }
-      //       // }
-      //       // if (scoreCounter > 0) {
-      //       //   this.getPolitIQ(user, 'week')
-      //       //     .then(politIQ => {
-      //       //       userScores.push({
-      //       //         username: newDisplayName(),
-      //       //         score: scoreCounter,
-      //       //         uid: user,
-      //       //         politIQ: politIQ + submittedScoreCounter,
-      //       //       })
-
-      //       //       const rankedScores = userScores.sort(function(a,b){
-      //       //         return a.score - b.score
-      //       //       })
-      //       //       const rankReverse = rankedScores.reverse()
-      //       //       this.setState({
-      //       //         rankedScores: rankReverse,
-      //       //         isLoaded: true,
-      //       //       })
-      //       //       window.clearTimeout(this.timeout)
-      //       //     })
-      //       // }
-      //     }
-        })
-    // })
+    })
   }
 
   getUserRank = () => {
