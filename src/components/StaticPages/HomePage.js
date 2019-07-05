@@ -53,19 +53,19 @@ class HomePage extends Component {
     };
   }
 
-  componentDidMount() {
-    const userInfo = JSON.parse(localStorage.getItem('authUser'))
-    const uid = userInfo.uid
-    // console.log(uid)
-    // this.subscribeToPushNotifications()
-    // this.addToHomeScreen()
-    // this.requestPushPermissions(uid)
+  // componentDidMount() {
+  //   // const userInfo = JSON.parse(localStorage.getItem('authUser'))
+  //   // const uid = userInfo.uid
+  //   // console.log(uid)
+  //   // this.subscribeToPushNotifications()
+  //   // this.addToHomeScreen()
+  //   // this.requestPushPermissions(uid)
 
-    // axios.post(process.env.SERVER_URL + '/subscribe', {pushSubscription: "this is the subscription"})
-    // .then(res => {
-    //   console.log(res)
-    // })
-  }
+  //   // axios.post(process.env.SERVER_URL + '/subscribe', {pushSubscription: "this is the subscription"})
+  //   // .then(res => {
+  //   //   console.log(res)
+  //   // })
+  // }
 
   addToHomeScreen = () => {
     // check if the user is running on ios and see if they're running higher than 11.3 (the highest version that supports pwas)

@@ -1,6 +1,4 @@
 // calculate a politIQ for a single user 
-import { db } from '../firebase';
-
 let allScores;
 
 export const getPolitIQ = async (uid) => {

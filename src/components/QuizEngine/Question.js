@@ -10,7 +10,7 @@ import RadioGroup from '@material-ui/core/RadioGroup';
 import Paper from '@material-ui/core/Paper';
 
 import './quiz.css';
-import countdownUrl from './sounds/countdown.flac';
+// import countdownUrl from './sounds/countdown.flac';
 
 
 class Question extends Component {

@@ -8,7 +8,7 @@ import moment from 'moment';
 
 import './App.css';
 import { db, withFirebase } from '../firebase';
-import { getLastMonthScores, getThisMonthScores, getUserScores, getAllScores } from '../utils/storeScoreData';
+import { getLastMonthScores, getUserScores, getAllScores } from '../utils/storeScoreData';
 import { storeQuizzes } from '../utils/storeQuizzes';
 
 import Navigation from './Navigation/Navigation';
