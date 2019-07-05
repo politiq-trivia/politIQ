@@ -62,6 +62,7 @@ class EditProfile extends Component {
       })
     }
     // this is getting called twice which is causing it to error out I think?
+    // needs to get called to verify that the authUser info is correct
     this.props.getUserInfo(oldUserInfo.uid)
 
     // once the user saves their info, update the local storage object as well because that's used throughout the applicaiton
@@ -97,9 +98,6 @@ class EditProfile extends Component {
         console.error(error)
       })
     }
-
-    // commenting bc might be being called twice
-    // this.props.getUserInfo(this.props.uid)
 
     if(localStorage.hasOwnProperty('fbAuth')) {
       localStorage.removeItem('fbAuth')

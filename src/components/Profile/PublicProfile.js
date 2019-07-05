@@ -48,9 +48,9 @@ class PublicProfile extends Component {
   componentDidMount = () => {
     const uid = window.location.href.split('/')[4]
     this.getUserInfo(uid)
-    const loggedInUser = JSON.parse(localStorage.getItem('authUser')).uid
+    const loggedInUser = JSON.parse(localStorage.getItem('authUser'))
     let match;
-    if (uid === loggedInUser) {
+    if (uid === loggedInUser.uid) {
       match = true; 
     } else {
       match = false;
@@ -58,6 +58,7 @@ class PublicProfile extends Component {
     this.setState({
       uid,
       match,
+      loggedInUser,
     })
   }
 
@@ -70,13 +71,21 @@ class PublicProfile extends Component {
   }
 
   getUserInfo = async (uid) => {
-    await db.getOneUser(uid)
+    // if it's your own profile, use the user info that's already stored
+    if (this.state.match) {
+      this.setState({
+        userData: this.state.loggedInUser
+      })
+      // otherwise, make a db call to get that user's info. that's not pre-fetched.
+    } else {
+      await db.getOneUser(uid)
       .then(response => {
         const data = response.val()
         this.setState({
           userData: data,
         })
       })
+    }
   }
 
   toggleComments = () => {

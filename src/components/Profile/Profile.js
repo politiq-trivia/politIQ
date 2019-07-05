@@ -41,6 +41,7 @@ class ProfilePage extends Component {
     })
   }
   
+  // called when edit loads, but why ?
   getUserInfo = async (uid) => {
     if (uid === "") {return;}
     await db.getOneUser(uid)
