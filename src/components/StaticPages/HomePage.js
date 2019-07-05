@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { Helmet } from 'react-helmet';
 import { compose } from 'recompose';
-import axios from 'axios';
+// import axios from 'axios';
 import MediaQuery from 'react-responsive';
 
 import {
@@ -25,8 +25,8 @@ import {
 import { withAuthorization, withEmailVerification } from '../Auth/index';
 
 import * as routes from '../../constants/routes';
-import { urlB64ToUint8Array } from '../../utils/urlB64ToUint8Array';
-import { db, messaging } from '../../firebase';
+// import { urlB64ToUint8Array } from '../../utils/urlB64ToUint8Array';
+// import { db, messaging } from '../../firebase';
 // import { getToken } from '../../firebase/messaging';
 
 // /Users/hannahwerman/politiq-full/politiq/src/firebase/firebase.js
@@ -53,19 +53,19 @@ class HomePage extends Component {
     };
   }
 
-  componentDidMount() {
-    const userInfo = JSON.parse(localStorage.getItem('authUser'))
-    const uid = userInfo.uid
-    // console.log(uid)
-    // this.subscribeToPushNotifications()
-    this.addToHomeScreen()
-    // this.requestPushPermissions(uid)
+  // componentDidMount() {
+  //   // const userInfo = JSON.parse(localStorage.getItem('authUser'))
+  //   // const uid = userInfo.uid
+  //   // console.log(uid)
+  //   // this.subscribeToPushNotifications()
+  //   // this.addToHomeScreen()
+  //   // this.requestPushPermissions(uid)
 
-    // axios.post(process.env.SERVER_URL + '/subscribe', {pushSubscription: "this is the subscription"})
-    // .then(res => {
-    //   console.log(res)
-    // })
-  }
+  //   // axios.post(process.env.SERVER_URL + '/subscribe', {pushSubscription: "this is the subscription"})
+  //   // .then(res => {
+  //   //   console.log(res)
+  //   // })
+  // }
 
   addToHomeScreen = () => {
     // check if the user is running on ios and see if they're running higher than 11.3 (the highest version that supports pwas)
@@ -153,17 +153,17 @@ class HomePage extends Component {
   //   })
   // }
 
-  requestPushPermissions = (uid) => {
-    Notification.requestPermission().then(function(permission) {
-      if(permission ==='granted') {
-        console.log('permission granted')
-        messaging.getToken(uid)
-        // TO DO: retrieve instance id token for use with FCM
-      } else {
-        console.log('Unable to get permission to notify')
-      }
-    })
-  }
+  // requestPushPermissions = (uid) => {
+  //   Notification.requestPermission().then(function(permission) {
+  //     if(permission ==='granted') {
+  //       console.log('permission granted')
+  //       messaging.getToken(uid)
+  //       // TO DO: retrieve instance id token for use with FCM
+  //     } else {
+  //       console.log('Unable to get permission to notify')
+  //     }
+  //   })
+  // }
 
 
 

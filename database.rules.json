@@ -4,9 +4,22 @@
       ".read": true,
       ".write": "auth!= null"
     },
-    "subscriptions": {
+    "scores": {
       ".read": true,
-      ".write": true,
+      ".write": "auth!= null"
+    },
+    "users": {
+      "$user": {
+        "displayName": {
+          ".read": true
+        },
+        "invisibleScore": {
+          ".read": true
+        },
+        "affiliation": {
+          ".read": true
+        }
+      }
     },
     ".read": "auth != null",
     ".write": "auth != null"

@@ -2,9 +2,6 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { Helmet } from 'react-helmet';
 import MediaQuery from 'react-responsive';
-import { compose } from 'recompose'
-
-import { withAuthorization, withEmailVerification, withAuthentication } from '../Auth/index';
 
 import Paper from '@material-ui/core/Paper';
 import Button from '@material-ui/core/Button';
@@ -20,6 +17,8 @@ import WeeklyLeaderboard from './Weekly';
 import MonthlyLeaderboard from './Monthly';
 import BarChart from './ScoreChart/BarChart';
 import HighestScore from './HighestScore';
+import LastLeaderboard from './LastLeaders';
+import { getThisMonthScores } from '../../utils/storeScoreData';
 
 class Leaderboard extends Component {
   constructor(props) {
@@ -27,6 +26,15 @@ class Leaderboard extends Component {
     this.state = {
       value: 0,
     }
+  }
+
+  componentDidMount () {
+    this.initLeaderboard()
+  }
+
+  initLeaderboard = async () => {
+    const data = await getThisMonthScores()
+    this.setState({ data })
   }
 
   handleChange = (event, value) => {
@@ -46,8 +54,8 @@ class Leaderboard extends Component {
         <AppBar position="static" className="leaderboard-appbar" style={{ marginTop: '8vh', background: 'linear-gradient(to top, rgba(239,188,77,1) 0%, rgba(239,188,77,1) 24%, rgba(244,207,126,1) 50%, rgba(255,244,219,1) 100%)', color: 'black', position: 'fixed', top: '0', zIndex: '100'}}>
           <Toolbar className="leaderboard-banner-text">
             {this.state.value === 0 
-              ? "Weekly leader receives $10!"
-              : "Monthly leader of each party eligible to compete for $50!"
+              ? "Monthly leader of each party eligible to compete for $50!"
+              : "Weekly leader receives $10!"
             }
           </Toolbar>
         </AppBar>
@@ -82,20 +90,24 @@ class Leaderboard extends Component {
               textColor="primary"
               variant="fullWidth"
             >
-              <Tab label="Weekly Leaderboard"/>
               <Tab label="Monthly Leaderboard" />
+              <Tab label="Weekly Leaderboard"/>
             </Tabs>
           </AppBar>
           <Paper>
-              <Tab onClick={this.handleChange} style={{ display: 'none'}} label="Weekly Leaderboard"></Tab>  
               <Tab onClick={this.handleChange} style={{ display: 'none'}} label="Monthly Leaderboard"></Tab>
-            {this.state.value === 0 ? <WeeklyLeaderboard /> : null }
-            {this.state.value === 1 ? <MonthlyLeaderboard /> : null }
+              <Tab onClick={this.handleChange} style={{ display: 'none'}} label="Weekly Leaderboard"></Tab>  
+            {this.state.value === 0 ? <MonthlyLeaderboard data={this.state.data}/> : null }
+            {this.state.value === 1 ? <WeeklyLeaderboard data={this.state.data}/> : null }
+
           </Paper>
 
           <div style={{ marginTop: '3vh', marginBottom: '5vh', marginLeft: '-2vw'}}>
-            <BarChart timeFrame={this.state.value === 0 ? "week" : "month"} />
-            <HighestScore timeFrame={this.state.value === 0 ? "week" : "month"}/>
+            <div className="leaderbox-holder">
+              <HighestScore timeFrame={this.state.value === 0 ? "month" : "week"}/>
+              <LastLeaderboard timeFrame={this.state.value === 0 ? 'Month' : 'Week' }/>
+            </div>
+            <BarChart timeFrame={this.state.value === 0 ? "month" : "week"} />
           </div>
           </Paper>
         </>
@@ -103,12 +115,14 @@ class Leaderboard extends Component {
   }
 }
 
-const condition = authUser => {
-  return !!authUser;
-}
+// const condition = authUser => {
+//   return !!authUser;
+// }
 
-export default compose(
-  // withEmailVerification,
-  withAuthentication,
-  withAuthorization(condition)
-)(Leaderboard);
+// export default compose(
+//   // withEmailVerification,
+//   withAuthentication,
+//   withAuthorization(condition)
+// )(Leaderboard);
+
+export default Leaderboard;

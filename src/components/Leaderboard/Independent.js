@@ -30,27 +30,27 @@ class IndLeaderboard extends Component {
   getInds = async (data) => {
     await db.getUserByAffiliation('Independent')
       .then(usernames => {
-        usernames.forEach((user, i) => {
-          db.getDisplayNames(usernames[i])
-            .then(response => {
-              let quizDates = []
-              const dateObject = data[usernames[i]]
-              if (dateObject !== undefined) {
-                quizDates = Object.keys(dateObject)
-              }
-              // calculate the score for within the last month
-              let scoreCounter = 0;
-              for (let j = 0; j < quizDates.length; j++) {
-                if (quizDates[j] > moment().startOf('month').format('YYYY-MM-DD')) {
-                  if (data[usernames[i]][quizDates[j]]) {
-                    scoreCounter += data[usernames[i]][quizDates[j]]
-                  }
+        usernames.forEach(async (user, i) => {
+          const userInfo = await db.getDisplayNames(usernames[i])
+          userInfo.displayName.then((displayName) => {
+            let quizDates = []
+            const dateObject = data[usernames[i]]
+            if (dateObject !== undefined) {
+              quizDates = Object.keys(dateObject)
+            }
+            // calculate the score for within the last month
+            let scoreCounter = 0;
+            for (let j = 0; j < quizDates.length; j++) {
+              if (quizDates[j] > moment().startOf('month').format('YYYY-MM-DD')) {
+                if (data[usernames[i]][quizDates[j]]) {
+                  scoreCounter += data[usernames[i]][quizDates[j]]
                 }
               }
-              if (scoreCounter > 0) {
-                this.getEmailAddress(usernames[i], response.val().displayName, scoreCounter)              
-              }
-            })
+            }
+            if (scoreCounter > 0) {
+              this.getEmailAddress(usernames[i], displayName, scoreCounter)              
+            }
+          })
         })
       })
   }

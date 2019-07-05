@@ -4,8 +4,6 @@ import { Helmet } from 'react-helmet';
 import moment from 'moment';
 import { db } from '../../firebase';
 import * as routes from '../../constants/routes';
-import { withEmailVerification, withAuthorization } from '../Auth/index';
-import { compose } from 'recompose';
 
 import loadingGif from '../../loadingGif.gif';
 
@@ -43,13 +41,17 @@ class QuizArchive extends Component {
 
   componentDidMount = () => {
     this.createMonthOptionsArray()
-    const userObject = JSON.parse(localStorage.getItem('authUser'))
-    const uid = userObject.uid
+    if (localStorage.hasOwnProperty('authUser')) {
+      const userObject = JSON.parse(localStorage.getItem('authUser'))
+      const uid = userObject.uid
+      this.setState({
+        signedInUser: uid,
+      })
+    }
+    this.getQuizzesFromDb();
     this.setState({
-      signedInUser: uid,
       selectedMonth: moment().startOf('month').format('YYYY-MM-DDTHH:mm')
     })
-    this.getQuizzesFromDb();
   }
 
   createMonthOptionsArray = () => {
@@ -107,7 +109,9 @@ class QuizArchive extends Component {
           loading: false, 
           page: 0,
         })
-        this.getTheLoggedInUsersScores()
+        if (this.state.signedInUser) {
+          this.getTheLoggedInUsersScores()
+        }
         window.scrollTo(0,0)
       })
   }
@@ -335,10 +339,4 @@ class QuizArchive extends Component {
   }
 }
 
-const condition = authUser => !!authUser;
-
-export default compose(
-  // withEmailVerification,
-  withAuthorization(condition),
-  withRouter
-)(QuizArchive);
+export default withRouter(QuizArchive);

@@ -46,16 +46,24 @@ class HighestScore extends Component {
             return;
         }
         const index = politIQs.indexOf(max)
-        db.getDisplayNames(usernames[index])
-            .then((response) => {
-                const data = response.val()
-                if (data === null) return;
-                const name = data.displayName;
-                this.setState({
-                    highScore: max,
-                    name,
-                })
+        const userData = await db.getDisplayNames(usernames[index])
+        userData.displayName.then((displayName) => {
+            if (displayName === null) return;
+            this.setState({
+                name: displayName,
+                highScore: max,
             })
+        })
+        // db.getDisplayNames(usernames[index])
+        //     .then((response) => {
+        //         const data = response.val()
+        //         if (data === null) return;
+        //         const name = data.displayName;
+        //         this.setState({
+        //             highScore: max,
+        //             name,
+        //         })
+        //     })
     }
 
     getUsersWithScores = async () => {

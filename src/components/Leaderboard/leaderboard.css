@@ -37,6 +37,12 @@
     width: 73vw !important;
   }
 }
+
+.noScores {
+  padding: 5vh;
+  border-bottom: 1px solid gray;
+}
+
 .scoreboard {
   display: flex;
   text-align: center;
@@ -291,5 +297,27 @@
 @media screen and (max-width: 320px) {
   .leaderboard-banner-text {
     margin-top: 2vh;
+  }
+}
+
+/* ---------- last month leader box ------------------- */
+.lastLeadersBox {
+  padding-bottom: 4vh;
+  width: 40%;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 2vh;
+}
+
+.leaderbox-holder {
+  display: flex;
+}
+
+@media screen and (max-width: 415px) {
+  .leaderbox-holder {
+    flex-direction: column;
+  }
+  .lastLeadersBox {
+    width: 90%;
   }
 }

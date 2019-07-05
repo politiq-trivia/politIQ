@@ -81,7 +81,10 @@ class FinishQuiz extends Component {
                 <div className="finish-quiz">
                     <div style={{ marginTop: '2vh', marginBottom: '5vh' }}>Your score: {score} out of {quizLength} points.</div>
                     <div className="finish-quiz-buttons">
-                        <Link to={SIGN_UP} style={{ textDecoration: 'none' }}><Button color="primary" variant="contained" className="end-button">Sign Up to Keep Playing and Save Your Score</Button></Link>
+                        <NextAvailableQuizButton getNextQuiz={this.props.getNextQuiz} uid={uid}/>
+                        <Link to={SIGN_UP} style={{ textDecoration: 'none' }}><Button color="primary" variant="contained" className="end-button">Sign Up to Save Your Score</Button></Link>
+                        <Link to={QUIZ_ARCHIVE} style={{textDecoration: "none" }}><Button color="primary" variant="contained" className="end-button">See Previous Quizzes</Button></Link>
+                        <Link to={LEADERBOARD} style={{textDecoration: "none" }}><Button color="primary" variant="contained" className="end-button">View Leaderboard</Button></Link>
                     </div>
                 </div>
             )

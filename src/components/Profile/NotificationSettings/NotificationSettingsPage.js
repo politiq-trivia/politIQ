@@ -1,7 +1,7 @@
 import React from 'react';
 
 import EmailNotificationSettings from './EmailNotificationSettings';
-import PushNotificationSettings from './PushNotificationSettings';
+// import PushNotificationSettings from './PushNotificationSettings';
 
 const NotificationSettingsPage = () => {
     return (

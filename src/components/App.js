@@ -3,8 +3,13 @@ import React, { Component } from 'react';
 import {
   Route, Switch
 } from 'react-router-dom';
+import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
+import moment from 'moment';
+
 import './App.css';
 import { db, withFirebase } from '../firebase';
+import { getLastMonthScores, getUserScores, getAllScores } from '../utils/storeScoreData';
+import { storeQuizzes } from '../utils/storeQuizzes';
 
 import Navigation from './Navigation/Navigation';
 import LandingPage from './StaticPages/Landing';
@@ -35,7 +40,6 @@ import * as routes from '../constants/routes';
 import { firebase } from '../firebase';
 import withAuthentication from './Auth/withAuthentication';
 
-import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 
 const theme = createMuiTheme({
   palette: {
@@ -73,11 +77,14 @@ class App extends Component {
   }
 
   componentDidMount() {
+    // sets the auth user in app state
     this.listener = firebase.auth.onAuthStateChanged(authUser => {
       authUser
-        ? this.setState({ authUser })
+        ? this.initializeApp(authUser)
         : this.setState({ authUser: null });
     })
+    // checks local storage for auth user - maybe there was a user from a 
+    // previous session
     if (localStorage.authUser) {
       const authUser = JSON.parse(localStorage.authUser)
       this.setState({
@@ -85,22 +92,56 @@ class App extends Component {
         isAdmin: true
       })
     }
+
+    storeQuizzes()
   }
 
   componentWillUnmount() {
     this.listener();
   }
 
-  getSignedInUser = (uid) => {
-    db.getDisplayNames(uid)
-      .then(response => {
-        const data = response.val()
-        const displayName = data.displayName;
-        this.setState({
-          signedInUser: uid,
-          displayName,
-        })
-      })    
+  initializeApp = (authUser) => {
+    // get all the user's scores (all time)
+    getUserScores(authUser.uid)
+  
+    // check if lastMonthScores are present 
+    if (!localStorage.hasOwnProperty('lastMonthScores')) {
+      getLastMonthScores()
+    } else {
+      // check if lastMonthScores have been updated since the start of a new month. 
+      // if not, update them.
+      const lastMonthScores = JSON.parse(localStorage.getItem('lastMonthScores'))
+      if (lastMonthScores.lastUpdated < moment().startOf('month').format('YYYY-MM-DDTHH:mm')) {
+        getLastMonthScores()
+      }
+    }
+
+    // check if allScore data is present
+    if (!localStorage.hasOwnProperty('allScores')) {
+      getAllScores()
+    } else {
+      const allScores = JSON.parse(localStorage.getItem('allScores'))
+      // update score data if the score data is older than one hour
+      if (allScores.lastUpdated < moment().subtract(1, 'hour').format('YYYY-MM-DDTHH:mm')) {
+        getAllScores()
+      }
+    }
+    this.setState({ authUser})
+  }
+
+  getSignedInUser = async (uid) => {
+    const userData = await db.getDisplayNames(uid)
+    userData.displayName.then((displayName) => {
+      this.setState({
+        signedInUser: uid,
+        displayName,
+      })
+    })
+      // .then(response => {
+      //   const data = response.val()
+      //   const displayName = data.displayName;
+
+      // })    
   }
 
   checkAdmin = () => {

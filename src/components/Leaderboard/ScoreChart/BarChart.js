@@ -29,13 +29,13 @@ class BarChart extends Component {
       }
 
       getScores = async (timeFrame) => {
-        await db.getScores()
-          .then(response => {
-            const data = response.val()
-            const uidArray = Object.keys(data)
-            this.sortUserByAffiliation(uidArray)
-          })
+        const scores = JSON.parse(localStorage.getItem('allScores'))
+        let uidArray = [];
 
+        for (let i = 0; i < scores.data.length; i++) {
+          uidArray.push(scores.data[i].user)
+        }
+        this.sortUserByAffiliation(uidArray)
       }
 
       sortUserByAffiliation = async (data) => {

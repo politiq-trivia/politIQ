@@ -13,7 +13,7 @@ import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import AccountCircle from '@material-ui/icons/AccountCircle';
 import Lock from '@material-ui/icons/Lock';
 import TrendingUp from '@material-ui/icons/TrendingUp'
-import Notifications from '@material-ui/icons/Notifications';
+// import Notifications from '@material-ui/icons/Notifications';
 import Settings from '@material-ui/icons/Settings';
 
 class ResponsiveDrawer extends Component {

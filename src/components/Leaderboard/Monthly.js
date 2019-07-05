@@ -27,19 +27,46 @@ class MonthlyLeaderboard extends Component {
       rankedScores: {},
       mostRecentQuizId: '',
       invisibleScore: false,
+      timeout: false,
     }
   }
 
   componentDidMount = () => {
-    this.monthlyLeaders();
+    if (this.props.data !== undefined) {
+      this.monthlyLeaders(this.props.data)
+    }
     this.getMostRecentQuizId()
 
-    const userInfo = JSON.parse(localStorage.getItem('authUser'));
-    if (userInfo.invisibleScore && userInfo.invisibleScore === true) {
-      this.setState({
-        invisibleScore: true
-      })
+    if (localStorage.hasOwnProperty('authUser')) {
+      const userInfo = JSON.parse(localStorage.getItem('authUser'));
+      if (userInfo.invisibleScore && userInfo.invisibleScore === true) {
+        this.setState({
+          invisibleScore: true
+        })
+      }
     }
+
+    // set a timeout - if there are no quizzes by the end of the timeout,
+    // render a no quizzes available component
+    this.timeout = setTimeout(() => {
+      if (Object.keys(this.state.rankedScores).length === 0) {
+        this.setState({
+          timeout: true,
+        })
+      }
+    }, 15000)
+  }
+
+  componentDidUpdate = (prevProps, prevState) => {
+    if (prevProps.data !== this.props.data) {
+      this.monthlyLeaders(this.props.data)
+      return true;
+    } else return false;
+  }
+  
+  componentWillUnmount = () => {
+    // clear the timeout on component unmount
+    window.clearTimeout(this.timeout)
   }
 
   getMostRecentQuizId = async () => {
@@ -49,88 +76,84 @@ class MonthlyLeaderboard extends Component {
     })
   }
 
-  monthlyLeaders = async () => {
+  monthlyLeaders = async (data) => {
     const userScores = []
-    // get the scores
-    await db.getScores()
-      .then(response => {
-        const data = response.val()
-        // handle an empty response
-        if (data === null) {
-          this.setState({
-            isLoaded: true,
-          })
-          return;
-        }
-        const usernames = Object.keys(data)
-        // check if that user wants their score included in the leaderboard
-        // instead of getting just the display names, get the whole user object? 
-        usernames.forEach((user, i) => {
-          // get the display names
-          db.getDisplayNames(usernames[i])
-            .then(response => {
-              // handle empty response
-              if (response.val() === null || response.val() === undefined) { return ;}
-              const userData = response.val();
 
-              // if the user has the invisible score property AND the invisible score property is true
-              // hide their score
-              if (Object.keys(userData).includes("invisibleScore") && userData['invisibleScore'] === true) {
-                return;
-              } else {
-                // get all the scores within the last week from this data array
-                const quizDates = Object.keys(data[usernames[i]])
-                let submitted;
-                if(quizDates[quizDates.length - 1] === 'submitted') {
-                  submitted = data[usernames[i]]["submitted"]
-                  quizDates.pop()
-                }
-                let lastMonth = []
-                let scoreCounter = 0;
-                for (let j = 0; j < quizDates.length; j++) {
-                  if (quizDates[j] > moment().startOf('month').format('YYYY-MM-DD')) {
-                    lastMonth.push(quizDates[j])
-                    if (data[usernames[i]][quizDates[j]]) {
-                      scoreCounter += data[usernames[i]][quizDates[j]]
-                    }
-                  }
-                }
-                let submittedScoreCounter = 0
-                if (submitted !== undefined) {
-                  const dates = Object.keys(submitted)
-                  for (let j = 0; j < dates.length; j++) {
-                    if (dates[j] > moment().startOf('month').format('YYYY-MM-DDTHH:mm')) {
-                      submittedScoreCounter += 1
-                    }
-                  }
-                }
-                
-                if (scoreCounter > 0) {
-                this.getPolitIQ(usernames[i], 'month')
-                  .then(politIQ => {
-                    userScores.push({
-                      username: response.val().displayName,
-                      score: scoreCounter,
-                      uid: usernames[i],
-                      politIQ: politIQ + submittedScoreCounter
-                    })
+    // handle an empty response
+    if (data === null || data === undefined) {
+      window.clearTimeout(this.timeout)
+      this.setState({
+        isLoaded: true,
+      })
+      return;
+    }
+    
+    let usernames = [];
+    for (let k = 0; k < data.length; k++) {
+      usernames.push(data[k].user)
+    }
 
-                    const rankedScores = userScores.sort(function(a,b){
-                      return a.score - b.score
-                    })
+    // check if that user wants their score included in the leaderboard
+    usernames.forEach(async (user, i) => {
+      const userData = await db.getDisplayNames(usernames[i])
+      userData.displayName.then((displayName) => {
+        userData.invisibleScore.then((invisibleScore) => {
+          if (invisibleScore) { return; }
+          const quizDates = Object.keys(data[i].data)
 
-                    const rankReverse = rankedScores.reverse()
+            let submitted;
+            if(quizDates[quizDates.length - 1] === 'submitted') {
+              submitted = data[i].data["submitted"]
+              quizDates.pop()
+            }
+            let lastMonth = []
+            let scoreCounter = 0;
+            for (let j = 0; j < quizDates.length; j++) {
+              if (quizDates[j] > moment().startOf('month').format('YYYY-MM-DD')) {
+                lastMonth.push(quizDates[j])
+                if (data[i].data[quizDates[j]]) {
+                  scoreCounter += data[i].data[quizDates[j]]
+                }
+              }
+            }
+
+            let submittedScoreCounter = 0
+            if (submitted !== undefined) {
+              const dates = Object.keys(submitted)
+              for (let j = 0; j < dates.length; j++) {
+                if (dates[j] > moment().startOf('month').format('YYYY-MM-DDTHH:mm')) {
+                  submittedScoreCounter += 1
+                }
+              }
+            }
+                  
+            if (scoreCounter > 0) {
+              this.getPolitIQ(user, 'month')
+                .then(politIQ => {
+                  userScores.push({
+                    username: displayName,
+                    score: scoreCounter,
+                    uid: user,
+                    politIQ: politIQ + submittedScoreCounter
+                  })
+
+                  const rankedScores = userScores.sort(function(a,b){
+                    return a.score - b.score
+                  })
+
+                  const rankReverse = rankedScores.reverse()
                     this.setState({
                       rankedScores: rankReverse,
                       isLoaded: true,
                     })
-                  })
-                }
-              }
-            })
+                    window.clearTimeout(this.timeout)
+                })
+            }
         })
       })
-  }
+    }
+  );
+}
 
   getUserRank = () => {
     if(this.state.isLoaded) {
@@ -199,7 +222,13 @@ class MonthlyLeaderboard extends Component {
     })
 
     const isLoading = () => {
-      if (!this.state.isLoaded) {
+      if (!this.state.loaded && this.state.timeout) {
+        return (
+          <div className="noScores">
+            <h3>We're having trouble loading the leaderboard at this time. <br />Please check back later!</h3>
+          </div>
+        )
+      } else if (!this.state.isLoaded) {
         return (
           <img src={loadingGif} alt="loadingGif" className="leaderboard-mobile-loading"/>
         )

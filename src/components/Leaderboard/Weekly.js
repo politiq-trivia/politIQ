@@ -27,20 +27,44 @@ class WeeklyLeaderboard extends Component {
       rankedScores: {},
       mostRecentQuizId: '',
       invisibleScore: false,
+      timeout: false,
     }
   }
 
   componentDidMount = () => {
-    this.weeklyLeaders();
+    if (this.props.data !== undefined) {
+      this.weeklyLeaders(this.props.data)
+    }
     this.getMostRecentQuizId()
 
-    // get the user's score preferences
-    const userInfo = JSON.parse(localStorage.getItem('authUser'));
-    if (userInfo.invisibleScore && userInfo.invisibleScore === true) {
-      this.setState({
-        invisibleScore: true,
-      })
+    if (localStorage.hasOwnProperty('authUser')) {
+      // get the user's score preferences
+      const userInfo = JSON.parse(localStorage.getItem('authUser'));
+      if (userInfo.invisibleScore && userInfo.invisibleScore === true) {
+        this.setState({
+          invisibleScore: true,
+        })
+      }
     }
+
+    this.timeout = setTimeout(() => {
+      if (Object.keys(this.state.rankedScores).length === 0) {
+        this.setState({
+          timeout: true,
+        })
+      }
+    }, 15000)
+  }
+
+  componentDidUpdate = (prevProps, prevState) => {
+    if (prevProps.data !== this.props.data) {
+      this.weeklyLeaders(this.props.data)
+      return true;
+    } else return false;
+  }
+
+  compomentWillUnmount = () => {
+    window.clearTimeout(this.timeout)
   }
 
   getMostRecentQuizId = async () => {
@@ -50,87 +74,84 @@ class WeeklyLeaderboard extends Component {
     })
   }
 
-  weeklyLeaders = async () => {
+  weeklyLeaders = async (data) => {
     const userScores = []
-    await db.getScores()
-      .then(response => {
-        const data = response.val()
-        if (data === null) {
-          this.setState({
-            isLoaded: true,
-          })
-          return;
-        }
-        const usernames = Object.keys(data)
-        usernames.forEach((user, i) => {
-          db.getDisplayNames(usernames[i])
-            .then(response => {
-              // handle the empty response
-              if (response.val() === null || response.val() === undefined) { return; }
-              const userData = response.val();
-              // check for the invisible score property and hide that user if it's true
-              if (Object.keys(userData).includes("invisibleScore") && userData['invisibleScore'] === true) {
-                return;
-              } else {
-                // get all the scores within the last week from this data array
-                const quizDates = Object.keys(data[usernames[i]])
-                let submitted;
-                if(quizDates[quizDates.length - 1] === 'submitted') {
-                  submitted = data["submitted"]
-                  quizDates.pop()
-                }
-                const lastWeek = []
-                let scoreCounter = 0;
-                for (let j = 0; j < quizDates.length; j++) {
-                  if (quizDates[j] > moment().startOf('week').format('YYYY-MM-DD')) {
-                    lastWeek.push(quizDates[j])
-                    if (data[usernames[i]][quizDates[j]]) {
-                      scoreCounter += data[usernames[i]][quizDates[j]]
-                    }
-                  }
-                }
 
-                let submittedScoreCounter = 0;
-                if (submitted !== undefined) {
-                  const dates = Object.keys(submitted)
-                  for (let j = 0; j < dates.length; j++) {
-                    if (dates[j].slice(10) > moment().startOf('week').format('YYYY-MM-DD')) {
-                      submittedScoreCounter += 1
-                    }
-                  }
-                }
-                const newDisplayName = () => {
-                  if (response.val() === null) {
-                    return ''
-                  } else {
-                    return response.val().displayName
-                  }
-                }
-                if (scoreCounter > 0) {
-                  this.getPolitIQ(usernames[i], 'week')
-                    .then(politIQ => {
-                      userScores.push({
-                        username: newDisplayName(),
-                        score: scoreCounter,
-                        uid: usernames[i],
-                        politIQ: politIQ + submittedScoreCounter,
-                      })
+    if (data === null) {
+      window.clearTimeout(this.timeout)
+      this.setState({
+        isLoaded: true,
+      })
+      return;
+    }
 
-                      const rankedScores = userScores.sort(function(a,b){
-                        return a.score - b.score
-                      })
-                      const rankReverse = rankedScores.reverse()
-                      this.setState({
-                        rankedScores: rankReverse,
-                        isLoaded: true,
-                      })
-                    })
+    let usernames = [];
+    for (let k = 0; k < data.length; k++) {
+      usernames.push(data[k].user)
+    }
+
+    usernames.forEach(async (user, i) => {
+      const userData = await db.getDisplayNames([usernames[i]])
+      userData.displayName.then((displayName) => {
+        userData.invisibleScore.then((invisibleScore) => {
+          if (invisibleScore) { return; }
+          const quizDates = Object.keys(data[i].data)
+            let submitted;
+            if(quizDates[quizDates.length - 1] === 'submitted') {
+              submitted = data[i].data["submitted"]
+              quizDates.pop()
+            }
+            const lastWeek = []
+            let scoreCounter = 0;
+            for (let j = 0; j < quizDates.length; j++) {
+              if (quizDates[j] > moment().startOf('week').format('YYYY-MM-DD')) {
+                lastWeek.push(quizDates[j])
+                if (data[i].data[quizDates[j]]) {
+                  scoreCounter += data[i].data[quizDates[j]]
                 }
               }
+            }
 
-            })
+            let submittedScoreCounter = 0;
+            if (submitted !== undefined) {
+              const dates = Object.keys(submitted)
+              for (let j = 0; j < dates.length; j++) {
+                if (dates[j].slice(10) > moment().startOf('week').format('YYYY-MM-DD')) {
+                  submittedScoreCounter += 1
+                }
+              }
+            }
+            const newDisplayName = () => {
+              if (displayName === null) {
+                return ''
+              } else {
+                return displayName
+              }
+            }
+            if (scoreCounter > 0) {
+              this.getPolitIQ(user, 'week')
+                .then(politIQ => {
+                  userScores.push({
+                    username: newDisplayName(),
+                    score: scoreCounter,
+                    uid: user,
+                    politIQ: politIQ + submittedScoreCounter,
+                  })
+
+                  const rankedScores = userScores.sort(function(a,b){
+                    return a.score - b.score
+                  })
+                  const rankReverse = rankedScores.reverse()
+                  this.setState({
+                    rankedScores: rankReverse,
+                    isLoaded: true,
+                  })
+                  window.clearTimeout(this.timeout)
+                })
+            }
         })
       })
+    })
   }
 
   getUserRank = () => {
@@ -172,7 +193,7 @@ class WeeklyLeaderboard extends Component {
       rankingArray = [...result]
     }
     const renderWeeklyLeaders = rankingArray.map((stat, i) => {
-      // if (i >= 10) {return null;}
+      if (i >= 10) {return null;}
       const colorArray = ["#f44336", "#e91e63", "#9c27b0", "#3f51b5", "#2196f3", "#4caf50", "#8bc34a", "#cddc39", "#ffeb3b", "#ffc107", "#ff9800"]
       const random = Math.floor(Math.random() * colorArray.length)
       return (
@@ -199,7 +220,13 @@ class WeeklyLeaderboard extends Component {
     })
 
     const isLoading = () => {
-      if (!this.state.isLoaded) {
+      if (!this.state.loaded && this.state.timeout) {
+        return (
+          <div className="noScores">
+            <h3>We're having trouble loading the leaderboard at this time. <br/>Please check back later!</h3>
+          </div>
+        )
+      } else if (!this.state.isLoaded) {
         return (
           <img src={loadingGif} alt="loadingGif" className="leaderboard-mobile-loading"/>
         )
