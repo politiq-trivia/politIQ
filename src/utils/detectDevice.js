@@ -1,31 +1,3 @@
-var Pushwoosh = Pushwoosh || [];
-
-Pushwoosh.push(['init', {
-    logLevel: 'debug',
-    applicationCode: '957F6-E387B',
-    // safariWebsitePushId: 
-    defaultNotificationTitle: 'politIQ',
-    defaultNotificationImage: './logo-192.png',
-    autoSubscribe: false,
-    subscribeWidget: {
-        enabled: true,
-    }
-}])
-
-Pushwoosh.getPushToken().then(function(pushToken) {
-    console.log('pushToken:', pushToken);
-});
-
-
-    // axios.post('https://cp.pushwoosh.com/json/1.3/registerDevice', {
-    //     application: '957F6-E387B',
-    //     push_token: pushToken,
-    //     hwid: "",
-    //     device_type: detectDevice(),
-    // })
-
-
-// TO DO: write code that checks if the user is on safari because safari sux
 // function iOS() {
 
 //     var iDevices = [
@@ -56,7 +28,7 @@ Pushwoosh.getPushToken().then(function(pushToken) {
 
 
 
-// const detectDevice = () => {
+// export const detectDevice = () => {
 //     const oniOS = iOS()
 //     console.log(oniOS, 'ios?')
 //     if (isSafari) {
