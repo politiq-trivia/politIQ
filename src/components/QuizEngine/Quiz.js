@@ -50,7 +50,6 @@ class Quiz extends Component {
 
   error = new Audio(errorUrl)
   correct = new Audio(correctUrl)
-  // wrong = new Audio(wrongUrl)
 
   componentDidMount = () => {
     const url = window.location.href;
@@ -268,6 +267,7 @@ class Quiz extends Component {
           this.error.volume = 0.5
           if (this.state.volumeUp === true) {
             this.error.play()
+            this.error.onended = null;
           }
         } else if (isCorrect === undefined) {
           // play the sad trombone sound if the user runs out of time
@@ -275,12 +275,10 @@ class Quiz extends Component {
           if (this.state.volumeUp === true) {
             // add one more second after when the timer ends and when the trombone plays
             this.error.play()
-            // this.sadTrombone = setTimeout(() => {
-              this.error.onended = function() {
-                let wrong = new Audio(wrongUrl)
-                wrong.play()
-              }
-            // }, 1000)
+            this.error.onended = function() {
+              let wrong = new Audio(wrongUrl)
+              wrong.play()
+            }
           }
         }
 
