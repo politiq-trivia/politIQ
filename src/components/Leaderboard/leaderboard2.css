@@ -1,0 +1,149 @@
+.leaderboard-holder {
+    display: flex;
+    flex-direction: row;
+    height: 100vh;
+    overflow: scroll;
+}
+
+.leaderboard-left {
+    background-color: #150A1D;
+    color: white;
+    width: 45%;
+    z-index: 10;
+    -webkit-box-shadow: 4px 6px 16px 0px rgba(0,0,0,0.75);
+    -moz-box-shadow: 4px 6px 16px 0px rgba(0,0,0,0.75);
+    box-shadow: 4px 6px 16px 0px rgba(0,0,0,0.75);
+    border-radius: 0 5px 5px 0;
+    margin-top: 64px;
+}
+
+.leaderboard-right {
+    background-color: white;
+    width: 55%;
+    /* padding-top: 84px; */
+    z-index: -10;
+    margin-top: 64px;
+    overflow: scroll;
+    height: 90%;
+}
+
+.leader-user-info {
+    text-align: center;
+    margin-top: 5vh;
+}
+
+.leader-user-info h2 {
+    margin-bottom: 0;
+    color: #A54EE8;
+}
+
+.leader-user-info h4 {
+    margin-top: 1vh;
+    font-size: 16px;
+    font-style: italic;
+    font-weight: 500;
+    color: #F4E9FC;
+}
+
+.leader-user-stats {
+    display: flex;
+    flex-direction: row;
+    text-align: center;
+    margin-top: 8vh;
+}
+
+.stat-rank, .stat-month {
+    width: 50%;
+}
+
+.stat-rank > p, .stat-month > p {
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 0;
+}
+
+.stat-rank {
+    border-right: 1px solid #F4E9FC;
+}
+
+.stat-rank > h3, .stat-month > h3 {
+    font-size: 32px;
+}
+
+.politIQ-circle {
+    height: 35vh;
+}
+
+.leaderboard-left > p {
+    margin-left: 4vw;
+    color: #D2A7F3;
+}
+
+.leaderboard-left > p:hover {
+    text-decoration: underline;
+}
+
+.leaderboard-tabs {
+    text-align: center;
+    text-transform: uppercase;
+    display: flex;
+    flex-direction: row;
+    margin-top: 5vh;
+}
+
+.leaderboard-tabs > div {
+    width: 50%;
+}
+
+.weekly {
+    border-left: 1px solid #150A1D;
+}
+
+.weekly:hover, .monthly:hover {
+    color: #A54EE8;
+    cursor: pointer;
+}
+
+.leaderboard-object {
+    display: flex;
+    flex-direction: row;
+    width: 88%;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 2vh;
+    margin-bottom: 2vh;
+}
+
+.leaderboard-num {
+    font-weight: bold;
+    /* display: inline; */
+    width: 5%;
+}
+
+.leader-info {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+}
+
+.leader-info > p {
+    margin-top: 0;
+    margin-bottom: 0;
+    width: 50%;
+}
+
+.score {
+    text-align: right;
+}
+
+.politiq-bar {
+    width: 100%;
+    background-color: #A54EE8;
+    height: 2vh;
+    margin-bottom: 1vh;
+}
+
+.content {
+    width: 94%;
+    margin-top: 3vh;
+}
