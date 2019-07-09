@@ -12,6 +12,7 @@ import { db, withFirebase } from '../firebase';
 import { getLastMonthScores, getUserScores, getAllScores } from '../utils/storeScoreData';
 import { storeQuizzes } from '../utils/storeQuizzes';
 import { detectDevice } from '../utils/detectDevice';
+import { pushInit } from '../utils/pushInit';
 
 import Navigation from './Navigation/Navigation';
 import LandingPage from './StaticPages/Landing';
@@ -96,24 +97,11 @@ class App extends Component {
     }
 
     storeQuizzes()
-
-    // get the device registration token 
-    // this.registerTestPushToken()
   }
 
   componentWillUnmount() {
     this.listener();
   }
-
-  // DO NOT PUSH TO PRODUCTION
-  // registerTestPushToken = () => {
-  //   const device = detectDevice()
-  //   console.log({ device })
-  //   axios.post('https://cp.pushwoosh.com/json/1.3/registerDevice', {
-  //     application: '957F6-E387B',
-  //     push_token: 
-  //   })
-  // }
 
   initializeApp = (authUser) => {
     // get all the user's scores (all time)
