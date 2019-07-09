@@ -24,6 +24,7 @@ import QuizArchive from './QuizEngine/QuizArchive';
 import ArchivedQuiz from './QuizEngine/ArchivedQuiz';
 import Quiz from './QuizEngine/Quiz';
 import Leaderboard from './Leaderboard/Leaderboard';
+import Leaderboardv2 from './Leaderboard/Leaderboard-v2';
 import About from './StaticPages/About';
 import QuestionSubmitForm from './QuestionSubmit/QuestionSubmitForm';
 import ReviewQuestions from './AdminDashboard/ReviewQuestions';
@@ -252,6 +253,10 @@ class App extends Component {
                 <Route
                   exact path={routes.LEADERBOARD}
                   component={Leaderboard}
+                />
+                <Route
+                  exact path={routes.LEADERBOARDV2}
+                  component={Leaderboardv2}
                 />
                 <Route
                   exact path={routes.ABOUT}
