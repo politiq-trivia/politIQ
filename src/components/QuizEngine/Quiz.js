@@ -55,9 +55,13 @@ class Quiz extends Component {
     const url = window.location.href;
     const date = url.split('/')[4];
 
+    let uid = '';
     this.getUser();
-    const userInfo = JSON.parse(localStorage.getItem('authUser'))
-    const uid = userInfo.uid
+    if (localStorage.hasOwnProperty('authUser')) {
+      const userInfo = JSON.parse(localStorage.getItem('authUser'))
+      uid = userInfo.uid
+    }
+
 
     // I think this was for checking if the user is contesting the question
     if (localStorage.hasOwnProperty('state')) {
@@ -108,6 +112,8 @@ class Quiz extends Component {
           volumeUp: true,
         })
       }
+    } else {
+
     }
   }
 
