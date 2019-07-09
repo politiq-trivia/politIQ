@@ -50,13 +50,14 @@ class Quiz extends Component {
 
   error = new Audio(errorUrl)
   correct = new Audio(correctUrl)
-  // wrong = new Audio(wrongUrl)
 
   componentDidMount = () => {
     const url = window.location.href;
     const date = url.split('/')[4];
 
     this.getUser();
+    const userInfo = JSON.parse(localStorage.getItem('authUser'))
+    const uid = userInfo.uid
 
     // I think this was for checking if the user is contesting the question
     if (localStorage.hasOwnProperty('state')) {
@@ -69,20 +70,13 @@ class Quiz extends Component {
       this.setState({
         selectedQuizId: date,
         contestQuestion: false,
+        uid,
       })
       this.getQuiz(date)
     }
 
     trackEvent('Quizzes', 'Quiz loaded', 'QUIZ_LOADED')
   }
-
-  // if the user changed their game settings and then went back to take the quiz, check to make sure the settings are right
-  // shouldComponentUpdate = (nextProps, nextState) => {
-  //   const volumeUp = JSON.parse(localStorage.getItem('authUser')).soundsOn
-  //   if (volumeUp !== this.state.volumeUp) {
-  //     return true;
-  //   } else return false;
-  // }
 
   componentWillUnmount = () => {
     window.clearTimeout(this.timer)
@@ -96,7 +90,7 @@ class Quiz extends Component {
 
   getUser = () => {
     if(localStorage.hasOwnProperty('authUser')) {
-      const userInfo = JSON.parse(localStorage.authUser)
+      const userInfo = JSON.parse(localStorage.getItem('authUser'))
       const uid = userInfo.uid
       const email = userInfo.email
       if (userInfo.hasOwnProperty('soundsOn')) {
@@ -118,31 +112,31 @@ class Quiz extends Component {
   }
 
   getQuiz = async(date) => {
-    await db.getQuiz(date)
-      .then(response => {
-        if (response.val() === null || response.val() === undefined) {
-          console.error('no quiz')
-          return;
-        }
-        const quiz = response.val();
-        const quizQs = Object.keys(quiz);
-        quizQs.pop();
-        const qArray = []
-        for (let i = 1; i <= quizQs.length; i++) {
-          qArray.push(quiz[i])
-        }
-        this.setState({
-          selectedQuiz: quiz,
-          questionsArray: qArray,
-          quizLength: qArray.length,
-          selectedQuizId: date,
-          completed: 0,
-          finished: false,
-          clicked: false,
-          currentQ: 1,
-          score: 0,
-        })
-      })
+    // what if it just reads the localstorage allquizzes object for a quiz of that date? 
+    const quizzes = JSON.parse(localStorage.getItem('quizzes'))
+
+    const quiz = quizzes[date];
+    // handle nonexistent quiz
+    if (quiz === null || quiz === undefined) { 
+      return;
+    }
+    const quizQs = Object.keys(quiz);
+    quizQs.pop();
+    const qArray = []
+    for (let i = 1; i <= quizQs.length; i++) {
+      qArray.push(quiz[i])
+    }
+    this.setState({
+      selectedQuiz: quiz,
+      questionsArray: qArray,
+      quizLength: qArray.length,
+      selectedQuizId: date,
+      completed: 0,
+      finished: false,
+      clicked: false,
+      currentQ: 1,
+      score: 0,
+    })
   }
 
   getNextQuiz = (date) => {
@@ -273,6 +267,7 @@ class Quiz extends Component {
           this.error.volume = 0.5
           if (this.state.volumeUp === true) {
             this.error.play()
+            this.error.onended = null;
           }
         } else if (isCorrect === undefined) {
           // play the sad trombone sound if the user runs out of time
@@ -280,12 +275,10 @@ class Quiz extends Component {
           if (this.state.volumeUp === true) {
             // add one more second after when the timer ends and when the trombone plays
             this.error.play()
-            // this.sadTrombone = setTimeout(() => {
-              this.error.onended = function() {
-                let wrong = new Audio(wrongUrl)
-                wrong.play()
-              }
-            // }, 1000)
+            this.error.onended = function() {
+              let wrong = new Audio(wrongUrl)
+              wrong.play()
+            }
           }
         }
 

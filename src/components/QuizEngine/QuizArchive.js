@@ -41,6 +41,7 @@ class QuizArchive extends Component {
 
   componentDidMount = () => {
     this.createMonthOptionsArray()
+    // check for logged in user so that it can check if the user already ahas a score for that quiz
     if (localStorage.hasOwnProperty('authUser')) {
       const userObject = JSON.parse(localStorage.getItem('authUser'))
       const uid = userObject.uid
@@ -48,10 +49,10 @@ class QuizArchive extends Component {
         signedInUser: uid,
       })
     }
-    this.getQuizzesFromDb();
     this.setState({
       selectedMonth: moment().startOf('month').format('YYYY-MM-DDTHH:mm')
     })
+    this.getQuizzesFromDb();
   }
 
   createMonthOptionsArray = () => {
@@ -82,38 +83,38 @@ class QuizArchive extends Component {
   // user should be able to select a month for a dropdown and then retrieve the quizzes for that month. 
   // the default on page load will be the current month
   getQuizzesFromDb = async () => {
-    await db.getQuizzes()
-      .then(response => {
-        const data = response.val();
-        const allDates = Object.keys(data);
+    // instead of making a db call here, get the quizzes from local storage
+    const data = await JSON.parse(localStorage.getItem('quizzes'));
 
-        const dateArray = allDates.filter(date => this.dateFilter(date))
-        if (dateArray.length === 0 ) {
-          this.setState({
-            noQuizzes: true,
-            loading: false,
-          })
-          console.log('no quizzes')
-          return;
-        }
+    const allDates = Object.keys(data);
 
-        let titleArray = [];
-        for (let i = 0; i < dateArray.length; i++) {
-          let date = dateArray[i]
-          const title = data[date]["quiz-title"]
-          titleArray.push(title)
-        }
-        this.setState({
-          dateArray: dateArray.reverse(),
-          titleArray: titleArray.reverse(),
-          loading: false, 
-          page: 0,
-        })
-        if (this.state.signedInUser) {
-          this.getTheLoggedInUsersScores()
-        }
-        window.scrollTo(0,0)
+    const dateArray = allDates.filter(date => this.dateFilter(date))
+    if (dateArray.length === 0 ) {
+      this.setState({
+        noQuizzes: true,
+        loading: false,
       })
+      console.log('no quizzes')
+      return;
+    }
+
+    let titleArray = [];
+    for (let i = 0; i < dateArray.length; i++) {
+      let date = dateArray[i]
+      const title = data[date]["quiz-title"]
+      titleArray.push(title)
+    }
+    this.setState({
+      dateArray: dateArray.reverse(),
+      titleArray: titleArray.reverse(),
+      loading: false, 
+      page: 0,
+    })
+    if (this.state.signedInUser) {
+      this.getTheLoggedInUsersScores()
+    }
+
+    window.scrollTo(0,0)
   }
 
   getTheLoggedInUsersScores = () => {
@@ -121,17 +122,16 @@ class QuizArchive extends Component {
     if (uid === "") {
       return;
     }
-    db.getScoresByUid(uid)
-      .then(response => {
-        if (response.val() === null) {
-          return;
-        }
-        const data = response.val()
+    // the scores should already be in local storage so you don't have to make a db call here
+    const scores = JSON.parse(localStorage.getItem('userScoreData')).data
 
-        this.setState({
-          scoreObject: data
-        })
-      })
+    if (scores === null) {
+      return;
+    }
+
+    this.setState({
+      scoreObject: scores,
+    })
   }
 
   handleClick = (event) => {

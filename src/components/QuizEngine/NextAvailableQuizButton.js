@@ -19,62 +19,59 @@ class NextAvailableQuizButton extends Component {
     }
 
     nextQuiz = async () => {
-        // get the quizzes
-        await db.getQuizzes()
-            .then(response => {
-                // console.log(response.val())
-                const data = response.val()
-                const ogQuizDates = Object.keys(data);
-                const quizDates = ogQuizDates.filter(date => date < moment().format('YYYY-MM-DDTHH:mm') && date > moment().startOf('month').format('YYYY-MM-DDTHH:mm'))
-                const url = window.location.pathname
-                const currentQuizDate = url.slice(6,22)
-                const currentDateIndex = quizDates.indexOf(currentQuizDate)
-                // get the index of the previous quiz
-                const nextQuizIndex = currentDateIndex - 1;
-                const nextQuizDate  = quizDates[nextQuizIndex]
+        // get the quizzes from localstorage
+        const data = JSON.parse(localStorage.getItem('quizzes'));
 
-                // make sure that there is a quiz at that index (not -1)
-                if (!quizDates[nextQuizIndex]) {
-                    this.setState({
-                        disabled: true,
-                    })
-                    return;
-                }
+        const ogQuizDates = Object.keys(data);
+        const quizDates = ogQuizDates.filter(date => date < moment().format('YYYY-MM-DDTHH:mm') && date > moment().startOf('month').format('YYYY-MM-DDTHH:mm'))
+        const url = window.location.pathname
+        const currentQuizDate = url.slice(6,22)
+        const currentDateIndex = quizDates.indexOf(currentQuizDate)
+        // get the index of the previous quiz
+        const nextQuizIndex = currentDateIndex - 1;
+        const nextQuizDate  = quizDates[nextQuizIndex]
 
-                if (localStorage.hasOwnProperty('authUser')) {
-                    const uid = this.props.uid
-                    db.getScoresByUid(uid)
-                        .then(response => {
-                            const scoreData = response.val();
-                            const hasScoresFor = Object.keys(scoreData);
-                            const filteredDates = quizDates.filter((date) => {
-                                if (hasScoresFor.includes(date)) {
-                                    return false;
-                                } else {
-                                    return true;
-                                }
-                            })
-
-                            const nextDateWithoutScore = filteredDates[filteredDates.length - 1]
-                            if (quizDates.indexOf(nextDateWithoutScore) !== -1) {
-                                this.setState({
-                                    nextQuizDate: nextDateWithoutScore
-                                })
-                            } else {
-                                this.setState({
-                                    disabled: true,
-                                })
-                            }
-
-                        })
-                } else {
-                    this.setState({
-                        nextQuizUrl: nextQuizDate,
-                        nextQuizDate,
-                    })
-                }
-                
+        // make sure that there is a quiz at that index (not -1)
+        if (!quizDates[nextQuizIndex]) {
+            this.setState({
+                disabled: true,
             })
+            return;
+        }
+
+        // need to make a db call here to get the latest updated score 
+        if (localStorage.hasOwnProperty('authUser')) {
+            const uid = this.props.uid
+            db.getScoresByUid(uid)
+                .then(response => {
+                    const scoreData = response.val();
+                    const hasScoresFor = Object.keys(scoreData);
+                    const filteredDates = quizDates.filter((date) => {
+                        if (hasScoresFor.includes(date)) {
+                            return false;
+                        } else {
+                            return true;
+                        }
+                    })
+
+                    const nextDateWithoutScore = filteredDates[filteredDates.length - 1]
+                    if (quizDates.indexOf(nextDateWithoutScore) !== -1) {
+                        this.setState({
+                            nextQuizDate: nextDateWithoutScore
+                        })
+                    } else {
+                        this.setState({
+                            disabled: true,
+                        })
+                    }
+
+                })
+        } else {
+            this.setState({
+                nextQuizUrl: nextQuizDate,
+                nextQuizDate,
+            })
+        }                
     }
 
     handleClick = () => {

@@ -40,19 +40,6 @@ class GameSettings extends Component {
             invisibleScore,
             loaded: true,
         })
-        // if (userInfo.soundsOn) {
-        //     this.setState({
-        //         userInfo,
-        //         soundsOn: userInfo.soundsOn,
-        //         loaded: true,
-        //     })
-        // } else {
-        // // store the user info for later 
-        //     this.setState({
-        //         userInfo,
-        //         loaded: true
-        //     })
-        // }
     }
 
     componentWillUnmount = () => {
@@ -61,7 +48,6 @@ class GameSettings extends Component {
 
     handleChange = (event) => {
         const name = event.target.name
-        console.log(name, 'this is name in handle change')
         this.setState({
             [name]: !this.state[name]
         })
