@@ -95,26 +95,21 @@ class AdminDashboard extends Component {
 
   // this one gets the list of quizzes to render in the quiz index component
   getQuizzesFromDb = async () => {
-    await db.getQuizzes()
-      .then(response => {
-        if (response.val() !== null) {
-          const data = response.val();
-          const allDates = Object.keys(data);
-          const dateArray = allDates.filter(date => date > moment().startOf('month').format('YYYY-MM-DDTHH:mm'));
-          let titleArray = [];
-          for (let i = 0; i < dateArray.length; i++) {
-            let date = dateArray[i]
-            const title = data[date]["quiz-title"]
+    const data = JSON.parse(localStorage.getItem('quizzes'))
 
-            titleArray.push(title)
-          }
+    const allDates = Object.keys(data);
+    const dateArray = allDates.filter(date => date > moment().startOf('month').format('YYYY-MM-DDTHH:mm'));
+    let titleArray = [];
+    for (let i = 0; i < dateArray.length; i++) {
+      let date = dateArray[i]
+      const title = data[date]["quiz-title"]
+      titleArray.push(title)
+    }
 
-          this.setState({
-            dateArray: dateArray.reverse(),
-            titleArray: titleArray.reverse(),
-          })
-        }
-      })
+    this.setState({
+      dateArray: dateArray.reverse(),
+      titleArray: titleArray.reverse(),
+    })
   }
 
   toggleDashboard = () => {

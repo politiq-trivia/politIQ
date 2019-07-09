@@ -201,6 +201,8 @@ export const getDisplayNames = (username) => {
   return userData;
 }
 
+// if I move this logic to the frontend, it ends up being three fewer db calls.
+// this function returns all users in that party, regardless of whether they have scores. 
 export const getUserByAffiliation = (affiliation) => {
   let partyUids = []
   const users = db.ref().child('users/').once('value').then(function(snapshot) {
