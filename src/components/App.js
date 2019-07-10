@@ -5,14 +5,11 @@ import {
 } from 'react-router-dom';
 import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 import moment from 'moment';
-import axios from 'axios';
 
 import './App.css';
 import { db, withFirebase } from '../firebase';
 import { getLastMonthScores, getUserScores, getAllScores } from '../utils/storeScoreData';
 import { storeQuizzes } from '../utils/storeQuizzes';
-import { detectDevice } from '../utils/detectDevice';
-import { pushInit } from '../utils/pushInit';
 
 import Navigation from './Navigation/Navigation';
 import LandingPage from './StaticPages/Landing';
@@ -36,6 +33,7 @@ import PrivacyPolicy from './StaticPages/PrivacyPolicy';
 import AddToHomescreen from './StaticPages/AddToHomescreen';
 import QuizRedirect from './QuizEngine/QuizRedirect';
 import ProfileToQuizRedirect from './QuizEngine/ProfileToQuizRedirect';
+import LatestQuizRedirect from './QuizEngine/LatestQuizRedirect';
 import NoMatch from './StaticPages/NoMatch';
 import FAQ from './StaticPages/FAQ';
 
@@ -242,6 +240,10 @@ class App extends Component {
                 <Route
                   exact path={routes.PROFILE_TO_QUIZ_REDIRECT}
                   component={ProfileToQuizRedirect}
+                />
+                <Route
+                  exact path={routes.LATEST_QUIZ}
+                  component={LatestQuizRedirect}
                 />
                 <Route 
                   exact path={routes.ARCHIVED_QUIZ}
