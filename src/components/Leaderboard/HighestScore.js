@@ -54,16 +54,6 @@ class HighestScore extends Component {
                 highScore: max,
             })
         })
-        // db.getDisplayNames(usernames[index])
-        //     .then((response) => {
-        //         const data = response.val()
-        //         if (data === null) return;
-        //         const name = data.displayName;
-        //         this.setState({
-        //             highScore: max,
-        //             name,
-        //         })
-        //     })
     }
 
     getUsersWithScores = async () => {

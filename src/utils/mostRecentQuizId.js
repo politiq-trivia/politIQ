@@ -3,8 +3,8 @@ import moment from 'moment';
 let scoreData;
 
 const getMostRecentQuizId = async () => {
-    if (localStorage.hasOwnProperty('authUser')) {
-        scoreData = JSON.parse(localStorage.getItem('userScoreData'))
+    if (localStorage.hasOwnProperty('authUser') && localStorage.hasOwnProperty('userScoreData')) {
+        scoreData = JSON.parse(localStorage.getItem('userScoreData')).data
         const reply = await getMostRecentQuizIdForUser(scoreData)
         return reply;
     } else {
@@ -14,7 +14,7 @@ const getMostRecentQuizId = async () => {
 }
 
 const getMostRecentQuizIdForUser = async (scoreData) => {
-    const data = JSON.parse(localStorage.getItem('quizzes'))
+    const data = await JSON.parse(localStorage.getItem('quizzes'));
     const allDates = Object.keys(data);
     const dateArray = allDates.filter(date => date < moment().format('YYYY-MM-DDTHH:mm') && date > moment().startOf('month').format('YYYY-MM-DDTHH:mm'))
     if (dateArray.length === 0) {
@@ -24,11 +24,11 @@ const getMostRecentQuizIdForUser = async (scoreData) => {
     let counter = 1;
     let mostRecent = dateArray[dateArray.length-counter]
     // if the user has scores, loop through those scores to find the first quiz they do not have a score for
-    if (scoreData) {
-        while(scoreData[mostRecent] && counter < dateArray.length) {
+    if (scoreData !== undefined && Object.keys(scoreData).length > 0) {
+        while(scoreData[mostRecent] !== undefined && counter < dateArray.length) {
             counter++;
             mostRecent = dateArray[dateArray.length-counter]
-            if (scoreData[mostRecent === undefined]) {
+            if (scoreData[mostRecent] === undefined) {
                 break;
             }
         }

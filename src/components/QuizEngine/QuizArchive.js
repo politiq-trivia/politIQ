@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { Link, withRouter } from 'react-router-dom';
 import { Helmet } from 'react-helmet';
 import moment from 'moment';
-import { db } from '../../firebase';
 import * as routes from '../../constants/routes';
 
 import loadingGif from '../../loadingGif.gif';

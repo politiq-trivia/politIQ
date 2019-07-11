@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { Helmet } from 'react-helmet';
 import { compose } from 'recompose';
-// import axios from 'axios';
 import MediaQuery from 'react-responsive';
 
 import {
@@ -25,11 +24,7 @@ import {
 import { withAuthorization, withEmailVerification } from '../Auth/index';
 
 import * as routes from '../../constants/routes';
-// import { urlB64ToUint8Array } from '../../utils/urlB64ToUint8Array';
-// import { db, messaging } from '../../firebase';
-// import { getToken } from '../../firebase/messaging';
 
-// /Users/hannahwerman/politiq-full/politiq/src/firebase/firebase.js
 
 import Paper from '@material-ui/core/Paper';
 import Button from '@material-ui/core/Button';
@@ -253,6 +248,19 @@ class HomePage extends Component {
 
           </div>
         </MediaQuery>
+
+        <hr />
+        <iframe 
+          title="may gameshow" 
+          width="560" 
+          height="315" 
+          src="https://www.youtube.com/embed/qudMpap0YoQ" 
+          frameBorder="0" 
+          allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" 
+          allowFullScreen
+          style={{ marginLeft: 'auto', marginRight: 'auto', marginTop: '5vh' }}
+        >
+        </iframe>
 
       </Paper>
     );

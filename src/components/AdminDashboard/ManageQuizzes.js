@@ -18,7 +18,6 @@ import TextField from '@material-ui/core/TextField';
 import OutlinedInput from '@material-ui/core/OutlinedInput';
 import MenuItem from '@material-ui/core/MenuItem';
 
-import { db } from '../../firebase';
 import './dashboard.css';
 import loadingGif from '../../loadingGif.gif';
 import DeleteModal from './DeleteModal';
@@ -67,23 +66,19 @@ class ManageQuizzes extends Component {
     }
 
     getQuizzesFromDb = async () => {
-        await db.getQuizzes()
-            .then(response => {
-                if (response.val() !== null) {
-                    const data = response.val()
-                    const dateArray = Object.keys(data)
-                    let titleArray = [];
-                    for (let i = 0; i < dateArray.length; i++) {
-                        let date = dateArray[i]
-                        const title = data[date]["quiz-title"]
-                        titleArray.push(title)
-                    }
-                    this.setState({
-                        dateArray: dateArray.reverse(),
-                        titleArray: titleArray.reverse()
-                    })
-                }
-            })
+        const data = JSON.parse(localStorage.getItem('quizzes'))
+
+        const dateArray = Object.keys(data)
+        let titleArray = [];
+        for (let i = 0; i < dateArray.length; i++) {
+            let date = dateArray[i]
+            const title = data[date]["quiz-title"]
+            titleArray.push(title)
+        }
+        this.setState({
+            dateArray: dateArray.reverse(),
+            titleArray: titleArray.reverse()
+        })
     }
 
     handleClick = (event) => {

@@ -55,9 +55,13 @@ class Quiz extends Component {
     const url = window.location.href;
     const date = url.split('/')[4];
 
+    let uid = '';
     this.getUser();
-    const userInfo = JSON.parse(localStorage.getItem('authUser'))
-    const uid = userInfo.uid
+    if (localStorage.hasOwnProperty('authUser')) {
+      const userInfo = JSON.parse(localStorage.getItem('authUser'))
+      uid = userInfo.uid
+    }
+
 
     // I think this was for checking if the user is contesting the question
     if (localStorage.hasOwnProperty('state')) {
@@ -108,6 +112,8 @@ class Quiz extends Component {
           volumeUp: true,
         })
       }
+    } else {
+
     }
   }
 
@@ -319,13 +325,22 @@ class Quiz extends Component {
     if (uid === "") {
       this.props.storeScore(scoreObj)
     } else {
+      // add the newest score back into local storage
+      const localScores = JSON.parse(localStorage.getItem('userScoreData'));
+      localScores.data = {
+        ...localScores.data,
+        [this.state.selectedQuizId]: score
+      }
+      localStorage.setItem("userScoreData", JSON.stringify(localScores))
+
+      // add it to the database
       db.setScore(uid, this.state.selectedQuizId, score)
     }
   }
 
   toggleVolume = () => {
     this.setState({
-      volumeUp: !this.state.volumeUp
+      volumeUp: !this.state.volumeUß
     })
 
     // set the local storage 
@@ -361,7 +376,7 @@ class Quiz extends Component {
             </Helmet>
 
             <Prompt 
-              when={this.state.selectedQuiz !== {} && this.state.finished === false}
+              when={this.state.uid !== "" && this.state.selectedQuiz !== {} && this.state.finished === false}
               message={`Are you sure you want to leave? Your score will be saved as ${this.state.score} and you will not be able to retake this quiz.`}
             />
 
