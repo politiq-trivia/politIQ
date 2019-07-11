@@ -1,7 +1,10 @@
 import React, { Component } from 'react';
+import moment from 'moment';
 import VerifiedUser from '@material-ui/icons/VerifiedUser';
 
 import { getPolitIQ } from '../../utils/calculatePolitIQ';
+import { getThisMonthScores } from '../../utils/storeScoreData';
+import { db } from '../../firebase';
 import PolitIQBar from './PolitIQBar';
 import PolitIQCircle from './PolitIQCircle';
 import './leaderboard2.css';
@@ -29,7 +32,15 @@ class Leaderboardv2 extends Component {
                 affiliation: userInfo.affiliation
             })
         }
+
+        this.initLeaderboard()
     }
+
+    initLeaderboard = async () => {
+        const data = await getThisMonthScores()
+        this.monthlyLeaders(data)
+        this.setState({ data })
+      }
 
     getMyPolitIQ = async (uid, timeframe) => {
         let iq = await getPolitIQ(uid, timeframe)
@@ -44,6 +55,90 @@ class Leaderboardv2 extends Component {
         }
     }
 
+    monthlyLeaders = async (data) => {
+        const userScores = []
+    
+        // handle an empty response
+        if (data === null || data === undefined) {
+          window.clearTimeout(this.timeout)
+          this.setState({
+            isLoaded: true,
+          })
+          return;
+        }
+        
+        let usernames = [];
+        for (let k = 0; k < data.length; k++) {
+          usernames.push(data[k].user)
+        }
+    
+        // check if that user wants their score included in the leaderboard
+        usernames.forEach(async (user, i) => {
+          const userData = await db.getDisplayNames(usernames[i])
+          userData.displayName.then((displayName) => {
+            userData.invisibleScore.then((invisibleScore) => {
+              if (invisibleScore) { return; }
+              const quizDates = Object.keys(data[i].data)
+    
+                let submitted;
+                if(quizDates[quizDates.length - 1] === 'submitted') {
+                  submitted = data[i].data["submitted"]
+                  quizDates.pop()
+                }
+                let lastMonth = []
+                let scoreCounter = 0;
+                for (let j = 0; j < quizDates.length; j++) {
+                  if (quizDates[j] > moment().startOf('month').format('YYYY-MM-DD')) {
+                    lastMonth.push(quizDates[j])
+                    if (data[i].data[quizDates[j]]) {
+                      scoreCounter += data[i].data[quizDates[j]]
+                    }
+                  }
+                }
+    
+                let submittedScoreCounter = 0
+                if (submitted !== undefined) {
+                  const dates = Object.keys(submitted)
+                  for (let j = 0; j < dates.length; j++) {
+                    if (dates[j] > moment().startOf('month').format('YYYY-MM-DDTHH:mm')) {
+                      submittedScoreCounter += 1
+                    }
+                  }
+                }
+                      
+                if (scoreCounter > 0) {
+                  this.getPolitIQ(user, 'month')
+                    .then(politIQ => {
+                      userScores.push({
+                        username: displayName,
+                        score: scoreCounter,
+                        uid: user,
+                        politIQ: politIQ + submittedScoreCounter
+                      })
+    
+                      const rankedScores = userScores.sort(function(a,b){
+                        return a.score - b.score
+                      })
+    
+                      const rankReverse = rankedScores.reverse()
+                        this.setState({
+                          rankedScores: rankReverse,
+                          isLoaded: true,
+                        })
+                        window.clearTimeout(this.timeout)
+                    })
+                }
+            })
+          })
+        }
+      );
+    }
+
+    getPolitIQ = async (uid, timeframe) => {
+        const politIQ = await getPolitIQ(uid, timeframe)
+        return politIQ
+      }
+
     toggleWeekly = (event) => {
         event.preventDefault()
         console.log('toggle weekly calle')
@@ -53,7 +148,32 @@ class Leaderboardv2 extends Component {
     }
     
     render() {
-        console.log(this.state, 'state')
+        let rankingArray = [];
+        if (Array.isArray(this.state.rankedScores)) {
+          const ranking = this.state.rankedScores;
+          const result = ranking.map((stat, i) => {
+            return [stat.username, stat.score, stat.uid, stat.politIQ]
+          });
+          rankingArray = [...result]
+        }
+
+        const renderMonthlyLeaders = rankingArray.map((stat, i) => {
+            if (i >= 5) { return null; }
+            console.log(stat, 'stat in leaders')
+            return (
+                <div className="leaderboard-object">
+                <p className="leaderboard-num">{i + 1}</p>
+                <div className="content">
+                    {/* <div className="politiq-bar"></div> */}
+                    <PolitIQBar percentage={stat[3]}/>
+                    <div className="leader-info">
+                        <p>{stat[0]}</p>
+                        <p className="score">{stat[1]}</p>
+                    </div>
+                </div>
+            </div>
+            )
+        })
         return (
             <div className="leaderboard-holder">
                 <div className="leaderboard-left">
@@ -84,61 +204,7 @@ class Leaderboardv2 extends Component {
                         <div onClick={(event) =>this.toggleWeekly(event)} className={this.state.weekly === false ? "weekly selected" : "weekly" }><p>Monthly</p></div>
                         <div onClick={(event) => this.toggleWeekly(event)} className={this.state.weekly === true ? "weekly selected" : "weekly"}><p>Weekly</p></div>
                     </div>
-                    <div className="leaderboard-object">
-                        <p className="leaderboard-num">1</p>
-                        <div className="content">
-                            {/* <div className="politiq-bar"></div> */}
-                            <PolitIQBar percentage={this.state.politIQ}/>
-                            <div className="leader-info">
-                                <p>Hannah Werman</p>
-                                <p className="score">50</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div className="leaderboard-object">
-                        <p className="leaderboard-num">1</p>
-                        <div className="content">
-                            <div className="politiq-bar"></div>
-
-                            <div className="leader-info">
-                                <p>Hannah Werman</p>
-                                <p className="score">50</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div className="leaderboard-object">
-                        <p className="leaderboard-num">1</p>
-                        <div className="content">
-                            <div className="politiq-bar"></div>
-
-                            <div className="leader-info">
-                                <p>Hannah Werman</p>
-                                <p className="score">50</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div className="leaderboard-object">
-                        <p className="leaderboard-num">1</p>
-                        <div className="content">
-                            <div className="politiq-bar"></div>
-
-                            <div className="leader-info">
-                                <p>Hannah Werman</p>
-                                <p className="score">50</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div className="leaderboard-object">
-                        <p className="leaderboard-num">1</p>
-                        <div className="content">
-                            <div className="politiq-bar"></div>
-
-                            <div className="leader-info">
-                                <p>Hannah Werman</p>
-                                <p className="score">50</p>
-                            </div>
-                        </div>
-                    </div>
+                    {renderMonthlyLeaders}
                 </div>
             </div>
         )
