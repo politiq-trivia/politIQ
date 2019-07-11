@@ -16,6 +16,7 @@ class LatestQuizRedirect extends Component {
     }
     
     getMostRecent = async () => {
+        // this gets the most recent quiz - if you've already taken it, it goes to the next one you haven't taken
         await getMostRecentQuizId()
             .then(response => {
                 this.setState({
