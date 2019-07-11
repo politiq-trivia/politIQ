@@ -14,7 +14,7 @@ const getMostRecentQuizId = async () => {
 }
 
 const getMostRecentQuizIdForUser = async (scoreData) => {
-    const data = JSON.parse(localStorage.getItem('quizzes'))
+    const data = await JSON.parse(localStorage.getItem('quizzes'));
     const allDates = Object.keys(data);
     const dateArray = allDates.filter(date => date < moment().format('YYYY-MM-DDTHH:mm') && date > moment().startOf('month').format('YYYY-MM-DDTHH:mm'))
     if (dateArray.length === 0) {
