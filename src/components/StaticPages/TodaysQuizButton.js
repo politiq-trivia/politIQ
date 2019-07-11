@@ -14,6 +14,13 @@ class TodaysQuizButton extends Component {
         this.getMostRecentQuizId()
     }
 
+    shouldComponentUpdate (nextProps, nextState) {
+        // see if there have been new scores added since the last time the component was rendered
+        if (nextState.mostRecentQuizURL !== this.state.mostRecentQuizURL) {
+            return true;
+        } else return false;
+    }
+
     componentWillUnmount = () => {
         this.setState({
             undefined
@@ -30,20 +37,22 @@ class TodaysQuizButton extends Component {
                 this.props.showErrorMessage()
             }
         } else {
+            // console.log('mostrecentquiz', quizId)
             this.setState({
                 mostRecentQuizURL: quizId
             })
         } 
-      }
+    }
     
-      redirectToQuiz = () => {
+    redirectToQuiz = () => {
         this.props.history.push(`/${this.state.mostRecentQuizURL}`)
-      }
+    }
 
     render() {
         const { buttonText, id } = this.props;
+        // console.log(this.state)
         return (
-            <Button color="primary" variant="outlined" size="large" id={id} disabled={this.state.noAvailableQuizzes} onClick={this.redirectToQuiz}>{buttonText}</Button>
+            <Button color="primary" variant="outlined" size="large" id={id} disabled={this.state.mostRecentQuizURL === "" || this.state.noAvailableQuizzes} onClick={this.redirectToQuiz}>{buttonText}</Button>
         )
     }
 }

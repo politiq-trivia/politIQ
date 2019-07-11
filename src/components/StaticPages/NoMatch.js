@@ -10,9 +10,13 @@ import bg from './politiq-bg2.jpg';
 
 
 const NoMatch = () => {
+    const noMoreQuizzes = window.location.pathname === '/No%20Available%20Quizzes'
     return (
         <Paper className="home-holder">
-            <h2>Uh oh! The page you're looking for does not exist.</h2>
+            {noMoreQuizzes 
+                ? <h2>Uh oh! You've already taken this quiz!</h2>
+                : <h2>Uh oh! The page you're looking for does not exist.</h2>
+            }
             <MediaQuery minWidth={416}>
                 <Link to={localStorage.hasOwnProperty('authUser') ? HOME : LANDING} style={{ textDecoration: 'none', display: 'block' }}>
                     <h3 className="noMatch-link">Click here to return to the home page</h3>

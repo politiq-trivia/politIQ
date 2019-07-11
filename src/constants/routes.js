@@ -15,6 +15,7 @@ export const QUIZ_REDIRECT = '/quiz/quiz/:id';
 export const LATEST_QUIZ = '/latest';
 export const RSS_REDIRECT = '/rssQuiz/:id';
 export const PROFILE_TO_QUIZ_REDIRECT = '/profile/quiz/:id';
+export const LATEST_QUIZ = '/latest';
 export const SUBMIT_QUESTION = '/submit-question';
 export const LEADERBOARD = '/leaderboard';
 export const ABOUT = '/about';
