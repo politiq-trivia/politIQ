@@ -1,17 +1,53 @@
 import React, { Component } from 'react';
 import VerifiedUser from '@material-ui/icons/VerifiedUser';
 
+import { getPolitIQ } from '../../utils/calculatePolitIQ';
 import './leaderboard2.css';
 
 class Leaderboardv2 extends Component {
+    constructor(props) {
+        super(props)
+        this.state = {
+            displayName: "",
+            affiliation: "",
+            uid: "",
+            politIQ: "",
+        }
+    }
+
+    componentDidMount() {
+        if (localStorage.hasOwnProperty('authUser')) {
+            const userInfo = JSON.parse(localStorage.getItem('authUser'))
+            console.log(userInfo)
+            this.setState({
+                displayName: userInfo.displayName,
+                uid: userInfo.uid,
+                affiliation: userInfo.affiliation
+            })
+        }
+    }
+
+    getMyPolitIQ = async (uid, timeframe) => {
+        let iq = await getPolitIQ(uid, timeframe)
+        if (isNaN(iq)) {
+          this.setState({
+            politIQ: 0
+          })
+        } else {
+          this.setState({
+            politIQ: iq,
+          })
+        }
+      }
+    
     render() {
         return (
             <div className="leaderboard-holder">
                 <div className="leaderboard-left">
                     <div className="leader-user-info">
                         <VerifiedUser size={40}/>
-                        <h2>username</h2>
-                        <h4>affiliation</h4>
+                        <h2>{this.state.displayName}</h2>
+                        <h4>{this.state.affiliation}</h4>
                     </div>
                     <div className="leader-user-stats">
                         <div className="stat-rank">
