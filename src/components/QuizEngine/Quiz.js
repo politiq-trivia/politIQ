@@ -325,13 +325,22 @@ class Quiz extends Component {
     if (uid === "") {
       this.props.storeScore(scoreObj)
     } else {
+      // add the newest score back into local storage
+      const localScores = JSON.parse(localStorage.getItem('userScoreData'));
+      localScores.data = {
+        ...localScores.data,
+        [this.state.selectedQuizId]: score
+      }
+      localStorage.setItem("userScoreData", JSON.stringify(localScores))
+
+      // add it to the database
       db.setScore(uid, this.state.selectedQuizId, score)
     }
   }
 
   toggleVolume = () => {
     this.setState({
-      volumeUp: !this.state.volumeUp
+      volumeUp: !this.state.volumeUß
     })
 
     // set the local storage 

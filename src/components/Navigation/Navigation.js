@@ -126,6 +126,7 @@ class NavigationAuth extends Component {
     auth.doSignOut()
     this.props.clearStateOnSignout()
     localStorage.removeItem('authUser')
+    localStorage.removeItem('userScoreData')
     this.toggleDrawer('top', false)
     window.location.replace('/')
   }
