@@ -3,7 +3,7 @@ import moment from 'moment';
 let scoreData;
 
 const getMostRecentQuizId = async () => {
-    if (localStorage.hasOwnProperty('authUser')) {
+    if (localStorage.hasOwnProperty('authUser') && localStorage.hasOwnProperty('userScoreData')) {
         scoreData = JSON.parse(localStorage.getItem('userScoreData')).data
         const reply = await getMostRecentQuizIdForUser(scoreData)
         return reply;

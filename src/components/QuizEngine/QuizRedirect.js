@@ -1,21 +1,31 @@
 import React from 'react';
-import { Redirect } from 'react-router-dom';
 
-const QuizRedirect = () => {
+import Paper from '@material-ui/core/Paper';
+
+const QuizRedirect = (props) => {
     let quizId;
     if (window.location.href.includes('rssQuiz')) {
-        quizId = '/quiz/' + window.location.href.slice(30, window.location.href.length)
+        quizId = window.location.href.slice(30, window.location.href.length)
     } else {
         quizId = window.location.href.slice(26, window.location.href.length)
     }
-    // repurpose this to also work with the rss redirect
-    // const quizId = 
-    console.log(quizId, 'this is quizId in the redirect component')
+
+    // also need to check if the logged in user has already taken that quiz
+    const loggedIn = localStorage.hasOwnProperty('authUser');
+    if (loggedIn) {
+        // check for a score on that date
+        const userScores = JSON.parse(localStorage.getItem('userScoreData')).data
+        if (Object.keys(userScores).includes(quizId)) {
+            props.history.push('/No%20Available%20Quizzes')
+        }
+    } else {
+        props.history.push(`/quiz/${quizId}`)
+    }
+
     return (
-        // <div>hi</div>
-        <Redirect to={{
-            pathname: quizId
-        }} />
+        <Paper className="homeHolder">
+            <h1>Fetching the latest quiz...</h1>
+        </Paper>
     )
 }
 

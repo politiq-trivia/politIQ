@@ -10,13 +10,11 @@ import bg from './politiq-bg2.jpg';
 
 
 const NoMatch = () => {
-    console.log(window.location.pathname)
     const noMoreQuizzes = window.location.pathname === '/No%20Available%20Quizzes'
-    console.log(noMoreQuizzes)
     return (
         <Paper className="home-holder">
             {noMoreQuizzes 
-                ? <h2>Uh oh! You've already taken all the quizzes for this month!</h2>
+                ? <h2>Uh oh! You've already taken this quiz!</h2>
                 : <h2>Uh oh! The page you're looking for does not exist.</h2>
             }
             <MediaQuery minWidth={416}>
