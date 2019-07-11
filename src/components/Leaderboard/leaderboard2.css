@@ -56,11 +56,16 @@
     width: 50%;
 }
 
-.stat-rank > p, .stat-month > p {
+.stat-rank > p, .stat-month > p, .politIQ-label {
     text-transform: uppercase;
     letter-spacing: 1px;
     margin-bottom: 0;
+    color: #F4E9FC;
 }
+
+/* .politIQ-label {
+    color: #F4E9FC;
+} */
 
 .stat-rank {
     border-right: 1px solid #F4E9FC;
@@ -95,13 +100,24 @@
     width: 50%;
 }
 
-.weekly {
+.leaderboard-tabs > div:hover {
+    color: #A54EE8;
+}
+
+.weekly:last-child {
     border-left: 1px solid #150A1D;
 }
 
-.weekly:hover, .monthly:hover {
+.weekly:hover {
     color: #A54EE8;
     cursor: pointer;
+}
+
+.selected {
+    color: #150A1D;
+    text-decoration: underline #150A1D;
+    font-weight: bold;
+    /* line-height: 1.5; */
 }
 
 .leaderboard-object {
@@ -143,7 +159,52 @@
     margin-bottom: 1vh;
 }
 
+.score-bar {
+    position: relative;
+    height: 2vh;
+    width: 100%;
+    background: lightgray;
+}
+
+.filler {
+    background: #A54EE8;
+    height: 100%;
+    transition: width .2s ease-in;
+}
+
 .content {
     width: 94%;
     margin-top: 3vh;
+}
+
+#circle {
+    margin-left: 28%;
+    margin-top: 10vh;
+    margin-bottom: 2vh;
+}
+
+.circle-background,
+.circle-progress {
+  fill: none;
+
+}
+
+.circle-background {
+  stroke: rgba(244, 233, 252, 0.4);
+}
+
+.circle-progress {
+  stroke: rgba(83, 39, 116, 1);
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.circle-text {
+  font-size: 3em;
+  font-weight: bold;
+  fill: #A54EE8;
+}
+
+.politIQ-label {
+    fill: #D2A7F3;
 }
