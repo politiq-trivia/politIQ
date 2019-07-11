@@ -376,7 +376,7 @@ class Quiz extends Component {
             </Helmet>
 
             <Prompt 
-              when={this.state.selectedQuiz !== {} && this.state.finished === false}
+              when={this.state.uid !== "" && this.state.selectedQuiz !== {} && this.state.finished === false}
               message={`Are you sure you want to leave? Your score will be saved as ${this.state.score} and you will not be able to retake this quiz.`}
             />
 
