@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Redirect } from 'react-router-dom';
 import getMostRecentQuizId from '../../utils/mostRecentQuizId';
+import LoadingGif from '../../loadingGif.gif';
 
 class LatestQuizRedirect extends Component {
     constructor(props) {
@@ -27,7 +28,7 @@ class LatestQuizRedirect extends Component {
         return (
             <>
                 {this.state.latest === "" 
-                    ? <p>this is the redirect</p>
+                    ? <img src={LoadingGif} alt="loading" style={{ marginTop: '30vh', marginBottom: '30vh' }}/>
                     : <Redirect to={this.state.latest} />
                 }
             </>
