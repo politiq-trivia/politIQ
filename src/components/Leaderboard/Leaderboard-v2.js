@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import moment from 'moment';
+import styled from 'styled-components';
 import VerifiedUser from '@material-ui/icons/VerifiedUser';
 
 import { getPolitIQ } from '../../utils/calculatePolitIQ';
@@ -24,12 +25,12 @@ class Leaderboardv2 extends Component {
     componentDidMount() {
         if (localStorage.hasOwnProperty('authUser')) {
             const userInfo = JSON.parse(localStorage.getItem('authUser'))
-            console.log(userInfo)
             this.getMyPolitIQ(userInfo.uid, 'month')
             this.setState({
                 displayName: userInfo.displayName,
                 uid: userInfo.uid,
-                affiliation: userInfo.affiliation
+                affiliation: userInfo.affiliation,
+                invisibleScore: userInfo.invisibleScore,
             })
         }
 
@@ -137,7 +138,24 @@ class Leaderboardv2 extends Component {
     getPolitIQ = async (uid, timeframe) => {
         const politIQ = await getPolitIQ(uid, timeframe)
         return politIQ
+    }
+
+    getUserRank = () => {
+      if (this.state.isLoaded) {
+        if (localStorage.hasOwnProperty('authUser')) {
+          const scores = this.state.rankedScores
+          const uid = JSON.parse(localStorage.getItem('authUser')).uid
+          let ranking;
+          for (let i = 0; i < scores.length; i++) {
+            if (uid === scores[i].uid) {
+
+              ranking = i + 1;
+            }
+          }
+          return ranking;
+        }
       }
+    }
 
     toggleWeekly = (event) => {
         event.preventDefault()
@@ -159,9 +177,8 @@ class Leaderboardv2 extends Component {
 
         const renderMonthlyLeaders = rankingArray.map((stat, i) => {
             if (i >= 5) { return null; }
-            console.log(stat, 'stat in leaders')
             return (
-                <div className="leaderboard-object">
+                <div className="leaderboard-object" key={i}>
                 <p className="leaderboard-num">{i + 1}</p>
                 <div className="content">
                     {/* <div className="politiq-bar"></div> */}
@@ -174,6 +191,14 @@ class Leaderboardv2 extends Component {
             </div>
             )
         })
+
+        let rank;
+        if (this.state.rankedScores && !this.state.invisibleScore) {
+          rank = this.getUserRank()
+        } else {
+          rank = "--"
+        }
+
         return (
             <div className="leaderboard-holder">
                 <div className="leaderboard-left">
@@ -185,7 +210,7 @@ class Leaderboardv2 extends Component {
                     <div className="leader-user-stats">
                         <div className="stat-rank">
                             <p>Rank</p>
-                            <h3>540</h3>
+                            <h3>{rank ? rank : null}</h3>
                         </div>
                         <div className="stat-month">
                             <p>This Month</p>
@@ -205,6 +230,9 @@ class Leaderboardv2 extends Component {
                         <div onClick={(event) => this.toggleWeekly(event)} className={this.state.weekly === true ? "weekly selected" : "weekly"}><p>Weekly</p></div>
                     </div>
                     {renderMonthlyLeaders}
+                    <div className="pagination">
+                      <p className="p-item">More >></p>
+                    </div>
                 </div>
             </div>
         )

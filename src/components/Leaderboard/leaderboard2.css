@@ -1,8 +1,9 @@
 .leaderboard-holder {
     display: flex;
     flex-direction: row;
-    height: 100vh;
+    height: 90vh;
     overflow: scroll;
+    margin-top: 64px;
 }
 
 .leaderboard-left {
@@ -14,7 +15,6 @@
     -moz-box-shadow: 4px 6px 16px 0px rgba(0,0,0,0.75);
     box-shadow: 4px 6px 16px 0px rgba(0,0,0,0.75);
     border-radius: 0 5px 5px 0;
-    margin-top: 64px;
     background: rgba(41,20,58,1);
     background: -moz-linear-gradient(-45deg, rgba(41,20,58,1) 0%, rgba(41,20,58,1) 9%, rgba(41,20,58,1) 44%, rgba(62,29,87,1) 86%, rgba(41,20,58,1) 100%);
     background: -webkit-gradient(left top, right bottom, color-stop(0%, rgba(41,20,58,1)), color-stop(9%, rgba(41,20,58,1)), color-stop(44%, rgba(41,20,58,1)), color-stop(86%, rgba(62,29,87,1)), color-stop(100%, rgba(41,20,58,1)));
@@ -29,9 +29,8 @@
     background-color: white;
     width: 55%;
     z-index: -10;
-    margin-top: 64px;
     overflow: scroll;
-    height: 90%;
+    height: 100%;
 }
 
 .leader-user-info {
@@ -186,7 +185,7 @@
 
 #circle {
     margin-left: 28%;
-    margin-top: 10vh;
+    margin-top: 6vh;
     margin-bottom: 2vh;
 }
 
@@ -214,4 +213,19 @@
 
 .politIQ-label {
     fill: #D2A7F3;
+}
+
+.pagination {
+    width: 80%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.p-item {
+    color: #A54EE8;
+    text-align: right;
+}
+
+.p-item:hover {
+    text-decoration: underline;
 }

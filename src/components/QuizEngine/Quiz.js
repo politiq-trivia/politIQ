@@ -12,6 +12,7 @@ import VolumeOff from '@material-ui/icons/VolumeOff';
 
 import { db } from '../../firebase';
 import { trackEvent } from '../../utils/googleAnalytics';
+import { getAllScores } from '../../utils/storeScoreData';
 
 import Question from './Question';
 import FinishQuiz from './FinishQuiz';
@@ -335,6 +336,9 @@ class Quiz extends Component {
 
       // add it to the database
       db.setScore(uid, this.state.selectedQuizId, score)
+
+      // update the local storage 
+      getAllScores()
     }
   }
 

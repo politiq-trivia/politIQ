@@ -1,3 +1,5 @@
+import { db } from '../firebase';
+
 // calculate a politIQ for a single user 
 let allScores;
 
