@@ -216,7 +216,7 @@
   margin-left: auto;
   margin-right: auto;
   margin-top: 11vh;
-  margin-bottom: 15vh;
+  margin-bottom: 17vh;
 }
 
 .quiz-body h1 {
@@ -238,14 +238,23 @@
   margin-top: 2vw !important;
 }
 
+#signup-button {
+  background-color: green !important;
+}
+
+#signup-button:hover {
+  background-color: #005000 !important;
+}
+
 #keep-playing {
-  background-color: green;
+  background-color: #b359f8;
   color: white;
+  margin-top: 2vh;
 }
 
 #keep-playing:hover {
   cursor: pointer;
-  background-color: #006000;
+  background-color: #8643BA;
 }
 
 @media screen and (max-width: 415px) {
