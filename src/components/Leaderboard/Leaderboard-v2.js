@@ -10,6 +10,15 @@ import PolitIQBar from './PolitIQBar';
 import PolitIQCircle from './PolitIQCircle';
 import './leaderboard2.css';
 
+const styles = {
+  tabStyles: {
+    width: '50%',
+    '& p:hover': {
+      textDecoration: 'underline',
+    }
+  }
+}
+
 class Leaderboardv2 extends Component {
     constructor(props) {
         super(props)
@@ -18,7 +27,7 @@ class Leaderboardv2 extends Component {
             affiliation: "",
             uid: "",
             politIQ: "",
-            weekly: true,
+            weekly: false,
         }
     }
 
@@ -39,7 +48,7 @@ class Leaderboardv2 extends Component {
 
     initLeaderboard = async () => {
         const data = await getThisMonthScores()
-        this.monthlyLeaders(data)
+        this.monthlyLeaders(data, 'month')
         this.setState({ data })
       }
 
@@ -56,7 +65,7 @@ class Leaderboardv2 extends Component {
         }
     }
 
-    monthlyLeaders = async (data) => {
+    monthlyLeaders = async (data, timeframe) => {
         const userScores = []
     
         // handle an empty response
@@ -89,7 +98,7 @@ class Leaderboardv2 extends Component {
                 let lastMonth = []
                 let scoreCounter = 0;
                 for (let j = 0; j < quizDates.length; j++) {
-                  if (quizDates[j] > moment().startOf('month').format('YYYY-MM-DD')) {
+                  if (quizDates[j] > moment().startOf(timeframe).format('YYYY-MM-DD')) {
                     lastMonth.push(quizDates[j])
                     if (data[i].data[quizDates[j]]) {
                       scoreCounter += data[i].data[quizDates[j]]
@@ -101,14 +110,14 @@ class Leaderboardv2 extends Component {
                 if (submitted !== undefined) {
                   const dates = Object.keys(submitted)
                   for (let j = 0; j < dates.length; j++) {
-                    if (dates[j] > moment().startOf('month').format('YYYY-MM-DDTHH:mm')) {
+                    if (dates[j] > moment().startOf(timeframe).format('YYYY-MM-DDTHH:mm')) {
                       submittedScoreCounter += 1
                     }
                   }
                 }
                       
                 if (scoreCounter > 0) {
-                  this.getPolitIQ(user, 'month')
+                  this.getPolitIQ(user, timeframe)
                     .then(politIQ => {
                       userScores.push({
                         username: displayName,
@@ -159,7 +168,11 @@ class Leaderboardv2 extends Component {
 
     toggleWeekly = (event) => {
         event.preventDefault()
-        console.log('toggle weekly calle')
+        if (this.state.weekly) {
+          this.monthlyLeaders(this.state.data, "month")
+        } else {
+          this.monthlyLeaders(this.state.data, "week")
+        }
         this.setState({ 
             weekly: !this.state.weekly
         })
@@ -217,17 +230,13 @@ class Leaderboardv2 extends Component {
                             <h3>17</h3>
                         </div>
                     </div>
-                    {/* <div className="politIQ-circle">
-                    </div> */}
                     <PolitIQCircle percentage={this.state.politIQ} />
                     <p>View last month's leaders --></p>
                 </div>
                 <div className="leaderboard-right">
-                    <div className="leaderboard-tabs" onClick={(event) =>this.toggleWeekly(event)}>
-                        {/* <a onClick={this.toggleWeekly} className="selected">Weekly</a> */}
-                        {/* <a onClick={this.toggleWeekly}>Monthly</a> */}
-                        <div onClick={(event) =>this.toggleWeekly(event)} className={this.state.weekly === false ? "weekly selected" : "weekly" }><p>Monthly</p></div>
-                        <div onClick={(event) => this.toggleWeekly(event)} className={this.state.weekly === true ? "weekly selected" : "weekly"}><p>Weekly</p></div>
+                    <div className="leaderboard-tabs">
+                        <p onClick={this.toggleWeekly} className={this.state.weekly ? "weekly" : "weekly selected" }>Monthly</p>
+                        <p onClick={this.toggleWeekly} className={this.state.weekly ? "weekly selected" : "weekly" }>Weekly</p>
                     </div>
                     {renderMonthlyLeaders}
                     <div className="pagination">

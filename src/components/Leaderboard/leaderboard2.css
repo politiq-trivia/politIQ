@@ -28,7 +28,7 @@
 .leaderboard-right {
     background-color: white;
     width: 55%;
-    z-index: -10;
+    /* z-index: -10; */
     overflow: scroll;
     height: 100%;
 }
@@ -100,14 +100,17 @@
     display: flex;
     flex-direction: row;
     margin-top: 5vh;
+    /* z-index: 10; */
 }
 
-.leaderboard-tabs > div {
-    width: 50%;
-}
 
-.leaderboard-tabs > div:hover {
+
+.leaderboard-tabs > p:hover {
     color: #A54EE8;
+}
+
+.leaderboard-tabs > p {
+    width: 50%;
 }
 
 .weekly:last-child {
@@ -122,7 +125,8 @@
 .selected {
     color: #150A1D;
     text-decoration: underline #150A1D;
-    font-weight: bold;
+    text-shadow: rgba(0,0,0,0.75) 1px 0 1px;
+    /* font-weight: bold; */
     /* line-height: 1.5; */
 }
 
