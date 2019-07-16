@@ -12,6 +12,7 @@ import Avatar from '@material-ui/core/Avatar';
 
 import { db } from '../../firebase';
 import { getPolitIQ } from '../../utils/calculatePolitIQ';
+import LoadingGif from '../../loadingGif.gif';
 
 class LastLeaders extends Component {
     constructor(props) {
@@ -94,7 +95,7 @@ class LastLeaders extends Component {
 
         // get the displaynames and politIQs for the top 3
         const updatedRanks = await this.getUserInfo(rankReverse, timeFrame)
-        
+
         for (let n = 0; n < rankReverse.length; n++) {
             await this.getPolitIQ(rankReverse[n].uid, timeFrame)
             .then(politIQ => {
@@ -179,7 +180,7 @@ class LastLeaders extends Component {
                             </TableBody>
                         </Table>
                       </>
-                    : null
+                    : <img src={LoadingGif} alt="loading" style={{ maxWidth: '100%' }}/>
                 }
             </Paper>
         )
