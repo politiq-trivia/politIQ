@@ -58,11 +58,11 @@
     margin-top: 8vh;
 }
 
-.stat-rank, .stat-month {
-    width: 50%;
+.stat-rank, .stat-month, .stat-politIQ {
+    width: 33%;
 }
 
-.stat-rank > p, .stat-month > p, .politIQ-label {
+.stat-rank > p, .stat-month > p, .politIQ-label, .stat-politIQ {
     text-transform: uppercase;
     letter-spacing: 1px;
     margin-bottom: 0;
@@ -73,11 +73,11 @@
     color: #F4E9FC;
 } */
 
-.stat-rank {
+.stat-rank, .stat-month {
     border-right: 1px solid #F4E9FC;
 }
 
-.stat-rank > h3, .stat-month > h3 {
+.stat-rank > h3, .stat-month > h3, .stat-politIQ > h3 {
     font-size: 32px;
 }
 

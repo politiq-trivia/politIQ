@@ -1,23 +1,12 @@
 import React, { Component } from 'react';
 import moment from 'moment';
-import styled from 'styled-components';
 import VerifiedUser from '@material-ui/icons/VerifiedUser';
 
 import { getPolitIQ } from '../../utils/calculatePolitIQ';
 import { getThisMonthScores } from '../../utils/storeScoreData';
 import { db } from '../../firebase';
 import PolitIQBar from './PolitIQBar';
-import PolitIQCircle from './PolitIQCircle';
 import './leaderboard2.css';
-
-const styles = {
-  tabStyles: {
-    width: '50%',
-    '& p:hover': {
-      textDecoration: 'underline',
-    }
-  }
-}
 
 class Leaderboardv2 extends Component {
     constructor(props) {
@@ -155,13 +144,14 @@ class Leaderboardv2 extends Component {
           const scores = this.state.rankedScores
           const uid = JSON.parse(localStorage.getItem('authUser')).uid
           let ranking;
+          let score;
           for (let i = 0; i < scores.length; i++) {
             if (uid === scores[i].uid) {
-
               ranking = i + 1;
+              score = scores[i].score
             }
           }
-          return ranking;
+          return {ranking, score};
         }
       }
     }
@@ -223,14 +213,17 @@ class Leaderboardv2 extends Component {
                     <div className="leader-user-stats">
                         <div className="stat-rank">
                             <p>Rank</p>
-                            <h3>{rank ? rank : null}</h3>
+                            <h3>{rank ? rank.ranking : "--"}</h3>
                         </div>
                         <div className="stat-month">
-                            <p>This Month</p>
-                            <h3>17</h3>
+                            <p>Score</p>
+                            <h3>{rank ? rank.score : "--"}</h3>
+                        </div>
+                        <div className="stat-politIQ">
+                          <p>PolitIQ</p>
+                          <h3>{this.state.politIQ}</h3>
                         </div>
                     </div>
-                    <PolitIQCircle percentage={this.state.politIQ} />
                     <p>View last month's leaders --></p>
                 </div>
                 <div className="leaderboard-right">
