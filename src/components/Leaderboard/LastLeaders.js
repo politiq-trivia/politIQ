@@ -93,21 +93,21 @@ class LastLeaders extends Component {
         const rankReverse = rankedScores.reverse().slice(0,3)
 
         // get the displaynames and politIQs for the top 3
+        const updatedRanks = await this.getUserInfo(rankReverse, timeFrame)
+        
         for (let n = 0; n < rankReverse.length; n++) {
-            const userData = await db.getDisplayNames(rankReverse[n].uid)
-            userData.displayName.then(function(name) {
-                rankReverse[n].username = name
-            })
-            this.getPolitIQ(rankReverse[n].uid, timeFrame)
+            await this.getPolitIQ(rankReverse[n].uid, timeFrame)
             .then(politIQ => {
                 rankReverse[n].politIQ = politIQ + rankReverse[n].submittedScore
             })
         }
 
+
         this.setState({
             loaded: true,
-            rankReverse,
+            rankReverse: updatedRanks
         })
+
     }
 
     getPolitIQ = async (uid, timeframe) => {
@@ -115,10 +115,18 @@ class LastLeaders extends Component {
         return politIQ
     }
 
+    getUserInfo = async (array, timeFrame) => {
+        for (let n = 0; n < array.length; n++) {
+            const displayName = await db.getOnlyDisplayNames(array[n].uid)
+            array[n].username = displayName
+        }
+
+        return array;
+    } 
+
     handleClickUser = (uid) => {
         this.props.history.push(`/profile/${uid}`)
     }
-
     renderTable = () => {
         const colorArray = ["#f44336", "#e91e63", "#9c27b0", "#3f51b5", "#2196f3", "#4caf50", "#8bc34a", "#cddc39", "#ffeb3b", "#ffc107", "#ff9800"]
         const data = this.state.rankReverse
@@ -133,13 +141,10 @@ class LastLeaders extends Component {
                         {d.username ? <Avatar style={{ backgroundColor: colorArray[random], marginRight:'1%' }}>{d.username.charAt(0)}</Avatar> : null }
                     </TableCell>
                     <TableCell padding="none">
-                        {d.username ? d.username : null}
+                        {d.username}
                     </TableCell>
                     <TableCell>
                         {d.score}
-                    </TableCell>
-                    <TableCell>
-                        {d.politIQ}
                     </TableCell>
                 </TableRow>
             )
@@ -166,9 +171,6 @@ class LastLeaders extends Component {
                                     <TableCell padding="none" />
                                     <TableCell padding="none">
                                         Score
-                                    </TableCell>
-                                    <TableCell padding="none">
-                                        PolitIQ
                                     </TableCell>
                                 </TableRow>
                             </TableHead>

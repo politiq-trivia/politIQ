@@ -281,7 +281,7 @@ class WeeklyLeaderboard extends Component {
           
           : <>{rank === 0 || rank === undefined || !localStorage.hasOwnProperty('authUser')
               ? <div style={{ paddingTop: '2vh', paddingBottom: '4vh' }}>  
-                <h3 style={{ marginBottom: '2vh' }}>You don't have any scores for this month yet!</h3>
+                <h3 style={{ marginBottom: '2vh' }}>You don't have any scores for this week yet!</h3>
                 <Button variant="contained" color="primary" onClick={this.redirect}>Play Now</Button> 
               </div>
               : <UserRank ranking={rank} /> }
