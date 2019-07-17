@@ -7,6 +7,7 @@ import { getThisMonthScores } from '../../utils/storeScoreData';
 import { db } from '../../firebase';
 import PolitIQBar from './PolitIQBar';
 import BarChart from './ScoreChart/BarChart.1';
+import LastLeaders from './LastLeaders-v2';
 import './leaderboard2.css';
 
 class Leaderboardv2 extends Component {
@@ -240,7 +241,7 @@ class Leaderboardv2 extends Component {
 
                         </>
                       : <>
-                          <p>Last Leaders</p>
+                          <LastLeaders timeFrame={this.state.weekly ? "Week" : "Month" }/>
                           <p onClick={this.toggleLastMonth}>View party leaders --></p>
                         </>
                     }
