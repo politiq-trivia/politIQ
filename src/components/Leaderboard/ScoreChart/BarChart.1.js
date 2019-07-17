@@ -6,6 +6,7 @@ import { db } from '../../../firebase';
 import { getPolitIQ } from '../../../utils/calculatePolitIQ';
 
 import ResponsiveChart from './ChartWrapper';
+import LoadingGif from '../../../6.gif';
 import "./Axis.css";
 
 class BarChart extends Component {
@@ -190,7 +191,7 @@ class BarChart extends Component {
         return (
           <>
             {this.state.loading 
-              ? <p>Loading...</p>
+              ? <div className="chartHolder"><img src={LoadingGif} alt="loading" /></div>
               : <div>{isNaN(this.state.Republican) && isNaN(this.state.Democrat) && isNaN(this.state.Independent) ? null : this.drawChart()}</div>
             }
           </>
