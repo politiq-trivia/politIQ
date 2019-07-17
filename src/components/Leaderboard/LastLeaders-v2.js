@@ -133,11 +133,8 @@ class LastLeaders extends Component {
         this.props.history.push(`/profile/${uid}`)
     }
     renderTable = () => {
-        const colorArray = ["#f44336", "#e91e63", "#9c27b0", "#3f51b5", "#2196f3", "#4caf50", "#8bc34a", "#cddc39", "#ffeb3b", "#ffc107", "#ff9800"]
         const data = this.state.rankReverse
         const rows = data.map((d, i) => {
-            console.log(d, 'this is the data')
-            const random = Math.floor(Math.random() * colorArray.length)
             return (
                 <div key={i} hover onClick={() => this.handleClickUser(d.uid)} className="leader-row">
                     <p>

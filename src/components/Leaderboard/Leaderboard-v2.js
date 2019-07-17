@@ -20,6 +20,7 @@ class Leaderboardv2 extends Component {
             politIQ: "",
             weekly: false,
             viewLastMonth: false,
+            n: 0,
         }
     }
 
@@ -126,6 +127,7 @@ class Leaderboardv2 extends Component {
                         this.setState({
                           rankedScores: rankReverse,
                           isLoaded: true,
+                          nMax: rankReverse.length
                         })
                         window.clearTimeout(this.timeout)
                     })
@@ -167,7 +169,8 @@ class Leaderboardv2 extends Component {
           this.monthlyLeaders(this.state.data, "week")
         }
         this.setState({ 
-            weekly: !this.state.weekly
+            weekly: !this.state.weekly,
+            n: 0,
         })
     }
 
@@ -175,6 +178,18 @@ class Leaderboardv2 extends Component {
       event.preventDefault()
       this.setState({
         viewLastMonth: !this.state.viewLastMonth,
+      })
+    }
+
+    pageUp = () => {
+      this.setState({
+        n: this.state.n + 5,
+      })
+    }
+
+    pageDown = () => {
+      this.setState({
+        n: this.state.n - 5,
       })
     }
     
@@ -188,8 +203,12 @@ class Leaderboardv2 extends Component {
           rankingArray = [...result]
         }
 
+        // let nMax = rankingArray.length;
+        let n = this.state.n;
+        console.log(n, 'this is n')
+
         const renderMonthlyLeaders = rankingArray.map((stat, i) => {
-            if (i >= 5) { return null; }
+            if (i < n || i >= n + 5) { return null; }
             return (
                 <div className="leaderboard-object" key={i}>
                 <p className="leaderboard-num">{i + 1}</p>
@@ -253,7 +272,8 @@ class Leaderboardv2 extends Component {
                     </div>
                     {renderMonthlyLeaders}
                     <div className="pagination">
-                      <p className="p-item">More >></p>
+                      <p className={this.state.n - 5 < 0 ? "p-item p-disabled" : "p-item"} onClick={this.state.n - 5 < 0 ? null : this.pageDown}> &lt;&lt; Prev</p>
+                      <p className={this.state.n + 5 >= this.state.nMax ? "p-item p-disabled" : "p-item"} onClick={this.state.n + 5 >= this.state.nMax ? null : this.pageUp}>Next >></p>
                     </div>
                 </div>
             </div>
