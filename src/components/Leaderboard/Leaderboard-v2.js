@@ -6,6 +6,7 @@ import { getPolitIQ } from '../../utils/calculatePolitIQ';
 import { getThisMonthScores } from '../../utils/storeScoreData';
 import { db } from '../../firebase';
 import PolitIQBar from './PolitIQBar';
+import BarChart from './ScoreChart/BarChart.1';
 import './leaderboard2.css';
 
 class Leaderboardv2 extends Component {
@@ -17,6 +18,7 @@ class Leaderboardv2 extends Component {
             uid: "",
             politIQ: "",
             weekly: false,
+            viewLastMonth: false,
         }
     }
 
@@ -167,6 +169,13 @@ class Leaderboardv2 extends Component {
             weekly: !this.state.weekly
         })
     }
+
+    toggleLastMonth = (event) => {
+      event.preventDefault()
+      this.setState({
+        viewLastMonth: !this.state.viewLastMonth,
+      })
+    }
     
     render() {
         let rankingArray = [];
@@ -224,7 +233,17 @@ class Leaderboardv2 extends Component {
                           <h3>{this.state.politIQ}</h3>
                         </div>
                     </div>
-                    <p>View last month's leaders --></p>
+                    {this.state.viewLastMonth
+                      ? <>
+                          <BarChart timeFrame={this.state.weekly ? "week" : "month" }/>
+                          <p onClick={this.toggleLastMonth}>View last month's leaders --></p>
+
+                        </>
+                      : <>
+                          <p>Last Leaders</p>
+                          <p onClick={this.toggleLastMonth}>View party leaders --></p>
+                        </>
+                    }
                 </div>
                 <div className="leaderboard-right">
                     <div className="leaderboard-tabs">

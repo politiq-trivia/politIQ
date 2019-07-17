@@ -14,26 +14,29 @@
 }
 
 .chartHolder {
-  display: 'flex';
   flex-direction: column;
-  width: 60%;
+  width: 46%;
+  min-width: 250px;
   justify-content: center;
   margin-left: auto;
   margin-right: auto;
+  color: white;
+  display: block;
 }
 
-@media screen and (max-width: 415px) {
+/* @media screen and (min-width: 1000px) {
   .chartHolder{
-      width: 90%;
+      margin-left: unset;
+      margin-right: unset;
   }
-}
+} */
 
 .bar {
   shape-rendering: crispEdges;
 }
 
 .bar-label {
-  fill: #000;
+  fill: white;
   text-anchor: middle;
   font-size: 18px;
 }
