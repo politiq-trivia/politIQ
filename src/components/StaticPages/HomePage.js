@@ -177,18 +177,9 @@ class HomePage extends Component {
         </MediaQuery>
 
         <hr />
-        <iframe 
-          title="may gameshow" 
-          width="560" 
-          height="315" 
-          src="https://www.youtube.com/embed/qudMpap0YoQ" 
-          frameBorder="0" 
-          allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" 
-          allowFullScreen
-          style={{ marginLeft: 'auto', marginRight: 'auto', marginTop: '5vh' }}
-        >
-        </iframe>
-
+        <a href="https://www.youtube.com/channel/UCv2imXzW9mKoZRVSF6BztBQ" target="_blank noopener noreferrer" style={{ textDecoration: 'none' }}>
+          <Button color="primary" variant="contained" id="gameshow">Watch last month's leaders face off in a live gameshow!</Button>
+        </a>
       </Paper>
     );
   }

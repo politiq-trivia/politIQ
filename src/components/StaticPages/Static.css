@@ -163,6 +163,21 @@
   }
 }
 
+#gameshow {
+  line-height: 1.3;
+  width: 58vw;
+  display: block;
+  font-size: 1.5em;
+  margin-top: 5vh;
+  margin-left: auto;
+  margin-right: auto;
+  text-transform: capitalize;
+  font-family: 'Quicksand', sans-serif;
+  padding-top: 2vh;
+  font-weight: bolder;
+  padding-bottom: 2vh;
+}
+
 h4 {
   margin-top: 5vh;
   font-weight: 700;
