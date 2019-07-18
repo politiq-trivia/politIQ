@@ -85,7 +85,7 @@ class BarChart extends Component {
 
       fitParentContainer() {
         const { containerWidth } = this.state
-        const currentContainerWidth = window.innerWidth * 0.9
+        const currentContainerWidth = window.innerWidth * 0.6
 
         const shouldResize = containerWidth !== (currentContainerWidth)
 
@@ -163,7 +163,7 @@ class BarChart extends Component {
     }
 
     drawChart() {
-      const margin = { top: 40, right: 0, bottom: 100, left: 0 };
+      const margin = { top: 40, right: 0, bottom: 100, left: 15 };
       const width = this.state.containerWidth;
       const height = 300;
       

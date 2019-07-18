@@ -2,14 +2,6 @@ import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
 import moment from 'moment';
 
-import Paper from '@material-ui/core/Paper';
-import Table from '@material-ui/core/Table';
-import TableHead from '@material-ui/core/TableHead';
-import TableRow from '@material-ui/core/TableRow';
-import TableCell from '@material-ui/core/TableCell';
-import TableBody from '@material-ui/core/TableBody';
-import Avatar from '@material-ui/core/Avatar';
-
 import { db } from '../../firebase';
 import { getPolitIQ } from '../../utils/calculatePolitIQ';
 import LoadingGif from '../../6.gif';

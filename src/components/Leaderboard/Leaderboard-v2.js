@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import moment from 'moment';
+import MediaQuery from 'react-responsive';
 import VerifiedUser from '@material-ui/icons/VerifiedUser';
 
 import { getPolitIQ } from '../../utils/calculatePolitIQ';
@@ -20,6 +21,7 @@ class Leaderboardv2 extends Component {
             politIQ: "",
             weekly: false,
             viewLastMonth: true,
+            showPartyLeaders: false,
             n: 0,
         }
     }
@@ -181,6 +183,12 @@ class Leaderboardv2 extends Component {
       })
     }
 
+    togglePartyLeaders = () => {
+      this.setState({
+        showPartyLeaders: !this.state.showPartyLeaders
+      })
+    }
+
     pageUp = () => {
       this.setState({
         n: this.state.n + 5,
@@ -203,9 +211,7 @@ class Leaderboardv2 extends Component {
           rankingArray = [...result]
         }
 
-        // let nMax = rankingArray.length;
         let n = this.state.n;
-        console.log(n, 'this is n')
 
         const renderMonthlyLeaders = rankingArray.map((stat, i) => {
             if (i < n || i >= n + 5) { return null; }
@@ -213,7 +219,6 @@ class Leaderboardv2 extends Component {
                 <div className="leaderboard-object" key={i}>
                 <p className="leaderboard-num">{i + 1}</p>
                 <div className="content">
-                    {/* <div className="politiq-bar"></div> */}
                     <PolitIQBar percentage={stat[3]}/>
                     <div className="leader-info">
                         <p>{stat[0]}</p>
@@ -234,36 +239,54 @@ class Leaderboardv2 extends Component {
         return (
             <div className="leaderboard-holder">
                 <div className="leaderboard-left">
-                    <div className="leader-user-info">
-                        <VerifiedUser size={40}/>
-                        <h2>{this.state.displayName}</h2>
-                        <h4>{this.state.affiliation}</h4>
-                    </div>
-                    <div className="leader-user-stats">
-                        <div className="stat-rank">
+                  {this.state.showPartyLeaders 
+                    ? <>
+                        <BarChart timeFrame={this.state.weekly ? "week" : "month" }/>
+                        <div className="leader-link-holder">
+                          <p className="leader-see-more" style={{ marginLeft: '4vw', textAlign: 'left' }}>&lt;&lt; Your Info</p>
+                          <p className="leader-see-more" onClick={this.toggleLastLeaders}>View past leaders --></p>
+                        </div>
+                      </>
+                    : <>
+                        <div className="leader-user-info">
+                          <VerifiedUser size={40}/>
+                          <h2>{this.state.displayName}</h2>
+                          <h4>{this.state.affiliation}</h4>
+                        </div>
+                        <div className="leader-user-stats">
+                          <div className="stat-rank">
                             <p>Rank</p>
                             <h3>{rank ? rank.ranking : "--"}</h3>
-                        </div>
-                        <div className="stat-month">
+                          </div>
+                          <div className="stat-month">
                             <p>Score</p>
                             <h3>{rank ? rank.score : "--"}</h3>
+                          </div>
+                          <div className="stat-politIQ">
+                            <p>PolitIQ</p>
+                            <h3>{this.state.politIQ}</h3>
+                          </div>
                         </div>
-                        <div className="stat-politIQ">
-                          <p>PolitIQ</p>
-                          <h3>{this.state.politIQ}</h3>
-                        </div>
-                    </div>
-                    {this.state.viewLastMonth
-                      ? <>
-                          <BarChart timeFrame={this.state.weekly ? "week" : "month" }/>
-                          <p onClick={this.toggleLastMonth}>View past leaders --></p>
 
-                        </>
-                      : <>
-                          <LastLeaders timeFrame={this.state.weekly ? "Week" : "Month" }/>
-                          <p onClick={this.toggleLastMonth}>View party leaders --></p>
-                        </>
-                    }
+                        <MediaQuery maxWidth={415}>
+                          <p className="leader-see-more" onClick={this.togglePartyLeaders}>View party leaders --></p>
+                        </MediaQuery>
+                      </>
+                  }
+
+                    <MediaQuery minWidth={416}>
+                      {this.state.viewLastMonth
+                        ? <>
+                            <BarChart timeFrame={this.state.weekly ? "week" : "month" }/>
+                            <p onClick={this.toggleLastMonth}>View past leaders --></p>
+
+                          </>
+                        : <>
+                            <LastLeaders timeFrame={this.state.weekly ? "Week" : "Month" }/>
+                            <p onClick={this.toggleLastMonth}>View party leaders --></p>
+                          </>
+                      }
+                    </MediaQuery>
                 </div>
                 <div className="leaderboard-right">
                     <div className="leaderboard-tabs">

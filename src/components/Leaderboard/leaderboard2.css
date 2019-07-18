@@ -28,9 +28,23 @@
 .leaderboard-right {
     background-color: white;
     width: 55%;
-    /* z-index: -10; */
     overflow: scroll;
     height: 100%;
+}
+
+@media screen and (max-width: 415px) {
+    .leaderboard-holder {
+        flex-direction: column;
+    }
+
+    .leaderboard-left {
+        width: 100%;
+        padding-bottom: 3vh;
+    }
+
+    .leaderboard-right {
+        width: 100%;
+    }
 }
 
 .leader-user-info {
@@ -56,6 +70,12 @@
     flex-direction: row;
     text-align: center;
     margin-top: 8vh;
+}
+
+@media screen and (max-width: 415px) {
+    .leader-user-stats {
+        margin-top: 4vh;
+    }
 }
 
 .stat-rank, .stat-month, .stat-politIQ {
@@ -85,7 +105,7 @@
     height: 35vh;
 }
 
-.leaderboard-left > p {
+.leaderboard-left > p, .leader-link-holder > p {
     margin-left: 4vw;
     color: #D2A7F3;
 }
@@ -94,16 +114,25 @@
     text-decoration: underline;
 }
 
+.leader-link-holder {
+    display: flex;
+    justify-content: space-between;
+}
+
+.leader-see-more {
+    text-align: right;
+    margin-right: 4vw;
+    margin-top: 3vh;
+    margin-bottom: 0;
+}
+
 .leaderboard-tabs {
     text-align: center;
     text-transform: uppercase;
     display: flex;
     flex-direction: row;
     margin-top: 5vh;
-    /* z-index: 10; */
 }
-
-
 
 .leaderboard-tabs > p:hover {
     color: #A54EE8;
@@ -111,6 +140,13 @@
 
 .leaderboard-tabs > p {
     width: 50%;
+}
+
+@media screen and (max-width: 415px) {
+    .leaderboard-tabs {
+        margin-top: 2vh;
+        font-size: 18px;
+    }
 }
 
 .weekly:last-child {
