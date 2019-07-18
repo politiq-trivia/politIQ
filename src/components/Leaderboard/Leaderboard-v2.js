@@ -19,7 +19,7 @@ class Leaderboardv2 extends Component {
             uid: "",
             politIQ: "",
             weekly: false,
-            viewLastMonth: false,
+            viewLastMonth: true,
             n: 0,
         }
     }
@@ -256,7 +256,7 @@ class Leaderboardv2 extends Component {
                     {this.state.viewLastMonth
                       ? <>
                           <BarChart timeFrame={this.state.weekly ? "week" : "month" }/>
-                          <p onClick={this.toggleLastMonth}>View last month's leaders --></p>
+                          <p onClick={this.toggleLastMonth}>View past leaders --></p>
 
                         </>
                       : <>
