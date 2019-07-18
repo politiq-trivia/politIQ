@@ -136,7 +136,7 @@ class LastLeaders extends Component {
         const data = this.state.rankReverse
         const rows = data.map((d, i) => {
             return (
-                <div key={i} hover onClick={() => this.handleClickUser(d.uid)} className="leader-row">
+                <div key={i} onClick={() => this.handleClickUser(d.uid)} className="leader-row">
                     <p>
                         {i + 1}.
                     </p>

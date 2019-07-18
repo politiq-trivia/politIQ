@@ -138,6 +138,12 @@
     margin-right: auto;
     margin-top: 2vh;
     margin-bottom: 2vh;
+    transition: background 0.5s;
+}
+
+.leaderboard-object:hover {
+    cursor: pointer;
+    background: #F4E9FC;
 }
 
 .leaderboard-num {
@@ -220,7 +226,7 @@
 }
 
 .leaderboard-object:nth-child(6) {
-    margin-bottom: 16vh;
+    margin-bottom: 5vh;
 }
 
 .pagination {
@@ -260,7 +266,7 @@
     margin-left: auto;
     margin-right: auto;
     margin-top: 8vh;
-    margin-bottom: 5vh;
+    margin-bottom: 3vh;
 }
 
 .lastLeadersBox2 h2 {
@@ -308,6 +314,12 @@
     justify-content: space-around;
     margin-left: auto;
     margin-right: auto;
+    transition: background 0.5s;
+}
+
+.leader-row:hover {
+    cursor: pointer;
+    background: #7C3BAE;
 }
 
 .leader-row p {
