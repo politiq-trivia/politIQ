@@ -37,7 +37,6 @@ class TodaysQuizButton extends Component {
                 this.props.showErrorMessage()
             }
         } else {
-            // console.log('mostrecentquiz', quizId)
             this.setState({
                 mostRecentQuizURL: quizId
             })
@@ -50,7 +49,6 @@ class TodaysQuizButton extends Component {
 
     render() {
         const { buttonText, id } = this.props;
-        // console.log(this.state)
         return (
             <Button color="primary" variant="outlined" size="large" id={id} disabled={this.state.mostRecentQuizURL === "" || this.state.noAvailableQuizzes} onClick={this.redirectToQuiz}>{buttonText}</Button>
         )

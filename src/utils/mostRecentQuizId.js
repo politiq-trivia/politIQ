@@ -1,8 +1,10 @@
 import moment from 'moment';
+import { db } from '../firebase';
 
 let scoreData;
 
 const getMostRecentQuizId = async () => {
+    // if there is score data
     if (localStorage.hasOwnProperty('authUser') && localStorage.hasOwnProperty('userScoreData')) {
         scoreData = JSON.parse(localStorage.getItem('userScoreData')).data
         const reply = await getMostRecentQuizIdForUser(scoreData)
@@ -14,8 +16,19 @@ const getMostRecentQuizId = async () => {
 }
 
 const getMostRecentQuizIdForUser = async (scoreData) => {
-    const data = JSON.parse(localStorage.getItem('quizzes'))
-    const allDates = Object.keys(data);
+    // assume that data comes from local storage, but on first load this isn't true so need an edge case
+    let allDates;
+    if (localStorage.hasOwnProperty('quizzes')) {
+        const data = await JSON.parse(localStorage.getItem('quizzes'));
+        allDates = Object.keys(data);
+    } else {
+        await db.getQuizzes()
+            .then(response => {
+                const data = response.val()
+                allDates = Object.keys(data)
+            })
+    }
+
     const dateArray = allDates.filter(date => date < moment().format('YYYY-MM-DDTHH:mm') && date > moment().startOf('month').format('YYYY-MM-DDTHH:mm'))
     if (dateArray.length === 0) {
         const id = "No Available Quizzes";
