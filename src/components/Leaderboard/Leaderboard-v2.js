@@ -25,6 +25,7 @@ class Leaderboardv2 extends Component {
             showLastLeaders: false,
             showUserScores: true,
             n: 0,
+            isLoaded: false,
         }
     }
 
@@ -152,8 +153,8 @@ class Leaderboardv2 extends Component {
         if (localStorage.hasOwnProperty('authUser')) {
           const scores = this.state.rankedScores
           const uid = JSON.parse(localStorage.getItem('authUser')).uid
-          let ranking;
-          let score;
+          let ranking = "--"
+          let score = "--"
           for (let i = 0; i < scores.length; i++) {
             if (uid === scores[i].uid) {
               ranking = i + 1;
@@ -269,11 +270,11 @@ class Leaderboardv2 extends Component {
                     <div className="leader-user-stats">
                       <div className="stat-rank">
                         <p>Rank</p>
-                        <h3>{rank ? rank.ranking : "--"}</h3>
+                        <h3>{rank !== "--" ? rank.ranking : "--" }</h3>
                       </div>
                       <div className="stat-month">
                         <p>Score</p>
-                        <h3>{rank ? rank.score : "--"}</h3>
+                        <h3>{rank !== "--" ? rank.score : "--"}</h3>
                       </div>
                       <div className="stat-politIQ">
                         <p>PolitIQ</p>
@@ -281,7 +282,7 @@ class Leaderboardv2 extends Component {
                       </div>
                     </div>
                   </MediaQuery>
-                  
+
                   <MediaQuery maxWidth={415}>
 
                   {this.state.showPartyLeaders 
@@ -310,11 +311,11 @@ class Leaderboardv2 extends Component {
                               <div className="leader-user-stats">
                                 <div className="stat-rank">
                                   <p>Rank</p>
-                                  <h3>{rank ? rank.ranking : "--"}</h3>
+                                  <h3>{rank !== "--" ? rank.ranking : "--"}</h3>
                                 </div>
                                 <div className="stat-month">
                                   <p>Score</p>
-                                  <h3>{rank ? rank.score : "--"}</h3>
+                                  <h3>{rank !== "--" ? rank.score : "--"}</h3>
                                 </div>
                                 <div className="stat-politIQ">
                                   <p>PolitIQ</p>
@@ -353,10 +354,13 @@ class Leaderboardv2 extends Component {
                         <p onClick={this.toggleWeekly} className={this.state.weekly ? "weekly selected" : "weekly" }>Weekly</p>
                     </div>
                     {renderMonthlyLeaders}
-                    <div className="pagination">
-                      <p className={this.state.n - 5 < 0 ? "p-item p-disabled" : "p-item"} onClick={this.state.n - 5 < 0 ? null : this.pageDown}> &lt;&lt; Prev</p>
-                      <p className={this.state.n + 5 >= this.state.nMax ? "p-item p-disabled" : "p-item"} onClick={this.state.n + 5 >= this.state.nMax ? null : this.pageUp}>Next >></p>
-                    </div>
+                    {this.state.isLoaded
+                      ? <div className="pagination">
+                          <p className={this.state.n - 5 < 0 ? "p-item p-disabled" : "p-item"} onClick={this.state.n - 5 < 0 ? null : this.pageDown}> &lt;&lt; Prev</p>
+                          <p className={this.state.n + 5 >= this.state.nMax ? "p-item p-disabled" : "p-item"} onClick={this.state.n + 5 >= this.state.nMax ? null : this.pageUp}>Next >></p>
+                        </div>
+                      : null
+                    }
                 </div>
             </div>
         )
