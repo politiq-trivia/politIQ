@@ -138,12 +138,7 @@ class App extends Component {
         signedInUser: uid,
         displayName,
       })
-    })
-      // .then(response => {
-      //   const data = response.val()
-      //   const displayName = data.displayName;
-
-      // })    
+    })  
   }
 
   checkAdmin = () => {
@@ -237,10 +232,6 @@ class App extends Component {
                 />
                 <Route
                   exact path={routes.QUIZ_REDIRECT}
-                  component={QuizRedirect}
-                />
-                <Route
-                  exact path={routes.RSS_REDIRECT}
                   component={QuizRedirect}
                 />
                 <Route

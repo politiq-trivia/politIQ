@@ -1,7 +1,8 @@
 {
-  "short_name": "PolitIQ",
-  "name": "PolitIQ",
-  "gcm_sender_id": "103953800507",
+  "short_name": "PolitIQ Staging",
+  "name": "PolitIQ Staging",
+  "gcm_sender_id": "56223684739",
+  "gcm_user_visible_only": true,
   "icons": [
     {
       "src":"logo-192.png",

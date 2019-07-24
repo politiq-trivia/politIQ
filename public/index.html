@@ -28,7 +28,7 @@
         margin: 0;
         padding: 0;
         font-family: 'Quicksand', 'cursive';
-        /* color: rgba(45, 45, 45, 0.80); */
+        color: rgba(45, 45, 45, 0.80);
       }
       .App {
         text-align: center;
@@ -63,6 +63,8 @@
   </head>
   <body>
     <script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
+    <script type="text/javascript" src="//cdn.pushwoosh.com/webpush/v3/pushwoosh-web-notifications.js" async></script>
+
     <div id="root">
       <div class="App">
         <h1 id="main">Welcome to polit<span id="iq">IQ</span></h1>
@@ -73,9 +75,38 @@
         </p>
         <img src="./loadingGif.gif" alt="loading" />
 
-        <!-- <script src="./service-worker.js"></script> -->
         <script type="text/javascript">
-          console.log('ios audio script running')
+          var Pushwoosh = Pushwoosh || [];
+
+          Pushwoosh.push(['init', {
+              logLevel: 'info',
+              applicationCode: '957F6-E387B',
+              safariWebsitePushId: 'web.com.firebaseapp.politiq-staging',
+              defaultNotificationTitle: 'PolitIQ',
+              defaultNotificationImage: './logo-192.png',
+              autoSubscribe: false,
+              subscribeWidget: {
+                enable: true,enable: true,
+                position: 'bottomRight', 
+                bgColor: '#673191',
+                bellColor: 'white',
+                bellStrokeColor: '#3E1D57',
+                bellButtonBorder: '1px solid #3E1D57',
+                shadow: '0px 0px 6px rgba(0, 0, 0, 0.75)',
+                size: '48px',
+                indent: '20px',
+                zIndex: '999999',
+                tooltipText: {
+                  successSubscribe: 'You are successfully subscribed!',
+                  needSubscribe: 'Get notifications about the latest quizzes!',
+                  blockSubscribe: 'Click to see how to get notifications',
+                  alreadySubscribed: 'You are already subscribed'
+                }
+              }
+          }]);
+        </script>
+
+        <script type="text/javascript">
 
           var AudioContext = window.AudioContext || window.webkitAudioContext;
 

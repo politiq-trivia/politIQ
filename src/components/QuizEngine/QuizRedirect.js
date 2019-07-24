@@ -3,12 +3,7 @@ import React from 'react';
 import Paper from '@material-ui/core/Paper';
 
 const QuizRedirect = (props) => {
-    let quizId;
-    if (window.location.href.includes('rssQuiz')) {
-        quizId = window.location.href.slice(30, window.location.href.length)
-    } else {
-        quizId = window.location.href.slice(26, window.location.href.length)
-    }
+    let quizId = window.location.href.slice(26, window.location.href.length)
 
     // also need to check if the logged in user has already taken that quiz
     const loggedIn = localStorage.hasOwnProperty('authUser');

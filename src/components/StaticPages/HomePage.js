@@ -48,19 +48,9 @@ class HomePage extends Component {
     };
   }
 
-  // componentDidMount() {
-  //   // const userInfo = JSON.parse(localStorage.getItem('authUser'))
-  //   // const uid = userInfo.uid
-  //   // console.log(uid)
-  //   // this.subscribeToPushNotifications()
-  //   // this.addToHomeScreen()
-  //   // this.requestPushPermissions(uid)
-
-  //   // axios.post(process.env.SERVER_URL + '/subscribe', {pushSubscription: "this is the subscription"})
-  //   // .then(res => {
-  //   //   console.log(res)
-  //   // })
-  // }
+  componentDidMount() {
+    this.addToHomeScreen()
+  }
 
   addToHomeScreen = () => {
     // check if the user is running on ios and see if they're running higher than 11.3 (the highest version that supports pwas)
@@ -98,69 +88,6 @@ class HomePage extends Component {
       noAvailableQuizzes: true,
     })
   }
-
-  // subscribeToPushNotifications = async () => {
-  //   if(!global.registration) return;
-
-  //   const key = process.env.REACT_APP_VAPID_KEY
-
-
-  //   await global.registration.pushManager.subscribe({
-  //     userVisibleOnly: true,
-  //     applicationServerKey: urlB64ToUint8Array(key)
-  //   }).then((pushSubscription) => {
-  //     console.log({pushSubscription})
-  //     console.log('Subscribed')
-  //     console.log(process.env.SERVER_URL)
-  //     axios.post('localhost:3001/subscribe', { pushSubscription: pushSubscription })
-  //       .then(res => {
-  //         console.log(res)
-  //       })
-      
-  //     // get the keys, convert them to strings, and store them in firebase
-  //     const p256dhAB = pushSubscription.getKey('p256dh')
-  //     function ab2str(buf) {
-  //       return String.fromCharCode.apply(null, new Int8Array(buf));
-  //     }
-  //     const p256dhStr = ab2str(p256dhAB)
-  //     function ab2str2(buf) {
-  //       return String.fromCharCode.apply(null, new Uint8Array(buf));
-  //     }
-  //     const auth = pushSubscription.getKey('auth');
-  //     const authStr = ab2str2(auth)
-
-
-  //     const subscriptionObject = {
-  //       endpoint: pushSubscription.endpoint,
-  //       keys: {
-  //         p256dh: p256dhStr,
-  //         auth: authStr,
-  //       }
-  //     }
-      
-  //     // saves it in firebase
-  //     db.subscribeUser(subscriptionObject);    
-        
-      
-  //   }).catch(err => {
-  //     console.log(err)
-  //     console.log('Did not subscribe')
-  //   })
-  // }
-
-  // requestPushPermissions = (uid) => {
-  //   Notification.requestPermission().then(function(permission) {
-  //     if(permission ==='granted') {
-  //       console.log('permission granted')
-  //       messaging.getToken(uid)
-  //       // TO DO: retrieve instance id token for use with FCM
-  //     } else {
-  //       console.log('Unable to get permission to notify')
-  //     }
-  //   })
-  // }
-
-
 
   handleClose = () => {
     this.setState({
@@ -250,18 +177,9 @@ class HomePage extends Component {
         </MediaQuery>
 
         <hr />
-        <iframe 
-          title="may gameshow" 
-          width="560" 
-          height="315" 
-          src="https://www.youtube.com/embed/qudMpap0YoQ" 
-          frameBorder="0" 
-          allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" 
-          allowFullScreen
-          style={{ marginLeft: 'auto', marginRight: 'auto', marginTop: '5vh' }}
-        >
-        </iframe>
-
+        <a href="https://www.youtube.com/channel/UCv2imXzW9mKoZRVSF6BztBQ" target="_blank noopener noreferrer" style={{ textDecoration: 'none' }}>
+          <Button color="primary" variant="contained" id="gameshow">Watch last month's leaders face off in a live gameshow!</Button>
+        </a>
       </Paper>
     );
   }
