@@ -178,6 +178,12 @@
   padding-bottom: 2vh;
 }
 
+@media screen and (max-width: 415px) {
+  #gameshow {
+    font-size: 1.2em;
+  }
+}
+
 h4 {
   margin-top: 5vh;
   font-weight: 700;
