@@ -1,7 +1,7 @@
 import { db } from '../firebase';
 
 // calculate a politIQ for a single user 
-// let allScores;
+let allScores = []
 
 export const getPolitIQ = async (uid) => {
 
@@ -15,18 +15,33 @@ export const getPolitIQ = async (uid) => {
             if (localStorage.hasOwnProperty('allScores')) {
                 allScores = JSON.parse(localStorage.getItem('allScores')).data
             } else {
+                let scores = []
                 await db.getScores()
                     .then(response => {
                         const data = response.val()
                         const uids = Object.keys(data)
-                        const scores = Object.values(data)
-                        for (let i = 0; i < uids.length; i++) {
-                            allScores.push({ [uids[i]]: scores[i] })
+                        uids.forEach((user, i) => {
+                            const dates = Object.keys(data[uids[i]])
+                            for (let k = 0; k < dates.length; k++) {
+                                if (dates[k] >= '2019-04-01T00:00') {
+                                    scores.push({ user, data: data[uids[i]]})
+                                    return;
+                                }
+                            }
+                        })
+                        // const scores = Object.values(data)
+                        // for (let i = 0; i < uids.length; i++) {
+                        //     allScores.push({ [uids[i]]: scores[i] })
+                        // }
+                        // allScores = data
+                    }).then(() => {
+                        allScores = {
+                            data: scores
                         }
-                        allScores = data
                     })
             }
         }
+        console.log(allScores, 'this is allScores for loggedInuser')
         const score = await getScores(uid, allScores)
         const politIQ = calculatePolitIQ(score, quizNum)
         return politIQ;
@@ -60,19 +75,23 @@ const getScores = async (uid, allScores) => {
         // find the data that matches up with the uid
         // find the index of that uid
         let uidArray = []
-        const uids = Object.keys(allScores)
-        for (let i = 0; i < uids.length; i++) {
+        // const uids = []]
+        // console.log(uids, 'this is uids')
+        for (let i = 0; i < allScores.length; i++) {
             // if (uids[i] === uid) {
             // }
-            uidArray.push(uids[i])
+            uidArray.push(allScores[i].user)
         }
+        console.log(uidArray)
         const index = uidArray.indexOf(uid)
         // console.log(allScores.data[index].data, 'this is the index')
         if (index !== -1) {
-            data = allScores[uid]
+            data = allScores[index].data
         }
 
     }
+
+    console.log(data, 'this is data')
 
     let score = 0;
 
