@@ -17,9 +17,7 @@ class LastLeaders extends Component {
     }
 
     componentDidMount () {
-        const data = JSON.parse(localStorage.getItem('allScores'))
-        this.getLastLeaders(data, this.props.timeFrame)
-        this.setState({ data })
+        this.init()
     }
 
     componentDidUpdate (prevProps, prevState) {
@@ -30,6 +28,41 @@ class LastLeaders extends Component {
             this.getLastLeaders(this.state.data, this.props.timeFrame)
             return true;
         } else return false;
+    }
+
+    init = async () => {
+        let data = {}
+        if (localStorage.hasOwnProperty('allScores')) {
+            data = JSON.parse(localStorage.getItem('allScores'))
+        } else {
+            let lastMonthScores = []
+            await db.getScores()
+                .then(response => {
+                    const scoreData = response.val()
+
+                    if (scoreData === null) {
+                        return 'No scores available'
+                    }
+
+                    const usernames = Object.keys(scoreData)
+                    usernames.forEach((user,i) => {
+                        const dates = Object.keys(scoreData[usernames[i]])
+
+                        for (let j = 0; j < dates.length; j ++) {
+                            if (dates[j] <= moment().startOf('month').format('YYYY-MM-DDTHH:mm') && dates[j] >= moment().startOf('month').subtract(1, 'month').format('YYYY-MM-DDTHH:mm') && dates[j] !== 'submitted') {
+                                lastMonthScores.push({user, data: scoreData[usernames[i]]})
+                                return;
+                            }
+                        }
+                    })
+                }).then(() => {
+                    data = {
+                        data: lastMonthScores,
+                    }
+                })
+        }
+        this.getLastLeaders(data, this.props.timeFrame)
+        this.setState({ data })
     }
 
     getLastLeaders = async (data, timeFrame) => {

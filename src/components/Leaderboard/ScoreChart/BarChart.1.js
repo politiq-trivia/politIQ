@@ -30,12 +30,25 @@ class BarChart extends Component {
       }
 
       getScores = async (timeFrame) => {
-        const scores = JSON.parse(localStorage.getItem('allScores'))
         let uidArray = [];
+        if (localStorage.hasOwnProperty('allScores')) {
+          const scores = JSON.parse(localStorage.getItem('allScores'))
 
-        for (let i = 0; i < scores.data.length; i++) {
-          uidArray.push(scores.data[i].user)
-        }
+          for (let i = 0; i < scores.data.length; i++) {
+            uidArray.push(scores.data[i].user)
+          }
+        } else (
+          await db.getScores()
+            .then(response => {
+              const data = response.val()
+              // for (let i = 0; i < data.length; i++) {
+              //   uidArray.push(data[i])
+              // }
+              const uids = Object.keys(data)
+              uidArray = uids
+            })
+        )
+
         this.sortUserByAffiliation(uidArray)
       }
 
@@ -58,6 +71,7 @@ class BarChart extends Component {
           }
           i++
         }
+
         this.getAvgPolitIQs('Democrat', democrats)
         this.getAvgPolitIQs('Republican', republicans)
         this.getAvgPolitIQs('Independent', independents)

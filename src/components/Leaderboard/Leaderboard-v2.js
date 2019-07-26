@@ -39,6 +39,12 @@ class Leaderboardv2 extends Component {
                 affiliation: userInfo.affiliation,
                 invisibleScore: userInfo.invisibleScore,
             })
+        } else {
+          this.setState({
+            showPartyLeaders: true,
+            showLastLeaders: false,
+            showUserScores: false,
+          })
         }
 
         this.initLeaderboard()
@@ -261,7 +267,7 @@ class Leaderboardv2 extends Component {
         return (
             <div className="leaderboard-holder">
                 <div className="leaderboard-left">
-                  {this.state.uid ? 
+                  {this.state.uid !== "" ? 
                     <>
                       <MediaQuery minWidth={416}>
                         <div className="leader-user-info">
@@ -337,15 +343,14 @@ class Leaderboardv2 extends Component {
                       </MediaQuery>
 
                         <MediaQuery minWidth={416}>
-                          {this.state.viewLastMonth
+                          {this.state.showLastLeaders
                             ? <>
-                                <BarChart timeFrame={this.state.weekly ? "week" : "month" }/>
-                                <p onClick={this.toggleLastMonth}>View past leaders --></p>
-
+                                <LastLeaders timeFrame={this.state.weekly ? "Week" : "Month" }/>
+                                <p onClick={this.showPartyLeaders}>View party leaders --></p>
                               </>
                             : <>
-                                <LastLeaders timeFrame={this.state.weekly ? "Week" : "Month" }/>
-                                <p onClick={this.toggleLastMonth}>View party leaders --></p>
+                                <BarChart timeFrame={this.state.weekly ? "week" : "month" }/>
+                                <p onClick={this.showLastLeaders}>View past leaders --></p>
                               </>
                           }
                         </MediaQuery>
@@ -353,8 +358,28 @@ class Leaderboardv2 extends Component {
 
                     : <>
                         <h1>PolitIQ Leaders</h1> 
-                        <BarChart timeFrame={this.state.weekly ? "week" : "month" }/>
-                        <LastLeaders timeFrame={this.state.weekly ? "Week" : "Month"} nonLoggedIn={true}/>
+
+                        <MediaQuery minWidth={416}>
+                          <BarChart timeFrame={this.state.weekly ? "week" : "month" }/>
+                          <LastLeaders timeFrame={this.state.weekly ? "Week" : "Month"} nonLoggedIn={true}/>
+                        </MediaQuery>
+                        <MediaQuery maxWidth={415}>
+                          {!this.state.showLastLeaders 
+                            ? <>
+                                <BarChart timeFrame={this.state.weekly ? "week" : "month" } />
+                                <p onClick={this.showLastLeaders}>View past leaders --></p>
+                              </>
+                            : <>
+                                <LastLeaders timeFrame={this.state.weekly ? "Week" : "Month" }/>
+                                <p onClick={this.showPartyLeaders}>View party leaders --></p>
+
+                            
+                              </>
+                          }
+
+
+                        </MediaQuery>
+
                       </>
                   }
                 </div>

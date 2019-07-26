@@ -1,18 +1,33 @@
 import { db } from '../firebase';
 
 // calculate a politIQ for a single user 
-let allScores;
+// let allScores;
 
 export const getPolitIQ = async (uid) => {
-    if (!matchesLoggedInUser(uid)) {
-        allScores = JSON.parse(localStorage.getItem('allScores'))
-    }
+
     // get all the quizzes
     const quizNum = await getQuizzes()
     if (quizNum === 0) {
         return 0;
     } else {
-        const score = await getScores(uid)
+        let allScores = [];
+        if (!matchesLoggedInUser(uid)) {
+            if (localStorage.hasOwnProperty('allScores')) {
+                allScores = JSON.parse(localStorage.getItem('allScores')).data
+            } else {
+                await db.getScores()
+                    .then(response => {
+                        const data = response.val()
+                        const uids = Object.keys(data)
+                        const scores = Object.values(data)
+                        for (let i = 0; i < uids.length; i++) {
+                            allScores.push({ [uids[i]]: scores[i] })
+                        }
+                        allScores = data
+                    })
+            }
+        }
+        const score = await getScores(uid, allScores)
         const politIQ = calculatePolitIQ(score, quizNum)
         return politIQ;
     }
@@ -33,7 +48,7 @@ const getQuizzes = async () => {
     return qNum;
 }
 
-const getScores = async (uid) => {
+const getScores = async (uid, allScores) => {
     let data;
     
     // check if the uid = logged in user. if it does, get the score data from userScoreData
@@ -45,13 +60,16 @@ const getScores = async (uid) => {
         // find the data that matches up with the uid
         // find the index of that uid
         let uidArray = []
-        for (let i = 0; i < allScores.data.length; i++) {
-            uidArray.push(allScores.data[i].user)
+        const uids = Object.keys(allScores)
+        for (let i = 0; i < uids.length; i++) {
+            // if (uids[i] === uid) {
+            // }
+            uidArray.push(uids[i])
         }
         const index = uidArray.indexOf(uid)
         // console.log(allScores.data[index].data, 'this is the index')
         if (index !== -1) {
-            data = allScores.data[index].data
+            data = allScores[uid]
         }
 
     }
