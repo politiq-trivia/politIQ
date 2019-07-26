@@ -29,11 +29,6 @@ export const getPolitIQ = async (uid) => {
                                 }
                             }
                         })
-                        // const scores = Object.values(data)
-                        // for (let i = 0; i < uids.length; i++) {
-                        //     allScores.push({ [uids[i]]: scores[i] })
-                        // }
-                        // allScores = data
                     }).then(() => {
                         allScores = {
                             data: scores
@@ -41,7 +36,6 @@ export const getPolitIQ = async (uid) => {
                     })
             }
         }
-        console.log(allScores, 'this is allScores for loggedInuser')
         const score = await getScores(uid, allScores)
         const politIQ = calculatePolitIQ(score, quizNum)
         return politIQ;
@@ -65,7 +59,6 @@ const getQuizzes = async () => {
 
 const getScores = async (uid, allScores) => {
     let data;
-    
     // check if the uid = logged in user. if it does, get the score data from userScoreData
     if (matchesLoggedInUser(uid)) {
         const userScoreData = JSON.parse(localStorage.getItem('userScoreData'));
@@ -75,23 +68,15 @@ const getScores = async (uid, allScores) => {
         // find the data that matches up with the uid
         // find the index of that uid
         let uidArray = []
-        // const uids = []]
-        // console.log(uids, 'this is uids')
         for (let i = 0; i < allScores.length; i++) {
-            // if (uids[i] === uid) {
-            // }
             uidArray.push(allScores[i].user)
         }
-        console.log(uidArray)
         const index = uidArray.indexOf(uid)
-        // console.log(allScores.data[index].data, 'this is the index')
         if (index !== -1) {
             data = allScores[index].data
         }
 
     }
-
-    console.log(data, 'this is data')
 
     let score = 0;
 

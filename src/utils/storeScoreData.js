@@ -67,7 +67,6 @@ export const getLastMonthScores = async () => {
 // it's still not the best performance to run the calculation every time, but it's better
 // than calling the db every time for every score
 export const getAllScores = async () => {
-    console.log('getAllScores called')
     let allScores = [];
     await db.getScores()
         .then(response => {
@@ -111,8 +110,6 @@ export const getUserScores = (uid) => {
 const store = (data) => {
     const nameOfData = Object.keys(data)[0]
     const valueOfData = Object.values(data)[0]
-    // valueOfData.lastUpdated = moment().format('YYYY-MM-DDTHH:mm')
-    // console.log(valueOfData, 'this is the value of Data')
     const toStore = {
         data: valueOfData,
         lastUpdated: moment().format('YYYY-MM-DDTHH:mm')
