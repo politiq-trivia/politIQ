@@ -58,7 +58,8 @@
   display: flex;
   text-align: center;
   height: 14vh;
-  width: 40.5vw;
+  width: 100%;
+  justify-content: space-between;
 }
 
 #demScore {
@@ -93,7 +94,7 @@
   font-size: 2.5vh;
 }
 
-.score {
+.s {
   font-size: 5vh;
   font-weight: bold;
 }
@@ -134,42 +135,55 @@
 }
 
 .small-scoreboardHolder {
-  background-color:  #3E1D57;
-  border: 4px solid white;
-  border-bottom: 4px solid white;
   box-sizing: border-box;
   text-align: center;
   color: white;
-  padding-bottom: 0;
+  padding: 2vh;
   -webkit-box-shadow: 0px 4px 10px 0px rgba(0,0,0,0.75);
   -moz-box-shadow: 0px 4px 10px 0px rgba(0,0,0,0.75);
   box-shadow: 0px 4px 10px 0px rgba(0,0,0,0.75);
-  width: 41.2vw;
-  height: 37.5vh;
+  height: 42.5vh;
+  width: 75%;
+  border-radius: 15px;
+  margin-top: 5vh !important;
+  margin-bottom: 2vh !important;
+  background: rgba(62,29,87,1);
+  background: -moz-linear-gradient(-45deg, rgba(62,29,87,1) 0%, rgba(62,29,87,1) 20%, rgba(41,20,58,1) 44%, rgba(62,29,87,1) 76%, rgba(62,29,87,1) 100%);
+  background: -webkit-gradient(left top, right bottom, color-stop(0%, rgba(62,29,87,1)), color-stop(20%, rgba(62,29,87,1)), color-stop(44%, rgba(41,20,58,1)), color-stop(76%, rgba(62,29,87,1)), color-stop(100%, rgba(62,29,87,1)));
+  background: -webkit-linear-gradient(-45deg, rgba(62,29,87,1) 0%, rgba(62,29,87,1) 20%, rgba(41,20,58,1) 44%, rgba(62,29,87,1) 76%, rgba(62,29,87,1) 100%);
+  background: -o-linear-gradient(-45deg, rgba(62,29,87,1) 0%, rgba(62,29,87,1) 20%, rgba(41,20,58,1) 44%, rgba(62,29,87,1) 76%, rgba(62,29,87,1) 100%);
+  background: -ms-linear-gradient(-45deg, rgba(62,29,87,1) 0%, rgba(62,29,87,1) 20%, rgba(41,20,58,1) 44%, rgba(62,29,87,1) 76%, rgba(62,29,87,1) 100%);
+  background: linear-gradient(135deg, rgba(62,29,87,1) 0%, rgba(62,29,87,1) 20%, rgba(41,20,58,1) 44%, rgba(62,29,87,1) 76%, rgba(62,29,87,1) 100%);
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#3e1d57', endColorstr='#3e1d57', GradientType=1 );
 }
 
 .small-scoreboardHolder h2 {
   font-size: 2em;
   margin: 2vh auto 2vh auto;
+  text-transform: uppercase;
+  letter-spacing: 1.3px;
+  font-weight: 400;
 }
 
 .userScore {
-  width: 48.5%;
-  border: 2px solid white;
-  border-right: 0;
-  border-top: 4px solid white;
-  border-bottom: 4px solid white;
+  width: 22%;
   background-color: #8E6DA7;
   color: white;
   box-sizing: border-box;
-  font-size: 2.5vh;
+  font-size: 17px;
   display: flex;
   flex-direction: column;
   height: 12vh;
+  border-radius: 15px;
+  padding: 1vh;
+  text-transform: uppercase;
+  -webkit-box-shadow: 0px 4px 10px 0px rgba(0,0,0,0.75);
+  -moz-box-shadow: 0px 4px 10px 0px rgba(0,0,0,0.75);
+  box-shadow: 0px 4px 10px 0px rgba(0,0,0,0.75);
 }
 
 .politIQ {
-  width: 100%;
+  width: 30%;
   border-bottom: none;
   border-left: none;
   background-color: #C790F1;
@@ -178,10 +192,14 @@
   padding-top: 1vh;
   padding-bottom: 1vh;
   height: 14vh;
+  margin-left: auto;
+  margin-right: auto;
+  border-radius: 15px;
+  margin-bottom: 2vh;
 }
 
 #submittedQScore {
-  font-size: 14px;
+  font-size: 13px;
 }
 
 .reg-score {
