@@ -173,7 +173,7 @@
   font-size: 17px;
   display: flex;
   flex-direction: column;
-  height: 12vh;
+  height: 13vh;
   border-radius: 15px;
   padding: 1vh;
   text-transform: uppercase;
@@ -202,10 +202,19 @@
   font-size: 13px;
 }
 
-.reg-score {
+/* .reg-score {
+  margin-top: 1.6vh;
+} */
+
+.last-mobile {
   margin-top: 1.6vh;
 }
 
+@media screen and (min-width: 1200px) {
+  .reg-score {
+    margin-top: 1.6vh;
+  }
+}
 
 @media screen and (max-width: 980px) {
   .score {

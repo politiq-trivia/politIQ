@@ -436,3 +436,36 @@
   font-weight: bolder;
   padding-bottom: 2vh;
 }
+
+.cashout-modal {
+  top: 25% !important;
+  left: 20% !important;
+  width: 40%;
+  background-color: 'white';
+  outline: none;
+  padding: 10vh;
+  text-align: center;
+}
+
+.cashout-modal h3 {
+  padding-top: 6vh;
+  display: block;
+  font-size: 36px;
+  padding-bottom: 2vh;
+}
+
+.cashout-modal p {
+  padding: 3vh;
+  padding-top: 1vh;
+}
+
+@media screen and (max-width: 415px) {
+  .cashout-modal {
+    width: 80%;
+    left: -8% !important;
+    top: 20% !important;
+  }
+  .cashout-modal p {
+    line-height: 1.4;
+  }
+}
