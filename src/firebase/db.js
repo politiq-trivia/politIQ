@@ -66,9 +66,17 @@ export const editUser = (uid, updates) => {
   return user;
 }
 
+// admin route - when user wins a competition, admin adds
+// money won to their money earned & lifetime earnings (TO DO)
 export const awardMoney = (uid, amount) => {
   db.ref('users').child(uid).child('moneyWon').set(amount);
 }
+
+// notify admin that they'd like a cashout
+export const requestCashOut = (uid, moneyEarned) => {
+  console.log('cashout request made')
+  db.ref('cashOut').child(uid).set(moneyEarned)
+} 
 
 export const getAffiliation = (uid) => {
   const affiliation = db.ref('users').child(uid).child('affiliation').once('value', function(snapshot) {

@@ -35,6 +35,7 @@ class ProfilePage extends Component {
 
   componentDidMount = () => {
     const userInfo = JSON.parse(localStorage.getItem('authUser'))
+    console.log(userInfo, 'this is the userInfo')
 
     this.setState({
       userInfo,

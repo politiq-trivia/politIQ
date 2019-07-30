@@ -1,9 +1,12 @@
 import React, { Component } from 'react';
+
 import Button from '@material-ui/core/Button';
 import Modal from '@material-ui/core/Modal';
 import Paper from '@material-ui/core/Paper';
 import Close from '@material-ui/icons/Close';
 import UserScoreboard from '../Leaderboard/UserScoreboard';
+
+import { db } from '../../firebase';
 
 class StatsPage extends Component {
     constructor(props) {
@@ -17,6 +20,11 @@ class StatsPage extends Component {
         this.setState({
             modalOpen: !this.state.modalOpen,
         })
+    }
+
+    requestCashOut = () => {
+        console.log('cash out request clicked')
+        db.requestCashOut(this.props.uid, this.props.moneyWon)
     }
     render() {
         return (
@@ -33,8 +41,8 @@ class StatsPage extends Component {
                     <Paper>
                         <Close style={{ float: 'right', padding: '1vh', display: 'block'}} onClick={this.toggleModal}/>
                         <h3>Coming soon!</h3>
-                        {/* <p>You have $5 available.</p> */}
-                        {/* <Button variant="contained" color="primary" style={{ marginBottom: '5vh' }}>Click Here to Cash Out</Button> */}
+                        <p>You have ${this.props.moneyWon} available.</p>
+                        <Button variant="contained" color="primary" style={{ marginBottom: '5vh' }} onClick={this.requestCashOut}>Click Here to Cash Out</Button>
                     </Paper>
                 </Modal>
             </>
