@@ -27,7 +27,15 @@
 }
 
 .contestWidget {
-  background-color: #91E84E;
+  background-color: #4EE8A5;
+}
+
+.cashOutWidget {
+  background-color: #E8A54E;
+}
+
+.cashOutWidget:hover {
+  cursor: pointer;
 }
 
 .dashContainer2 {

@@ -78,7 +78,13 @@ export const requestCashOut = (uid, date, email, moneyEarned) => {
   db.ref('cashOut').child(uid).child("date").set(date)
   db.ref('cashOut').child(uid).child("email").set(email)
   db.ref('users').child(uid).child('cashoutRequested').set('true')
-} 
+}
+
+// get all the cashout requests
+export const getAllCashoutRequests = () => {
+  const cashOutReqs = db.ref('cashOut').once('value')
+  return cashOutReqs;
+}
 
 export const getAffiliation = (uid) => {
   const affiliation = db.ref('users').child(uid).child('affiliation').once('value', function(snapshot) {
