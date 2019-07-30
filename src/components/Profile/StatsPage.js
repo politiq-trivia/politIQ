@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import moment from 'moment';
 
 import Button from '@material-ui/core/Button';
 import Modal from '@material-ui/core/Modal';
@@ -23,13 +24,17 @@ class StatsPage extends Component {
     }
 
     requestCashOut = () => {
-        console.log('cash out request clicked')
-        db.requestCashOut(this.props.uid, this.props.moneyWon)
+        // send object with uid, email address, moneywon, and date of cash out request
+        // update user information object to say that a cashout has been requested
+        const { email, moneyWon } = this.props.userInfo
+        const date = moment().format('YYYY-MM-DD')
+        const uid = this.props.uid
+        db.requestCashOut(uid, date, email, moneyWon)
     }
     render() {
         return (
             <>
-                <UserScoreboard uid={this.props.uid} moneyWon={this.props.moneyWon} />
+                <UserScoreboard uid={this.props.uid} moneyWon={this.props.userInfo.moneyWon} />
                 <Button color="primary" variant="contained" id="cashOut" onClick={this.toggleModal}>Cash Out</Button>
                 <Modal
                     aria-labelledby="Cash Out"
@@ -41,7 +46,7 @@ class StatsPage extends Component {
                     <Paper>
                         <Close style={{ float: 'right', padding: '1vh', display: 'block'}} onClick={this.toggleModal}/>
                         <h3>Coming soon!</h3>
-                        <p>You have ${this.props.moneyWon} available.</p>
+                        <p>You have ${this.props.userInfo.moneyWon} available.</p>
                         <Button variant="contained" color="primary" style={{ marginBottom: '5vh' }} onClick={this.requestCashOut}>Click Here to Cash Out</Button>
                     </Paper>
                 </Modal>

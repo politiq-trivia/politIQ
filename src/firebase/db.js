@@ -73,9 +73,11 @@ export const awardMoney = (uid, amount) => {
 }
 
 // notify admin that they'd like a cashout
-export const requestCashOut = (uid, moneyEarned) => {
-  console.log('cashout request made')
-  db.ref('cashOut').child(uid).set(moneyEarned)
+export const requestCashOut = (uid, date, email, moneyEarned) => {
+  db.ref('cashOut').child(uid).child('moneyEarned').set(moneyEarned)
+  db.ref('cashOut').child(uid).child("date").set(date)
+  db.ref('cashOut').child(uid).child("email").set(email)
+  db.ref('users').child(uid).child('cashoutRequested').set('true')
 } 
 
 export const getAffiliation = (uid) => {

@@ -155,7 +155,7 @@ class ProfilePage extends Component {
                 : null
               }
               {this.state.showStatsPage
-                ? <StatsPage uid={authUser.uid} moneyWon={this.state.userInfo.moneyWon}/>
+                ? <StatsPage uid={authUser.uid} userInfo={this.state.userInfo}/>
                 : null
               }
               {this.state.showNotificationSettings
