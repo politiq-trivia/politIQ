@@ -1,8 +1,8 @@
 .leaderboard-holder {
     display: flex;
     flex-direction: row;
-    height: 90vh;
-    overflow: scroll;
+    height: 720px;
+    /* overflow: scroll; */
     margin-top: 64px;
 }
 
@@ -278,7 +278,7 @@
     margin-right: auto;
     display: flex;
     position: absolute;
-    bottom: 20px;
+    bottom: 0px;
     width: 49%;
     padding: 3%;
 }
