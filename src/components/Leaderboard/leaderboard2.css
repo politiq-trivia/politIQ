@@ -1,9 +1,9 @@
 .leaderboard-holder {
     display: flex;
     flex-direction: row;
-    height: 90vh;
-    overflow: scroll;
-    margin-top: 64px;
+    height: 720px;
+    margin-top: 128px;
+    /* overflow: scroll; */
 }
 
 .leaderboard-left {
@@ -277,9 +277,9 @@
     margin-left: auto;
     margin-right: auto;
     display: flex;
-    position: absolute;
-    bottom: 20px;
-    width: 49%;
+    position: relative;
+    bottom: -132px;
+    width: 85%;
     padding: 3%;
 }
 
@@ -383,4 +383,24 @@
 
 .non-logged {
     margin-top: 2vh;
+}
+
+.banner {
+    margin-top: 64px;
+    height: 64px;
+    text-align: center;
+    background: linear-gradient(to top, rgb(239, 188, 77) 0%, rgb(239, 188, 77) 24%, rgb(244, 207, 126) 50%, rgb(255, 244, 219) 100%);
+    -webkit-box-shadow: 0px 2px 50px 0px rgba(0,0,0,0.75);
+    -moz-box-shadow: 0px 2px 50px 0px rgba(0,0,0,0.75);
+    box-shadow: 0px 2px 50px 0px rgba(0,0,0,0.75);
+    z-index: 100;
+    position: fixed;
+    top: 0;
+    width: 100%;
+}
+
+.banner p {
+    font-size: 24px;
+    font-weight: bold;
+    margin: 2vh;
 }

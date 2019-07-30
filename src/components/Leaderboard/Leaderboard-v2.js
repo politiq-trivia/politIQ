@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import moment from 'moment';
 import MediaQuery from 'react-responsive';
+import Helmet from 'react-helmet';
 import VerifiedUser from '@material-ui/icons/VerifiedUser';
 
 import { getPolitIQ } from '../../utils/calculatePolitIQ';
@@ -265,6 +266,16 @@ class Leaderboardv2 extends Component {
         }
 
         return (
+          <>
+            <Helmet>
+              <title>Leaderboard | politIQ trivia</title>
+            </Helmet>
+            <div className="banner">
+              {this.state.weekly 
+                ? <p>Weekly leader receives $10!</p>
+                : <p>Monthly leader of each party eligible to compete for $50!</p>
+              }
+            </div>
             <div className="leaderboard-holder">
                 <div className="leaderboard-left">
                   {this.state.uid !== "" ? 
@@ -398,6 +409,7 @@ class Leaderboardv2 extends Component {
                     }
                 </div>
             </div>
+          </>
         )
     }
 }
