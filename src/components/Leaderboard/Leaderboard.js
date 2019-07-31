@@ -1,128 +1,417 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
-import { Helmet } from 'react-helmet';
+import moment from 'moment';
 import MediaQuery from 'react-responsive';
+import Helmet from 'react-helmet';
+import VerifiedUser from '@material-ui/icons/VerifiedUser';
 
-import Paper from '@material-ui/core/Paper';
-import Button from '@material-ui/core/Button';
-import Tabs from '@material-ui/core/Tabs';
-import Tab from '@material-ui/core/Tab';
-import AppBar from '@material-ui/core/AppBar';
-import Toolbar from '@material-ui/core/Toolbar';
-
-import * as routes from '../../constants/routes';
-
-import './leaderboard.css';
-import WeeklyLeaderboard from './Weekly';
-import MonthlyLeaderboard from './Monthly';
-import BarChart from './ScoreChart/BarChart';
-import HighestScore from './HighestScore';
-import LastLeaderboard from './LastLeaders';
+import { getPolitIQ } from '../../utils/calculatePolitIQ';
 import { getThisMonthScores } from '../../utils/storeScoreData';
+import { db } from '../../firebase';
+import PolitIQBar from './PolitIQBar';
+import BarChart from './ScoreChart/BarChart.1';
+import LastLeaders from './LastLeaders';
+import './leaderboard2.css';
 
-class Leaderboard extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      value: 0,
+class Leaderboardv2 extends Component {
+    constructor(props) {
+        super(props)
+        this.state = {
+            displayName: "",
+            affiliation: "",
+            uid: "",
+            politIQ: "",
+            weekly: false,
+            viewLastMonth: true,
+            showPartyLeaders: false,
+            showLastLeaders: false,
+            showUserScores: true,
+            n: 0,
+            isLoaded: false,
+        }
     }
-  }
 
-  componentDidMount () {
-    this.initLeaderboard()
-  }
+    componentDidMount() {
+        if (localStorage.hasOwnProperty('authUser')) {
+            const userInfo = JSON.parse(localStorage.getItem('authUser'))
+            this.getMyPolitIQ(userInfo.uid, 'month')
+            this.setState({
+                displayName: userInfo.displayName,
+                uid: userInfo.uid,
+                affiliation: userInfo.affiliation,
+                invisibleScore: userInfo.invisibleScore,
+            })
+        } else {
+          this.setState({
+            showPartyLeaders: true,
+            showLastLeaders: false,
+            showUserScores: false,
+          })
+        }
 
-  initLeaderboard = async () => {
-    const data = await getThisMonthScores()
-    this.setState({ data })
-  }
+        this.initLeaderboard()
+    }
 
-  handleChange = (event, value) => {
-    this.setState({ value });
-  }
+    initLeaderboard = async () => {
+        const data = await getThisMonthScores()
+        this.monthlyLeaders(data, 'month')
+        this.setState({ data })
+      }
 
-  handleChangeIndex = index => {
-    this.setState({ value: index });
-  }
+    getMyPolitIQ = async (uid, timeframe) => {
+        let iq = await getPolitIQ(uid, timeframe)
+        if (isNaN(iq)) {
+          this.setState({
+            politIQ: 0
+          })
+        } else {
+          this.setState({
+            politIQ: iq,
+          })
+        }
+    }
 
-  userRanking = (ranking) => {
-    this.setState({ ranking })
-  }
-  render() {
-    return (
-      <>
-        <AppBar position="static" className="leaderboard-appbar" style={{ marginTop: '8vh', background: 'linear-gradient(to top, rgba(239,188,77,1) 0%, rgba(239,188,77,1) 24%, rgba(244,207,126,1) 50%, rgba(255,244,219,1) 100%)', color: 'black', position: 'fixed', top: '0', zIndex: '100'}}>
-          <Toolbar className="leaderboard-banner-text">
-            {this.state.value === 0 
-              ? "Monthly leader of each party eligible to compete for $50!"
-              : "Weekly leader receives $10!"
+    monthlyLeaders = async (data, timeframe) => {
+        const userScores = []
+    
+        // handle an empty response
+        if (data === null || data === undefined) {
+          window.clearTimeout(this.timeout)
+          this.setState({
+            isLoaded: true,
+          })
+          return;
+        }
+        
+        let usernames = [];
+        for (let k = 0; k < data.length; k++) {
+          usernames.push(data[k].user)
+        }
+    
+        // check if that user wants their score included in the leaderboard
+        usernames.forEach(async (user, i) => {
+          const userData = await db.getDisplayNames(usernames[i])
+          userData.displayName.then((displayName) => {
+            userData.invisibleScore.then((invisibleScore) => {
+              if (invisibleScore) { return; }
+              const quizDates = Object.keys(data[i].data)
+    
+                let submitted;
+                if(quizDates[quizDates.length - 1] === 'submitted') {
+                  submitted = data[i].data["submitted"]
+                  quizDates.pop()
+                }
+                let lastMonth = []
+                let scoreCounter = 0;
+                for (let j = 0; j < quizDates.length; j++) {
+                  if (quizDates[j] > moment().startOf(timeframe).format('YYYY-MM-DD')) {
+                    lastMonth.push(quizDates[j])
+                    if (data[i].data[quizDates[j]]) {
+                      scoreCounter += data[i].data[quizDates[j]]
+                    }
+                  }
+                }
+    
+                let submittedScoreCounter = 0
+                if (submitted !== undefined) {
+                  const dates = Object.keys(submitted)
+                  for (let j = 0; j < dates.length; j++) {
+                    if (dates[j] > moment().startOf(timeframe).format('YYYY-MM-DDTHH:mm')) {
+                      submittedScoreCounter += 1
+                    }
+                  }
+                }
+                      
+                if (scoreCounter > 0) {
+                  this.getPolitIQ(user, timeframe)
+                    .then(politIQ => {
+                      userScores.push({
+                        username: displayName,
+                        score: scoreCounter,
+                        uid: user,
+                        politIQ: politIQ + submittedScoreCounter
+                      })
+    
+                      const rankedScores = userScores.sort(function(a,b){
+                        return a.score - b.score
+                      })
+    
+                      const rankReverse = rankedScores.reverse()
+                        this.setState({
+                          rankedScores: rankReverse,
+                          isLoaded: true,
+                          nMax: rankReverse.length
+                        })
+                        window.clearTimeout(this.timeout)
+                    })
+                }
+            })
+          })
+        }
+      );
+    }
+
+    getPolitIQ = async (uid, timeframe) => {
+        const politIQ = await getPolitIQ(uid, timeframe)
+        return politIQ
+    }
+
+    getUserRank = () => {
+      if (this.state.isLoaded) {
+        if (localStorage.hasOwnProperty('authUser')) {
+          const scores = this.state.rankedScores
+          const uid = JSON.parse(localStorage.getItem('authUser')).uid
+          let ranking = "--"
+          let score = "--"
+          for (let i = 0; i < scores.length; i++) {
+            if (uid === scores[i].uid) {
+              ranking = i + 1;
+              score = scores[i].score
             }
-          </Toolbar>
-        </AppBar>
-        <Paper className="leaderboard">
-          <Helmet>
-            <title>Leaderboard | politIQ trivia</title>
-          </Helmet>
+          }
+          return {ranking, score};
+        }
+      }
+    }
 
-          <MediaQuery minWidth={416}>
-            <div style={{ display: 'flex', justifyContent: 'space-between', width: 'auto'}}>
-              <Link to={routes.HOME} style={{ textDecoration: 'none', float: 'left', marginTop: 'auto', marginBottom: 'auto'}}>
-                <Button variant="contained" color="primary" style={{ width: '17vw' }}>Home</Button>
-              </Link>
-              <div className="leaderboard-header" style={{ height: '10vh' }}>
-                <h1 style={{ margin: 'auto' }}>Leaderboard</h1>
-              </div>
-              <Link to={routes.QUIZ_ARCHIVE} style={{ textDecoration: 'none', float: 'right', marginTop: 'auto', marginBottom: 'auto'}}>
-                <Button variant="contained" color="primary" style={{ width: '17vw' }}>Keep Playing</Button>
-              </Link>
-            </div>
-          </MediaQuery>
-          <MediaQuery maxWidth={415}>
-            <div className="leaderboard-header">
-              <h1 style={{ margin: 'auto' }}>Leaderboard</h1>
-            </div>
-          </MediaQuery>
-          <AppBar position="static" color="default" className="leaderboard-tabs">
-            <Tabs
-              value={this.state.value}
-              onChange={this.handleChange}
-              indicatorColor="primary"
-              textColor="primary"
-              variant="fullWidth"
-            >
-              <Tab label="Monthly Leaderboard" />
-              <Tab label="Weekly Leaderboard"/>
-            </Tabs>
-          </AppBar>
-          <Paper>
-              <Tab onClick={this.handleChange} style={{ display: 'none'}} label="Monthly Leaderboard"></Tab>
-              <Tab onClick={this.handleChange} style={{ display: 'none'}} label="Weekly Leaderboard"></Tab>  
-            {this.state.value === 0 ? <MonthlyLeaderboard data={this.state.data}/> : null }
-            {this.state.value === 1 ? <WeeklyLeaderboard data={this.state.data}/> : null }
+    toggleWeekly = (event) => {
+        event.preventDefault()
+        if (this.state.weekly) {
+          this.monthlyLeaders(this.state.data, "month")
+        } else {
+          this.monthlyLeaders(this.state.data, "week")
+        }
+        this.setState({ 
+            weekly: !this.state.weekly,
+            n: 0,
+        })
+    }
 
-          </Paper>
+    toggleLastMonth = (event) => {
+      event.preventDefault()
+      this.setState({
+        viewLastMonth: !this.state.viewLastMonth,
+      })
+    }
 
-          <div style={{ marginTop: '3vh', marginBottom: '5vh', marginLeft: '-2vw'}}>
-            <div className="leaderbox-holder">
-              <HighestScore timeFrame={this.state.value === 0 ? "month" : "week"}/>
-              <LastLeaderboard timeFrame={this.state.value === 0 ? 'Month' : 'Week' }/>
+    showPartyLeaders = () => {
+      this.setState({
+        showPartyLeaders: true,
+        showLastLeaders: false,
+        showUserScores: false,
+      })
+    }
+
+    showLastLeaders = () => {
+      // for mobile - since we have three views instead of just two
+      this.setState({
+        showLastLeaders: true,
+        showPartyLeaders: false,
+        showUserScores: false,
+      })
+    }
+
+    showUserScores = () => {
+      this.setState({
+        showLastLeaders: false,
+        showPartyLeaders: false,
+        showUserScores: true,
+      })
+    }
+
+    pageUp = () => {
+      this.setState({
+        n: this.state.n + 5,
+      })
+    }
+
+    pageDown = () => {
+      this.setState({
+        n: this.state.n - 5,
+      })
+    }
+    
+    render() {
+        let rankingArray = [];
+        if (Array.isArray(this.state.rankedScores)) {
+          const ranking = this.state.rankedScores;
+          const result = ranking.map((stat, i) => {
+            return [stat.username, stat.score, stat.uid, stat.politIQ]
+          });
+          rankingArray = [...result]
+        }
+
+        let n = this.state.n;
+
+        const renderMonthlyLeaders = rankingArray.map((stat, i) => {
+            if (i < n || i >= n + 5) { return null; }
+            return (
+                <div className="leaderboard-object" key={i}>
+                <p className="leaderboard-num">{i + 1}</p>
+                <div className="content">
+                    <PolitIQBar percentage={stat[3]}/>
+                    <div className="leader-info">
+                        <p>{stat[0]}</p>
+                        <p className="score">{stat[1]}</p>
+                    </div>
+                </div>
             </div>
-            <BarChart timeFrame={this.state.value === 0 ? "month" : "week"} />
-          </div>
-          </Paper>
-        </>
-      )
-  }
+            )
+        })
+
+        let rank;
+        if (this.state.rankedScores && !this.state.invisibleScore) {
+          rank = this.getUserRank()
+        } else {
+          rank = "--"
+        }
+
+        return (
+          <>
+            <Helmet>
+              <title>Leaderboard | politIQ trivia</title>
+            </Helmet>
+            <div className="banner">
+              {this.state.weekly 
+                ? <p>Weekly leader receives $10!</p>
+                : <p>Monthly leader of each party eligible to compete for $50!</p>
+              }
+            </div>
+            <div className="leaderboard-holder">
+                <div className="leaderboard-left">
+                  {this.state.uid !== "" ? 
+                    <>
+                      <MediaQuery minWidth={416}>
+                        <div className="leader-user-info">
+                          <VerifiedUser size={40}/>
+                          <h2>{this.state.displayName}</h2>
+                          <h4>{this.state.affiliation}</h4>
+                        </div>
+                        <div className="leader-user-stats">
+                          <div className="stat-rank">
+                            <p>Rank</p>
+                            <h3>{rank !== "--" ? rank.ranking : "--" }</h3>
+                          </div>
+                          <div className="stat-month">
+                            <p>Score</p>
+                            <h3>{rank !== "--" ? rank.score : "--"}</h3>
+                          </div>
+                          <div className="stat-politIQ">
+                            <p>PolitIQ</p>
+                            <h3>{this.state.politIQ}</h3>
+                          </div>
+                        </div>
+                      </MediaQuery>
+
+                      <MediaQuery maxWidth={415}>
+
+                      {this.state.showPartyLeaders 
+                        ? <>
+                            <BarChart timeFrame={this.state.weekly ? "week" : "month" }/>
+                            <div className="leader-link-holder">
+                              <p className="leader-see-more" onClick={this.showUserScores} style={{ marginLeft: '4vw', textAlign: 'left' }}>&lt;-- Your scores</p>
+                              <p className="leader-see-more" onClick={this.showLastLeaders}>Past leaders --></p>
+                            </div>
+                          </>
+                        : <>
+                            {this.state.showLastLeaders 
+                              ? <>
+                                  <LastLeaders timeFrame={this.state.weekly ? "Week" : "Month" }/>
+                                  <div className="leader-link-holder">
+                                    <p className="leader-see-more" onClick={this.showPartyLeaders} style={{ marginLeft: '4vw', textAlign: 'left' }}>&lt;-- Party leaders</p>
+                                    <p className="leader-see-more" onClick={this.showUserScores}>Your scores --></p>
+                                  </div>
+                                </>
+                            : <>
+                                <div className="leader-user-info">
+                                    <VerifiedUser size={40}/>
+                                    <h2>{this.state.displayName}</h2>
+                                    <h4>{this.state.affiliation}</h4>
+                                  </div>
+                                  <div className="leader-user-stats">
+                                    <div className="stat-rank">
+                                      <p>Rank</p>
+                                      <h3>{rank !== "--" ? rank.ranking : "--"}</h3>
+                                    </div>
+                                    <div className="stat-month">
+                                      <p>Score</p>
+                                      <h3>{rank !== "--" ? rank.score : "--"}</h3>
+                                    </div>
+                                    <div className="stat-politIQ">
+                                      <p>PolitIQ</p>
+                                      <h3>{this.state.politIQ}</h3>
+                                    </div>
+                                  </div>
+
+                                  <div className="leader-link-holder">
+                                    <p className="leader-see-more" onClick={this.showLastLeaders}>&lt;-- Past leaders</p>
+                                    <p className="leader-see-more" onClick={this.showPartyLeaders}>Party leaders --></p>
+                                  </div>
+                              </>
+                            }
+                          </>
+                      }
+
+                      </MediaQuery>
+
+                        <MediaQuery minWidth={416}>
+                          {this.state.showLastLeaders
+                            ? <>
+                                <LastLeaders timeFrame={this.state.weekly ? "Week" : "Month" }/>
+                                <p onClick={this.showPartyLeaders}>View party leaders --></p>
+                              </>
+                            : <>
+                                <BarChart timeFrame={this.state.weekly ? "week" : "month" }/>
+                                <p onClick={this.showLastLeaders}>View past leaders --></p>
+                              </>
+                          }
+                        </MediaQuery>
+                      </>
+
+                    : <>
+                        <h1>PolitIQ Leaders</h1> 
+
+                        <MediaQuery minWidth={416}>
+                          <BarChart timeFrame={this.state.weekly ? "week" : "month" }/>
+                          <LastLeaders timeFrame={this.state.weekly ? "Week" : "Month"} nonLoggedIn={true}/>
+                        </MediaQuery>
+                        <MediaQuery maxWidth={415}>
+                          {!this.state.showLastLeaders 
+                            ? <>
+                                <BarChart timeFrame={this.state.weekly ? "week" : "month" } />
+                                <p onClick={this.showLastLeaders}>View past leaders --></p>
+                              </>
+                            : <>
+                                <LastLeaders timeFrame={this.state.weekly ? "Week" : "Month" }/>
+                                <p onClick={this.showPartyLeaders}>View party leaders --></p>
+
+                            
+                              </>
+                          }
+
+
+                        </MediaQuery>
+
+                      </>
+                  }
+                </div>
+                <div className="leaderboard-right">
+                    <div className="leaderboard-tabs">
+                        <p onClick={this.toggleWeekly} className={this.state.weekly ? "weekly" : "weekly selected" }>Monthly</p>
+                        <p onClick={this.toggleWeekly} className={this.state.weekly ? "weekly selected" : "weekly" }>Weekly</p>
+                    </div>
+                    {renderMonthlyLeaders}
+                    {this.state.isLoaded
+                      ? <div className="pagination">
+                          <p className={this.state.n - 5 < 0 ? "p-item p-disabled" : "p-item"} onClick={this.state.n - 5 < 0 ? null : this.pageDown}> &lt;&lt; Prev</p>
+                          <p className={this.state.n + 5 >= this.state.nMax ? "p-item p-disabled" : "p-item"} onClick={this.state.n + 5 >= this.state.nMax ? null : this.pageUp}>Next >></p>
+                        </div>
+                      : null
+                    }
+                </div>
+            </div>
+          </>
+        )
+    }
 }
 
-// const condition = authUser => {
-//   return !!authUser;
-// }
-
-// export default compose(
-//   // withEmailVerification,
-//   withAuthentication,
-//   withAuthorization(condition)
-// )(Leaderboard);
-
-export default Leaderboard;
+export default Leaderboardv2;
