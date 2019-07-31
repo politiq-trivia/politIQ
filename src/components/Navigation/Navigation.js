@@ -49,6 +49,7 @@ const styles = theme => ({
   },
   appBar: {
     zIndex: theme.zIndex.drawer + 1,
+    minHeight: '64px',
   },
   drawerPaper: {
     position: 'relative',
@@ -264,7 +265,7 @@ class NavigationAuth extends Component {
     return (
       <div className={styles.root}>
         <AppBar position="fixed" className={styles.appBar}>
-          <Toolbar>
+          <Toolbar style={{ minHeight: '64px' }}>
             <Link to={routes.HOME} style={{ textDecoration: 'none' }}>
               <img src={Logo} alt="PolitIQ" style={{ height: '7vh', marginTop: '3px'}}/>
             </Link>

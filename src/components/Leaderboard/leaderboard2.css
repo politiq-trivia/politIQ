@@ -404,3 +404,20 @@
     font-weight: bold;
     margin: 2vh;
 }
+
+@media screen and (max-width: 415px) {
+    .banner p {
+        font-size: 18px;
+    }
+}
+
+.politIQ-label {
+    color: white;
+    letter-spacing: 2px;
+    margin-bottom: 10px;
+    position: absolute;
+    float: right;
+    margin-left: auto;
+    font-size: 10px;
+    top: 2px;
+}
