@@ -405,22 +405,19 @@
     margin: 2vh;
 }
 
+@media screen and (max-width: 415px) {
+    .banner p {
+        font-size: 18px;
+    }
+}
+
 .politIQ-label {
     color: white;
-    /* font-size: 8px; */
     letter-spacing: 2px;
     margin-bottom: 10px;
-    /* top: 4px; */
     position: absolute;
     float: right;
     margin-left: auto;
     font-size: 10px;
     top: 2px;
-}
-
-@media screen and (max-width: 415px) {
-    .politIQ-label {
-        font-size: 10px;
-        top: 2px;
-    }
 }
