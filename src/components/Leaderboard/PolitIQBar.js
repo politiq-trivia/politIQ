@@ -15,7 +15,6 @@ const Filler = (props) => {
             return true
         } else return false;
     }
-    console.log(calcPolitIQLabelPos())
     return <div className="filler" style={{ width: `${props.percentage}%` }}><span className="politIQ-label" style={calcPolitIQLabelPos() === true ? {right: `${100 - props.percentage + 1}%`} : {display: "none"}}>PolitIQ: {props.percentage}</span></div>
 }
 

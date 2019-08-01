@@ -203,3 +203,33 @@
   height: 2vh;
   margin-top: 0;
 }
+
+/*  ------------------- cashout styles ----------------- */
+
+/* .rejectCashout {
+  background-color: darkred !important;
+  color: white;
+}
+
+.rejectCashout:hover {
+  background-color: maroon;
+} */
+
+.cashout-row {
+  display: flex;
+  /* justify-content: space-between; */
+}
+
+.cashout-name {
+  margin-top: 13px;
+  margin-bottom: 0;
+}
+
+.cashout-hr {
+  width: 100%;
+  border: 1px solid lightgrey;
+}
+
+.cashout-item {
+  width: 20%;
+}

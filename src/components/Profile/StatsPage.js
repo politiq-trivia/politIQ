@@ -26,10 +26,10 @@ class StatsPage extends Component {
     requestCashOut = () => {
         // send object with uid, email address, moneywon, and date of cash out request
         // update user information object to say that a cashout has been requested
-        const { email, moneyWon } = this.props.userInfo
+        const { email, moneyWon, displayName } = this.props.userInfo
         const date = moment().format('YYYY-MM-DD')
         const uid = this.props.uid
-        db.requestCashOut(uid, date, email, moneyWon)
+        db.requestCashOut(uid, date, email, displayName, moneyWon)
     }
     render() {
         return (
