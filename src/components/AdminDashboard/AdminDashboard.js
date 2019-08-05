@@ -24,8 +24,8 @@ import ContestedQuestions from './ContestedQuestions';
 import Scoreboard from '../Leaderboard/Scoreboard';
 import UserShow from './UserShow/UserShow';
 import PartyLeaders from '../Leaderboard/PartyLeaders';
-import CashOutRequest from './CashOutRequest';
-import CashOutReview from './CashOutReview';
+import CashOutRequest from './CashOut/CashOutRequest';
+import CashOutReview from './CashOut/CashOutReview';
 
 
 import loadingGif from '../../loadingGif.gif';
@@ -307,7 +307,7 @@ class AdminDashboard extends Component {
             </Tabs>
           </AppBar>
         </MediaQuery>
-        {this.state.manageCashOut ? <CashOutReview cashoutData={this.state.cashoutData}/> 
+        {this.state.manageCashOut ? <CashOutReview cashoutData={this.state.cashoutData} getCashOutRequests={this.getCashOutRequests} toggleDashboard={this.toggleDashboard}/> 
           : <div>
           { this.state.addingQuiz ? <AddQuiz toggleAddQuiz={this.toggleAddQuiz} toggleDashboard={this.toggleDashboard}/>
             : <div>

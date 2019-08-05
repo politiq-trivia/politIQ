@@ -1,7 +1,5 @@
 import React, { Component } from 'react';
 
-import { db } from '../../firebase';
-
 class CashOutRequest extends Component {
     constructor(props) {
         super(props)
@@ -20,6 +18,7 @@ class CashOutRequest extends Component {
     }
 
     updateNum = (data) => {
+        if (data === null || data === undefined) return;
         const num = Object.keys(data).length
         this.setState({ num })
     }

@@ -89,6 +89,29 @@ export const getAllCashoutRequests = () => {
   return cashOutReqs;
 }
 
+// remove a cashout request from db - regardless of whether it was accepted or rejected
+// because that's irrelevant here.
+export const removeCashoutRequest = (uid) => {
+  db.ref('cashOut').child(uid).remove()
+}
+
+// reset the user's money won and change their cashoutrequested status back to false
+// then, send the updated users object back to the frontend
+export const acceptCashOut = (uid) => {
+  db.ref('users').child(uid).child('moneyWon').set(0);
+  db.ref('users').child(uid).child('cashoutRequested').set('false');
+
+  const updatedUserObj = db.ref('users').child(uid).once('value')
+  return updatedUserObj;
+}
+
+// change the users cashoutrequest status to false
+export const rejectCashOut = (uid) => {
+  db.ref('users').child(uid).child('cashoutRequested').set('false')
+  const updatedUserObj = db.ref('users').child(uid).once('value');
+  return updatedUserObj;
+}
+
 export const getAffiliation = (uid) => {
   const affiliation = db.ref('users').child(uid).child('affiliation').once('value', function(snapshot) {
     return snapshot.val()
