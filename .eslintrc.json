@@ -1,0 +1,20 @@
+{
+    "extends": [
+        "airbnb-base",
+        "plugin:jsx-a11y/recommended",
+        "plugin:react/recommended"
+    ],
+    "env": {
+        "es6": true
+    },
+    "parserOptions": {
+        "ecmaFeatures": {
+            "jsx": true
+        },
+        "ecmaVersion": 2018,
+        "sourceType": "module"
+    },
+    "plugins": [
+        "react"
+    ]
+}

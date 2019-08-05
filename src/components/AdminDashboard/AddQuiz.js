@@ -33,7 +33,7 @@ class AddQuiz extends Component {
     this.state = { ...INITIAL_STATE }
   }
 
-  componentDidMount = () => {
+  componentDidMount () {
     this.getQBankQs()
     // this.setToNow();
   }
