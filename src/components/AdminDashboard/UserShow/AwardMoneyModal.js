@@ -27,9 +27,12 @@ class AwardMoneyModal extends Component {
     handleSave = () => {
         console.log(this.state.amount)
         const uid = this.props.user.uid
+        // amount = moneyWon (leaving as is)
         const amount = parseInt(this.props.user.moneyWon) + parseInt(this.state.amount)
-        console.log({uid, amount})
-        db.awardMoney(uid, amount)
+        // lifetimeAmount = the user's lifetime earnings
+        const lifetimeAmount = parseInt(this.props.user.lifetimeEarnings) + parseInt(this.state.amount)
+        console.log({uid, amount, lifetimeAmount})
+        db.awardMoney(uid, amount, lifetimeAmount)
         this.props.toggleAwardMoneyModal()
     }
 

@@ -87,10 +87,13 @@ class UserShow extends Component {
               }
 
               let moneyWon;
-              if(index.moneyWon) {
+              let lifetimeEarnings;
+              if(index.moneyWon && index.lifetimeEarnings) {
                 moneyWon = index.moneyWon
+                lifetimeEarnings = index.lifetimeEarnings
               } else {
                 moneyWon = 0
+                lifetimeEarnings = 0
               }
 
               // get the scores
@@ -140,6 +143,7 @@ class UserShow extends Component {
                 lastactive: lastactive,
                 uid: uidList[i],
                 moneyWon: moneyWon,
+                lifetimeEarnings: lifetimeEarnings,
               }
               counter += 1;
               componentData.push(userInfo)
