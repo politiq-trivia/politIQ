@@ -1,6 +1,6 @@
 // CashOut Review Component
 
-import React, { Component } from 'react';
+import React from 'react';
 
 import Paper from '@material-ui/core/Paper';
 import Button from '@material-ui/core/Button';
@@ -8,62 +8,58 @@ import Button from '@material-ui/core/Button';
 import { db } from '../../../../firebase';
 import '../../dashboard.css'
 
-class CashOutReview extends Component {
-    
-    removeReqFromDb = (uid) => {
+const CashOutReview = (props) => {
+    const removeReqFromDb = (uid) => {
         db.removeCashoutRequest(uid)
     }
 
-    refetchAndUpdate = (updatedUserObj) => {
+    const refetchAndUpdate = (updatedUserObj) => {
         localStorage.setItem('authUser', JSON.stringify(updatedUserObj));
-        this.props.getCashOutRequests()
+        props.getCashOutRequests()
     }
 
 
-    acceptRequest = (uid) => {
-        this.removeReqFromDb(uid);
+    const acceptRequest = (uid) => {
+        removeReqFromDb(uid);
         db.acceptCashOut(uid)
             .then(response => {
                 const updatedUserObj = response.val()
-                this.refetchAndUpdate(updatedUserObj);
+                refetchAndUpdate(updatedUserObj);
             })
     }
 
-    rejectRequest = (uid) => {
-        console.log(uid, 'this is uid in reject request')
-        this.removeReqFromDb(uid);
+    const rejectRequest = (uid) => {
+        removeReqFromDb(uid);
         db.rejectCashOut(uid)
             .then(response => {
                 const updatedUserObj = response.val()
-                this.refetchAndUpdate(updatedUserObj)
+                refetchAndUpdate(updatedUserObj)
             })
     }
 
-    render() {
         let noRequests = false;
         let renderCashoutRequests;
-        if (this.props.cashoutData === undefined|| this.props.cashoutData === null) {
+        if (props.cashoutData === undefined|| props.cashoutData === null) {
             noRequests = true;
         } else {
-            const list = Object.keys(this.props.cashoutData)
+            const list = Object.keys(props.cashoutData)
             renderCashoutRequests = list.map((req, i) => {
-                    console.log(this.props.cashoutData[req])
                     return (
                         <div key={i}>
                             <div className="cashout-row">
-                                <h4 className="cashout-name" style={{ width: '15%', textAlign: 'left' }}>{this.props.cashoutData[req].displayName}</h4>
-                                <p className="cashout-item" style={{ textAlign: 'left', width: '30%' }}>{this.props.cashoutData[req].email}</p>
-                                <p className="cashout-item" style={{ width: '15%', textAlign: 'left' }}>${this.props.cashoutData[req].moneyEarned}</p>
+                                <h4 className="cashout-name" style={{ width: '15%', textAlign: 'left' }}>{props.cashoutData[req].displayName}</h4>
+                                <p className="cashout-item" style={{ textAlign: 'left', width: '30%' }}>{props.cashoutData[req].email}</p>
+                                <p className="cashout-item" style={{ width: '15%', textAlign: 'left' }}>${props.cashoutData[req].moneyEarned}</p>
                                 <div style={{ display: "flex", height: '6vh', marginLeft: 'auto' }}>
-                                    <Button variant="contained"style={{ marginRight: '1vw' }} onClick={() => this.rejectRequest(list[i])}>Reject</Button>
-                                    <Button color="primary" variant="contained" onClick={() => this.acceptRequest(list[i])}>Accepted & Complete</Button>
+                                    <Button variant="contained"style={{ marginRight: '1vw' }} onClick={() => rejectRequest(list[i])}>Reject</Button>
+                                    <Button color="primary" variant="contained" onClick={() => acceptRequest(list[i])}>Accepted & Complete</Button>
                                 </div>
                             </div>
                             <hr className="cashout-hr"/>
                         </div>
                     )
                 })
-        }
+            }
 
         
         return (
@@ -72,7 +68,7 @@ class CashOutReview extends Component {
                 {noRequests 
                     ? <div style={{ height: '25vh', paddingTop: '12vh' }}>
                         <h1>No Cash Out Requests to Display!</h1>
-                        <Button variant="contained" color="primary" onClick={this.props.toggleDashboard}>Back to Admin Dashboard</Button>
+                        <Button variant="contained" color="primary" onClick={props.toggleDashboard}>Back to Admin Dashboard</Button>
                       </div>
                     : <>
                         <h1>Cash Out Requests</h1>
@@ -88,7 +84,7 @@ class CashOutReview extends Component {
                     }
             </Paper>
         )
-    }
+    
 }
 
 export default CashOutReview;
