@@ -181,7 +181,7 @@ class LastLeaders extends Component {
     render() {
         return (
             <div className={this.props.nonLoggedIn? "lastLeadersBox2 non-logged" : "lastLeadersBox2"}>
-                <h2>Last {this.props.timeFrame}'s Leaders</h2>
+                {this.props.noScores ? <h2 style={{ color: 'gray' }} >Last {this.props.timeFrame}'s Leaders</h2> : <h2>Last {this.props.timeFrame}'s Leaders</h2> }
                 {this.state.loaded && !this.state.error
                     ? <>
                         <div className="lastLeadersHeader">

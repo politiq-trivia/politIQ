@@ -3,6 +3,9 @@ import moment from 'moment';
 import MediaQuery from 'react-responsive';
 import Helmet from 'react-helmet';
 import VerifiedUser from '@material-ui/icons/VerifiedUser';
+import { Link } from 'react-router-dom';
+
+import Button from '@material-ui/core/Button';
 
 import { getPolitIQ } from '../../utils/calculatePolitIQ';
 import { getThisMonthScores } from '../../utils/storeScoreData';
@@ -10,6 +13,7 @@ import { db } from '../../firebase';
 import PolitIQBar from './PolitIQBar';
 import BarChart from './ScoreChart/BarChart.1';
 import LastLeaders from './LastLeaders';
+import { QUIZ_ARCHIVE } from '../../constants/routes';
 import './leaderboard2.css';
 
 class Leaderboardv2 extends Component {
@@ -27,6 +31,7 @@ class Leaderboardv2 extends Component {
             showUserScores: true,
             n: 0,
             isLoaded: false,
+            noScores: false,
         }
     }
 
@@ -53,8 +58,18 @@ class Leaderboardv2 extends Component {
 
     initLeaderboard = async () => {
         const data = await getThisMonthScores()
+        // const data = [];
+        console.log(data, 'this is data')
+        if (data.length === 0) {
+          this.setState({
+            noScores: true,
+            isLoaded: true,
+          });
+          return;
+        }
         this.monthlyLeaders(data, 'month')
         this.setState({ data })
+
       }
 
     getMyPolitIQ = async (uid, timeframe) => {
@@ -395,18 +410,29 @@ class Leaderboardv2 extends Component {
                   }
                 </div>
                 <div className="leaderboard-right">
-                    <div className="leaderboard-tabs">
-                        <p onClick={this.toggleWeekly} className={this.state.weekly ? "weekly" : "weekly selected" }>Monthly</p>
-                        <p onClick={this.toggleWeekly} className={this.state.weekly ? "weekly selected" : "weekly" }>Weekly</p>
-                    </div>
-                    {renderMonthlyLeaders}
-                    {this.state.isLoaded
-                      ? <div className="pagination">
-                          <p className={this.state.n - 5 < 0 ? "p-item p-disabled" : "p-item"} onClick={this.state.n - 5 < 0 ? null : this.pageDown}> &lt;&lt; Prev</p>
-                          <p className={this.state.n + 5 >= this.state.nMax ? "p-item p-disabled" : "p-item"} onClick={this.state.n + 5 >= this.state.nMax ? null : this.pageUp}>Next >></p>
+                  <div className="leaderboard-tabs">
+                    <p onClick={this.toggleWeekly} className={this.state.weekly ? "weekly" : "weekly selected" }>Monthly</p>
+                    <p onClick={this.toggleWeekly} className={this.state.weekly ? "weekly selected" : "weekly" }>Weekly</p>
+                  </div>
+                    {this.state.noScores
+                      ? <div style={{ textAlign: 'center', paddingTop: '2vh' }}>
+                          <h2 id="noScores">No Scores Available for this {this.state.weekly ? 'Week' : 'Month' } Yet!</h2>
+                          <LastLeaders timeFrame={this.state.weekly ? 'Week' : 'Month' } noScores={this.state.noScores} />
+                          <Link to={QUIZ_ARCHIVE} style={{ textDecoration: 'none' }}><Button variant="contained" color="primary" style={{ marginTop: '3vh', marginBottom: '3vh' }}>View Past Quizzes</Button></Link>
                         </div>
-                      : null
+                      : <>
+
+                          {renderMonthlyLeaders}
+                          {this.state.isLoaded
+                            ? <div className="pagination">
+                                <p className={this.state.n - 5 < 0 ? "p-item p-disabled" : "p-item"} onClick={this.state.n - 5 < 0 ? null : this.pageDown}> &lt;&lt; Prev</p>
+                                <p className={this.state.n + 5 >= this.state.nMax ? "p-item p-disabled" : "p-item"} onClick={this.state.n + 5 >= this.state.nMax ? null : this.pageUp}>Next >></p>
+                              </div>
+                            : null
+                          }
+                        </>
                     }
+
                 </div>
             </div>
           </>
