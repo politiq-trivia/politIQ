@@ -22,7 +22,6 @@ const fakeCashoutData = {
 const getCashOutRequests = jest.fn();
 const toggleDashboard = jest.fn();
 
-// ? WHAT SHOULD THIS COMPONENT DO - test the critical functionality
 describe('<CashOutReview />', () => {
     // If there are no requests, the component should display a message that says no requests available and a button that
     // sends the admin back to the admin dashboard.
@@ -45,6 +44,9 @@ describe('<CashOutReview />', () => {
         expect(requestHolder.children().length).toBe(2);
     })
 
+    // todo: learn more about mocking functions and fix this test so that it can call the acceptcashout method and then update
+    // state accordingly
+    
     // it('renders acceptcashout button and calls accept function when clicked', async () => {
     //     const wrapper = mount(<CashOutReview cashoutData={fakeCashoutData} getCashOutRequests={getCashOutRequests} toggleDashboard={toggleDashboard}/>);
 
