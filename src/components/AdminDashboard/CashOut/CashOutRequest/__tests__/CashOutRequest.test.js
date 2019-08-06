@@ -1,6 +1,5 @@
 import React from 'react';
 import { shallow, mount } from 'enzyme';
-import wait from 'waait';
 
 import CashOutRequest from '../index';
 

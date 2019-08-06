@@ -1,13 +1,14 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import moment from 'moment';
 
 import Button from '@material-ui/core/Button';
 import Modal from '@material-ui/core/Modal';
 import Paper from '@material-ui/core/Paper';
 import Close from '@material-ui/icons/Close';
-import UserScoreboard from '../Leaderboard/UserScoreboard';
+import UserScoreboard from '../../Leaderboard/UserScoreboard';
 
-import { db } from '../../firebase';
+import { db } from '../../../firebase';
 
 class StatsPage extends Component {
     constructor(props) {
@@ -30,6 +31,9 @@ class StatsPage extends Component {
         const date = moment().format('YYYY-MM-DD')
         const uid = this.props.uid
         db.requestCashOut(uid, date, email, displayName, moneyWon)
+        
+        // TODO: this should also update the localstorage userinfo item, causing
+        // the props to be updatd and thus the component to change (button disabled)
     }
     render() {
         return (
@@ -53,6 +57,11 @@ class StatsPage extends Component {
             </>
         )
     }
+}
+
+StatsPage.propTypes = {
+    uid: PropTypes.string.isRequired,
+    userInfo: PropTypes.object.isRequired,
 }
 
 export default StatsPage;

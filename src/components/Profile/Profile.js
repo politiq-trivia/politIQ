@@ -9,7 +9,7 @@ import './profile.css';
 
 import { AuthUserContext, withAuthorization, withEmailVerification } from '../Auth/index';
 import Drawer from './Drawer';
-import StatsPage from './StatsPage';
+import StatsPage from './StatsPage/';
 import NotificationSettingsPage from './NotificationSettings/NotificationSettingsPage';
 import SecuritySettings from './SecuritySettings';
 import GameSettings from './GameSettings';
