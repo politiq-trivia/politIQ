@@ -21,6 +21,7 @@ const fakeCashoutData = {
 
 const getCashOutRequests = jest.fn();
 const toggleDashboard = jest.fn();
+const acceptRequest = jest.fn();
 
 describe('<CashOutReview />', () => {
     // If there are no requests, the component should display a message that says no requests available and a button that
@@ -46,22 +47,23 @@ describe('<CashOutReview />', () => {
 
     // todo: learn more about mocking functions and fix this test so that it can call the acceptcashout method and then update
     // state accordingly
-    
+
     // it('renders acceptcashout button and calls accept function when clicked', async () => {
-    //     const wrapper = mount(<CashOutReview cashoutData={fakeCashoutData} getCashOutRequests={getCashOutRequests} toggleDashboard={toggleDashboard}/>);
+    //     const wrapper = mount(<CashOutReview cashoutData={fakeCashoutData} getCashOutRequests={getCashOutRequests} toggleDashboard={toggleDashboard} onClick={acceptRequest}/>);
 
     //     await wait();
     //     wrapper.update();
 
     //     const acceptButton = wrapper.find('button#accept-request').first();
-    //     // console.log(acceptButton.debug())
-    //     acceptButton.simulate('click')
+    //     console.log(acceptButton.debug())
+    //     acceptButton.simulate('click');
+    //     expect(acceptRequest).toHaveBeenCalled();
 
-    //     await wait(1000);
-    //     wrapper.update();
-    //     const requestHolder = wrapper.find('div#all-requests')
-    //     console.log(requestHolder.debug())
-    //     expect(requestHolder.children().length).toBe(1);
-    //     // expect(acceptRequest).toHaveBeenCalled()
+
+    //     // await wait(1000);
+    //     // wrapper.update();
+    //     // const requestHolder = wrapper.find('div#all-requests')
+    //     // console.log(requestHolder.debug())
+    //     // expect(requestHolder.children().length).toBe(1);
     // })
 })
