@@ -1,1 +1,0 @@
-// ? WHAT SHOULD THIS COMPONENT DO - test the critical functionality
