@@ -58,8 +58,6 @@ class Leaderboardv2 extends Component {
 
     initLeaderboard = async () => {
         const data = await getThisMonthScores()
-        // const data = [];
-        console.log(data, 'this is data')
         if (data.length === 0) {
           this.setState({
             noScores: true,
@@ -324,11 +322,11 @@ class Leaderboardv2 extends Component {
                             <BarChart timeFrame={this.state.weekly ? "week" : "month" }/>
                             <div className="leader-link-holder">
                               <p className="leader-see-more" onClick={this.showUserScores} style={{ marginLeft: '4vw', textAlign: 'left' }}>&lt;-- Your scores</p>
-                              <p className="leader-see-more" onClick={this.showLastLeaders}>Past leaders --></p>
+                              {!this.state.noScores ? <p className="leader-see-more" onClick={this.showLastLeaders}>Past leaders --></p> : null }
                             </div>
                           </>
                         : <>
-                            {this.state.showLastLeaders 
+                            {this.state.showLastLeaders && !this.state.noScores
                               ? <>
                                   <LastLeaders timeFrame={this.state.weekly ? "Week" : "Month" }/>
                                   <div className="leader-link-holder">
@@ -358,7 +356,7 @@ class Leaderboardv2 extends Component {
                                   </div>
 
                                   <div className="leader-link-holder">
-                                    <p className="leader-see-more" onClick={this.showLastLeaders}>&lt;-- Past leaders</p>
+                                    {!this.state.noScores ? <p className="leader-see-more" onClick={this.showLastLeaders}>&lt;-- Past leaders</p> : null }
                                     <p className="leader-see-more" onClick={this.showPartyLeaders}>Party leaders --></p>
                                   </div>
                               </>
@@ -369,14 +367,14 @@ class Leaderboardv2 extends Component {
                       </MediaQuery>
 
                         <MediaQuery minWidth={416}>
-                          {this.state.showLastLeaders
+                          {this.state.showLastLeaders && !this.state.noScores
                             ? <>
                                 <LastLeaders timeFrame={this.state.weekly ? "Week" : "Month" }/>
                                 <p onClick={this.showPartyLeaders}>View party leaders --></p>
                               </>
                             : <>
                                 <BarChart timeFrame={this.state.weekly ? "week" : "month" }/>
-                                <p onClick={this.showLastLeaders}>View past leaders --></p>
+                                {!this.state.noScores ? <p onClick={this.showLastLeaders}>View past leaders --></p> : null }
                               </>
                           }
                         </MediaQuery>
