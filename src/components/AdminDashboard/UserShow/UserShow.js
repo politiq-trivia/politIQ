@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
 
-import { db } from '../../../firebase';
 import moment from 'moment';
 
 import Paper from '@material-ui/core/Paper';
@@ -13,6 +13,7 @@ import TableRow from '@material-ui/core/TableRow';
 import Checkbox from '@material-ui/core/Checkbox';
 import { TextField } from '@material-ui/core';
 
+import { db } from '../../../firebase';
 import '../dashboard.css';
 import TableHeader from './TableHeader';
 import TableToolbar from './TableToolbar';
@@ -58,70 +59,72 @@ class UserShow extends Component {
       rowsPerPage: 5,
       showDeleteModal: false,
       showAwardMoneyModal: false,
-      search: "",
-    }
+      search: '',
+    };
   }
 
   componentDidMount = () => {
-    this.getData()
+    this.getData();
   }
+
   // get data from db - need users, email addresses, scores, and last active dates
   getData = async () => {
     await db.onceGetUsers()
-      .then(response => {
-        const data = response.val()
-        const uidList = Object.keys(response.val())
-        const componentData = this.state.data
+      .then((response) => {
+        const data = response.val();
+        const uidList = Object.keys(response.val());
+        const componentData = this.state.data;
         db.getScores()
-          .then(response => {
-            const scoreData = response.val()
+          .then((scoreResponse) => {
+            const scoreData = scoreResponse.val();
             uidList.forEach((user, i) => {
-              let index = data[uidList[i]]
+              const index = data[uidList[i]];
 
               // get the date last active
               let lastactive;
               if (index.lastActive) {
-                lastactive = index.lastActive
+                lastactive = index.lastActive;
               } else {
-                lastactive = ''
+                lastactive = '';
               }
 
               let moneyWon;
-              if(index.moneyWon) {
-                moneyWon = index.moneyWon
+              if (index.moneyWon) {
+                moneyWon = index.moneyWon; // eslint-disable-line prefer-destructuring
               } else {
-                moneyWon = 0
+                moneyWon = 0;
               }
 
               // get the scores
-              let monthlyscore, alltimescore;
+              let monthlyscore;
+              let alltimescore;
               let scoreCounter = 0;
-            
+
               if (scoreData[uidList[i]]) {
-                const scores = Object.values(scoreData[uidList[i]])
+                const scores = Object.values(scoreData[uidList[i]]);
                 let submittedScores;
-                if (Object.keys(scoreData[uidList[i]])[scores.length - 1] === "submitted") {
-                  submittedScores = scoreData[uidList[i]]["submitted"]
-                  scores.pop()
+                if (Object.keys(scoreData[uidList[i]])[scores.length - 1] === 'submitted') {
+                  submittedScores = scoreData[uidList[i]]['submitted']; // eslint-disable-line dot-notation
+                  scores.pop();
                 }
-                alltimescore = scores.reduce((a,b) => a + b, 0)
+                alltimescore = scores.reduce((a, b) => a + b, 0);
                 if (submittedScores !== undefined) {
-                  const dates = Object.keys(submittedScores)
-                  alltimescore += dates.length
-                  for (let j = 0; j < dates.length; j++) {
+                  const dates = Object.keys(submittedScores);
+                  alltimescore += dates.length;
+                  for (let j = 0; j < dates.length; j += 1) {
                     if (dates[j].slice(10) > moment().startOf('month').format('YYYY-MM-DD')) {
-                      scoreCounter += 1
+                      scoreCounter += 1;
                     }
                   }
                 }
-                const quizDates = Object.keys(scoreData[uidList[i]])
-                if (quizDates[quizDates.length - 1] === "submitted") {
-                  quizDates.pop()
+                const quizDates = Object.keys(scoreData[uidList[i]]);
+                if (quizDates[quizDates.length - 1] === 'submitted') {
+                  quizDates.pop();
                 }
-                for (let j = 0; j < quizDates.length; j++) {
+                for (let j = 0; j < quizDates.length; j += 1) {
                   if (quizDates[j] > moment().startOf('month').format('YYYY-MM-DD')) {
                     if (scoreData[uidList[i]][quizDates[j]]) {
-                      scoreCounter += scoreData[uidList[i]][quizDates[j]]
+                      scoreCounter += scoreData[uidList[i]][quizDates[j]];
                     }
                   }
                 }
@@ -130,25 +133,25 @@ class UserShow extends Component {
                 monthlyscore = 0;
                 alltimescore = 0;
               }
-              let userInfo = {
+              const userInfo = {
                 id: counter,
-                username: index["displayName"],
-                email: index["email"],
-                affiliation: index["affiliation"],
-                monthlyscore: monthlyscore,
-                alltimescore: alltimescore,
-                lastactive: lastactive,
+                username: index['displayName'], // eslint-disable-line dot-notation
+                email: index['email'], // eslint-disable-line dot-notation
+                affiliation: index['affiliation'], // eslint-disable-line dot-notation
+                monthlyscore,
+                alltimescore,
+                lastactive,
                 uid: uidList[i],
-                moneyWon: moneyWon,
-              }
+                moneyWon,
+              };
               counter += 1;
-              componentData.push(userInfo)
-            })
+              componentData.push(userInfo);
+            });
             this.setState({
-              data: componentData
-            })
-          })
-      })
+              data: componentData,
+            });
+          });
+      });
   }
 
   refreshTable = () => {
@@ -156,11 +159,11 @@ class UserShow extends Component {
       data: [],
       selected: [],
       selectedIndex: [],
-    })
-    this.getData()
+    });
+    this.getData();
   }
 
-  handleSelectAllClick = event => {
+  handleSelectAllClick = (event) => {
     if (event.target.checked) {
       this.setState(state => ({ selected: state.data.map(n => n.id) }));
       return;
@@ -180,96 +183,99 @@ class UserShow extends Component {
   };
 
   handleClick = (event, uid, id) => {
-    let selected = [...this.state.selected];
+    const selected = [...this.state.selected];
     if (selected.includes(uid)) {
-      const index = selected.indexOf(uid)
-      selected.splice(index, 1)
+      const index = selected.indexOf(uid);
+      selected.splice(index, 1);
     } else {
-      selected.push(uid)
+      selected.push(uid);
     }
 
-    let selectedIndex = [...this.state.selectedIndex];
+    const selectedIndex = [...this.state.selectedIndex];
     if (selectedIndex.includes(id)) {
-      const index = selectedIndex.indexOf(id)
-      selectedIndex.splice(index, 1)
+      const index = selectedIndex.indexOf(id);
+      selectedIndex.splice(index, 1);
     } else {
-      selectedIndex.push(id)
+      selectedIndex.push(id);
     }
 
     this.setState({
       selected: [...selected],
-      selectedIndex: [...selectedIndex]
-    })
+      selectedIndex: [...selectedIndex],
+    });
   };
 
   handleChangePage = (event, page) => {
     this.setState({ page });
   };
 
-  handleChangeRowsPerPage = event => {
+  handleChangeRowsPerPage = (event) => {
     this.setState({ rowsPerPage: event.target.value });
   };
 
-  handleDeleteUser = (event) => {
-    const selected = [...this.state.selected]
-    const selectedIndex = this.state.selectedIndex
+  handleDeleteUser = () => {
+    const selected = [...this.state.selected];
+    const { selectedIndex } = this.state;
     selected.forEach((user, i) => {
-      db.deleteUser(selected[i])
-    })
-    const data = this.state.data
-    for (let i = 0; i < selectedIndex.length; i++) {
-      const index = selectedIndex[i]
-      data.splice(index, 1)
+      db.deleteUser(selected[i]);
+    });
+    const { data } = this.state;
+    for (let i = 0; i < selectedIndex.length; i += 1) {
+      const index = selectedIndex[i];
+      data.splice(index, 1);
     }
     this.setState({
-      data: data,
+      data,
       selected: [],
       selectedIndex: [],
-    })
+    });
   }
 
   isSelected = (uid) => {
     if (this.state.selected.includes(uid)) {
       return true;
-    } else {
-      return false;
     }
+
+    return false;
   }
 
   toggleDeleteModal = () => {
     this.setState({
-      showDeleteModal: !this.state.showDeleteModal
-    })
+      showDeleteModal: !this.state.showDeleteModal,
+    });
   }
 
   toggleAwardMoneyModal = () => {
     this.setState({
-      showAwardMoneyModal: !this.state.showAwardMoneyModal
-    })
+      showAwardMoneyModal: !this.state.showAwardMoneyModal,
+    });
   }
 
   handleViewUser = (uid) => {
-    this.props.history.push(`/profile/${uid}`)
+    this.props.history.push(`/profile/${uid}`);
   }
-  
+
   handleChange = (event) => {
     this.setState({
       [event.target.id]: event.target.value,
-    })
+    });
   }
 
   render() {
-    const { data, order, orderBy, selected, rowsPerPage, page } = this.state;
-    const emptyRows = this.state.rowsPerPage - Math.min(rowsPerPage, data.length - page * rowsPerPage);
+    const {
+      data, order, orderBy, selected, rowsPerPage, page,
+    } = this.state;
+    const emptyRows = rowsPerPage - Math.min(rowsPerPage, data.length - page * rowsPerPage);
 
     // logic to power the search component
-    const filteredData = data.filter((data) => {
-      return data.username.indexOf(this.state.search) !== -1 || data.email.indexOf(this.state.search) !== -1
-    })
+    const filteredData = data.filter((data) => { // eslint-disable-line
+      return data.username.indexOf(this.state.search) !== -1
+        || data.email.indexOf(this.state.search) !== -1;
+    });
 
-    let userObj = {}
+    let userObj = {};
     if (this.state.selected) {
-      userObj = this.state.data[this.state.selectedIndex]
+      userObj = this.state.data[this.state.selectedIndex];
     }
 
     return (
@@ -278,8 +284,11 @@ class UserShow extends Component {
           ? <DeleteModal handleDeleteUser={this.handleDeleteUser} toggleDeleteModal={this.toggleDeleteModal} selected={this.state.selected} users="true"/>
           : null
         }
-        {this.state.showAwardMoneyModal 
-          ? <AwardMoneyModal selected={this.state.selected} user={userObj} toggleAwardMoneyModal={this.toggleAwardMoneyModal}/>
+        {this.state.showAwardMoneyModal
+          ? <AwardMoneyModal
+              selected={this.state.selected} user={userObj}
+              toggleAwardMoneyModal={this.toggleAwardMoneyModal}
+            />
           : null
         }
         <h3>All Users</h3>
@@ -313,7 +322,7 @@ class UserShow extends Component {
           <TableBody>
             {stableSort(filteredData, getSorting(order, orderBy))
               .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-              .map(n => {
+              .map((n) => {
                 const isSelected = this.isSelected(n.uid);
                 return (
                   <TableRow
@@ -338,10 +347,10 @@ class UserShow extends Component {
                     <TableCell component="th" scope="row" padding="none" className="hidden">
                       {n.affiliation}
                     </TableCell>
-                    <TableCell numeric style={{ minWidth: '10px', padding: '4px 0 4px 10px'}}>{n.monthlyscore}</TableCell>
-                    <TableCell numeric style={{ width: '20px'}} className="toggleMargins">{n.alltimescore}</TableCell>
+                    <TableCell numeric style={{ minWidth: '10px', padding: '4px 0 4px 10px' }}>{n.monthlyscore}</TableCell>
+                    <TableCell numeric style={{ width: '20px' }} className="toggleMargins">{n.alltimescore}</TableCell>
                     <TableCell numeric style={{ width: '20px' }} className="toggleMargins hidden">${n.moneyWon}</TableCell>
-                    <TableCell numeric className="hidden" style={{ paddingLeft: '0'}}>{n.lastactive}</TableCell>
+                    <TableCell numeric className="hidden" style={{ paddingLeft: '0' }}>{n.lastactive}</TableCell>
                   </TableRow>
                 );
               })}
@@ -361,14 +370,18 @@ class UserShow extends Component {
             'aria-label': 'Previous Page',
           }}
           nextIconButtonProps={{
-            'aria-label': "Next Page",
+            'aria-label': 'Next Page',
           }}
           onChangePage={this.handleChangePage}
           onChangeRowsPerPage={this.handleChangeRowsPerPage}
         />
       </Paper>
-    )
+    );
   }
 }
+
+UserShow.propTypes = {
+  history: PropTypes.obj.isRequired,
+};
 
 export default withRouter(UserShow);

@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 
 import { db } from '../../firebase';
 
@@ -117,6 +118,10 @@ class QuizBankSelect extends Component {
       </div>
     )
   }
+}
+
+QuizBankSelect.propTypes = {
+  toggleAddQuiz: PropTypes.func.isRequired,
 }
 
 export default QuizBankSelect;
