@@ -71,7 +71,8 @@ class QuizArchive extends Component {
     if (this.state.selectedMonth === moment().startOf('month').format('YYYY-MM-DDTHH:mm')) {
       // dates that are less than the current date
       // dates that are greater than the start of the current month
-      return date < moment().format('YYYY-MM-DDTHH:mm') && date > moment().startOf('month').format('YYYY-MM-DDTHH:mm');
+      // return date < moment().format('YYYY-MM-DDTHH:mm') && date > moment().startOf('month').format('YYYY-MM-DDTHH:mm');
+      return;
     } else {
         // dates that are greater than the start of the selected month 
         // dates that are less than the end of the selected month
@@ -92,6 +93,9 @@ class QuizArchive extends Component {
       this.setState({
         noQuizzes: true,
         loading: false,
+        dateArray: [],
+        titleArray: [],
+        page: 0,
       })
       console.log('no quizzes')
       return;
@@ -157,6 +161,7 @@ class QuizArchive extends Component {
     this.setState({
       selectedMonth: month
     })
+    this.getQuizzesFromDb()
   }
 
   handleQuizClick = (event, score) => {
@@ -227,11 +232,28 @@ class QuizArchive extends Component {
             <img src={loadingGif} alt="loading gif"/>
           </div>
         )
-      } else if (this.state.dateArray.length === 0) {
+      } else if (this.state.dateArray.length === 0 && this.state.selectedMonth === moment().startOf('month').format('YYYY-MM-DDTHH:mm')) {
         return (
           <>
-            <p>There are no quizzes available for this month yet! Check back later to play.</p>
+            <p>There are no quizzes available for this month yet! Check back later to play or select a previous month to take older quizzes and boost your politIQ.</p>
             <img src={bg} style={{ width: '60%', marginLeft: 'auto', marginRight: 'auto'}} alt="play politIQ" />
+            <div className="viewOlder">
+              <p className="olderDescription">View quizzes from previous months: </p>
+              <Select
+                native
+                value={this.state.selectedMonth}
+                onChange={event => this.handleChangeMonth(event.target.value)}
+                style={{ height: '6vh'}}
+                input={
+                  <OutlinedInput name="month" fullWidth id={"selectedMonth"} style={{ height: '6vh' }} labelWidth={0}/>
+                }
+              >
+                {this.state.monthsArray && this.state.monthsArray.map((month, i) => (
+                  <option value={month} key={month}>{moment(month).format('MMMM')}</option>
+                ))}
+              </Select>
+              <Button className="olderButton" variant="contained" color="primary" onClick={this.getQuizzesFromDb}>View</Button>
+            </div>
           </>
         )
       } else {
