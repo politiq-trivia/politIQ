@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
@@ -8,22 +9,32 @@ import Tooltip from '@material-ui/core/Tooltip';
 import TableSortLabel from '@material-ui/core/TableSortLabel';
 
 const rows = [
-  { id: 'username', numeric: false, disablePadding: true, label: 'Username', className: "hidden" },
-  { id: 'email', numeric: false, disablePadding: true, label: 'Email Address' },
-  { id: 'affiliation', numeric: false, disablePadding: true, label: "Affiliation", className: 'hidden' },
-  { id: 'monthlyscore', numeric: true, disablePadding: false, label: 'Monthly Score', style: 'true' },
-  { id: 'alltimescore', numeric: true, disablePadding: false, label: 'All Time Score', className: 'toggleMargins' },
-  { id: 'moneywon', numeric: true, disablePadding: true, label: "Money Won", style: 'true', className: "hidden" },
-  { id: 'lastactive', numeric: true, disablePadding: false, label: 'Last Active', className: 'hidden' },
+  {
+    id: 'username', numeric: false, disablePadding: true, label: 'Username', className: 'hidden',
+  }, {
+    id: 'email', numeric: false, disablePadding: true, label: 'Email Address',
+  }, {
+    id: 'affiliation', numeric: false, disablePadding: true, label: 'Affiliation', className: 'hidden',
+  }, {
+    id: 'monthlyscore', numeric: true, disablePadding: false, label: 'Monthly Score', style: 'true',
+  }, {
+    id: 'alltimescore', numeric: true, disablePadding: false, label: 'All Time Score', className: 'toggleMargins',
+  }, {
+    id: 'moneywon', numeric: true, disablePadding: true, label: 'Money Won', style: 'true', className: 'hidden',
+  }, {
+    id: 'lastactive', numeric: true, disablePadding: false, label: 'Last Active', className: 'hidden',
+  },
 ];
 
 class TableHeader extends Component {
-  createSortHandler = property => event => {
+  createSortHandler = property => (event) => {
     this.props.onRequestSort(event, property);
   };
 
   render() {
-    const { onSelectAllClick, order, orderBy, numSelected, rowCount } = this.props;
+    const {
+      onSelectAllClick, order, orderBy, numSelected, rowCount,
+    } = this.props;
     return (
       <TableHead>
         <TableRow>
@@ -34,19 +45,19 @@ class TableHeader extends Component {
               onChange={onSelectAllClick}
             />
           </TableCell>
-          {rows.map(row => {
+          {rows.map((row) => { // eslint-disable-line arrow-body-style
             return (
               <TableCell
                 key={row.id}
                 numeric={row.numeric}
                 padding={row.disablePadding ? 'none' : 'default'}
                 sortDirection={orderBy === row.id ? order : false}
-                style={row.style ? { minWidth: '10px', padding: '4px 0 4px 10px'} : { minWidth: '20px'}}
+                style={row.style ? { minWidth: '10px', padding: '4px 0 4px 10px' } : { minWidth: '20px' }}
                 className={row.className ? row.className : null}
               >
                 <Tooltip
                   title="Sort"
-                  placement={row.numeric ? 'bottom-end' : "bottom-start"}
+                  placement={row.numeric ? 'bottom-end' : 'bottom-start' }
                   enterDelay={300}
                 >
                   <TableSortLabel
@@ -62,8 +73,17 @@ class TableHeader extends Component {
           }, this)}
         </TableRow>
       </TableHead>
-    )
+    );
   }
 }
+
+TableHeader.propTypes = {
+  onRequestSort: PropTypes.func.isRequired,
+  onSelectAllClick: PropTypes.func.isRequired,
+  order: PropTypes.string.isRequired,
+  orderBy: PropTypes.string.isRequired,
+  numSelected: PropTypes.number.isRequired,
+  rowCount: PropTypes.number.isRequired,
+};
 
 export default TableHeader;

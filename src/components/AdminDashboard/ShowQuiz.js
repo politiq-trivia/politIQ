@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { db } from '../../firebase';
+import PropTypes from 'prop-types';
 
 import Paper from '@material-ui/core/Paper';
 import Button from '@material-ui/core/Button';
@@ -11,6 +11,8 @@ import RadioButtonUncheckedIcon from '@material-ui/icons/RadioButtonUnchecked';
 import FormLabel from '@material-ui/core/FormLabel';
 import Close from '@material-ui/icons/Close';
 
+import { db } from '../../firebase';
+
 import './quizEngine.css';
 
 class ShowQuiz extends Component {
@@ -20,103 +22,99 @@ class ShowQuiz extends Component {
       quizLength: 0,
       quizQs: [],
       quiz: {},
-    }
+    };
   }
+
   componentDidMount = () => {
-    const quiz = this.props.quiz;
+    const { quiz } = this.props;
     const quizQs = Object.keys(quiz);
-    quizQs.pop()
+    quizQs.pop();
     const quizLength = quizQs.length;
     this.setState({
       quizLength,
       quizQs,
-      quiz
-    })
+      quiz,
+    });
   }
 
   // since this component is rendered by the Admin Dashboard, we need to
   // check if the quiz updated and then update the UI accordingly
   // to prevent errors
-  shouldComponentUpdate (nextProps, nextState) {
+  shouldComponentUpdate(nextProps) {
     if (nextProps.quiz !== this.state.quiz) {
       return true;
-    } else return false;
+    }
+    return false;
   }
 
   handleDeleteQuestion = (event) => {
-    const id = event.target.parentNode.id;
+    const { id } = event.target.parentNode;
     const date = this.props.quizId;
-    const quiz = this.state.quiz;
+    const { quiz } = this.state;
 
-    delete quiz[id]
+    delete quiz[id];
     if (id) {
-      db.deleteQuestion(date, id)
+      db.deleteQuestion(date, id);
     }
-    this.setState({
-      quiz: quiz,
-    })
+    this.setState({ quiz });
   }
 
   render() {
-    let quizArray = []
+    let quizArray = [];
     if (this.state.quiz) {
-      const quiz = this.state.quiz;
-      const result = Object.keys(quiz).map(function(key) {
-        return [key, quiz[key]]
-      });
+      const { quiz } = this.state;
+      const result = Object.keys(quiz).map(key => ([key, quiz[key]]));
       result.pop();
-      quizArray = [...result]
+      quizArray = [...result];
     }
 
-    const renderQs = quizArray.map((q, i) => {
+    const renderQs = quizArray.map((q, i) => { // eslint-disable-line arrow-body-style
       return (
-        <FormControl className="showQuestion" key={i} id={q[0]} style={{ display: 'block'}}>
-          <FormLabel>{i+1}. {q[1]["q1"]}</FormLabel>
-            <div className="delete-x" id={q[0]} onClick={this.handleDeleteQuestion}>
+        /* eslint-disable dot-notation */
+        <FormControl className="showQuestion" key={i} id={q[0]} style={{ display: 'block' }}>
+          <FormLabel>{i + 1}. {q[1]['q1']}</FormLabel>
+            <div className="delete-x" id={q[0]} onClick={this.handleDeleteQuestion} role="button" tabIndex={0} onKeyDown={(e) => { if (e.keyCode === 13) { this.handleDeleteQuestion(); } } }>
               <p className="delete-text">Remove Question</p>
               <Close
                 aria-label="close"
                 color="inherit"
                 style={{
                   height: '4vh',
-                  float: 'right'
+                  float: 'right',
                 }}
               />
             </div>
 
           <RadioGroup
-            aria-label={q[1]["q1"]}
+            aria-label={q[1]['q1']}
             inputref={null}
           >
-            <div className="show" style={{ display: 'flex'}} inputref={null}>
-              <FormControlLabel value={q[1]["a1text"]} control={<Radio
+            <div className="show" style={{ display: 'flex' }} inputref={null}>
+              <FormControlLabel value={q[1]['a1text']} control={<Radio
                 checked={false}
                 icon={<RadioButtonUncheckedIcon />}
-              />} label={q[1]["a1text"]}/>
-              {q[1]["a1correct"] ? <p style={{ color: 'green' }}>Correct Answer</p> : null}
+              />} label={q[1]['a1text']}/>
+              {q[1]['a1correct'] ? <p style={{ color: 'green' }}>Correct Answer</p> : null}
             </div>
-            <div className="show" style={{ display: 'flex'}}>
-              <FormControlLabel value={q[1]["a2text"]} control={<Radio
+            <div className="show" style={{ display: 'flex' }}>
+              <FormControlLabel value={q[1]['a2text']} control={<Radio
                 checked={false}
                 icon={<RadioButtonUncheckedIcon />}
-              />} label={q[1]["a2text"]}/>
-              {q[1]["a2correct"] ? <p style={{ color: 'green' }}>Correct Answer</p> : null}
+              />} label={q[1]['a2text']}/>
+              {q[1]['a2correct'] ? <p style={{ color: 'green' }}>Correct Answer</p> : null}
             </div>
-            <div className="show" style={{ display: 'flex'}}>
-              <FormControlLabel value={q[1]["a3text"]} control={<Radio
+            <div className="show" style={{ display: 'flex' }}>
+              <FormControlLabel value={q[1]['a3text']} control={<Radio
                 checked={false}
                 icon={<RadioButtonUncheckedIcon />}
-              />} label={q[1]["a3text"]}/>
-              {q[1]["a3correct"] ? <p style={{ color: 'green' }}>Correct Answer</p> : null}
+              />} label={q[1]['a3text']}/>
+              {q[1]['a3correct'] ? <p style={{ color: 'green' }}>Correct Answer</p> : null}
             </div>
           </RadioGroup>
-          <p><span style={{ color: 'green', fontWeight: 'bold' }}>Explanation: </span>{q[1]["answerExplanation"]}</p>
+          <p><span style={{ color: 'green', fontWeight: 'bold' }}>Explanation: </span>{q[1]['answerExplanation']}</p>
         </FormControl>
-      )
-    })
-
-
-
+      );
+    });
 
     return (
       <Paper className="showQuiz">
@@ -124,7 +122,7 @@ class ShowQuiz extends Component {
           <Button onClick={this.props.toggleDashboard} variant="contained" color="primary">
               Back
           </Button>
-          <Button variant="contained" color="primary" style={{ float: 'right'}} onClick={this.props.toggleEditQuiz}>
+          <Button variant="contained" color="primary" style={{ float: 'right' }} onClick={this.props.toggleEditQuiz}>
               Edit Quiz
           </Button>
         </div>
@@ -134,13 +132,20 @@ class ShowQuiz extends Component {
           <Button onClick={this.props.toggleDashboard} color="primary">
               Back
           </Button>
-          <Button color="primary" style={{ float: 'right'}} onClick={this.props.toggleEditQuiz}>
+          <Button color="primary" style={{ float: 'right' }} onClick={this.props.toggleEditQuiz}>
               Edit Quiz
           </Button>
         </div>
       </Paper>
-    )
+    );
   }
 }
+
+ShowQuiz.propTypes = {
+  quiz: PropTypes.object.isRequired,
+  quizId: PropTypes.string.isRequired,
+  toggleDashboard: PropTypes.func.isRequired,
+  toggleEditQuiz: PropTypes.func.isRequired,
+};
 
 export default ShowQuiz;
