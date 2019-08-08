@@ -381,7 +381,7 @@ class UserShow extends Component {
 }
 
 UserShow.propTypes = {
-  history: PropTypes.obj.isRequired,
+  history: PropTypes.object.isRequired,
 };
 
 export default withRouter(UserShow);
