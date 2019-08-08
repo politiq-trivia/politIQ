@@ -285,7 +285,7 @@ class Leaderboardv2 extends Component {
             </Helmet>
             <div className="banner">
               {this.state.weekly 
-                ? <p>Weekly leader receives $10!</p>
+                ? <p>Weekly leader receives $5!</p>
                 : <p>Monthly leader of each party eligible to compete for $50!</p>
               }
             </div>

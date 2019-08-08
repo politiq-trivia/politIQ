@@ -45,6 +45,17 @@ class QuestionForm extends Component {
     // empty quizzes cause bugs later on in the game.
     if (this.state.atLeastOneSaved === false) {
       db.deleteQuiz(this.props.quizId)
+    } else {
+      // get the current local storage storage quiz object
+      const localStorageObj = JSON.parse(localStorage.getItem('quizzes'))
+      // get the current quiz in its entirety
+      db.getQuiz(this.props.quizId)
+        .then(response => {
+          const quiz = response.val();
+          localStorageObj[this.props.quizId] = quiz;
+          localStorage.setItem('quizzes', JSON.stringify(localStorageObj));
+        })
+      // update localstorage with that quiz current quiz
     }
   }
 
@@ -123,13 +134,6 @@ class QuestionForm extends Component {
   // submits the data to the firebase db and then returns the user to the admin dashboard
   handleReturn = async () => {
     await this.saveData();
-    // this.setState()
-    // const newUnixDate = parseInt((new Date(this.props.quizId).getTime() / 1000).toFixed(0) + '000')
-    // if (newUnixDate < Date.now()) {
-    //   this.sendNotification()
-    // } else {
-    //   this.sendDelayedNotification(newUnixDate)
-    // }
     this.props.toggleAddQuiz()
 
     // save to RSS
@@ -140,32 +144,6 @@ class QuestionForm extends Component {
     // if the user hasn't saved any quizzes
     this.props.toggleAddQuiz()
   }
-
-  // sendNotification = () => {
-  //   global.registration.showNotification('New! New! New!', {
-  //     body: "Take the latest quiz now!",
-  //     icon: '../logo.png',
-  //     vibrate: [100, 50, 100],
-  //     data: {
-  //       primaryKey: this.props.quizId
-  //     },
-  //   })
-  // }
-
-  // sendDelayedNotification = (date) => {
-  //   const quizId = this.props.quizId
-  //   schedule.scheduleJob(date, () => {
-  //     global.registration.showNotification('New quiz!', {
-  //       body: 'Take the latest politIQ quiz now!',
-  //       icon: '../logo.png',
-  //       vibrate: [100, 50, 100],
-  //       data: {
-  //         primaryKey: quizId,
-  //         dateOfArrival: date
-  //       }
-  //     })
-  //   })
-  // }
 
   render() {
     const qNum = "Question " + this.state.counter;

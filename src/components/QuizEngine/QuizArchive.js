@@ -71,8 +71,7 @@ class QuizArchive extends Component {
     if (this.state.selectedMonth === moment().startOf('month').format('YYYY-MM-DDTHH:mm')) {
       // dates that are less than the current date
       // dates that are greater than the start of the current month
-      // return date < moment().format('YYYY-MM-DDTHH:mm') && date > moment().startOf('month').format('YYYY-MM-DDTHH:mm');
-      return;
+      return date < moment().format('YYYY-MM-DDTHH:mm') && date > moment().startOf('month').format('YYYY-MM-DDTHH:mm');
     } else {
         // dates that are greater than the start of the selected month 
         // dates that are less than the end of the selected month
