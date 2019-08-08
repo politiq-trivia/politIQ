@@ -15,6 +15,16 @@ class StatsPage extends Component {
         super(props);
         this.state = {
             modalOpen: false,
+            cashoutRequested: false,
+        }
+    }
+
+    componentDidMount() {
+        const userInfo = JSON.parse(localStorage.getItem('authUser'))
+        if (userInfo.cashoutRequested !== null) {
+            this.setState({
+                cashoutRequested: userInfo.cashoutRequested,
+            })
         }
     }
 
@@ -34,12 +44,21 @@ class StatsPage extends Component {
         
         // TODO: this should also update the localstorage userinfo item, causing
         // the props to be updatd and thus the component to change (button disabled)
+        const localStorageUser = JSON.parse(localStorage.getItem('authUser'));
+        localStorageUser.cashoutRequested = true;
+        localStorage.setItem('authUser', JSON.stringify(localStorageUser));
+        
+        this.setState({
+            cashoutRequested: true,
+            modalOpen: false,
+        })
     }
+
     render() {
         return (
             <>
                 <UserScoreboard uid={this.props.uid} moneyWon={this.props.userInfo.moneyWon} />
-                <Button color="primary" variant="contained" id="cashOut" onClick={this.toggleModal}>Cash Out</Button>
+                <Button color="primary" variant="contained" id="cashOut" onClick={this.toggleModal} disabled={this.state.cashoutRequested}>{this.state.cashoutRequested ? 'Cash Out Requested' : 'Cash Out' }</Button>
                 <Modal
                     aria-labelledby="Cash Out"
                     aria-describedby="Coming soon - cash out and receive your earnings!"
@@ -51,7 +70,7 @@ class StatsPage extends Component {
                         <Close style={{ float: 'right', padding: '1vh', display: 'block'}} onClick={this.toggleModal}/>
                         <h3>Coming soon!</h3>
                         <p>You have ${this.props.userInfo.moneyWon} available.</p>
-                        <Button variant="contained" color="primary" style={{ marginBottom: '5vh' }} onClick={this.requestCashOut}>Click Here to Cash Out</Button>
+                        <Button variant="contained" color="primary" style={{ marginBottom: '5vh' }} onClick={this.requestCashOut} id="cashout-confirm">Click Here to Cash Out</Button>
                     </Paper>
                 </Modal>
             </>

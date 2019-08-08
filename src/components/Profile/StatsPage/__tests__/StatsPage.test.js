@@ -31,15 +31,30 @@ describe('<StatsPage />', () => {
     })
 
     it('button click should toggle a modal', async () => {
+        StatsPage.prototype.componentDidMount = jest.fn()
         StatsPage.prototype.requestCashOut = jest.fn()
         const wrapper = mount(<StatsPage uid={uid} userInfo={fakeUserInfo} />);
         const button = wrapper.find('button#cashOut')
         expect(wrapper.state('modalOpen')).toBe(false)
         button.simulate('click')
         expect(wrapper.state('modalOpen')).toBe(true)
+
+        // expect a modal component to be rendered
+        wrapper.update()
+        const modal = wrapper.find('Modal')
+        expect(modal.props().open).toBe(true)
     })
 
+    // ! this test does not run because the modal does not appear in the snapshot I dont't think? 
     // clicking the button in the modal should update the userInfo and 
     // change the ui - button should be disabled.
+    // it('ui updates when cash out button is clicked inside modal', () => {
+    //     const wrapper = mount(<StatsPage uid={uid} userInfo={fakeUserInfo} />);
+    //     const button = wrapper.find('Modal')
+    //     console.log(button.debug())
+    //     // function is called when the button is clicked
+    //     // modal is closed
+    //     // cash out button is changed to disabled
+    // })
 })
 
