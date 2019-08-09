@@ -15,7 +15,7 @@ const fakeUserInfo = {
     isAdmin: false,
     lastActive: "2019-08-06",
     lifetimeEarnings: 5,
-    moneyWon: 0,
+    moneyWon: 5,
     soundsOn: true,
     uid: "GvM7fEkYp4fcaSuScwixV0xinfT2"
 }
@@ -30,7 +30,7 @@ describe('<StatsPage />', () => {
         expect(button.text()).toEqual('Cash Out')
     })
 
-    it('button click should toggle a modal if the user has not previously requested a cashout', async () => {
+    it('button click should toggle a modal if the user has not previously requested a cashout and has a nonzero moneyWon', async () => {
         global.localStorage.setItem('authUser', JSON.stringify(fakeUserInfo));
 
         const wrapper = mount(<StatsPage uid={uid} userInfo={fakeUserInfo} />);

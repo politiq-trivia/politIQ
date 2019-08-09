@@ -32,8 +32,9 @@ const CashOutReview = (props) => {
         removeReqFromDb(uid);
         db.rejectCashOut(uid)
             .then(response => {
-                const updatedUserObj = response.val()
-                refetchAndUpdate(updatedUserObj)
+                const updatedUserObj = response.val();
+                updatedUserObj.uid = uid;
+                refetchAndUpdate(updatedUserObj);
             })
     }
 

@@ -15,19 +15,19 @@ exports[`<StatsPage /> should render correctly and match snapshot 1`] = `
       "isAdmin": false,
       "lastActive": "2019-08-06",
       "lifetimeEarnings": 5,
-      "moneyWon": 0,
+      "moneyWon": 5,
       "soundsOn": true,
       "uid": "GvM7fEkYp4fcaSuScwixV0xinfT2",
     }
   }
 >
   <Component
-    moneyWon={0}
+    moneyWon={5}
     uid="GvM7fEkYp4fcaSuScwixV0xinfT2"
   >
     <UserScoreboard
       firebase={null}
-      moneyWon={0}
+      moneyWon={5}
       uid="GvM7fEkYp4fcaSuScwixV0xinfT2"
     >
       <div
