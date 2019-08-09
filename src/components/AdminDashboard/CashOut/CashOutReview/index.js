@@ -48,14 +48,17 @@ const CashOutReview = (props) => {
             return (
                 <div key={i} id="cashout-holder">
                     <div className="cashout-row">
-                        <h4 className="cashout-name" id="cashout-data" style={{ width: '15%', textAlign: 'left' }}>{props.cashoutData[req].displayName}</h4>
-                        <p className="cashout-item" style={{ textAlign: 'left', width: '30%' }}>{props.cashoutData[req].email}</p>
-                        <p className="cashout-item" style={{ width: '15%', textAlign: 'left' }}>${props.cashoutData[req].moneyEarned}</p>
-                        <div style={{ display: "flex", height: '6vh', marginLeft: 'auto' }}>
+                        <div className="cashout-info">
+                            <h4 className="cashout-name cashout-name-table" id="cashout-data">{props.cashoutData[req].displayName}</h4>
+                            <p className="cashout-name cashout-email-table">{props.cashoutData[req].email}</p>
+                            <p className="cashout-name cashout-amount-table">${props.cashoutData[req].moneyEarned}</p>
+                        </div>
+                        <div className="cashout-buttons">
                             <Button variant="contained"style={{ marginRight: '1vw' }} onClick={() => rejectRequest(list[i])}>Reject</Button>
                             <Button color="primary" variant="contained" onClick={() => acceptRequest(list[i])} id="accept-request">Accepted & Complete</Button>
                         </div>
                     </div>
+
                     <hr className="cashout-hr"/>
                 </div>
             )
@@ -63,7 +66,7 @@ const CashOutReview = (props) => {
     }
 
     return (
-        <Paper className="userShow" style={{ marginBottom: '20vh' }}>
+        <Paper className="userShow cashout">
             {noRequests 
                 ? <div style={{ height: '25vh', paddingTop: '12vh' }}>
                     <h1>No Cash Out Requests to Display!</h1>
@@ -71,13 +74,13 @@ const CashOutReview = (props) => {
                   </div>
                 : <>
                     <h1>Cash Out Requests</h1>
-                    <p style={{ fontSize: '14px', color: 'grey', width: '65%', marginLeft: 'auto', marginRight: 'auto' }}>Clicking Accepted & Complete will remove the request from this list, so make sure to click <span style={{ fontWeight: 'bold' }}>after</span> completing their request because you won't be able to get it back.</p>
+                    <p id="cashout-directions">Clicking Accepted & Complete will remove the request from this list, so make sure to click <span style={{ fontWeight: 'bold' }}>after</span> completing their request because you won't be able to get it back.</p>
                     <div style={{ display: 'flex' }}>
-                        <h4 className="cashout-name" style={{ width: '15%', textAlign: 'left' }}>Name</h4>
-                        <h4 className="cashout-name" style={{ width: '30%', textAlign: 'left' }}>Email</h4>
-                        <h4 className="cashout-name" style={{ width: '40%', textAlign: 'left' }}>Amount Requested</h4>
+                        <h4 className="cashout-name">Name</h4>
+                        <h4 className="cashout-email">Email</h4>
+                        <h4 className="cashout-moneywon">Amount</h4>
                     </div>
-                    <hr className="cashout-hr" style={{ border: '1px solid black', marginBottom: '5vh' }}/>
+                    <hr className="cashout-hr cashout-hr-header"/>
                     <div id="all-requests">
                         {renderCashoutRequests}
                     </div>

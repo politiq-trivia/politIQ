@@ -220,9 +220,38 @@
   /* justify-content: space-between; */
 }
 
-.cashout-name {
+.cashout {
+  margin-bottom: 20vh;
+}
+
+.cashout-name, .cashout-email, .cashout-moneywon {
   margin-top: 13px;
   margin-bottom: 0;
+  text-align: left;
+}
+
+.cashout-name {
+  width: 15%;
+}
+
+.cashout-email {
+  width: 30%;
+}
+
+.cashout-moneywon {
+  width: 40;
+}
+
+.cashout-name-table {
+  width: 23%;
+}
+
+.cashout-email-table {
+  width: 47%;
+}
+
+.cashout-amount-table {
+  width: 15%;
 }
 
 .cashout-hr {
@@ -232,4 +261,55 @@
 
 .cashout-item {
   width: 20%;
+}
+
+.cashout-info {
+  display: flex;
+  width: 100%;
+}
+
+#cashout-directions {
+  font-size: 14px;
+  color: grey;
+  width: 65%;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.cashout-buttons {
+  display: flex;
+  height: 6vh;
+  width: 55%;
+}
+
+.cashout-hr-header {
+  border: 1px solid black;
+  margin-bottom: 5vh;
+}
+
+@media screen and (max-width: 415px) {
+  .cashout {
+    height: 80vh;
+    margin-bottom: 5vh;
+  }
+
+  #cashout-directions {
+    width: 85%;
+  }
+
+  .cashout-name {
+    width: 25%;
+  }
+
+  .cashout-row {
+    flex-direction: column;
+  }
+
+  .cashout-buttons {
+    justify-content: space-between;
+    width: 95%;
+    margin-left: auto;
+    margin-right: auto;
+    padding-top: 1vh;
+  }
 }
