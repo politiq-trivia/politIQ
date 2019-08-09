@@ -7,7 +7,7 @@ const uid = "GvM7fEkYp4fcaSuScwixV0xinfT2"
 const fakeUserInfo = {
     affiliation: "Republican",
     bio: "Forever thinking about chicken nuggs ",
-    cashoutRequested: "false",
+    cashoutRequested: false,
     displayName: "Hannah",
     email: "hannah.werman@gmail.com",
     emailVerified: false,
@@ -30,31 +30,38 @@ describe('<StatsPage />', () => {
         expect(button.text()).toEqual('Cash Out')
     })
 
-    it('button click should toggle a modal', async () => {
-        StatsPage.prototype.componentDidMount = jest.fn()
-        StatsPage.prototype.requestCashOut = jest.fn()
+    it('button click should toggle a modal if the user has not previously requested a cashout', async () => {
+        global.localStorage.setItem('authUser', JSON.stringify(fakeUserInfo));
+
         const wrapper = mount(<StatsPage uid={uid} userInfo={fakeUserInfo} />);
+
         const button = wrapper.find('button#cashOut')
         expect(wrapper.state('modalOpen')).toBe(false)
+        expect(button.props().disabled).toBe(false)
         button.simulate('click')
         expect(wrapper.state('modalOpen')).toBe(true)
 
         // expect a modal component to be rendered
         wrapper.update()
         const modal = wrapper.find('Modal')
+
         expect(modal.props().open).toBe(true)
+
+        global.localStorage.clear();
     })
 
-    // ! this test does not run because the modal does not appear in the snapshot I dont't think? 
-    // clicking the button in the modal should update the userInfo and 
-    // change the ui - button should be disabled.
-    // it('ui updates when cash out button is clicked inside modal', () => {
-    //     const wrapper = mount(<StatsPage uid={uid} userInfo={fakeUserInfo} />);
-    //     const button = wrapper.find('Modal')
-    //     console.log(button.debug())
-    //     // function is called when the button is clicked
-    //     // modal is closed
-    //     // cash out button is changed to disabled
-    // })
+    it('button click should be disabled if user has requested a cashout', async () => {
+        const wrapper = mount(<StatsPage uid={uid} userInfo={fakeUserInfo} />);
+
+        wrapper.setState({ cashoutRequested: true });
+        wrapper.update();
+
+        expect(wrapper.state().cashoutRequested).toBe(true);
+        const button = wrapper.find('button#cashOut');
+        expect(button.props().disabled).toBe(true)
+        button.simulate('click');
+        // button click should not trigger the modal because the button is disabled
+        expect(wrapper.state('modalOpen')).toBe(false)
+    })
 })
 

@@ -20,12 +20,19 @@ class StatsPage extends Component {
     }
 
     componentDidMount() {
-        const userInfo = JSON.parse(localStorage.getItem('authUser'))
-        if (userInfo.cashoutRequested !== null) {
-            this.setState({
-                cashoutRequested: userInfo.cashoutRequested,
-            })
+        const userInfo = JSON.parse(localStorage.getItem('authUser'));
+        if (userInfo === null) { 
+            return; 
+        } else {
+            let requested;
+            if (userInfo.cashoutRequested === "true") {
+                requested = true;
+                this.setState({
+                    cashoutRequested: requested,
+                })
+            }
         }
+
     }
 
     toggleModal = () => {

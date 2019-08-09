@@ -45,6 +45,7 @@ export const getPolitIQ = async (uid) => {
 const getQuizzes = async () => {
     let qNum;
     const data = JSON.parse(localStorage.getItem('quizzes'))
+    if (data === null || data === undefined) return;
     const quizDates = Object.keys(data);
     let questionCounter = 0;
     for (let i = 0; i < quizDates.length; i++) {
