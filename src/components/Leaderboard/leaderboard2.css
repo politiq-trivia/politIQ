@@ -193,12 +193,18 @@
     font-weight: bold;
     /* display: inline; */
     width: 5%;
+    color: rgba(45, 45, 45, 0.80);
+    margin-top: auto;
+    margin-bottom: auto;
+    padding-bottom: 5px;
 }
 
 .leader-info {
     display: flex;
     flex-direction: row;
     width: 100%;
+    margin-top: 10px;
+    color: rgba(45, 45, 45, 0.80);
 }
 
 .leader-info > p {
@@ -220,7 +226,7 @@
 
 .score-bar {
     position: relative;
-    height: 2vh;
+    height: 3vh;
     width: 100%;
     background: lightgray;
 }
@@ -278,7 +284,7 @@
     margin-right: auto;
     display: flex;
     position: relative;
-    bottom: -132px;
+    bottom: -46px;
     width: 85%;
     padding: 3%;
 }
