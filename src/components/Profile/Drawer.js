@@ -89,7 +89,7 @@ class ResponsiveDrawer extends Component {
                             this.handleDrawerClose()
                         }}>
                             <ListItemIcon><TrendingUp /></ListItemIcon>
-                            <ListItemText primary={"Stats"} />
+                            <ListItemText primary={"Scores & Earnings"} />
                         </ListItem>
                         {/* <ListItem button onClick={() => {
                             this.props.toggleShowNotifications()
