@@ -242,6 +242,10 @@ class Leaderboardv2 extends Component {
         n: this.state.n - 5,
       })
     }
+
+    handleClickUser = (uid) => {
+      this.props.history.push(`/profile/${uid}`)
+    }
     
     render() {
         let rankingArray = [];
@@ -258,16 +262,17 @@ class Leaderboardv2 extends Component {
         const renderMonthlyLeaders = rankingArray.map((stat, i) => {
             if (i < n || i >= n + 5) { return null; }
             return (
-                <div className="leaderboard-object" key={i}>
-                <p className="leaderboard-num">{i + 1}</p>
-                <div className="content">
-                    <PolitIQBar percentage={stat[3]}/>
-                    <div className="leader-info">
-                        <p>{stat[0]}</p>
-                        <p className="score">{stat[1]}</p>
+                <div className="leaderboard-object" key={i} onClick={() => this.handleClickUser(stat[2]) }>
+                  <p className="leaderboard-num">{i + 1}</p>
+                  <div className="content">
+                      <PolitIQBar percentage={stat[3]}/>
+                      <div className="leader-info">
+                          <p>{stat[0]}</p>
+                          <p style={{ textAlign: 'center' }}>PolitIQ: <span style={{ fontWeight: 'bold' }}>{stat[3]}</span></p>
+                          <p style={{ textAlign: 'right' }}>Score: <span style={{ fontWeight: 'bold' }}>{stat[1]}</span></p>
+                      </div>
                     </div>
                 </div>
-            </div>
             )
         })
 
@@ -370,7 +375,7 @@ class Leaderboardv2 extends Component {
                           {this.state.showLastLeaders && !this.state.noScores
                             ? <>
                                 <LastLeaders timeFrame={this.state.weekly ? "Week" : "Month" }/>
-                                <p onClick={this.showPartyLeaders}>View party leaders --></p>
+                                <p onClick={this.showPartyLeaders}>View party scores --></p>
                               </>
                             : <>
                                 <BarChart timeFrame={this.state.weekly ? "week" : "month" }/>
@@ -395,7 +400,7 @@ class Leaderboardv2 extends Component {
                               </>
                             : <>
                                 <LastLeaders timeFrame={this.state.weekly ? "Week" : "Month" }/>
-                                <p onClick={this.showPartyLeaders}>View party leaders --></p>
+                                <p onClick={this.showPartyLeaders}>View party scores --></p>
 
                             
                               </>
