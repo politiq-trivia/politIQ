@@ -7,7 +7,7 @@ import Paper from '@material-ui/core/Paper';
 
 import './profile.css';
 
-import { AuthUserContext, withAuthorization, withEmailVerification } from '../Auth/index';
+import { AuthUserContext, withAuthorization } from '../Auth/index';
 import Drawer from './Drawer';
 import StatsPage from './StatsPage/';
 import NotificationSettingsPage from './NotificationSettings/NotificationSettingsPage';
