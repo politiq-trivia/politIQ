@@ -1,14 +1,21 @@
 // CashOut Review Component
 
-import React from 'react';
+import React, { useState } from 'react';
+import MediaQuery from 'react-responsive';
 
 import Paper from '@material-ui/core/Paper';
 import Button from '@material-ui/core/Button';
+import Modal from '@material-ui/core/Modal';
+import Close from '@material-ui/icons/Close';
+import Check from '@material-ui/icons/Check';
 
 import { db } from '../../../../firebase';
 import '../../dashboard.css'
 
 const CashOutReview = (props) => {
+    const [modalOpen, setModalOpen] = useState(false);
+    const [data, setData] = useState(null)
+
     const removeReqFromDb = (uid) => {
         db.removeCashoutRequest(uid)
     }
@@ -38,6 +45,15 @@ const CashOutReview = (props) => {
             })
     }
 
+    const toggleModalOpen = (modalData) => {
+        setModalOpen(!modalOpen)
+        if (modalData) {
+            setData(modalData)
+        } else {
+            setData(null)
+        }
+    }
+
     let noRequests = false;
     let renderCashoutRequests;
     if (props.cashoutData === undefined|| props.cashoutData === null) {
@@ -50,13 +66,35 @@ const CashOutReview = (props) => {
                     <div className="cashout-row">
                         <div className="cashout-info">
                             <h4 className="cashout-name cashout-name-table" id="cashout-data">{props.cashoutData[req].displayName}</h4>
-                            <p className="cashout-name cashout-email-table">{props.cashoutData[req].email}</p>
+                            <MediaQuery minWidth={416}>
+                                <p className="cashout-name cashout-email-table">{props.cashoutData[req].email}</p>
+                            </MediaQuery>
+                            <MediaQuery maxWidth={415}>
+                                <p 
+                                    className="cashout-name cashout-email-table cashout-email-table-small" 
+                                    onClick={() => toggleModalOpen({
+                                        name: props.cashoutData[req].displayName,
+                                        email: props.cashoutData[req].email,
+                                        amount: props.cashoutData[req].moneyEarned,
+                                    })}
+                                >
+                                    View
+                                </p>
+                            </MediaQuery>
                             <p className="cashout-name cashout-amount-table">${props.cashoutData[req].moneyEarned}</p>
+                            <MediaQuery maxWidth={415}>
+                                <div className="cashout-buttons">
+                                    <Button color="primary" variant="contained" onClick={() => acceptRequest(list[i])} id="accept-request"><Check /></Button>
+                                    <Button variant="contained" onClick={() => rejectRequest(list[i])}><Close /></Button>
+                                </div>
+                            </MediaQuery>
                         </div>
-                        <div className="cashout-buttons">
-                            <Button variant="contained"style={{ marginRight: '1vw' }} onClick={() => rejectRequest(list[i])}>Reject</Button>
-                            <Button color="primary" variant="contained" onClick={() => acceptRequest(list[i])} id="accept-request">Accepted & Complete</Button>
-                        </div>
+                        <MediaQuery minWidth={416}>
+                            <div className="cashout-buttons">
+                                <Button variant="contained"style={{ marginRight: '1vw' }} onClick={() => rejectRequest(list[i])}>Reject</Button>
+                                <Button color="primary" variant="contained" onClick={() => acceptRequest(list[i])} id="accept-request">Accepted & Complete</Button>
+                            </div>
+                        </MediaQuery>
                     </div>
 
                     <hr className="cashout-hr"/>
@@ -86,6 +124,23 @@ const CashOutReview = (props) => {
                     </div>
                   </>
             }
+            <MediaQuery maxWidth={415}>
+                    <Modal
+                        aria-labelledby="user information"
+                        aria-describedby="user information for cashout"
+                        open={modalOpen}
+                        onClose={setModalOpen}
+                        className="cashout-modal"
+                    >
+                        <Paper className="cashout-modal-paper">
+                            <Close style={{ float: 'right', marginTop: '10px' }} onClick={toggleModalOpen}/>
+                            <h3>Cashout Request</h3>
+                            <p><span style={{ fontWeight: 'bold' }}>Name: </span>{data ? data.name : null}</p>
+                            <p><span style={{ fontWeight: 'bold' }}>Email: </span>{data ? data.email : null}</p>
+                            <p><span style={{ fontWeight: 'bold' }}>Amount: </span>${data ? data.amount : null}</p>
+                        </Paper>
+                    </Modal>
+            </MediaQuery>
         </Paper>
     )
 }
