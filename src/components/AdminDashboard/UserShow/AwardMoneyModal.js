@@ -21,45 +21,45 @@ class AwardMoneyModal extends Component {
     };
   }
 
-  handleChange = prop => (event) => {
+  handleChange = (prop) => (event) => {
     this.setState({ [prop]: event.target.value });
   };
 
-    handleSave = () => {
-        const uid = this.props.user.uid
-        // amount = moneyWon (leaving as is)
-        const amount = parseInt(this.props.user.moneyWon, 10) + parseInt(this.state.amount, 10)
-        // lifetimeAmount = the user's lifetime earnings
-        const lifetimeAmount = parseInt(this.props.user.lifetimeEarnings) + parseInt(this.state.amount)
-        console.log({uid, amount, lifetimeAmount})
-        db.awardMoney(uid, amount, lifetimeAmount)
-        this.props.toggleAwardMoneyModal()
-    }
+  handleSave = () => {
+    const { uid } = this.props.user;
+    // amount = moneyWon (leaving as is)
+    const amount = parseInt(this.props.user.moneyWon, 10) + parseInt(this.state.amount, 10);
+    // lifetimeAmount = the user's lifetime earnings
+    const lifetimeAmount = parseInt(this.props.user.lifetimeEarnings, 10)
+        + parseInt(this.state.amount, 10);
+    db.awardMoney(uid, amount, lifetimeAmount);
+    this.props.toggleAwardMoneyModal();
+  }
 
-    render() {
-        return (
-            <Dialog 
-                aria-labelledby="award money modal"
-                aria-describedby="award money"
-                className="awardMoneyModal"
-                open={this.state.open}
-            >
-                <Close style={{ marginLeft: 'auto', marginRight: '1vw', marginTop: '1vh'}} onClick={this.props.toggleAwardMoneyModal}/>
-                <h3 className="awardText">Award {this.props.user.username}</h3>
-                <InputLabel htmlFor="adornment-amount" className="awardLabel">Amount</InputLabel>
-                <Input
-                    id="adornment-amount"
-                    value={this.state.amount} 
-                    onChange={this.handleChange('amount')} 
-                    margin="normal" 
-                    type="number" 
-                    className="awardInput"
-                    startAdornment={<InputAdornment position="start">$</InputAdornment>}
-                />
-                <Button className="awardButton" color="primary" variant="contained" onClick={this.handleSave}>Save</Button>
-            </Dialog>
-        )
-    }
+  render() {
+    return (
+      <Dialog
+        aria-labelledby="award money modal"
+        aria-describedby="award money"
+        className="awardMoneyModal"
+        open={this.state.open}
+      >
+        <Close style={{ marginLeft: 'auto', marginRight: '1vw', marginTop: '1vh' }} onClick={this.props.toggleAwardMoneyModal}/>
+        <h3 className="awardText">Award {this.props.user.username}</h3>
+        <InputLabel htmlFor="adornment-amount" className="awardLabel">Amount</InputLabel>
+        <Input
+          id="adornment-amount"
+          value={this.state.amount}
+          onChange={this.handleChange('amount')}
+          margin="normal"
+          type="number"
+          className="awardInput"
+          startAdornment={<InputAdornment position="start">$</InputAdornment>}
+        />
+        <Button className="awardButton" color="primary" variant="contained" onClick={this.handleSave}>Save</Button>
+      </Dialog>
+    );
+  }
 }
 
 AwardMoneyModal.propTypes = {

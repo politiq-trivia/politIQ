@@ -17,7 +17,7 @@ import MediaQuery from 'react-responsive';
 
 import { db } from '../../../firebase';
 
-const toolbarStyles = theme => ({
+const toolbarStyles = (theme) => ({
   root: {
     paddingRight: theme.spacing.unit,
   },
@@ -78,7 +78,7 @@ class TableToolbar extends Component {
       });
   }
 
-  handleChange = name => (event) => {
+  handleChange = (name) => (event) => {
     this.setState({ [name]: event.target.value });
   }
 

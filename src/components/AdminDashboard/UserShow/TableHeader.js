@@ -27,7 +27,7 @@ const rows = [
 ];
 
 class TableHeader extends Component {
-  createSortHandler = property => (event) => {
+  createSortHandler = (property) => (event) => {
     this.props.onRequestSort(event, property);
   };
 

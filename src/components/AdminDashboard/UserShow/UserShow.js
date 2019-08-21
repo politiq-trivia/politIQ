@@ -39,7 +39,7 @@ function stableSort(array, cmp) {
     if (order !== 0) return order;
     return a[1] - b[1];
   });
-  return stabilizedThis.map(el => el[0]);
+  return stabilizedThis.map((el) => el[0]);
 }
 
 function getSorting(order, orderBy) {
@@ -90,12 +90,12 @@ class UserShow extends Component {
 
               let moneyWon;
               let lifetimeEarnings;
-              if(index.moneyWon && index.lifetimeEarnings) {
-                moneyWon = index.moneyWon
-                lifetimeEarnings = index.lifetimeEarnings
+              if (index.moneyWon && index.lifetimeEarnings) {
+                moneyWon = index.moneyWon;
+                lifetimeEarnings = index.lifetimeEarnings;
               } else {
-                moneyWon = 0
-                lifetimeEarnings = 0
+                moneyWon = 0;
+                lifetimeEarnings = 0;
               }
 
               // get the scores
@@ -145,9 +145,9 @@ class UserShow extends Component {
                 alltimescore,
                 lastactive,
                 uid: uidList[i],
-                moneyWon: moneyWon,
-                lifetimeEarnings: lifetimeEarnings,
-              }
+                moneyWon,
+                lifetimeEarnings,
+              };
               counter += 1;
               componentData.push(userInfo);
             });
@@ -169,7 +169,7 @@ class UserShow extends Component {
 
   handleSelectAllClick = (event) => {
     if (event.target.checked) {
-      this.setState(state => ({ selected: state.data.map(n => n.id) }));
+      this.setState((state) => ({ selected: state.data.map((n) => n.id) }));
       return;
     }
     this.setState({ selected: [] });
@@ -332,7 +332,7 @@ class UserShow extends Component {
                   <TableRow
                     id={n.id}
                     hover
-                    onClick={event => this.handleClick(event, n.uid, n.id)}
+                    onClick={(event) => this.handleClick(event, n.uid, n.id)}
                     role="checkbox"
                     aria-checked={isSelected}
                     tabIndex={-1}

@@ -63,7 +63,7 @@ class ShowQuiz extends Component {
     let quizArray = [];
     if (this.state.quiz) {
       const { quiz } = this.state;
-      const result = Object.keys(quiz).map(key => ([key, quiz[key]]));
+      const result = Object.keys(quiz).map((key) => ([key, quiz[key]]));
       result.pop();
       quizArray = [...result];
     }

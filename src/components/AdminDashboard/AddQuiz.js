@@ -153,7 +153,7 @@ class AddQuiz extends Component {
                       margin="normal"
                       fullWidth
                       value={this.state.quizTitle}
-                      onChange={event => this.setState(byPropKey('quizTitle', event.target.value))}
+                      onChange={(event) => this.setState(byPropKey('quizTitle', event.target.value))}
                       type="text"
                       placeholder="Quiz Title"
                     />
@@ -163,7 +163,7 @@ class AddQuiz extends Component {
                       fullWidth
                       type="datetime-local"
                       value={`${this.state.date}`}
-                      onChange={event => this.setState(byPropKey('date', event.target.value))}
+                      onChange={(event) => this.setState(byPropKey('date', event.target.value))}
                     />
                     <Button onClick={this.setToNow} variant="contained" color="primary">Set To Now</Button>
                     <div className="quizButtonHolder">
