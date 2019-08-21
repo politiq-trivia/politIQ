@@ -1,0 +1,90 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<CashOutReview /> should render correcty and match snapshot 1`] = `
+<WithStyles(Paper)
+  className="userShow cashout"
+>
+  <div
+    style={
+      Object {
+        "height": "25vh",
+        "paddingTop": "12vh",
+      }
+    }
+  >
+    <h1>
+      No Cash Out Requests to Display!
+    </h1>
+    <WithStyles(Button)
+      color="primary"
+      onClick={[MockFunction]}
+      variant="contained"
+    >
+      Back to Admin Dashboard
+    </WithStyles(Button)>
+  </div>
+  <MediaQuery
+    maxWidth={415}
+    values={null}
+  >
+    <WithStyles(Modal)
+      aria-describedby="user information for cashout"
+      aria-labelledby="user information"
+      className="cashout-modal"
+      onClose={[Function]}
+      open={false}
+    >
+      <WithStyles(Paper)
+        className="cashout-modal-paper"
+      >
+        <pure(CloseIcon)
+          onClick={[Function]}
+          style={
+            Object {
+              "float": "right",
+              "marginTop": "10px",
+            }
+          }
+        />
+        <h3>
+          Cashout Request
+        </h3>
+        <p>
+          <span
+            style={
+              Object {
+                "fontWeight": "bold",
+              }
+            }
+          >
+            Name: 
+          </span>
+        </p>
+        <p>
+          <span
+            style={
+              Object {
+                "fontWeight": "bold",
+              }
+            }
+          >
+            Email: 
+          </span>
+        </p>
+        <p>
+          <span
+            style={
+              Object {
+                "fontWeight": "bold",
+              }
+            }
+          >
+            Amount: 
+          </span>
+          $
+        </p>
+      </WithStyles(Paper)>
+    </WithStyles(Modal)>
+  </MediaQuery>
+</WithStyles(Paper)>
+`;

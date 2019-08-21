@@ -66,8 +66,50 @@ export const editUser = (uid, updates) => {
   return user;
 }
 
-export const awardMoney = (uid, amount) => {
+// admin route - when user wins a competition, admin adds
+// money won to their money earned & lifetime earnings (TO DO)
+export const awardMoney = (uid, amount, lifetimeAmount) => {
+  console.log({uid, amount, lifetimeAmount})
   db.ref('users').child(uid).child('moneyWon').set(amount);
+  db.ref('users').child(uid).child('lifetimeEarnings').set(lifetimeAmount);
+}
+
+// notify admin that they'd like a cashout
+export const requestCashOut = (uid, date, email, displayName, moneyEarned) => {
+  db.ref('cashOut').child(uid).child('moneyEarned').set(moneyEarned)
+  db.ref('cashOut').child(uid).child("date").set(date)
+  db.ref('cashOut').child(uid).child("email").set(email)
+  db.ref('cashOut').child(uid).child('displayName').set(displayName)
+  db.ref('users').child(uid).child('cashoutRequested').set('true')
+}
+
+// get all the cashout requests
+export const getAllCashoutRequests = () => {
+  const cashOutReqs = db.ref('cashOut').once('value')
+  return cashOutReqs;
+}
+
+// remove a cashout request from db - regardless of whether it was accepted or rejected
+// because that's irrelevant here.
+export const removeCashoutRequest = (uid) => {
+  db.ref('cashOut').child(uid).remove()
+}
+
+// reset the user's money won and change their cashoutrequested status back to false
+// then, send the updated users object back to the frontend
+export const acceptCashOut = (uid) => {
+  db.ref('users').child(uid).child('moneyWon').set(0);
+  db.ref('users').child(uid).child('cashoutRequested').set('false');
+
+  const updatedUserObj = db.ref('users').child(uid).once('value')
+  return updatedUserObj;
+}
+
+// change the users cashoutrequest status to false
+export const rejectCashOut = (uid) => {
+  db.ref('users').child(uid).child('cashoutRequested').set('false')
+  const updatedUserObj = db.ref('users').child(uid).once('value');
+  return updatedUserObj;
 }
 
 export const getAffiliation = (uid) => {

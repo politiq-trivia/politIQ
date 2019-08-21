@@ -1,0 +1,30 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<StatsPage /> should render correctly and match snapshot 1`] = `
+<Fragment>
+  <Component
+    moneyWon={5}
+    uid="GvM7fEkYp4fcaSuScwixV0xinfT2"
+  />
+  <CashOutButton
+    uid="GvM7fEkYp4fcaSuScwixV0xinfT2"
+    userInfo={
+      Object {
+        "affiliation": "Republican",
+        "bio": "Forever thinking about chicken nuggs ",
+        "cashoutRequested": false,
+        "displayName": "Hannah",
+        "email": "hannah.werman@gmail.com",
+        "emailVerified": false,
+        "invisibleScore": false,
+        "isAdmin": false,
+        "lastActive": "2019-08-06",
+        "lifetimeEarnings": 5,
+        "moneyWon": 5,
+        "soundsOn": true,
+        "uid": "GvM7fEkYp4fcaSuScwixV0xinfT2",
+      }
+    }
+  />
+</Fragment>
+`;

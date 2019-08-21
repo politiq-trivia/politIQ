@@ -218,25 +218,35 @@
 
 @media screen and (max-width: 980px) {
   .score {
-    font-size: 3vh;
+    font-size: 24px;
   }
   .userScore {
-    font-size: 2vh;
+    font-size: 15px;
+    min-height: 80px;
   }
   .small-scoreboardHolder{
-    height: 36.5vh;
+    height: 42.5vh;
     width: 60vw;
+    min-height: 250px;
   }
   .small-scoreboard {
-    width: 58.8vw;
+    width: 56.8vw;
   }
   
 }
 
-@media screen and (max-width: 800px) {
+@media screen and (max-width: 768px) {
   .profile-button-holder {
     width: 60vw;
     flex-wrap: wrap;
+  }
+
+  .small-scoreboardHolder {
+    width: 72vw;
+  }
+
+  .small-scoreboard {
+    width: 66.8vw;
   }
 }
 

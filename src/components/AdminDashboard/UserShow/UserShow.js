@@ -89,10 +89,13 @@ class UserShow extends Component {
               }
 
               let moneyWon;
-              if (index.moneyWon) {
-                moneyWon = index.moneyWon; // eslint-disable-line prefer-destructuring
+              let lifetimeEarnings;
+              if(index.moneyWon && index.lifetimeEarnings) {
+                moneyWon = index.moneyWon
+                lifetimeEarnings = index.lifetimeEarnings
               } else {
-                moneyWon = 0;
+                moneyWon = 0
+                lifetimeEarnings = 0
               }
 
               // get the scores
@@ -142,8 +145,9 @@ class UserShow extends Component {
                 alltimescore,
                 lastactive,
                 uid: uidList[i],
-                moneyWon,
-              };
+                moneyWon: moneyWon,
+                lifetimeEarnings: lifetimeEarnings,
+              }
               counter += 1;
               componentData.push(userInfo);
             });

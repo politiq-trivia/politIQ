@@ -4,7 +4,7 @@ import { Helmet } from 'react-helmet';
 import { withRouter } from 'react-router-dom';
 import { compose } from 'recompose';
 
-import { withAuthorization, withEmailVerification } from '../Auth/index';
+import { withAuthorization } from '../Auth/index';
 
 import Paper from '@material-ui/core/Paper';
 import Button from '@material-ui/core/Button';
@@ -29,6 +29,8 @@ import loadingGif from '../../loadingGif.gif';
 import UserScoreboard from '../Leaderboard/UserScoreboard';
 import PublicProfilePhoto from './PublicProfilePhoto';
 import CommentWidget from './Comment/CommentWidget';
+import CashOutButton from './CashOutButton';
+
 import './profile.css';
 
 const getHref = () => {
@@ -197,6 +199,7 @@ class PublicProfile extends Component {
               <h3>About {displayName2}</h3>
               <p>{this.state.userData.bio}</p>
               <UserScoreboard uid={this.state.uid} public="true" name={displayName2} moneyWon={this.state.userData.moneyWon}/>
+              <CashOutButton uid={this.state.uid} userInfo={this.state.userData} />
 
               {this.state.showingComments 
                 ? <div>

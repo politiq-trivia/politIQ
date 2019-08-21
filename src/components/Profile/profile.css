@@ -435,6 +435,7 @@
   padding-top: 2vh;
   font-weight: bolder;
   padding-bottom: 2vh;
+  margin-bottom: 3vh;
 }
 
 .cashout-modal {
@@ -457,6 +458,16 @@
 .cashout-modal p {
   padding: 3vh;
   padding-top: 1vh;
+}
+
+#cashout-instructions {
+  width: 70%;
+  margin-left: auto;
+  margin-right: auto;
+  color: #a54ee8;
+  margin-top: 3vh;
+  margin-bottom: -2vh;
+  text-align: center;
 }
 
 @media screen and (max-width: 415px) {

@@ -140,7 +140,7 @@ class UserScoreboard extends Component {
 
           <div className="userScore" style={{ borderLeft: 'none' }}>Weekly Score<span className="s reg-score">{this.state.weeklyScore}</span></div>
           <div className="userScore" id="submittedQScore">Submitted & Contested Q Score<span className="s">{this.state.submittedScore}</span></div>
-          <div className="userScore">Money Won<span className="s reg-score last-mobile">{this.state.moneyWon}</span></div>
+          <div className="userScore">Money Won<span className="s reg-score">{this.state.moneyWon}</span></div>
         </div>
       </div>
     )

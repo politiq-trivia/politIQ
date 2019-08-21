@@ -1,0 +1,16 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<CashOutRequest /> should render correctly and match snapshot 1`] = `
+<div
+  className="reviewWidget cashOutWidget"
+>
+  <div
+    className="counterDisplay"
+  >
+    0
+  </div>
+  <h1>
+    Cash Out Requests
+  </h1>
+</div>
+`;
