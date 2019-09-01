@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Helmet } from 'react-helmet';
-import { db, withFirebase } from '../../firebase';
+import { withFirebase } from '../../firebase';
 import { compose } from 'recompose';
 
 import Paper from '@material-ui/core/Paper';
@@ -14,7 +14,6 @@ import NotificationSettingsPage from './NotificationSettings/NotificationSetting
 import SecuritySettings from './SecuritySettings';
 import GameSettings from './GameSettings';
 import EditProfilePage from './EditProfile/EditProfilePage';
-
 
 
 
@@ -34,6 +33,7 @@ class ProfilePage extends Component {
   }
 
   componentDidMount = () => {
+    // ! this might be irrelevant since I can just use context
     const userInfo = JSON.parse(localStorage.getItem('authUser'))
 
     this.setState({
@@ -41,18 +41,6 @@ class ProfilePage extends Component {
     })
   }
   
-  // called when edit loads, but why ?
-  getUserInfo = async (uid) => {
-    if (uid === "") {return;}
-    await db.getOneUser(uid)
-      .then(response => {
-        const userInfo = response.val()
-        this.setState({
-          uid,
-          userInfo,
-        })
-      })
-  }
 
   toggleEditProfile = () => {
     this.setState({
@@ -104,34 +92,12 @@ class ProfilePage extends Component {
     })
   }
 
-  // UNSUBSCRIBE FROM PUSH NOTIFICATIONS
-  // unsubscribe = () => {
-  //   navigator.serviceWorker.ready.then(registration => {
-  //     // find the registered push subscription in the service worker
-  //     registration.pushManager  
-  //       .getSubscription()
-  //       .then(subscription => {
-  //         if (!subscription) {
-  //           return;
-  //           // if there's no subscription, there's nothing to do.
-  //         }
-
-  //         subscription
-  //           .unsubscribe()
-  //           .then(() => {
-  //             // delete the user from the db 
-  //             console.log({subscription})
-  //             console.log({registration})
-  //             console.log('delete user from db')
-  //           })
-  //           .catch(err => console.error(err))
-  //       })
-  //   })
-  // }
-
-  toPublicProfile = () => {
-    this.props.history.push(`/profile/${this.state.userInfo.uid}`)
+  toPublicProfile = (uid) => {
+    this.props.history.push(`/profile/${uid}`)
   }
+
+  // ! what if I take auth user context out of this component?
+  // ! since I can just call it in the child components?
 
   render() {
     return (
@@ -150,11 +116,11 @@ class ProfilePage extends Component {
             />
 
               {this.state.showEditProfile 
-                ? <EditProfilePage authUser={authUser} getUserInfo={this.getUserInfo}/>
+                ? <EditProfilePage toPublicProfile={this.toPublicProfile} />
                 : null
               }
               {this.state.showStatsPage
-                ? <StatsPage uid={authUser.uid} userInfo={this.state.userInfo}/>
+                ? <StatsPage />
                 : null
               }
               {this.state.showNotificationSettings

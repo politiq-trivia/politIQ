@@ -1,20 +1,20 @@
 import React from 'react';
-import PropTypes from 'prop-types';
+
 import UserScoreboard from '../../Leaderboard/UserScoreboard';
 import CashOutButton from '../CashOutButton';
+import AuthUserContext from '../../Auth/AuthUserContext';
 
-const StatsPage = (props) => {
+const StatsPage = () => {
   return (
-    <>
-      <UserScoreboard uid={props.uid} moneyWon={props.userInfo.moneyWon} />
-      <CashOutButton userInfo={props.userInfo} uid={props.uid} />
-    </>
+    <AuthUserContext.Consumer>
+      {authUser => (
+        <>
+          <UserScoreboard uid={authUser.uid} moneyWon={authUser.moneyWon} />
+          <CashOutButton userInfo={authUser} uid={authUser.uid} />
+        </>
+      )}
+    </AuthUserContext.Consumer>
   )
-}
-
-StatsPage.propTypes = {
-  uid: PropTypes.string.isRequired,
-  userInfo: PropTypes.object.isRequired,
 }
 
 export default StatsPage;

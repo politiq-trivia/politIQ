@@ -6,6 +6,7 @@ import FormGroup from '@material-ui/core/FormGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Button from '@material-ui/core/Button';
 
+
 class NotificationSettings extends Component {
     constructor(props) {
         super(props)
@@ -13,12 +14,12 @@ class NotificationSettings extends Component {
             dailyChecked: false,
             weeklyChecked: false,
             dailyChanged: false,
-            weeklyChanged: false
+            weeklyChanged: false,
         }
     }
 
     componentDidMount = () => {
-        const userInfo = JSON.parse(localStorage.getItem('authUser'))
+        const userInfo = this.props.authUser;
         if (userInfo.mailchimpId) {
           const mailchimpId = userInfo.mailchimpId.daily
 

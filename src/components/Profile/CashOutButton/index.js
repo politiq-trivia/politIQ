@@ -44,8 +44,6 @@ const CashOutButton = (props) => {
     }
   }, [props.userInfo])
 
-  console.log(props.userInfo, 'this is props')
-
   return (
     <>
       {props.userInfo.moneyWon === 0 ? <p id="cashout-instructions">You haven't been awarded any cash prizes yet! Keep playing for your chance to top the leaderboards!</p> : null}

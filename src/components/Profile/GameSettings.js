@@ -6,8 +6,9 @@ import Switch from '@material-ui/core/Switch';
 import Button from '@material-ui/core/Button';
 
 import { db } from '../../firebase';
+import AuthUserContext from '../Auth/AuthUserContext';
 
-class GameSettings extends Component {
+class GameSettingsWithContext extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -19,7 +20,7 @@ class GameSettings extends Component {
 
     componentDidMount = () => {
         // get the user info to see if the user already has a sound preference
-        const userInfo = JSON.parse(localStorage.getItem('authUser'))
+        const userInfo = this.props.authUser;
         // if they do, then let's use it
 
         let soundsOn;
@@ -79,7 +80,6 @@ class GameSettings extends Component {
     }
 
     render() {
-        console.log(this.state, 'state')
         return (
             <div style={{ marginBottom: '10vh' }}>
                 <h1 id="settings-heading">Game Settings</h1>
@@ -125,5 +125,13 @@ class GameSettings extends Component {
         )
     }
 }
+
+const GameSettings = () => (
+    <AuthUserContext.Consumer>
+        {authUser => (
+            <GameSettingsWithContext authUser={authUser} />
+        )}
+    </AuthUserContext.Consumer>
+)
 
 export default GameSettings;
