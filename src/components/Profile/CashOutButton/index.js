@@ -59,8 +59,9 @@ const CashOutButton = (props) => {
       >
         <Paper>
           <Close style={{ float: 'right', padding: '1vh', display: 'block'}} onClick={toggleModal}/>
-          <h3>Coming soon!</h3>
+          <h3>Cash Out Now</h3>
           <p>You have ${props.userInfo.moneyWon} available.</p>
+          <p style={{ fontStyle: 'italic' }}>The politIQ team will be in touch with details about <br /> how you will receive your earnings!</p>
           <Button variant="contained" color="primary" style={{ marginBottom: '5vh' }} onClick={requestCashOut} id="cashout-confirm">Click Here to Cash Out</Button>
         </Paper>
       </Modal>

@@ -105,6 +105,10 @@ export const acceptCashOut = (uid) => {
   return updatedUserObj;
 }
 
+export const cashoutNotification = (date, updateObject) => {
+  db.ref('winners').child(date).set(updateObject);
+}
+
 // change the users cashoutrequest status to false
 export const rejectCashOut = (uid) => {
   db.ref('users').child(uid).child('cashoutRequested').set('false')
