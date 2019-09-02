@@ -10,11 +10,6 @@ import {
     Select,
     InputLabel
 } from '@material-ui/core';
-// import FormControlLabel from '@material-ui/core/FormControlLabel';
-// import Button from '@material-ui/core/Button';
-// import TextField from '@material-ui/core/TextField';
-// import { Checkbox } from '@material-ui/core';
-// import FormControl from '@material-ui/core/'
 
 class EditQBankQs extends Component {
     constructor(props) {
