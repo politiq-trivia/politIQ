@@ -108,7 +108,7 @@ class AddQuiz extends Component {
 
   addToRss = (date, title) => {
     // once a quiz is created and has questions in it, post the name and the date of the quiz to the rss feed
-    db.addToRSS(date, title)
+    // db.addToRSS(date, title)
   }
 
   render() {

@@ -1,10 +1,20 @@
 import React, { Component } from 'react';
 
-import RadioGroup from '@material-ui/core/RadioGroup';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import Button from '@material-ui/core/Button';
-import TextField from '@material-ui/core/TextField';
-import { Checkbox } from '@material-ui/core';
+import {
+    RadioGroup,
+    FormControlLabel,
+    Button,
+    TextField,
+    Checkbox,
+    FormControl,
+    Select,
+    InputLabel
+} from '@material-ui/core';
+// import FormControlLabel from '@material-ui/core/FormControlLabel';
+// import Button from '@material-ui/core/Button';
+// import TextField from '@material-ui/core/TextField';
+// import { Checkbox } from '@material-ui/core';
+// import FormControl from '@material-ui/core/'
 
 class EditQBankQs extends Component {
     constructor(props) {
@@ -17,16 +27,19 @@ class EditQBankQs extends Component {
                 a2text: "",
                 a3correct: false,
                 a3text: "",
-                q1: ""
+                q1: "",
+                answerExplanation: "",
+                timerDuration: 40,
             },
         }
     }
 
     componentDidMount () {
-        const question = this.props.question
+        const question = this.props.question;
+        question.timerDuration = 40;
         this.setState({
             question,
-        })
+        });
     }
 
     handleChange = (event) => {
@@ -42,7 +55,34 @@ class EditQBankQs extends Component {
         question[event.target.id] = !question[event.target.id]
         this.setState({
             question,
-        })
+        });
+    }
+
+    handleDurationChange = (input) => {
+        this.setState({
+            question: {
+                ...this.state.question,
+                timerDuration: input,
+            }
+        });
+    }
+
+    isDisabled = () => {
+        console.log('isDisabled running')
+        // checks if there are values for all the required question fields to prevent questions from being saved without
+        // all the required information
+        // should run on render
+        const q = this.state.question;
+        const oneSelected = () => {
+            if (!q['a1corrext'] && !q['a2correct'] && !q['a3correct']) {
+                return false;
+            }
+            return true;
+        }
+        if(q['q1'] === '' || q['a1text'] === '' || q['a2text'] === '' || q['a3text'] === '' || q['answerExplanation'] === '' || !oneSelected) {
+            return true;
+        }
+        return false;
     }
 
     render() {
@@ -153,10 +193,32 @@ class EditQBankQs extends Component {
                     inputref={null}
                 />
             </RadioGroup>
+            <FormControl fullWidth margin="normal">
+                <InputLabel htmlFor="timer-duration">Timer Duration (seconds)</InputLabel>
+                <Select
+                    native
+                    autoWidth={true}
+                    value={this.state.timerDuration}
+                    onChange={event => this.handleDurationChange(event.target.value)}
+                    inputProps={{
+                        name: 'timerDuration',
+                        id: 'timer-duration'
+                    }}
+                >
+                    <option value="30">30</option> 
+                    <option value="40">40</option>
+                    <option value="50">50</option>
+                    <option value="60">60</option>
+                    <option value="70">70</option>
+                    <option value="80">80</option>
+                    <option value="90">90</option>
+                
+                </Select>
+            </FormControl>
             <div className="quizButtonHolder">
               <Button variant="contained" color="primary" onClick={this.props.handleQuit}>Exit Without Saving</Button>
-              <Button variant="contained" color="primary" onClick={() => this.props.handleSubmit(this.state.question)}>Save & Add New Question</Button>
-              <Button variant="contained" color="primary" onClick={() => this.props.handleReturn(this.state.question)}>Save & Complete Quiz</Button>
+              <Button variant="contained" color="primary" disabled={this.isDisabled()} onClick={() => this.props.handleSubmit(this.state.question)}>Save & Add New Question</Button>
+              <Button variant="contained" color="primary" disabled={this.isDisabled()} onClick={() => this.props.handleReturn(this.state.question)}>Save & Complete Quiz</Button>
             </div>
           </div>
         )
