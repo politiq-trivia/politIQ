@@ -19,14 +19,13 @@ import QuizList from './QuizList';
 import ShowQuiz from './ShowQuiz';
 import EditQuiz from './EditQuiz';
 import ManageQuizzes from './ManageQuizzes';
-import QuestionsToReview from './QuestionsToReview';
+import QuestionsToReview from './SubmittedQuestions/QuestionsToReview';
 import ContestedQuestions from './ContestedQuestions';
 import Scoreboard from '../Leaderboard/Scoreboard';
 import UserShow from './UserShow/UserShow';
 import PartyLeaders from '../Leaderboard/PartyLeaders';
 import CashOutRequest from './CashOut/CashOutRequest';
 import CashOutReview from './CashOut/CashOutReview';
-
 
 import loadingGif from '../../loadingGif.gif';
 
