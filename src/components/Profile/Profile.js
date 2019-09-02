@@ -99,6 +99,7 @@ class ProfilePage extends Component {
   // ! what if I take auth user context out of this component?
   // ! since I can just call it in the child components?
 
+  // TODO: remove context here because it's not necessary anymore
   render() {
     return (
       <AuthUserContext.Consumer>
