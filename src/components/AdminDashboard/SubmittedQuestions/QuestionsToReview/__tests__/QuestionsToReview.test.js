@@ -1,6 +1,5 @@
 import React from 'react';
-import { BrowserRouter as Router } from 'react-router-dom';
-import { shallow, mount } from 'enzyme';
+import { shallow } from 'enzyme';
 
 import QuestionsToReview from '../index';
 
@@ -19,5 +18,5 @@ describe('<QuestionsToReview/>', () => {
 
         const counterDisplay = wrapper.find('div.counterDisplay');
         expect(parseInt(counterDisplay.text())).toEqual(2);
-    })
-})
+    });
+});
