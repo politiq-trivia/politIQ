@@ -1,0 +1,26 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<QuestionsToReview/> should render correctly and match snapshot 1`] = `
+<Link
+  replace={false}
+  style={
+    Object {
+      "textDecoration": "none",
+    }
+  }
+  to="/review"
+>
+  <div
+    className="reviewWidget"
+  >
+    <div
+      className="counterDisplay"
+    >
+      0
+    </div>
+    <h1>
+      Questions to be reviewed
+    </h1>
+  </div>
+</Link>
+`;

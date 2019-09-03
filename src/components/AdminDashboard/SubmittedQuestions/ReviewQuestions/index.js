@@ -9,11 +9,11 @@ import Button from '@material-ui/core/Button';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Radio from '@material-ui/core/Radio';
 
-import { ADMIN_DASHBOARD } from '../../constants/routes';
-import { db } from '../../firebase';
+import { ADMIN_DASHBOARD } from '../../../../constants/routes';
+import { db } from '../../../../firebase';
 
-import './dashboard.css';
-import loadingGif from '../../loadingGif.gif';
+import '../../dashboard.css';
+import loadingGif from '../../../../loadingGif.gif';
 
 class ReviewQuestions extends Component {
   constructor(props) {
@@ -117,12 +117,12 @@ class ReviewQuestions extends Component {
       if (this.state.loaded) {
         return (
           <div className="questionHolder">
-            <p style={{ fontWeight: 'bold' }}>Submitted by: <Link to={`profile/${q['fromUser']}`}>{q['displayName'] !== undefined ? q['displayName'] : 'User'}</Link></p>
-            <p style={{ fontWeight: 'bold' }}>User Email: {q['userEmail'] !== undefined ? <a href={`mailto:${q['userEmail']}`} style={{ fontWeight: 'normal' }}>{q['userEmail']}</a> : 'N / A' }</p>
-            <h3>{q['q1']}</h3>
+            <p style={{ fontWeight: 'bold' }}>Submitted by: <Link to={`profile/${q["fromUser"]}`} data-target="username">{q['displayName'] !== undefined ? q["displayName"] : 'User'}</Link></p>
+            <p style={{ fontWeight: 'bold' }}>User Email: {q["userEmail"] !== undefined ? <a href={`mailto:${q['userEmail']}`} style={{ fontWeight: 'normal' }} data-target="email">{q['userEmail']}</a> : 'N / A' }</p> 
+            <h3 data-target="question">{q["q1"]}</h3>
             <div style={{ display: 'flex' }}>
-              <FormControlLabel value={q['a1text']} control={<Radio />} label={q['a1text']}/>
-              {q['a1correct'] ? <p style={{ color: 'green' }}>Correct Answer</p> : null }
+              <FormControlLabel value={q["a1text"]} control={<Radio />} label={q["a1text"]} data-target="a1text"/>
+              {q["a1correct"] ? <p style={{ color: 'green' }}>Correct Answer</p> : null }
             </div>
             <div style={{ display: 'flex' }}>
               <FormControlLabel value={q['a2text']} control={<Radio />} label={q['a2text']}/>

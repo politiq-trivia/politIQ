@@ -25,7 +25,7 @@ import Quiz from './QuizEngine/Quiz';
 import Leaderboard from './Leaderboard/Leaderboard';
 import About from './StaticPages/About';
 import QuestionSubmitForm from './QuestionSubmit/QuestionSubmitForm';
-import ReviewQuestions from './AdminDashboard/ReviewQuestions';
+import ReviewQuestions from './AdminDashboard/SubmittedQuestions/ReviewQuestions';
 import ReviewContestedQuestions from './AdminDashboard/ReviewContestedQuestions';
 import PublicProfile from './Profile/PublicProfile';
 import PrivacyPolicy from './StaticPages/PrivacyPolicy';

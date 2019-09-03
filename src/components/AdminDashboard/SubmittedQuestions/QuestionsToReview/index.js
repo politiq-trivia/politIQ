@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 
-import { db } from '../../firebase';
-import { REVIEW } from '../../constants/routes';
+import { db } from '../../../../firebase';
+import { REVIEW } from '../../../../constants/routes';
 
-import './dashboard.css';
+import '../../dashboard.css';
 
 class QuestionsToReview extends Component {
   constructor(props) {

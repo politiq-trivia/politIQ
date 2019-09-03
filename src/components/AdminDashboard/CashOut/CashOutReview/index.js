@@ -2,6 +2,7 @@
 
 import React, { useState } from 'react';
 import MediaQuery from 'react-responsive';
+import moment from 'moment';
 
 import Paper from '@material-ui/core/Paper';
 import Button from '@material-ui/core/Button';
@@ -27,12 +28,18 @@ const CashOutReview = (props) => {
 
 
     const acceptRequest = (uid) => {
-        removeReqFromDb(uid);
         db.acceptCashOut(uid)
             .then(response => {
                 const updatedUserObj = response.val()
                 refetchAndUpdate(updatedUserObj);
+
+                const date = moment().format('YYYY-MM-DDTHH:mm');
+                const updateInfo = props.cashoutData[uid]
+                updateInfo.uid = uid
+                db.cashoutNotification(date, updateInfo)
             })
+        
+        removeReqFromDb(uid);
     }
 
     const rejectRequest = (uid) => {
@@ -102,6 +109,8 @@ const CashOutReview = (props) => {
             )
         })
     }
+
+    console.log(props.cashoutData, 'cashout')
 
     return (
         <Paper className="userShow cashout">
