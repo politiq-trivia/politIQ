@@ -63,7 +63,6 @@ class EditQBankQs extends Component {
     }
 
     isDisabled = () => {
-        console.log('isDisabled running')
         // checks if there are values for all the required question fields to prevent questions from being saved without
         // all the required information
         // should run on render
