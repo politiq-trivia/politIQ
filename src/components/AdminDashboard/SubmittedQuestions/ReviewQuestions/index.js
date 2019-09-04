@@ -117,12 +117,12 @@ class ReviewQuestions extends Component {
       if (this.state.loaded) {
         return (
           <div className="questionHolder">
-            <p style={{ fontWeight: 'bold' }}>Submitted by: <Link to={`profile/${q["fromUser"]}`} data-target="username">{q['displayName'] !== undefined ? q["displayName"] : 'User'}</Link></p>
-            <p style={{ fontWeight: 'bold' }}>User Email: {q["userEmail"] !== undefined ? <a href={`mailto:${q['userEmail']}`} style={{ fontWeight: 'normal' }} data-target="email">{q['userEmail']}</a> : 'N / A' }</p> 
-            <h3 data-target="question">{q["q1"]}</h3>
+            <p style={{ fontWeight: 'bold' }}>Submitted by: <Link to={`profile/${q['fromUser']}`} data-target="username">{q['displayName'] !== undefined ? q['displayName'] : 'User'}</Link></p>
+            <p style={{ fontWeight: 'bold' }}>User Email: {q['userEmail'] !== undefined ? <a href={`mailto:${q['userEmail']}`} style={{ fontWeight: 'normal' }} data-target="email">{q['userEmail']}</a> : 'N / A' }</p>
+            <h3 data-target="question">{q['q1']}</h3>
             <div style={{ display: 'flex' }}>
-              <FormControlLabel value={q["a1text"]} control={<Radio />} label={q["a1text"]} data-target="a1text"/>
-              {q["a1correct"] ? <p style={{ color: 'green' }}>Correct Answer</p> : null }
+              <FormControlLabel value={q['a1text']} control={<Radio />} label={q['a1text']} data-target="a1text"/>
+              {q['a1correct'] ? <p style={{ color: 'green' }}>Correct Answer</p> : null }
             </div>
             <div style={{ display: 'flex' }}>
               <FormControlLabel value={q['a2text']} control={<Radio />} label={q['a2text']}/>

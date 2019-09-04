@@ -3,6 +3,9 @@
 exports[`<CashOutRequest /> should render correctly and match snapshot 1`] = `
 <div
   className="reviewWidget cashOutWidget"
+  onKeyPress={[Function]}
+  role="button"
+  tabIndex={0}
 >
   <div
     className="counterDisplay"

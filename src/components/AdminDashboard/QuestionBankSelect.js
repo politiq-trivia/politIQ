@@ -56,18 +56,18 @@ class QuizBankSelect extends Component {
   saveData = (q) => {
     db.removeFromQBank(this.state.selectedQ);
     db.addQuestion(
-        this.props.quizId,
-        this.state.counter,
-        q["q1"],
-        q["a1text"],
-        q["a1correct"],
-        q["a2text"],
-        q["a2correct"],
-        q["a3text"],
-        q["a3correct"],
-        q["answerExplanation"],
-        q['timerDuration'],
-    )
+      this.props.quizId,
+      this.state.counter,
+      q['q1'],
+      q['a1text'],
+      q['a1correct'],
+      q['a2text'],
+      q['a2correct'],
+      q['a3text'],
+      q['a3correct'],
+      q['answerExplanation'],
+      q['timerDuration'],
+    );
   }
 
   // submits the data and prompts you toa dd another question

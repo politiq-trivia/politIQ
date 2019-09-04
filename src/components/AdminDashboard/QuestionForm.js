@@ -1,4 +1,4 @@
-// ideally - this component would be populated with data from 
+// ideally - this component would be populated with data from
 // an accepted question from the qbank so that you don't have to make
 // changes in both components
 
