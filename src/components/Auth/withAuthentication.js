@@ -9,14 +9,13 @@ const withAuthentication = Component => {
       super(props);
 
       this.state = {
-        authUser: JSON.parse(localStorage.getItem('authUser')),
+        authUser: null,
       };
     }
 
     componentDidMount() {
       this.listener = auth.onAuthUserListener(
         authUser => {
-          localStorage.setItem('authUser', JSON.stringify(authUser));
           this.setState({ authUser });
         },
         () => {

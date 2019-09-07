@@ -10,8 +10,13 @@ export const doSignInWithEmailAndPassword = (email, password) =>
   auth.signInWithEmailAndPassword(email, password);
 
 // Sign Out
-export const doSignOut = () =>
-  auth.signOut();
+export const doSignOut = () => {
+  console.log('dosignout in auth caled')
+  auth.signOut()
+    .then(() => {
+      window.location.replace('/')
+    })
+}
 
 // Password Reset
 export const doPasswordReset = (email) =>
@@ -25,8 +30,6 @@ export const doPasswordUpdate = (password) =>
 export const onAuthUserListener = (next, fallback) =>
   auth.onAuthStateChanged(authUser => {
     if (authUser) {
-      // db.ref(`users`).child(authUser.uid)
-      // .once('value')
       db.getOneUser(authUser.uid)
       .then(snapshot => {
         const dbUser = snapshot.val();
