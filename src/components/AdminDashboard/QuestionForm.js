@@ -1,3 +1,7 @@
+// ideally - this component would be populated with data from 
+// an accepted question from the qbank so that you don't have to make
+// changes in both components
+
 import React, { Component } from 'react';
 
 import TextField from '@material-ui/core/TextField';

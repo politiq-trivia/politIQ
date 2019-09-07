@@ -14,9 +14,10 @@ import PolitIQBar from './PolitIQBar';
 import BarChart from './ScoreChart/BarChart.1';
 import LastLeaders from './LastLeaders';
 import { QUIZ_ARCHIVE } from '../../constants/routes';
+import AuthUserContext from '../Auth/AuthUserContext';
 import './leaderboard2.css';
 
-class Leaderboardv2 extends Component {
+class LeaderboardWithContext extends Component {
     constructor(props) {
         super(props)
         this.state = {
@@ -36,8 +37,8 @@ class Leaderboardv2 extends Component {
     }
 
     componentDidMount() {
-        if (localStorage.hasOwnProperty('authUser')) {
-            const userInfo = JSON.parse(localStorage.getItem('authUser'))
+        if (this.props.authUser) {
+            const userInfo = this.props.authUser
             this.getMyPolitIQ(userInfo.uid, 'month')
             this.setState({
                 displayName: userInfo.displayName,
@@ -105,7 +106,6 @@ class Leaderboardv2 extends Component {
           const userData = await db.getDisplayNames(usernames[i])
           userData.displayName.then((displayName) => {
             userData.invisibleScore.then((invisibleScore) => {
-              if (invisibleScore) { return; }
               const quizDates = Object.keys(data[i].data)
     
                 let submitted;
@@ -132,6 +132,14 @@ class Leaderboardv2 extends Component {
                       submittedScoreCounter += 1
                     }
                   }
+                }
+
+                if (invisibleScore) { 
+                  console.log(userData, 'this one is not being shown')
+                  this.setState({
+                    userScore: scoreCounter,
+                  })
+                  return; 
                 }
                       
                 if (scoreCounter > 0) {
@@ -170,9 +178,9 @@ class Leaderboardv2 extends Component {
 
     getUserRank = () => {
       if (this.state.isLoaded) {
-        if (localStorage.hasOwnProperty('authUser')) {
+        if (this.props.authUser) {
           const scores = this.state.rankedScores
-          const uid = JSON.parse(localStorage.getItem('authUser')).uid
+          const uid = this.props.authUser.uid
           let ranking = "--"
           let score = "--"
           for (let i = 0; i < scores.length; i++) {
@@ -279,6 +287,11 @@ class Leaderboardv2 extends Component {
         let rank;
         if (this.state.rankedScores && !this.state.invisibleScore) {
           rank = this.getUserRank()
+        } else if (this.state.invisibleScore) {
+          rank = {
+            score: this.state.userScore,
+            ranking: "--",
+          }
         } else {
           rank = "--"
         }
@@ -442,5 +455,13 @@ class Leaderboardv2 extends Component {
         )
     }
 }
+
+const Leaderboardv2 = () => (
+  <AuthUserContext.Consumer>
+    {(authUser) => (
+      <LeaderboardWithContext authUser={authUser} />
+    )}
+  </AuthUserContext.Consumer>
+)
 
 export default Leaderboardv2;

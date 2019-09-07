@@ -16,7 +16,7 @@ import ExpandLess from '@material-ui/icons/ExpandLess';
 import ExpandMore from '@material-ui/icons/ExpandMore';
 import Collapse from '@material-ui/core/Collapse';
 
-import { auth, firebase } from '../../firebase';
+import { auth, withFirebase } from '../../firebase';
 import { db } from '../../firebase/firebase';
 import { AuthUserContext, withAuthentication } from '../Auth';
 import * as routes from '../../constants/routes';
@@ -28,10 +28,14 @@ import Logo from '../logo1.png';
 const Navigation = ({ clearStateOnSignout }) => {
   return (
     <AuthUserContext.Consumer>
-      {authUser => authUser
+      {authUser => (
+        <>
+        { authUser !== null
         ? <NavigationAuth authUser={authUser} clearStateOnSignout={clearStateOnSignout}/>
         : <NavigationNonAuth />
-      }
+        }
+        </>
+      )}
     </AuthUserContext.Consumer>
   )
 }
@@ -65,7 +69,7 @@ const styles = theme => ({
 });
 
 
-class NavigationAuth extends Component {
+class NavigationAuthBase extends Component {
   constructor(props) {
     super(props);
 
@@ -80,14 +84,8 @@ class NavigationAuth extends Component {
 
   componentDidMount = () => {
     this.getMostRecentQuizId();
-    this.listener = firebase.auth.onAuthStateChanged(authUser => {
-      authUser
-        ? this.setState({ authUser })
-        : this.setState({ authUser: null });
-    })
-    if (localStorage.authUser) {
-      const authUser = JSON.parse(localStorage.authUser)
-      this.scores = db.ref().child('scores').child(`${authUser.uid}`)
+    if (this.props.authUser) {
+      this.scores = db.ref().child('scores').child(`${this.props.authUser.uid}`)
       this.scores.on('value', snapshot => {
         if (snapshot.val() !== this.state.snapshot) {
           this.setState({
@@ -96,11 +94,14 @@ class NavigationAuth extends Component {
           this.getMostRecentQuizId()
         }
       })
-
+  
       this.setState({
-        signedInUser: authUser.uid,
-        isAdmin: true
+        signedInUser: this.props.authUser.uid,
+        isAdmin: true,
+        authUser: this.props.authUser
       })
+    } else {
+      this.setState({ authUser: null });
     }
   }
 
@@ -129,7 +130,6 @@ class NavigationAuth extends Component {
     localStorage.removeItem('authUser')
     localStorage.removeItem('userScoreData')
     this.toggleDrawer('top', false)
-    window.location.replace('/')
   }
 
   handleAdminClick = () => {
@@ -141,12 +141,10 @@ class NavigationAuth extends Component {
   
   render() {
     const fullList = (
-      <AuthUserContext.Consumer>
-        {authUser => 
           <div>
             <MediaQuery query="(max-width: 415px)">
               <List component="nav">
-                {authUser && authUser.roles.includes("ADMIN") ?
+                {this.props.authUser && this.props.authUser.roles.includes("ADMIN") ?
                   <>
                     <ListItem button onClick={this.handleAdminClick}>
                       <ListItemText primary="Admin Dashboard" />
@@ -258,8 +256,6 @@ class NavigationAuth extends Component {
               </List>
             </MediaQuery>
           </div>
-        }
-      </AuthUserContext.Consumer>
     );
 
     return (
@@ -312,7 +308,7 @@ class NavigationAuth extends Component {
   }
 }
 
-// const NavigationAuth = withAuthentication(NavigationAuthBase);
+const NavigationAuth = withFirebase(NavigationAuthBase);
 
 
 

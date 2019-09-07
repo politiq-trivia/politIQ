@@ -4,6 +4,7 @@ import { Helmet } from 'react-helmet';
 import moment from 'moment';
 
 import withAuthorization from '../Auth/withAuthorization';
+import AuthUserContext from '../Auth/AuthUserContext';
 
 import { db } from '../../firebase';
 
@@ -21,7 +22,9 @@ const byPropKey = (propertyName, value) => () => ({
   [propertyName]: value,
 });
 
-class QuestionSubmitForm extends Component {
+// TODO: REFACTOR TO USE AUTHUSERCONTEXT
+
+export class UnwrappedQuestionSubmitForm extends Component {
   constructor(props) {
     super(props);
 
@@ -42,11 +45,10 @@ class QuestionSubmitForm extends Component {
   }
 
   componentDidMount = () => {
-    const authUserItem = localStorage.getItem('authUser')
-    const parsedAuthUserItem = JSON.parse(authUserItem)
-    const uid = parsedAuthUserItem.uid
-    const email = parsedAuthUserItem.email
-    const displayName = parsedAuthUserItem.displayName
+    const authUserItem = this.props.authUser
+    const uid = authUserItem.uid
+    const email = authUserItem.email
+    const displayName = authUserItem.displayName
     this.setState({
       uid,
       email,
@@ -140,6 +142,7 @@ class QuestionSubmitForm extends Component {
         return false;
       }
     }
+
 
     return (
         <Paper className="pageStyle submitForm">
@@ -259,6 +262,14 @@ class QuestionSubmitForm extends Component {
     )
   }
 }
+
+const QuestionSubmitForm = (props) => (
+  <AuthUserContext.Consumer>
+    {authUser => (
+      <UnwrappedQuestionSubmitForm authUser={authUser} />
+    )}
+  </AuthUserContext.Consumer>
+);
 
 const condition = authUser => !!authUser;
 

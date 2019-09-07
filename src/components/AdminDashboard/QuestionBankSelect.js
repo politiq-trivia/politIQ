@@ -63,7 +63,8 @@ class QuizBankSelect extends Component {
         q["a2correct"],
         q["a3text"],
         q["a3correct"],
-        q["answerExplanation"]
+        q["answerExplanation"],
+        q['timerDuration'],
     )
   }
 

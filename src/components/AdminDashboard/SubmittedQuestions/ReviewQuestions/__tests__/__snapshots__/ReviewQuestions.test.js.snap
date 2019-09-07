@@ -1,0 +1,173 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<ReviewQuestions /> should render correctly and match snapshot 1`] = `
+<WithStyles(Paper)
+  className="review"
+>
+  <MediaQuery
+    minWidth={416}
+    values={null}
+  >
+    <Link
+      id="reviewBackButton"
+      replace={false}
+      to="/admin"
+    >
+      <WithStyles(Button)
+        color="primary"
+        variant="contained"
+      >
+        Back to Dashboard
+      </WithStyles(Button)>
+    </Link>
+  </MediaQuery>
+  <div>
+    <h1
+      id="reviewHeading"
+    >
+      User-Submitted Questions
+    </h1>
+    <div
+      className="questionHolder"
+    >
+      <p
+        style={
+          Object {
+            "fontWeight": "bold",
+          }
+        }
+      >
+        Submitted by: 
+        <Link
+          data-target="username"
+          replace={false}
+          to="profile/GvM7fEkYp4fcaSuScwixV0xinfT2"
+        >
+          Hannah
+        </Link>
+      </p>
+      <p
+        style={
+          Object {
+            "fontWeight": "bold",
+          }
+        }
+      >
+        User Email: 
+        <a
+          data-target="email"
+          href="mailto:hannah.werman@gmail.com"
+          style={
+            Object {
+              "fontWeight": "normal",
+            }
+          }
+        >
+          hannah.werman@gmail.com
+        </a>
+      </p>
+      <h3
+        data-target="question"
+      >
+        testing the context
+      </h3>
+      <div
+        style={
+          Object {
+            "display": "flex",
+          }
+        }
+      >
+        <WithStyles(WithFormControlContext(FormControlLabel))
+          control={<WithStyles(Radio) />}
+          data-target="a1text"
+          label="test"
+          value="test"
+        />
+        <p
+          style={
+            Object {
+              "color": "green",
+            }
+          }
+        >
+          Correct Answer
+        </p>
+      </div>
+      <div
+        style={
+          Object {
+            "display": "flex",
+          }
+        }
+      >
+        <WithStyles(WithFormControlContext(FormControlLabel))
+          control={<WithStyles(Radio) />}
+          label=""
+          value=""
+        />
+      </div>
+      <div
+        style={
+          Object {
+            "display": "flex",
+          }
+        }
+      >
+        <WithStyles(WithFormControlContext(FormControlLabel))
+          control={<WithStyles(Radio) />}
+          label=""
+          value=""
+        />
+      </div>
+      <div>
+        <p>
+          Sources: 
+          <a
+            href="asdfasdf"
+          >
+            asdfasdf
+          </a>
+        </p>
+      </div>
+      <div
+        className="reviewButtonHolder"
+      >
+        <WithStyles(Button)
+          onClick={[Function]}
+        >
+          <span
+            style={
+              Object {
+                "color": "red",
+                "marginRight": "2vw",
+              }
+            }
+          >
+            Reject
+          </span>
+        </WithStyles(Button)>
+        <WithStyles(Button)
+          onClick={[Function]}
+        >
+          Skip
+        </WithStyles(Button)>
+        <WithStyles(Button)
+          onClick={[Function]}
+        >
+          <span
+            style={
+              Object {
+                "color": "purple",
+                "marginLeft": "2vw",
+              }
+            }
+          >
+            Accept
+          </span>
+        </WithStyles(Button)>
+      </div>
+    </div>
+  </div>
+</WithStyles(Paper)>
+`;
