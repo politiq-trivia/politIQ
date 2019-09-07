@@ -57,7 +57,7 @@ export const lastActive = (uid, date) => {
 }
 
 export const getOneUser = (uid) => {
-  const user = db.ref('users').child(uid).once('value')
+  const user = db.ref('users').child(uid).once('value');
   return user;
 }
 

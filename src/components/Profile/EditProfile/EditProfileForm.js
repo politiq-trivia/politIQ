@@ -25,7 +25,7 @@ class EditProfile extends Component {
 
   componentDidMount = () => {
     // rather than passing the user info as props, I'm going to grab it from local storage again to avoid errors.
-    const userInfo = JSON.parse(localStorage.getItem('authUser'))
+    const userInfo = this.props.authUser;
     this.setState({
       displayName: userInfo.displayName,
       email: userInfo.email,
@@ -49,8 +49,8 @@ class EditProfile extends Component {
       bio: this.state.bio,
     }
 
-    const oldUserInfo = JSON.parse(localStorage.getItem('authUser'))
-    const uid = oldUserInfo.uid
+    const oldUserInfo = this.props.authUser;
+    const uid = oldUserInfo.uid;
     await db.editUser(uid, updates)
 
     if (this.props.email !== this.state.email) {

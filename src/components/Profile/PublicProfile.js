@@ -5,6 +5,7 @@ import { withRouter } from 'react-router-dom';
 import { compose } from 'recompose';
 
 import { withAuthorization } from '../Auth/index';
+import AuthUserContext from '../Auth/AuthUserContext';
 
 import Paper from '@material-ui/core/Paper';
 import Button from '@material-ui/core/Button';
@@ -37,7 +38,7 @@ const getHref = () => {
   return (window.location.href).toString();
 }
 
-class PublicProfile extends Component {
+class PublicProfileBase extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -50,7 +51,7 @@ class PublicProfile extends Component {
   componentDidMount = () => {
     const uid = window.location.href.split('/')[4]
     this.getUserInfo(uid)
-    const loggedInUser = JSON.parse(localStorage.getItem('authUser'))
+    const loggedInUser = this.props.authUser;
     let match;
     if (uid === loggedInUser.uid) {
       match = true; 
@@ -232,6 +233,14 @@ class PublicProfile extends Component {
     )
   }
 }
+
+const PublicProfile = ({ history }) => (
+  <AuthUserContext.Consumer>
+    {(authUser) => (
+      <PublicProfileBase authUser={authUser} history={history} />
+    )}
+  </AuthUserContext.Consumer>
+)
 
 const condition = authUser => !!authUser;
 

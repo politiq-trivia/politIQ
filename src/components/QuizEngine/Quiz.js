@@ -23,7 +23,7 @@ import errorUrl from './sounds/error.wav';
 import wrongUrl from './sounds/wrong.wav';
 import correctUrl from './sounds/correct.wav';
 
-class Quiz extends Component {
+class QuizBase extends Component {
   constructor(props) {
     super(props);
 
@@ -58,9 +58,9 @@ class Quiz extends Component {
 
     let uid = '';
     this.getUser();
-    if (localStorage.hasOwnProperty('authUser')) {
-      const userInfo = JSON.parse(localStorage.getItem('authUser'))
-      uid = userInfo.uid
+    if (this.props.authUser) {
+      const userInfo = this.props.authUser;
+      uid = userInfo.uid;
     }
 
 
@@ -83,6 +83,17 @@ class Quiz extends Component {
     trackEvent('Quizzes', 'Quiz loaded', 'QUIZ_LOADED')
   }
 
+  componentDidUpdate = (prevProps) => {
+    if(prevProps !== this.props) {
+      if(this.props.authUser) {
+        this.getUser();
+        this.setState({
+          uid: this.props.authUser.uid,
+        })
+      }
+    }
+  }
+
   componentWillUnmount = () => {
     window.clearTimeout(this.timer)
     window.clearTimeout(this.sadTrombone)
@@ -94,8 +105,8 @@ class Quiz extends Component {
   }
 
   getUser = () => {
-    if(localStorage.hasOwnProperty('authUser')) {
-      const userInfo = JSON.parse(localStorage.getItem('authUser'))
+    if(this.props.authUser) {
+      const userInfo = this.props.authUser
       const uid = userInfo.uid
       const email = userInfo.email
       if (userInfo.hasOwnProperty('soundsOn')) {
@@ -348,7 +359,7 @@ class Quiz extends Component {
     })
 
     // set the local storage 
-    const userInfo = JSON.parse(localStorage.getItem('authUser'))
+    const userInfo = this.props.authUser;
     userInfo.soundsOn = !this.state.volumeUp
     localStorage.setItem('authUser', JSON.stringify(userInfo))
 
@@ -454,5 +465,13 @@ class Quiz extends Component {
     )
   }
 }
+
+const Quiz = ({ storeScore }) => (
+  <AuthUserContext.Consumer>
+    {(authUser) => (
+      <QuizBase authUser={authUser} storeScore={storeScore} />
+    )}
+  </AuthUserContext.Consumer>
+)
 
 export default Quiz;

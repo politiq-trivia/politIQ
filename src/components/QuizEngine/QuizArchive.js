@@ -21,8 +21,9 @@ import Close from '@material-ui/icons/Close';
 import Modal from '@material-ui/core/Modal';
 import './quiz.css';
 import bg from '../StaticPages/politiq-bg2.jpg';
+import AuthUserContext from '../Auth/AuthUserContext';
 
-class QuizArchive extends Component {
+class QuizArchiveBase extends Component {
   constructor(props) {
     super(props);
 
@@ -41,8 +42,8 @@ class QuizArchive extends Component {
   componentDidMount = () => {
     this.createMonthOptionsArray()
     // check for logged in user so that it can check if the user already ahas a score for that quiz
-    if (localStorage.hasOwnProperty('authUser')) {
-      const userObject = JSON.parse(localStorage.getItem('authUser'))
+    if (this.props.authUser) {
+      const userObject = this.props.authUser;
       const uid = userObject.uid
       this.setState({
         signedInUser: uid,
@@ -52,6 +53,18 @@ class QuizArchive extends Component {
       selectedMonth: moment().startOf('month').format('YYYY-MM-DDTHH:mm')
     })
     this.getQuizzesFromDb();
+  }
+
+  componentDidUpdate(prevProps) {
+    if (prevProps !== this.props) {
+      if (this.props.authUser) {
+      this.setState({
+        signedInUser: this.props.authUser.uid,
+      });
+      this.getQuizzesFromDb();
+      }
+
+    }
   }
 
   createMonthOptionsArray = () => {
@@ -358,5 +371,13 @@ class QuizArchive extends Component {
     )
   }
 }
+
+const QuizArchive = ({ history }) => (
+  <AuthUserContext.Consumer>
+    {(authUser) => (
+      <QuizArchiveBase authUser={authUser} history={history} />
+    )}
+  </AuthUserContext.Consumer>
+)
 
 export default withRouter(QuizArchive);

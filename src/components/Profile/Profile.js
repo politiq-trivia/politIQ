@@ -21,7 +21,6 @@ class ProfilePage extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      userInfo: {},
       showEditProfile: true,
       showStatsPage: false,
       showNotificationSettings: false,
@@ -30,17 +29,7 @@ class ProfilePage extends Component {
       showNotifications: false,
       showGameSettings: false
     }
-  }
-
-  componentDidMount = () => {
-    // ! this might be irrelevant since I can just use context
-    const userInfo = JSON.parse(localStorage.getItem('authUser'))
-
-    this.setState({
-      userInfo,
-    })
-  }
-  
+  }  
 
   toggleEditProfile = () => {
     this.setState({

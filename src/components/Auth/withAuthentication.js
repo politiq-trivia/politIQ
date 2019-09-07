@@ -16,11 +16,6 @@ const withAuthentication = Component => {
     componentDidMount() {
       this.listener = auth.onAuthUserListener(
         authUser => {
-<<<<<<< HEAD
-          console.log(authUser, 'this is the authuser object')
-          localStorage.setItem('authUser', JSON.stringify(authUser));
-=======
->>>>>>> master
           this.setState({ authUser });
         },
         () => {

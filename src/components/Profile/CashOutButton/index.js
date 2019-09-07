@@ -23,11 +23,7 @@ const CashOutButton = (props) => {
     const date = moment().format('YYYY-MM-DD')
     const uid = props.uid
     db.requestCashOut(uid, date, email, displayName, moneyWon)
-            
-    const localStorageUser = JSON.parse(localStorage.getItem('authUser'));
-    localStorageUser.cashoutRequested = true;
-    localStorage.setItem('authUser', JSON.stringify(localStorageUser));
-            
+                        
     setCashoutRequested(true);
     setModalOpen(false)
   }

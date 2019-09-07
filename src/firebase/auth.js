@@ -1,5 +1,5 @@
-import { auth } from './firebase'; 
-import * as db from './db';
+import { auth, db } from './firebase'; 
+// import * as db from './db';
 
 // Sign Up
 export const doCreateUserWithEmailAndPassword = (email, password) => 
@@ -11,7 +11,6 @@ export const doSignInWithEmailAndPassword = (email, password) =>
 
 // Sign Out
 export const doSignOut = () => {
-  console.log('dosignout in auth caled')
   auth.signOut()
     .then(() => {
       window.location.replace('/')
@@ -28,15 +27,12 @@ export const doPasswordUpdate = (password) =>
 
 // check if the user is logged in
 export const onAuthUserListener = (next, fallback) =>
-  auth.onAuthStateChanged(authUser => {
+  auth.onAuthStateChanged(async (authUser) => {
     if (authUser) {
-      db.getOneUser(authUser.uid)
-      .then(snapshot => {
-        const dbUser = snapshot.val();
-        if (snapshot.val() === null) {
-          return;
-        }
-        // default empty roles
+      let dbUser = {};
+      await db.ref('users').child(authUser.uid).on('value', function(snapshot) {
+        dbUser = snapshot.val();
+
         if (!dbUser.roles) {
           dbUser.roles = [];
         }
