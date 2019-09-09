@@ -22,6 +22,7 @@ import Modal from '@material-ui/core/Modal';
 import './quiz.css';
 import bg from '../StaticPages/politiq-bg2.jpg';
 import AuthUserContext from '../Auth/AuthUserContext';
+import { QuizContext, QuizProvider } from './QuizContext';
 
 class QuizArchiveBase extends Component {
   constructor(props) {
@@ -336,6 +337,8 @@ class QuizArchiveBase extends Component {
       }
     }
 
+    console.log(this.props, 'props in quiz archive')
+
     return (
       <Paper className="home archive-holder">
         <Helmet>
@@ -375,9 +378,13 @@ class QuizArchiveBase extends Component {
 const QuizArchive = ({ history }) => (
   <AuthUserContext.Consumer>
     {(authUser) => (
-      <QuizArchiveBase authUser={authUser} history={history} />
+      <QuizContext.Consumer>
+        {(quizzes) => (
+          <QuizArchiveBase authUser={authUser} history={history} quizzes={quizzes} />
+        )}
+      </QuizContext.Consumer>
     )}
   </AuthUserContext.Consumer>
 )
 
-export default withRouter(QuizArchive);
+export default withRouter(QuizProvider(QuizArchive));
