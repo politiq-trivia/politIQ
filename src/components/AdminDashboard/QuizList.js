@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 
 import Table from '@material-ui/core/Table';
 import TableHead from '@material-ui/core/TableHead';
@@ -15,25 +16,25 @@ import TableBody from '@material-ui/core/TableBody';
 import TextField from '@material-ui/core/TextField';
 import Select from '@material-ui/core/Select';
 import MenuItem from '@material-ui/core/MenuItem';
+import { OutlinedInput } from '@material-ui/core';
+
 
 import DeleteModal from './DeleteModal';
-import { OutlinedInput } from '@material-ui/core';
 import './dashboard.css';
 
-const toolbarStyles = theme => ({
+const toolbarStyles = (theme) => ({
   root: {
     paddingRight: theme.spacing.unit,
   },
   highlight:
     theme.palette.type === 'light'
       ? {
-          color: theme.palette.secondary.main,
-          backgroundColor: lighten(theme.palette.secondary.light, 0.85),
-        }
-      : {
-          color: theme.palette.text.primary,
-          backgroundColor: theme.palette.secondary.dark,
-        },
+        color: theme.palette.secondary.main,
+        backgroundColor: lighten(theme.palette.secondary.light, 0.85),
+      } : {
+        color: theme.palette.text.primary,
+        backgroundColor: theme.palette.secondary.dark,
+      },
   spacer: {
     flex: '1 1 100%',
   },
@@ -57,58 +58,57 @@ class QuizList extends Component {
       selectAll: false,
       showDeleteModal: false,
       searchCategory: 'title',
-      search: "",
-    }
+      search: '',
+    };
   }
 
-  handleSelectAllClick = event => {
+  handleSelectAllClick = (event) => {
     if (event.target.checked) {
       this.setState({
         selected: [...this.props.quizDates],
         selectAll: true,
-      })
+      });
       // return;
     } else {
       this.setState({
         selected: [],
         selectAll: false,
-      })
+      });
     }
   };
 
   handleCheck = (event) => {
-    const id = event.target.id;
-    let selected = [...this.state.selected];
+    const { id } = event.target;
+    const selected = [...this.state.selected];
     if (selected.includes(id)) {
-      const index = selected.indexOf(id)
-      selected.splice(index, 1)
+      const index = selected.indexOf(id);
+      selected.splice(index, 1);
     } else {
-      selected.push(id)
+      selected.push(id);
     }
     this.setState({
-      selected: [...selected]
-    })
+      selected: [...selected],
+    });
   }
 
   toggleCheck = (id) => {
     if (this.state.selected.includes(id)) {
       return true;
-    } else {
-      return false;
     }
+    return false;
   }
 
   // open up the selected quiz in a new component
   handleClick = (event) => {
-    const id = event.target.parentNode.id;
-    this.props.toggleQuizShow(id)
+    const { id } = event.target.parentNode;
+    this.props.toggleQuizShow(id);
   }
 
   handleChangePage = (event, page) => {
     this.setState({ page });
   };
 
-  handleChangeRowsPerPage = event => {
+  handleChangeRowsPerPage = (event) => {
     this.setState({ rowsPerPage: event.target.value });
   };
 
@@ -116,91 +116,96 @@ class QuizList extends Component {
     this.setState({
       selected: [],
       numSelected: 0,
-    })
+    });
   }
 
   handleInput = (event) => {
     this.setState({
-      [event.target.id]: event.target.value
-    })
+      [event.target.id]: event.target.value,
+    });
   }
 
   handleChange = (event) => {
     this.setState({
       [event.target.name]: event.target.value,
-    })
+    });
   }
 
-  render () {
-    
+  render() {
     const { rowsPerPage, page } = this.state;
-    const emptyRows = rowsPerPage - Math.min(rowsPerPage, this.props.quizDates.length - page * rowsPerPage);
+    const emptyRows = rowsPerPage
+      - Math.min(rowsPerPage, this.props.quizDates.length - page * rowsPerPage);
 
-    const quizDates = this.props.quizDates
-    const quizTitles = this.props.quizTitles
+    const { quizDates, quizTitles } = this.props;
 
     let filteredQuizDates = [];
     let filteredQuizTitles = [];
 
-    if (this.state.search === "") {
+    if (this.state.search === '') {
       filteredQuizDates = quizDates;
       filteredQuizTitles = quizTitles;
-    } else if (this.state.searchCategory === "title") {
+    } else if (this.state.searchCategory === 'title') {
       // loop through the quiz titles
       quizTitles.forEach((title, i) => {
-        // if the title contains the search query, push it into the filtered titles array 
+        // if the title contains the search query, push it into the filtered titles array
         if (title.toLowerCase().includes(this.state.search.toLowerCase())) {
-          filteredQuizTitles.push(title)
+          filteredQuizTitles.push(title);
           // find the index of the corresponding date for that title
-          // push that date into the filtered dates array 
-          filteredQuizDates.push(quizDates[i])
+          // push that date into the filtered dates array
+          filteredQuizDates.push(quizDates[i]);
         }
-      })
+      });
     } else if (this.state.searchCategory === 'date') {
       quizDates.forEach((date, i) => {
         if (date.includes(this.state.search)) {
-          filteredQuizDates.push(date)
-          filteredQuizTitles.push(quizTitles[i])
+          filteredQuizDates.push(date);
+          filteredQuizTitles.push(quizTitles[i]);
         }
-      })
+      });
     }
 
     const newList = filteredQuizDates.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage);
-    const newTitles = filteredQuizTitles.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+    const newTitles = filteredQuizTitles.slice(page * rowsPerPage, page * rowsPerPage
+      + rowsPerPage);
     const List = newList.map((date, i) => {
-      let id = date;
-      let title = newTitles[i]
-      let shortDate = date.slice(0, 10)
+      const id = date;
+      const title = newTitles[i];
+      const shortDate = date.slice(0, 10);
       return (
         <TableRow id={date} key={id} className="tableItem">
           <TableCell padding="checkbox">
             <Checkbox
               id={date}
               onClick={this.handleCheck}
-              checked={this.state.selected.indexOf(id) !== -1 ? true : false}
+              checked={this.state.selected.indexOf(id) !== -1}
             />
           </TableCell>
-          <TableCell onClick={this.handleClick} style={{ minWidth: '60px'}} padding="none">
+          <TableCell onClick={this.handleClick} style={{ minWidth: '60px' }} padding="none">
             {shortDate}
           </TableCell>
           <TableCell onClick={this.handleClick}>
             {title}
           </TableCell>
         </TableRow>
-      )
-    })
+      );
+    });
 
     return (
       <div>
         { this.props.showDeleteModal
-          ? <DeleteModal selected={this.state.selected} deleteQuiz={this.props.deleteQuiz} toggleDeleteModal={this.props.toggleDeleteModal} reset={this.reset}/>
+          ? <DeleteModal
+              selected={this.state.selected}
+              deleteQuiz={this.props.deleteQuiz}
+              toggleDeleteModal={this.props.toggleDeleteModal}
+              reset={this.reset}
+            />
           : <div>
               <Toolbar>
                 <div className={toolbarStyles.title}>
                   {this.state.selected.length > 0 ? (
                     <p>{this.state.selected.length} selected </p>
                   ) : (
-                    <h3 style={{ marginTop: '0', marginBottom: '0'}}>All Quizzes</h3>
+                    <h3 style={{ marginTop: '0', marginBottom: '0' }}>All Quizzes</h3>
                   )}
                 </div>
                 <div className={toolbarStyles.spacer} />
@@ -209,14 +214,14 @@ class QuizList extends Component {
                     <div>
                       <Tooltip title="Delete">
                         <IconButton aria-label="Delete" onClick={this.props.toggleDeleteModal}>
-                          <DeleteIcon  />
+                          <DeleteIcon />
                         </IconButton>
                       </Tooltip>
                     </div>
                   ) : null }
                 </div>
               </Toolbar>
-              <TextField 
+              <TextField
                 label="Search"
                 value={this.state.search}
                 onChange={this.handleInput}
@@ -225,7 +230,7 @@ class QuizList extends Component {
                 style={{ height: '6vh', marginTop: '0.7vh', width: '73%' }}
                 id="search"
               />
-              <Select 
+              <Select
                 value={this.state.searchCategory}
                 onChange={this.handleChange}
                 // id="searchCategoryContainer"
@@ -238,8 +243,8 @@ class QuizList extends Component {
                   />
                 }
               >
-                <MenuItem value={"title"}>Quiz Title</MenuItem>
-                <MenuItem value={"date"}>Date</MenuItem>
+                <MenuItem value={'title'}>Quiz Title</MenuItem>
+                <MenuItem value={'date'}>Date</MenuItem>
               </Select>
               <Table>
                 <TableHead>
@@ -252,7 +257,7 @@ class QuizList extends Component {
                     <TableCell style={{ minWidth: '60px' }} padding="none">
                       Quiz Date
                     </TableCell>
-                    <TableCell style={{ minWidth: '60px'}} padding="default">
+                    <TableCell style={{ minWidth: '60px' }} padding="default">
                       Quiz Title
                     </TableCell>
                   </TableRow>
@@ -275,7 +280,7 @@ class QuizList extends Component {
                   'aria-label': 'Previous Page',
                 }}
                 nextIconButtonProps={{
-                  'aria-label': 'Next Page'
+                  'aria-label': 'Next Page',
                 }}
                 onChangePage={this.handleChangePage}
                 onChangeRowsPerPage={this.handleChangeRowsPerPage}
@@ -283,8 +288,17 @@ class QuizList extends Component {
             </div>
         }
       </div>
-    )
+    );
   }
 }
+
+QuizList.propTypes = {
+  quizDates: PropTypes.array.isRequired,
+  quizTitles: PropTypes.array.isRequired,
+  toggleQuizShow: PropTypes.func.isRequired,
+  showDeleteModal: PropTypes.bool.isRequired,
+  deleteQuiz: PropTypes.func.isRequired,
+  toggleDeleteModal: PropTypes.func.isRequired,
+};
 
 export default QuizList;

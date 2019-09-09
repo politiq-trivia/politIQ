@@ -1,13 +1,16 @@
+// eslint-disable dot-notation
+
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
-import { ADMIN_DASHBOARD } from '../../../../constants/routes';
-import { db } from '../../../../firebase';
-import MediaQuery from 'react-responsive'
+import MediaQuery from 'react-responsive';
 
 import Paper from '@material-ui/core/Paper';
 import Button from '@material-ui/core/Button';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Radio from '@material-ui/core/Radio';
+
+import { ADMIN_DASHBOARD } from '../../../../constants/routes';
+import { db } from '../../../../firebase';
 
 import '../../dashboard.css';
 import loadingGif from '../../../../loadingGif.gif';
@@ -23,120 +26,128 @@ class ReviewQuestions extends Component {
       dateArray: [],
       noQuestionsRemaining: false,
       loaded: false,
-    }
+    };
   }
 
   componentDidMount = () => {
-    this.getQuestion()
+    this.getQuestion();
   }
 
   getQuestion = () => {
     db.getOneQuestion()
-      .then(response => {
+      .then((response) => {
         if (response.val() === null) {
           this.setState({
             noQuestionsRemaining: true,
-          })
+          });
         } else {
-          const allQuestions = response.val()
-          const dates = Object.keys(response.val())
-          const selectedDate = dates[0]
-          const firstQ = allQuestions[dates[0]]
+          const allQuestions = response.val();
+          const dates = Object.keys(response.val());
+          const selectedDate = dates[0];
+          const firstQ = allQuestions[dates[0]];
           this.setState({
             questions: allQuestions,
             selectedQ: firstQ,
             dateArray: dates,
-            selectedDate: selectedDate,
+            selectedDate,
             loaded: true,
-          })
+          });
         }
-      })
+      });
   }
 
   rejectQ = () => {
-    db.deleteUserQuestion(this.state.selectedDate)
+    db.deleteUserQuestion(this.state.selectedDate);
     this.skipQ();
   }
 
   skipQ = () => {
-    let index = this.state.index;
-    index++;
+    let { index } = this.state;
+    index += 1;
     if (index > (this.state.dateArray.length - 1)) {
       this.setState({
         noQuestionsRemaining: true,
-      })
-      return;
+      });
     } else {
       const selectedDate = this.state.dateArray[index];
-      const nextQ = this.state.questions[selectedDate]
+      const nextQ = this.state.questions[selectedDate];
       this.setState({
         selectedQ: nextQ,
-        index: index,
-        selectedDate: selectedDate,
-      })
+        index,
+        selectedDate,
+      });
     }
   }
 
   // will need to modify this when I add in contested question
   acceptQ = async () => {
-    db.acceptQuestion(this.state.selectedDate, this.state.selectedQ)
+    db.acceptQuestion(this.state.selectedDate, this.state.selectedQ);
     await db.getSubmittedOrContestedScoreByUid(this.state.selectedQ.fromUser)
-      .then(response => {
+      .then((response) => {
         if (response.val() === null || response.val() === undefined) {
           const score = 3;
-          db.setSubmittedOrContestedScoreByUid(this.state.selectedQ.fromUser, this.state.selectedDate, score)
+          db.setSubmittedOrContestedScoreByUid(
+            this.state.selectedQ.fromUser,
+            this.state.selectedDate,
+            score,
+          );
         } else {
-          const data = response.val()
-          const scoreArray = Object.keys(data)
-          const score = (scoreArray.length * 3) + 3
-          db.setSubmittedOrContestedScoreByUid(this.state.selectedQ.fromUser, this.state.selectedDate, score)
+          const data = response.val();
+          const scoreArray = Object.keys(data);
+          const score = (scoreArray.length * 3) + 3;
+          db.setSubmittedOrContestedScoreByUid(
+            this.state.selectedQ.fromUser,
+            this.state.selectedDate,
+            score,
+          );
         }
-      })
-    this.skipQ()
+      });
+    this.skipQ();
   }
 
   render() {
-    let q = {}
+    let q = {};
     if (this.state.selectedQ) {
-      q = this.state.selectedQ
+      q = this.state.selectedQ;
     }
+
+    /* eslint-disable dot-notation */
+
     const question = () => {
       if (this.state.loaded) {
         return (
           <div className="questionHolder">
-            <p style={{ fontWeight: 'bold' }}>Submitted by: <Link to={`profile/${q["fromUser"]}`} data-target="username">{q['displayName'] !== undefined ? q["displayName"] : 'User'}</Link></p>
-            <p style={{ fontWeight: 'bold' }}>User Email: {q["userEmail"] !== undefined ? <a href={`mailto:${q['userEmail']}`} style={{ fontWeight: 'normal' }} data-target="email">{q['userEmail']}</a> : 'N / A' }</p> 
-            <h3 data-target="question">{q["q1"]}</h3>
+            <p style={{ fontWeight: 'bold' }}>Submitted by: <Link to={`profile/${q['fromUser']}`} data-target="username">{q['displayName'] !== undefined ? q['displayName'] : 'User'}</Link></p>
+            <p style={{ fontWeight: 'bold' }}>User Email: {q['userEmail'] !== undefined ? <a href={`mailto:${q['userEmail']}`} style={{ fontWeight: 'normal' }} data-target="email">{q['userEmail']}</a> : 'N / A' }</p>
+            <h3 data-target="question">{q['q1']}</h3>
             <div style={{ display: 'flex' }}>
-              <FormControlLabel value={q["a1text"]} control={<Radio />} label={q["a1text"]} data-target="a1text"/>
-              {q["a1correct"] ? <p style={{ color: 'green' }}>Correct Answer</p> : null }
+              <FormControlLabel value={q['a1text']} control={<Radio />} label={q['a1text']} data-target="a1text"/>
+              {q['a1correct'] ? <p style={{ color: 'green' }}>Correct Answer</p> : null }
             </div>
             <div style={{ display: 'flex' }}>
-              <FormControlLabel value={q["a2text"]} control={<Radio />} label={q["a2text"]}/>
-              {q["a2correct"] ? <p style={{ color: 'green' }}>Correct Answer</p> : null }
+              <FormControlLabel value={q['a2text']} control={<Radio />} label={q['a2text']}/>
+              {q['a2correct'] ? <p style={{ color: 'green' }}>Correct Answer</p> : null }
             </div>
             <div style={{ display: 'flex' }}>
-              <FormControlLabel value={q["a3text"]} control={<Radio />} label={q["a3text"]}/>
-              {q["a3correct"] ? <p style={{ color: 'green' }}>Correct Answer</p> : null }
+              <FormControlLabel value={q['a3text']} control={<Radio />} label={q['a3text']}/>
+              {q['a3correct'] ? <p style={{ color: 'green' }}>Correct Answer</p> : null }
             </div>
             <div>
-              <p>Sources: <a href={q["source"]}>{q["source"]}</a></p>
+              <p>Sources: <a href={q['source']}>{q['source']}</a></p>
             </div>
             <div className="reviewButtonHolder">
               <Button onClick={this.rejectQ}><span style={{ color: 'red', marginRight: '2vw' }}>Reject</span></Button>
               <Button onClick={this.skipQ}>Skip</Button>
-              <Button onClick={this.acceptQ}><span style={{ color: 'purple', marginLeft: '2vw'}}>Accept</span></Button>
+              <Button onClick={this.acceptQ}><span style={{ color: 'purple', marginLeft: '2vw' }}>Accept</span></Button>
             </div>
           </div>
-        )
-      } else {
-        return (
-          <img className="gif" src={loadingGif} alt="Loading" />
-        )
+        );
       }
 
-
-    }
+      return (
+        <img className="gif" src={loadingGif} alt="Loading" />
+      );
+    };
 
     return (
       <Paper className="review">
@@ -146,10 +157,10 @@ class ReviewQuestions extends Component {
           </Link>
         </MediaQuery>
         {this.state.noQuestionsRemaining
-          ? <div style={{ display: 'flex', justifyContent: 'center', flexDirection: 'column'}}>
+          ? <div style={{ display: 'flex', justifyContent: 'center', flexDirection: 'column' }}>
               <h1 id="noQs">No Questions To Review</h1>
               <MediaQuery maxWidth={415}>
-                <Link to={ADMIN_DASHBOARD} id="reviewBackButtonMobile" style={{ textDecoration: 'none'}}>
+                <Link to={ADMIN_DASHBOARD} id="reviewBackButtonMobile" style={{ textDecoration: 'none' }}>
                   <Button color="primary">Back to Dashboard</Button>
                 </Link>
               </MediaQuery>
@@ -162,9 +173,8 @@ class ReviewQuestions extends Component {
         }
 
       </Paper>
-    )
+    );
   }
-
 }
 
 export default ReviewQuestions;

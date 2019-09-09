@@ -341,11 +341,14 @@
   .cashout-email-table-small {
     padding-left: 12px;
     text-decoration: underline;
+    font-size: 14px;
+    font-family: inherit;
   }
 
   .cashout-email-table-small:hover, .cashout-email-table-small:focus, .cashout-email-table-small:active {
     cursor: pointer;
     color: #a54ee8;
+
   }
 
   .cashout-row {
