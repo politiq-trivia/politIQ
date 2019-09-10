@@ -1,8 +1,7 @@
 // this component should have the ability to add and delete questions as well as just editing them.
 
 import React, { Component } from 'react';
-
-import { db } from '../../firebase';
+import PropTypes from 'prop-types';
 
 import Paper from '@material-ui/core/Paper';
 import Button from '@material-ui/core/Button';
@@ -11,11 +10,12 @@ import TextField from '@material-ui/core/TextField';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
 import InputLabel from '@material-ui/core/InputLabel';
+import { Select } from '@material-ui/core';
 
 import DeleteModal from './DeleteModal';
-
+import { db } from '../../firebase';
 import './quizEngine.css';
-import { Select } from '@material-ui/core';
+
 
 class EditQuiz extends Component {
   constructor(props) {
@@ -24,183 +24,177 @@ class EditQuiz extends Component {
       quiz: {},
       quizLength: 0,
       quizQs: [],
-    }
+    };
   }
 
   componentDidMount = () => {
-    const quiz = this.props.quiz;
+    const { quiz } = this.props;
     if (quiz === {} || quiz === undefined || quiz === null) {
       return;
-    } else {
-      const quizQs = Object.keys(quiz);
-      quizQs.pop();
-      const quizLength = quizQs.length;
-      this.setState({
-        quizLength,
-        quizQs,
-        quiz,
-      })
     }
+
+    const quizQs = Object.keys(quiz);
+    quizQs.pop();
+    const quizLength = quizQs.length;
+    this.setState({
+      quizLength,
+      quizQs,
+      quiz,
+    });
   }
 
   // since this component is rendered by the Admin Dashboard, we need to
   // check if the quiz updated and then update the UI accordingly
   // to prevent errors
-  shouldComponentUpdate (nextProps, nextState) {
+  shouldComponentUpdate(nextProps, nextState) {
     if (nextProps.quiz !== this.state.quiz || nextState !== this.state) {
-      return true
-    } else return false;
+      return true;
+    }
+    return false;
   }
 
   handleChange = (event) => {
-    const quiz = this.state.quiz;
+    const { quiz } = this.state;
     if (event.target.id === 'quiz-title') {
-      quiz['quiz-title'] = event.target.value
+      quiz['quiz-title'] = event.target.value;
       this.setState({
         quiz,
-      })
+      });
     } else {
-      const id = event.target.id.split(' ')
+      const id = event.target.id.split(' ');
       quiz[id[0]][id[1]] = event.target.value;
-      this.setState({
-        quiz: quiz,
-      })
+      this.setState({ quiz });
     }
   }
 
   handleDurationChange = (event) => {
-    const quiz = this.state.quiz
+    const { quiz } = this.state;
     // this is the question number.
     // don't need any other logic here because this is only for duration
-    const id = event.target.id
+    const { id } = event.target;
 
-    quiz[id]['timerDuration'] = event.target.value
-    
-    this.setState({
-      quiz
-    })
+    quiz[id]['timerDuration'] = event.target.value; // eslint-disable-line dot-notation
+
+    this.setState({ quiz });
   }
 
   handleCheck = (event) => {
-    const quiz = this.state.quiz
-    const id = event.target.id.split(' ')
-    quiz[id[0]][id[1]] = event.target.checked
-    this.setState({
-      quiz: quiz
-    })
+    const { quiz } = this.state;
+    const id = event.target.id.split(' ');
+    quiz[id[0]][id[1]] = event.target.checked;
+    this.setState({ quiz });
   }
 
   handleSubmit = () => {
-    db.editQuiz(this.props.quizId, this.state.quiz)
-    this.props.toggleQuizShow()
+    db.editQuiz(this.props.quizId, this.state.quiz);
+    this.props.toggleQuizShow();
   }
 
   render() {
-    let quizArray = []
+    let quizArray = [];
     if (this.state.quiz && this.state.quiz !== {}) {
-      const quiz = this.state.quiz
-      const result = Object.keys(quiz).map(function(key) {
-        return [key, quiz[key]]
-      });
+      const { quiz } = this.state;
+      const result = Object.keys(quiz).map((key) => ([key, quiz[key]]));
       result.pop();
-      quizArray = [...result]
+      quizArray = [...result];
     }
 
+    /* eslint-disable dot-notation */
     const renderQs = quizArray.map((q, i) => {
       let timerDuration;
-      if (q[1]["timerDuration"]) {
-        timerDuration = q[1]["timerDuration"]
+      if (q[1]['timerDuration']) {
+        timerDuration = q[1]['timerDuration'];
       } else {
         timerDuration = 40;
       }
       return (
-        <FormControl key={i} id={q[0]} style={{ display: 'block'}}>
-            <h3 style={{ marginBottom: '1vh'}}> {q[0]}. Question:   </h3>
+        <FormControl key={i} id={q[0]} style={{ display: 'block' }}>
+            <h3 style={{ marginBottom: '1vh' }}> {q[0]}. Question:   </h3>
             <TextField
               margin="normal"
-              value={q[1]["q1"]}
+              value={q[1]['q1']}
               fullWidth
               onChange={this.handleChange}
               type="text"
-              placeholder={q[1]["q1"]}
-              id={q[0] + " q1"}
+              placeholder={q[1]['q1']}
+              id={q[0] + ' q1'} // eslint-disable-line prefer-template
               inputref={null}
             />
-            <h5 style={{ fontSize: '2vh'}}>Answer Choices:</h5>
+            <h5 style={{ fontSize: '2vh' }}>Answer Choices:</h5>
             <TextField
               margin="normal"
               fullWidth
-              value={q[1]["a1text"]}
+              value={q[1]['a1text']}
               onChange={this.handleChange}
               type="text"
-              placeholder={q[1]["a1text"]}
-              id={q[0] + " a1text"}
+              placeholder={q[1]['a1text']}
+              id={q[0] + ' a1text'} // eslint-disable-line prefer-template
             />
             <FormControlLabel
               control={
                 <Checkbox
-                  checked={q[1]["a1correct"]}
+                  checked={q[1]['a1correct']}
                   onChange={this.handleCheck}
                   color="primary"
-                  id={q[0] + " a1correct"}
+                  id={q[0] + ' a1correct'} // eslint-disable-line prefer-template
                 />
               }
               label="Correct Answer"
               labelPlacement="start"
-              style={{ marginLeft: '0'}}
+              style={{ marginLeft: '0' }}
             />
             <TextField
               margin="normal"
               fullWidth
-              value={q[1]["a2text"]}
+              value={q[1]['a2text']}
               onChange={this.handleChange}
               type="text"
-              placeholder={q[1]["a2text"]}
-              id={q[0] + " a2text"}
+              placeholder={q[1]['a2text']}
+              id={q[0] + ' a2text'} // eslint-disable-line prefer-template
             />
             <FormControlLabel
               control={
                 <Checkbox
-                  checked={q[1]["a2correct"]}
+                  checked={q[1]['a2correct']}
                   onChange={this.handleCheck}
                   color="primary"
-                  id={q[0] + " a2correct"}
+                  id={q[0] + ' a2correct'} // eslint-disable-line prefer-template
                 />
               }
               label="Correct Answer"
               labelPlacement="start"
-              style={{ marginLeft: '0'}}
+              style={{ marginLeft: '0' }}
             />
             <TextField
               margin="normal"
               fullWidth
-              value={q[1]["a3text"]}
+              value={q[1]['a3text']}
               onChange={this.handleChange}
               type="text"
-              placeholder={q[1]["a3text"]}
-              id={q[0] + " a3text"}
+              placeholder={q[1]['a3text']}
+              id={q[0] + ' a3text'} // eslint-disable-line prefer-template
             />
             <FormControlLabel
               control={
                 <Checkbox
-                  checked={q[1]["a3correct"]}
+                  checked={q[1]['a3correct']}
                   onChange={this.handleCheck}
                   color="primary"
-                  id={q[0] + " a3correct"}
+                  id={q[0] + ' a3correct'} // eslint-disable-line prefer-template
                 />
               }
               label="Correct Answer"
               labelPlacement="start"
-              style={{ marginLeft: '0'}}
+              style={{ marginLeft: '0' }}
             />
-            <TextField 
+            <TextField
               margin="normal"
               fullWidth
-              value={q[1]["answerExplanation"]}
+              value={q[1]['answerExplanation']}
               onChange={this.handleChange}
               type="text"
-              placeholder={q[1]["answerExplanation"]}
-              id={q[0] + " answerExplanation"}
+              placeholder={q[1]['answerExplanation']}
+              id={q[0] + ' answerExplanation'} // eslint-disable-line prefer-template
             />
             <FormControl fullWidth margin="normal">
               <InputLabel htmlFor="timer-duration">Timer Duration(seconds)</InputLabel>
@@ -224,8 +218,8 @@ class EditQuiz extends Component {
               </Select>
             </FormControl>
         </FormControl>
-      )
-    })
+      );
+    });
     return (
       <Paper className="showQuiz">
         {this.props.showDeleteModal
@@ -238,32 +232,34 @@ class EditQuiz extends Component {
             />
           : null
         }
-        <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '5vh'}}> 
+        <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '5vh' }}>
           <Button
             onClick={this.props.toggleQuizShow}
             variant="contained"
             color="primary"
-            style={{ float: 'left'}}
+            style={{ float: 'left' }}
           >
             Cancel
           </Button>
           <div>
-            <h1 style={{ display: 'inline'}}>Quiz Title: </h1>
-            {this.state.quiz 
-            ? <TextField 
-                value={this.state.quiz['quiz-title']}
-                style={{ marginTop: 'auto', marginBottom: 'auto'}}
-                onChange={this.handleChange}
-                margin="normal"
-                type="text"
-                id={"quiz-title"}
-              ></TextField> : null }
+            <h1 style={{ display: 'inline' }}>Quiz Title: </h1>
+            {this.state.quiz
+              ? <TextField
+                  value={this.state.quiz['quiz-title']}
+                  style={{ marginTop: 'auto', marginBottom: 'auto' }}
+                  onChange={this.handleChange}
+                  margin="normal"
+                  type="text"
+                  id={'quiz-title'}
+                ></TextField>
+              : null
+            }
           </div>
           <Button
             onClick={this.props.toggleDeleteModal}
             variant="contained"
             color="primary"
-            style={{ float: 'right'}}
+            style={{ float: 'right' }}
             className="edit-delete-quiz-button"
           >
             Delete this Quiz
@@ -274,7 +270,7 @@ class EditQuiz extends Component {
         <Button
           onClick={this.props.toggleDeleteModal}
           color="primary"
-          style={{ float: 'right'}}
+          style={{ float: 'right' }}
           className="edit-delete-quiz-button-mobile"
         >
           Delete this Quiz
@@ -282,14 +278,24 @@ class EditQuiz extends Component {
         <Button
           variant="contained"
           color="primary"
-          style={{ float: 'center'}}
+          style={{ float: 'center' }}
           onClick={this.handleSubmit}
         >
           Save Changes
         </Button>
       </Paper>
-    )
+    );
   }
 }
+
+EditQuiz.propTypes = {
+  quiz: PropTypes.object.isRequired,
+  quizId: PropTypes.string.isRequired,
+  toggleQuizShow: PropTypes.func.isRequired,
+  showDeleteModal: PropTypes.bool.isRequired,
+  deleteQuiz: PropTypes.func.isRequired,
+  toggleDeleteModal: PropTypes.func.isRequired,
+  toggleDashboard: PropTypes.func.isRequired,
+};
 
 export default EditQuiz;

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
-import { db } from '../../../../firebase';
 import { Link } from 'react-router-dom';
 
+import { db } from '../../../../firebase';
 import { REVIEW } from '../../../../constants/routes';
 
 import '../../dashboard.css';
@@ -10,34 +10,34 @@ class QuestionsToReview extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      num: 0
-    }
+      num: 0,
+    };
   }
 
   componentDidMount = () => {
-    this.numToReview()
+    this.numToReview();
   }
 
   componentWillUnmount = () => {
     this.setState({
-      undefined
-    })
+      undefined,
+    });
   }
 
   numToReview = async () => {
     // let num;
     await db.getOneQuestion()
-      .then(response => {
+      .then((response) => {
         if (response.val() === null) {
           return;
-        } else {
-          const theNum = Object.keys(response.val()).length;
-            this.setState({
-              num: theNum,
-            })
         }
-      })
+        const theNum = Object.keys(response.val()).length;
+        this.setState({
+          num: theNum,
+        });
+      });
   }
+
 
   render() {
     return (
@@ -47,7 +47,7 @@ class QuestionsToReview extends Component {
           <h1>Questions to be reviewed</h1>
         </div>
       </Link>
-    )
+    );
   }
 }
 

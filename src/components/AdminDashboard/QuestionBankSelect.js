@@ -1,123 +1,135 @@
 import React, { Component } from 'react';
-
-import { db } from '../../firebase';
+import PropTypes from 'prop-types';
 
 import Select from '@material-ui/core/Select';
 import MenuItem from '@material-ui/core/MenuItem';
 import Button from '@material-ui/core/Button';
 
 import EditQBankQs from './EditQBankQ';
+import { db } from '../../firebase';
+
+/* eslint-disable dot-notation */
 
 class QuizBankSelect extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      selectedQ: "",
+      selectedQ: '',
       qBank: {},
       counter: 0,
-    }
+    };
   }
 
   componentDidMount = () => {
-    this.getQBankQs()
+    this.getQBankQs();
     this.setState({
       counter: this.props.counter,
-    })
+    });
   }
 
   getQBankQs = () => {
     db.getQBank()
-      .then(response => {
+      .then((response) => {
         if (response.val() !== null) {
           this.setState({
-            qBank: response.val()
-          })
+            qBank: response.val(),
+          });
         } else {
           this.setState({
             qBankEmpty: true,
-          })
+          });
         }
-      })
+      });
   }
 
 
   handleChange = (event) => {
     this.setState({
       [event.target.name]: event.target.value,
-    })
+    });
   }
 
   handleQuit = () => {
-    this.props.toggleAddQuiz()
+    this.props.toggleAddQuiz();
   }
 
   saveData = (q) => {
-    db.removeFromQBank(this.state.selectedQ)
+    db.removeFromQBank(this.state.selectedQ);
     db.addQuestion(
-        this.props.quizId,
-        this.state.counter,
-        q["q1"],
-        q["a1text"],
-        q["a1correct"],
-        q["a2text"],
-        q["a2correct"],
-        q["a3text"],
-        q["a3correct"],
-        q["answerExplanation"],
-        q['timerDuration'],
-    )
+      this.props.quizId,
+      this.state.counter,
+      q['q1'],
+      q['a1text'],
+      q['a1correct'],
+      q['a2text'],
+      q['a2correct'],
+      q['a3text'],
+      q['a3correct'],
+      q['answerExplanation'],
+      q['timerDuration'],
+    );
   }
 
   // submits the data and prompts you toa dd another question
   handleSubmit = (q) => {
-    this.props.incrementCounter()
-    this.saveData(q)
-    this.props.goBack()
+    this.props.incrementCounter();
+    this.saveData(q);
+    this.props.goBack();
   }
 
   // submits the data to the db and then returns the user to the admin dashboard
   handleReturn = (q) => {
-    this.saveData(q)
-    this.props.toggleAddQuiz()
-    this.props.addToRss(this.props.quizId, this.props.title)
+    this.saveData(q);
+    this.props.toggleAddQuiz();
+    this.props.addToRss(this.props.quizId, this.props.title);
   }
 
-  renderQ = () => {
+  renderQ = () => { // eslint-disable-line consistent-return
     if (this.state.selectedQ) {
       return (
-        <EditQBankQs question={this.state.qBank[this.state.selectedQ]} handleSubmit={this.handleSubmit} handleReturn={this.handleReturn} handleQuit={this.handleQuit}/>
-      )
+        <EditQBankQs
+          question={this.state.qBank[this.state.selectedQ]}
+          handleSubmit={this.handleSubmit}
+          handleReturn={this.handleReturn}
+          handleQuit={this.handleQuit}
+        />
+      );
     }
-
-  }
+  };
 
   render() {
-    const qArray = Object.keys(this.state.qBank)
-    const menuItems = qArray.map((q, i) => {
-      return (
-        <MenuItem key={i} value={qArray[i]}>{this.state.qBank[q]["q1"]}</MenuItem>
-      )
-    })
+    const qArray = Object.keys(this.state.qBank);
+    const menuItems = qArray.map((q, i) => <MenuItem key={i} value={qArray[i]}>{this.state.qBank[q]['q1']}</MenuItem>);
 
     return (
       <div>
-        <Button variant="contained" color="primary" onClick={this.props.goBack} style={{ float: 'left'}}>Back</Button>
+        <Button variant="contained" color="primary" onClick={this.props.goBack} style={{ float: 'left' }}>Back</Button>
         <h2 style={{ textAlign: 'center' }}>Select a User-Submitted Question</h2>
         <Select
           fullWidth
           value={this.state.selectedQ}
           onChange={this.handleChange}
           inputProps={{
-            name: 'selectedQ'
+            name: 'selectedQ',
           }}
-          style={{ paddingTop: '2vh', marginBottom: '2vh'}}
+          style={{ paddingTop: '2vh', marginBottom: '2vh' }}
         >
           {menuItems}
         </Select>
         {this.renderQ()}
       </div>
-    )
+    );
   }
 }
+
+QuizBankSelect.propTypes = {
+  toggleAddQuiz: PropTypes.func.isRequired,
+  counter: PropTypes.number.isRequired,
+  quizId: PropTypes.string.isRequired,
+  incrementCounter: PropTypes.func.isRequired,
+  goBack: PropTypes.func.isRequired,
+  addToRss: PropTypes.func.isRequired,
+  title: PropTypes.string.isRequired,
+};
 
 export default QuizBankSelect;
