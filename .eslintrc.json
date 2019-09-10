@@ -19,5 +19,8 @@
     "plugins": [
         "react",
         "jest"
-    ]
+    ],
+    "rules": {
+        "padded-blocks": "off"
+    }
 }

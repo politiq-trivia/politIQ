@@ -19,6 +19,7 @@ import HomePage from './StaticPages/HomePage';
 import ProfilePage from './Profile/Profile';
 import Footer from './Footer';
 import AdminDashboard from './AdminDashboard/AdminDashboard';
+import { QuizProvider } from './QuizEngine/QuizContext';
 import QuizArchive from './QuizEngine/QuizArchive';
 import ArchivedQuiz from './QuizEngine/ArchivedQuiz';
 import Quiz from './QuizEngine/Quiz';
@@ -100,7 +101,7 @@ class App extends Component {
     this.listener();
   }
 
-  initializeApp = (authUser) => {
+  initializeApp = async (authUser) => {
     // get all the user's scores (all time)
     getUserScores(authUser.uid);
 
@@ -318,4 +319,4 @@ class App extends Component {
   }
 }
 
-export default withFirebase(withAuthentication(App));
+export default withFirebase(withAuthentication(QuizProvider(App)));

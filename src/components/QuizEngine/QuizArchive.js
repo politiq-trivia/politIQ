@@ -1,10 +1,8 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { Link, withRouter } from 'react-router-dom';
 import { Helmet } from 'react-helmet';
 import moment from 'moment';
-import * as routes from '../../constants/routes';
-
-import loadingGif from '../../loadingGif.gif';
 
 import Paper from '@material-ui/core/Paper';
 import TableRow from '@material-ui/core/TableRow';
@@ -13,16 +11,20 @@ import Table from '@material-ui/core/Table';
 import TableHead from '@material-ui/core/TableHead';
 import TableBody from '@material-ui/core/TableBody';
 import TableFooter from '@material-ui/core/TableFooter';
-import TablePaginationActions from './TablePaginationActions';
 import Select from '@material-ui/core/Select';
 import Button from '@material-ui/core/Button';
 import OutlinedInput from '@material-ui/core/OutlinedInput';
 import Close from '@material-ui/icons/Close';
 import Modal from '@material-ui/core/Modal';
-import './quiz.css';
+import TablePaginationActions from './TablePaginationActions';
 import bg from '../StaticPages/politiq-bg2.jpg';
 import AuthUserContext from '../Auth/AuthUserContext';
-import { QuizContext, QuizProvider } from './QuizContext';
+import { QuizContext }from './QuizContext';
+import * as routes from '../../constants/routes';
+
+import loadingGif from '../../loadingGif.gif';
+import './quiz.css';
+
 
 class QuizArchiveBase extends Component {
   constructor(props) {
@@ -35,50 +37,50 @@ class QuizArchiveBase extends Component {
       rowsPerPage: 10,
       page: 0,
       loading: true,
-      selectedMonth: "",
+      selectedMonth: '',
       modalOpen: false,
-    }
+    };
   }
 
   componentDidMount = () => {
-    this.createMonthOptionsArray()
+    this.createMonthOptionsArray();
     // check for logged in user so that it can check if the user already ahas a score for that quiz
     if (this.props.authUser) {
       const userObject = this.props.authUser;
-      const uid = userObject.uid
+      const { uid } = userObject;
       this.setState({
         signedInUser: uid,
-      })
+      });
     }
     this.setState({
-      selectedMonth: moment().startOf('month').format('YYYY-MM-DDTHH:mm')
-    })
+      selectedMonth: moment().startOf('month').format('YYYY-MM-DDTHH:mm'),
+    });
     this.getQuizzesFromDb();
+    this.checkLoaded()
   }
 
   componentDidUpdate(prevProps) {
     if (prevProps !== this.props) {
       if (this.props.authUser) {
-      this.setState({
-        signedInUser: this.props.authUser.uid,
-      });
-      this.getQuizzesFromDb();
+        this.setState({
+          signedInUser: this.props.authUser.uid,
+        });
+        this.getQuizzesFromDb();
       }
-
     }
   }
 
   createMonthOptionsArray = () => {
-    let date = moment().format('YYYY-MM-DDTHH:mm')
-    let monthsArray = []
+    let date = moment().format('YYYY-MM-DDTHH:mm');
+    const monthsArray = [];
     // for every month that is greater than April 2019, push those values into an array
     while (date >= '2019-04-01T00:00') {
-      monthsArray.push(moment(date).startOf('month').format('YYYY-MM-DDTHH:mm'))
-      date = moment(date).subtract(1, 'month').format('YYYY-MM-DDTHH:mm')
+      monthsArray.push(moment(date).startOf('month').format('YYYY-MM-DDTHH:mm'));
+      date = moment(date).subtract(1, 'month').format('YYYY-MM-DDTHH:mm');
     }
     this.setState({
       monthsArray,
-    })
+    });
   }
 
   dateFilter = (date) => {
@@ -86,60 +88,59 @@ class QuizArchiveBase extends Component {
       // dates that are less than the current date
       // dates that are greater than the start of the current month
       return date < moment().format('YYYY-MM-DDTHH:mm') && date > moment().startOf('month').format('YYYY-MM-DDTHH:mm');
-    } else {
-        // dates that are greater than the start of the selected month 
-        // dates that are less than the end of the selected month
-        return date > moment(this.state.selectedMonth).startOf('month').format('YYYY-MM-DDTHH:mm') && date < moment(this.state.selectedMonth).add(1, 'month').format('YYYY-MM-DDTHH:mm')
     }
+    // dates that are greater than the start of the selected month
+    // dates that are less than the end of the selected month
+    return date > moment(this.state.selectedMonth).startOf('month').format('YYYY-MM-DDTHH:mm') && date < moment(this.state.selectedMonth).add(1, 'month').format('YYYY-MM-DDTHH:mm');
   }
 
-  // user should be able to select a month for a dropdown and then retrieve the quizzes for that month. 
-  // the default on page load will be the current month
+  // user should be able to select a month for a dropdown and then retrieve the quizzes for that
+  // month. the default on page load will be the current month
   getQuizzesFromDb = async () => {
     // instead of making a db call here, get the quizzes from local storage
-    const data = await JSON.parse(localStorage.getItem('quizzes'));
+    const data = this.props.quizzes; // eslint-disable-line no-undef
 
     const allDates = Object.keys(data);
 
-    const dateArray = allDates.filter(date => this.dateFilter(date))
-    if (dateArray.length === 0 ) {
+    const dateArray = allDates.filter((date) => this.dateFilter(date));
+    if (dateArray.length === 0) {
       this.setState({
-        noQuizzes: true,
-        loading: false,
+        // noQuizzes: true,
+        // loading: false,
         dateArray: [],
         titleArray: [],
         page: 0,
-      })
-      console.log('no quizzes')
+      });
       return;
     }
 
-    let titleArray = [];
-    for (let i = 0; i < dateArray.length; i++) {
-      let date = dateArray[i]
-      const title = data[date]["quiz-title"]
-      titleArray.push(title)
+    const titleArray = [];
+    for (let i = 0; i < dateArray.length; i += 1) {
+      const date = dateArray[i];
+      const title = data[date]['quiz-title'];
+      titleArray.push(title);
     }
     this.setState({
       dateArray: dateArray.reverse(),
       titleArray: titleArray.reverse(),
-      loading: false, 
+      loading: false,
       page: 0,
-    })
+    });
     if (this.state.signedInUser) {
-      this.getTheLoggedInUsersScores()
+      this.getTheLoggedInUsersScores();
     }
 
-    window.scrollTo(0,0)
+    window.scrollTo(0, 0); // eslint-disable-line no-undef
   }
 
   getTheLoggedInUsersScores = () => {
-    const uid = this.state.signedInUser
-    if (uid === "") {
+    console.log('get logged in users scores')
+    const uid = this.state.signedInUser;
+    if (uid === '') {
       return;
     }
     // the scores should already be in local storage so you don't have to make a db call here
-    const scores = JSON.parse(localStorage.getItem('userScoreData')).data
+    const scores = JSON.parse(localStorage.getItem('userScoreData')).data; // eslint-disable-line no-undef
 
     if (scores === null) {
       return;
@@ -147,118 +148,139 @@ class QuizArchiveBase extends Component {
 
     this.setState({
       scoreObject: scores,
-    })
+    });
+  }
+
+  checkLoaded = () => {
+    window.setTimeout(() => {
+      this.toggleLoaded()
+    }, 5000);
+  }
+
+  toggleLoaded = () => {
+    if (this.props.quizzes.length === 0) {
+      this.setState({
+        loading: false, 
+        noQuizzes: true,
+      })
+    }
   }
 
   handleClick = (event) => {
-    const id = event.target.parentNode.id;
-    this.props.history.push('/quiz/' + id)
+    const { id } = event.target.parentNode;
+    this.props.history.push(`/quiz/${id}`);
   }
 
   handleArchiveClick = (event) => {
-    const id = event.target.parentNode.id;
-    this.props.history.push('/archived/' + id);
+    const { id } = event.target.parentNode;
+    this.props.history.push(`/archived/${id}`);
   }
 
   handleChangePage = (event, page) => {
-    this.setState({ page })
+    this.setState({ page });
   }
 
-  handleChangeRowsPerPage = event => {
+  handleChangeRowsPerPage = (event) => {
     this.setState({
-      rowsPerPage: event.target.value
-    })
+      rowsPerPage: event.target.value,
+    });
   }
 
   handleChangeMonth = (month) => {
     this.setState({
-      selectedMonth: month
-    })
-    this.getQuizzesFromDb()
+      selectedMonth: month,
+    });
+    this.getQuizzesFromDb();
   }
 
   handleQuizClick = (event, score) => {
-    const thisMonth = moment().startOf('month').format('YYYY-MM-DDTHH:mm')
+    const thisMonth = moment().startOf('month').format('YYYY-MM-DDTHH:mm');
 
     // if it's the current month and the score is zero, play quiz
-    if (this.state.selectedMonth === thisMonth && score === "--") {
-      this.handleClick(event)
+    if (this.state.selectedMonth === thisMonth && score === '--') {
+      this.handleClick(event);
       // if it's the preivous month and the score is zero, play quiz
-    } else if (this.state.selectedMonth !== thisMonth && score === "--") {
-      this.handleClick(event)
+    } else if (this.state.selectedMonth !== thisMonth && score === '--') {
+      this.handleClick(event);
       // if it's the previous month and the score is not zero, view quiz
-    } else if (this.state.selectedMonth !== thisMonth && score !== "--") {
+    } else if (this.state.selectedMonth !== thisMonth && score !== '--') {
       this.handleArchiveClick(event);
       // if it's the current month and the score is not zero, do nothing
     } else {
       this.setState({
         modalOpen: true,
-      })
+      });
       // return null;
     }
   }
 
   toggleModal = () => {
     this.setState({
-      modalOpen: !this.state.modalOpen
-    })
+      modalOpen: !this.state.modalOpen,
+    });
   }
 
   render() {
-    const {dateArray, titleArray, rowsPerPage, page } = this.state;
-    const emptyRows = rowsPerPage - Math.min(rowsPerPage, dateArray.length - page * rowsPerPage)
+    const {
+      dateArray,
+      titleArray,
+      rowsPerPage,
+      page,
+    } = this.state;
+    const emptyRows = rowsPerPage - Math.min(rowsPerPage, dateArray.length - page * rowsPerPage);
 
-    const List = dateArray.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((date, i) => {
-      let newTitleArray = titleArray.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-      let id = date;
-      let shortDate = date.slice(0,10)
-      let title = newTitleArray[i]
+    const List = dateArray.slice(page
+      * rowsPerPage, page * rowsPerPage + rowsPerPage).map((date, i) => {
+      const newTitleArray = titleArray.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage);
+      const id = date;
+      const shortDate = date.slice(0, 10);
+      const title = newTitleArray[i];
       let score;
 
       if (Object.keys(this.state.scoreObject).includes(date)) {
-        score = this.state.scoreObject[date]
+        score = this.state.scoreObject[date];
       } else {
-        score = "--"
+        score = '--';
       }
 
       return (
-        <TableRow id={date} key={id} className={ score !== "--" ? "taken" : "tableItem" }>
-          <TableCell onClick={(event) => {this.handleQuizClick(event, score)}}>
+        <TableRow id={date} key={id} className={ score !== '--' ? 'taken' : 'tableItem' }>
+          <TableCell onClick={(event) => this.handleQuizClick(event, score)}>
             {shortDate}
           </TableCell>
           <TableCell onClick={(event) => this.handleQuizClick(event, score)} padding="none">
             {title}
           </TableCell>
-          <TableCell onClick={(event) => this.handleQuizClick(event, score)} style={{ paddingLeft: '8vw'}}>
+          <TableCell onClick={(event) => this.handleQuizClick(event, score)} style={{ paddingLeft: '8vw' }}>
             {score}
           </TableCell>
         </TableRow>
-      )
-    })
-
-
+      );
+    });
 
     const isLoading = () => {
-      if (this.state.loading === true){
+      if (this.state.loading === true) {
         return (
           <div className="gifStyle">
             <img src={loadingGif} alt="loading gif"/>
           </div>
-        )
-      } else if (this.state.dateArray.length === 0 && this.state.selectedMonth === moment().startOf('month').format('YYYY-MM-DDTHH:mm')) {
+        );
+      }
+      if (this.state.dateArray.length === 0 && this.state.selectedMonth === moment().startOf('month').format('YYYY-MM-DDTHH:mm')) {
         return (
           <>
-            <p>There are no quizzes available for this month yet! Check back later to play or select a previous month to take older quizzes and boost your politIQ.</p>
-            <img src={bg} style={{ width: '60%', marginLeft: 'auto', marginRight: 'auto'}} alt="play politIQ" />
+            <p>There are no quizzes available for this month yet! Check back later to play or
+               select a previous month to take older quizzes and boost your politIQ.</p>
+            <img src={bg} style={{ width: '60%', marginLeft: 'auto', marginRight: 'auto' }} alt="play politIQ" />
             <div className="viewOlder">
               <p className="olderDescription">View quizzes from previous months: </p>
               <Select
                 native
                 value={this.state.selectedMonth}
-                onChange={event => this.handleChangeMonth(event.target.value)}
-                style={{ height: '6vh'}}
+                onChange={(event) => this.handleChangeMonth(event.target.value)}
+                style={{ height: '6vh' }}
                 input={
-                  <OutlinedInput name="month" fullWidth id={"selectedMonth"} style={{ height: '6vh' }} labelWidth={0}/>
+                  <OutlinedInput name="month" fullWidth id={'selectedMonth'} style={{ height: '6vh' }} labelWidth={0}/>
                 }
               >
                 {this.state.monthsArray && this.state.monthsArray.map((month, i) => (
@@ -375,16 +397,25 @@ class QuizArchiveBase extends Component {
   }
 }
 
-const QuizArchive = ({ history }) => (
-  <AuthUserContext.Consumer>
-    {(authUser) => (
-      <QuizContext.Consumer>
-        {(quizzes) => (
-          <QuizArchiveBase authUser={authUser} history={history} quizzes={quizzes} />
-        )}
-      </QuizContext.Consumer>
-    )}
-  </AuthUserContext.Consumer>
-)
+QuizArchiveBase.propTypes = {
+  authUser: PropTypes.object,
+  history: PropTypes.object.isRequired,
+};
 
-export default withRouter(QuizProvider(QuizArchive));
+
+const QuizArchive = ({ history }) => {
+  return (
+    <AuthUserContext.Consumer>
+      {(authUser) => (
+        <QuizContext.Consumer>
+          {(quizzes) => (
+            <QuizArchiveBase authUser={authUser} history={history} quizzes={quizzes}/>
+          )}
+        </QuizContext.Consumer>
+      )}
+    </AuthUserContext.Consumer>
+  )
+}
+
+
+export default withRouter(QuizArchive);
