@@ -1,19 +1,10 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { Link, withRouter } from 'react-router-dom';
-import { Helmet } from 'react-helmet';
 import moment from 'moment';
 import { compose } from 'recompose';
 import axios from 'axios';
 
-
-import { auth, db, withFirebase } from '../../firebase';
-import { SignInLink } from './SignIn';
-
-import * as routes from '../../constants/routes';
-import * as roles from '../../constants/roles';
-
-//UI
-import Paper from '@material-ui/core/Paper';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import MenuItem from '@material-ui/core/MenuItem';
@@ -22,44 +13,14 @@ import Checkbox from '@material-ui/core/Checkbox';
 import Help from '@material-ui/icons/Help';
 import Tooltip from '@material-ui/core/Tooltip';
 import ClickAwayListener from '@material-ui/core/ClickAwayListener';
-import './Auth.css';
+import '../Auth.css';
 
-import FacebookAuth from './FacebookAuth'
-import { trackEvent } from '../../utils/googleAnalytics';
+import { auth, db, withFirebase } from '../../../firebase';
 
-class SignUpPage extends Component { 
-  constructor(props) {
-    super(props)
-    this.state = {
-      error: false,
-    }
-  }
+import * as routes from '../../../constants/routes';
+import * as roles from '../../../constants/roles';
 
-  fbError = () => {
-    this.setState({
-      error: true,
-    })
-  }
-
-  render() {
-    const { history, getSignedInUser, scoreObject} = this.props
-    return (
-      <Paper className="authCard signUp">
-      <Helmet>
-        <title>Sign Up | politIQ trivia</title>
-      </Helmet>
-      <h1>Sign Up</h1>
-      {this.state.error 
-        ? <p style={{ color: 'red' }}>An error occurred during the Facebook authentication. Please try a different authentication method.</p>
-        : null
-      }
-      <SignUpForm history={history} getSignedInUser={getSignedInUser} scoreObject={scoreObject}/>
-      <FacebookAuth getSignedInUser={getSignedInUser}history={history} scoreObject={scoreObject} fbError={this.fbError}/>
-      <SignInLink />
-    </Paper>
-    )
-  }
-}
+import { trackEvent } from '../../../utils/googleAnalytics';
 
 const INITIAL_STATE = {
   username: '',
@@ -69,7 +30,7 @@ const INITIAL_STATE = {
   affiliation: '',
   isAdmin: false,
   bio: '',
-  error: null, 
+  error: null,
   emailSubscribe: true,
   consent: false,
   tooltip1Open: false,
@@ -93,11 +54,11 @@ const ERROR_MSG_ACCOUNT_EXISTS = `
 const affiliationText = `
 Political ID is required in order to contribute to your political party's average team score, which is represented on the leaderboard page.
 It will not be viewable to other users and you may change this on your profile at any time.
-`
+`;
 
 const emailText = `
   Email address is required so that we can contact you if you win the politIQ jackpot - no spam. 
-`
+`;
 
 class SignUpFormBase extends Component {
   constructor(props) {
@@ -114,111 +75,103 @@ class SignUpFormBase extends Component {
       affiliation,
       isAdmin,
       bio,
-      emailSubscribe
+      emailSubscribe,
     } = this.state;
 
     const rolesArray = [];
 
     if (isAdmin) {
-      rolesArray.push(roles.ADMIN)
+      rolesArray.push(roles.ADMIN);
     }
     const {
       history,
-      scoreObject
+      scoreObject,
     } = this.props;
 
     auth.doCreateUserWithEmailAndPassword(email, passwordOne)
-      .then(authUser => {
-
+      .then((authUser) => {
         // this one creates the user in the firebase database and is where I'll
         // add in the additional information (to the state in this component)
         db.doCreateUser(authUser.user.uid, username, email, affiliation, isAdmin, bio, rolesArray)
-          // .then(() => {
-          //   return auth.doSendEmailVerification();
-          // })
           .then(() => {
-            const date = moment().format('YYYY-MM-DD')
-            db.lastActive(authUser.user.uid, date)
-            this.props.getSignedInUser(authUser.user.uid)
+            const date = moment().format('YYYY-MM-DD');
+            db.lastActive(authUser.user.uid, date);
+            this.props.getSignedInUser(authUser.user.uid);
             this.setState({ ...INITIAL_STATE });
-            if(emailSubscribe) {
-              this.subscribeToEmailUpdates(email, username, authUser.user.uid, 'weekly')
-              this.subscribeToEmailUpdates(email, username, authUser.user.uid, 'daily')
+            if (emailSubscribe) {
+              this.subscribeToEmailUpdates(email, username, authUser.user.uid, 'weekly');
+              this.subscribeToEmailUpdates(email, username, authUser.user.uid, 'daily');
             }
-            trackEvent('account', 'Sign up with email and password', "SIGN_UP")
+            trackEvent('account', 'Sign up with email and password', 'SIGN_UP');
             history.push(routes.HOME);
           })
-          .catch(error => {
+          .catch((error) => {
             this.setState(byPropKey('error', error));
-            if(error.code === ERROR_CODE_ACCOUNT_EXISTS) {
-              error.message = ERROR_MSG_ACCOUNT_EXISTS;
+            if (error.code === ERROR_CODE_ACCOUNT_EXISTS) {
+              error.message = ERROR_MSG_ACCOUNT_EXISTS; // eslint-disable-line no-param-reassign
             }
           });
 
 
         if (scoreObject) {
           db.setScore(authUser.user.uid, scoreObject.date, scoreObject.score)
-            .catch(error => console.log(error))
+            .catch((error) => console.log(error)); // eslint-disable-line no-console
         }
-
       })
-      .catch(error => {
-
+      .catch((error) => {
         this.setState(byPropKey('error', error));
       });
 
-
-
-      event.preventDefault();
+    event.preventDefault();
   }
 
   handleCheck = () => {
     this.setState({
-      consent: !this.state.consent
-    })
+      consent: !this.state.consent,
+    });
   }
 
   handleEmailCheck = () => {
     this.setState({
-      emailSubscribe: !this.state.emailSubscribe
-    })
+      emailSubscribe: !this.state.emailSubscribe,
+    });
   }
 
   handleTooltip1Open = () => {
     this.setState({
       tooltip1Open: true,
-    })
+    });
   }
 
   handleTooltip1Close = () => {
     this.setState({
       tooltip1Open: false,
-    })
+    });
   }
 
   handleTooltip2Open = () => {
     this.setState({
       tooltip2Open: true,
-    })
+    });
   }
 
   handleTooltip2Close = () => {
     this.setState({
       tooltip2Open: false,
-    })
+    });
   }
 
   // writing this one to be reuseable - subscribe user to a weekly and daily email update
   // and then save the mailchimp id of each user on each list in the user object in the firebase db.
-  // this is necessary to be able to unsubscribe the user in the future. 
+  // this is necessary to be able to unsubscribe the user in the future.
   subscribeToEmailUpdates = (email, displayName, uid, freq) => {
     axios.post(`https://politiq.herokuapp.com/email-subscribe-${freq}`, {
     // axios.post(`http://localhost:3001/email-subscribe-${freq}`, {
-      email: email,
-      displayName: displayName
-    }).then(response => {
-      db.addMailchimpId(uid, response.data.mailchimpId, freq)
-    })
+      email,
+      displayName,
+    }).then((response) => {
+      db.addMailchimpId(uid, response.data.mailchimpId, freq);
+    });
   }
 
   render() {
@@ -232,13 +185,12 @@ class SignUpFormBase extends Component {
       consent,
     } = this.state;
 
-    const isInvalid =
-      passwordOne !== passwordTwo ||
-      passwordOne === '' ||
-      email === '' ||
-      username === '' ||
-      affiliation === '' ||
-      consent === false;
+    const isInvalid = passwordOne !== passwordTwo
+      || passwordOne === ''
+      || email === ''
+      || username === ''
+      || affiliation === ''
+      || consent === false;
 
     return (
       <form onSubmit={this.onSubmit}>
@@ -250,7 +202,7 @@ class SignUpFormBase extends Component {
           required
           id="standard-required"
           value={username}
-          onChange={event => this.setState(byPropKey('username', event.target.value ))}
+          onChange={(event) => this.setState(byPropKey('username', event.target.value))}
           type="text"
           label="Display Name"
           style={{ marginTop: '0' }}
@@ -260,13 +212,13 @@ class SignUpFormBase extends Component {
           fullWidth
           required
           value={email}
-          onChange={event => this.setState(byPropKey('email', event.target.value ))}
+          onChange={(event) => this.setState(byPropKey('email', event.target.value))}
           type="email"
           label="Email Address"
         />
         <ClickAwayListener onClickAway={this.handleTooltip1Close}>
           <Tooltip title={emailText} placement="left-start" onClose={this.handleTooltip1Close} open={this.state.tooltip1Open} disableFocusListener disableHoverListener disableTouchListener>
-            <FormHelperText style={{ marginTop: '0', float: 'right'}}><Help onClick={this.handleTooltip1Open} color='primary' style={{ width: '0.6em'}}/></FormHelperText>
+            <FormHelperText style={{ marginTop: '0', float: 'right', width: '0.6em' }}><Help onClick={this.handleTooltip1Open} color='primary' /></FormHelperText>
           </Tooltip>
         </ClickAwayListener>
         <TextField
@@ -274,7 +226,7 @@ class SignUpFormBase extends Component {
           fullWidth
           required
           value={passwordOne}
-          onChange={event => this.setState(byPropKey('passwordOne', event.target.value ))}
+          onChange={(event) => this.setState(byPropKey('passwordOne', event.target.value))}
           type="password"
           label="Password"
           style={{ marginTop: '0' }}
@@ -284,7 +236,7 @@ class SignUpFormBase extends Component {
           fullWidth
           required
           value={passwordTwo}
-          onChange={event => this.setState(byPropKey('passwordTwo', event.target.value ))}
+          onChange={(event) => this.setState(byPropKey('passwordTwo', event.target.value))}
           type="password"
           label="Confirm Password"
         />
@@ -293,7 +245,7 @@ class SignUpFormBase extends Component {
           required
           label="Political Affiliation"
           value={this.state.affiliation}
-          onChange={event => this.setState(byPropKey('affiliation', event.target.value))}
+          onChange={(event) => this.setState(byPropKey('affiliation', event.target.value))}
           margin="normal"
           fullWidth
         >
@@ -308,17 +260,17 @@ class SignUpFormBase extends Component {
           </MenuItem>
 
         </TextField>
-        <div style={{ display: 'flex', justifyContent: 'space-between'}}>
+        <div style={{ display: 'flex', justifyContent: 'space-between' }}>
           <FormHelperText>Affiliation will not be shared publicly.</FormHelperText>
           <ClickAwayListener onClickAway={this.handleTooltip2Close}>
             <Tooltip title={affiliationText} placement="left-start" onClose={this.handleTooltip2Close} open={this.state.tooltip2Open} disableFocusListener disableHoverListener disableTouchListener>
-              <FormHelperText style={{ marginTop: '0'}}><Help onClick={this.handleTooltip2Open} color='primary' style={{ width: '0.6em'}}/></FormHelperText>
+              <FormHelperText style={{ marginTop: '0' }}><Help onClick={this.handleTooltip2Open} color='primary' style={{ width: '0.6em' }}/></FormHelperText>
             </Tooltip>
           </ClickAwayListener>
 
         </div>
         <div style={{ display: 'flex', marginTop: '2vh' }}>
-          <Checkbox 
+          <Checkbox
             checked={this.state.emailSubscribe}
             onChange={this.handleEmailCheck}
             value="emailSubscribe"
@@ -327,18 +279,18 @@ class SignUpFormBase extends Component {
           />
           <p style={{ textAlign: 'left' }}>I would like to receive email communications and push notifications from politIQ when new quizzes are posted.</p>
         </div>
-        <div style={{ display: 'flex'}}>
-          <Checkbox 
+        <div style={{ display: 'flex' }}>
+          <Checkbox
             checked={this.state.consent}
             onChange={this.handleCheck}
             value="consent"
             color="primary"
-            style={{ display: 'inline'}}
+            style={{ display: 'inline' }}
           />
-          <p style={{ textAlign: 'left' }}>I have read and agree to the <Link to={'/privacy-policy'} target="_blank">PolitIQ Privacy Policy and Terms of Serivce.</Link> *</p>  
+          <p style={{ textAlign: 'left' }}>I have read and agree to the <Link to={'/privacy-policy'} target="_blank">PolitIQ Privacy Policy and Terms of Serivce.</Link> *</p>
         </div>
 
-        <Button disabled={isInvalid} type="submit" variant="contained" color="primary" style={{ marginTop: '4vh'}}>
+        <Button disabled={isInvalid} type="submit" variant="contained" color="primary" style={{ marginTop: '4vh' }}>
           Sign Up
         </Button>
 
@@ -348,21 +300,15 @@ class SignUpFormBase extends Component {
   }
 }
 
+SignUpFormBase.propTypes = {
+  scoreObject: PropTypes.object.isRequired,
+  getSignedInUser: PropTypes.func.isRequired,
+  history: PropTypes.object.isRequired,
+};
+
 const SignUpForm = compose(
   withRouter,
-  withFirebase
+  withFirebase,
 )(SignUpFormBase);
 
-const SignUpLink = () =>
-  <p>
-    Don't have an account?
-    {' '}
-    <Link to={routes.SIGN_UP}>Sign Up</Link>
-  </p>
-
-export default withRouter(SignUpPage);
-
-export {
-  SignUpForm,
-  SignUpLink,
-}
+export default SignUpForm;

@@ -4,7 +4,7 @@ import { Helmet } from 'react-helmet';
 import moment from 'moment';
 import { compose } from 'recompose';
 
-import { SignUpLink } from './SignUp';
+import SignUpLink from './SignUp/SignUpLink';
 import { PasswordForgetLink } from './PasswordForget';
 import { auth, db, withFirebase } from '../../firebase';
 import * as routes from '../../constants/routes';

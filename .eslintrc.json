@@ -19,5 +19,13 @@
     "plugins": [
         "react",
         "jest"
-    ]
+    ],
+    "settings": {
+        "react": {
+            "version": "16.8.6"
+        }
+    },
+    "rules": {
+        "no-confusing-arrow": "off"
+    }
 }
