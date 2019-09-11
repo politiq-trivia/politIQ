@@ -7,7 +7,7 @@ import { Paper } from '@material-ui/core';
 
 import FacebookAuth from '../FacebookAuth';
 import SignUpForm from './SignUpForm';
-import { SignInLink } from '../SignIn';
+import SignInLink from '../SignIn/SignInLink';
 
 
 class SignUpPage extends Component {

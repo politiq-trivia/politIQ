@@ -13,7 +13,7 @@ import { storeQuizzes } from '../utils/storeQuizzes';
 import Navigation from './Navigation/Navigation';
 import LandingPage from './StaticPages/Landing';
 import SignUpPage from './Auth/SignUp/SignUpPage';
-import SignInPage from './Auth/SignIn';
+import SignInPage from './Auth/SignIn/SignInPage';
 import PasswordForgetPage from './Auth/PasswordForget';
 import HomePage from './StaticPages/HomePage';
 import ProfilePage from './Profile/Profile';
