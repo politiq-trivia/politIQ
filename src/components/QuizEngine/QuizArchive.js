@@ -36,13 +36,15 @@ class QuizArchiveBase extends Component {
       scoreObject: {},
       rowsPerPage: 10,
       page: 0,
-      loading: true,
+      loading: false,
       selectedMonth: '',
+      displayMonth: '',
       modalOpen: false,
     };
   }
 
   componentDidMount = () => {
+    console.log('componentDidMount')
     this.createMonthOptionsArray();
     // check for logged in user so that it can check if the user already ahas a score for that quiz
     if (this.props.authUser) {
@@ -51,22 +53,49 @@ class QuizArchiveBase extends Component {
       this.setState({
         signedInUser: uid,
       });
+      this.getTheLoggedInUsersScores();
     }
+    const month = moment().startOf('month').format('YYYY-MM-DDTHH:mm');
+    
     this.setState({
-      selectedMonth: moment().startOf('month').format('YYYY-MM-DDTHH:mm'),
+      selectedMonth: month,
+      displayMonth: month,
     });
-    this.getQuizzesFromDb();
-    this.checkLoaded()
+
+    if (this.props.quizzes.length === 0) {
+      this.setState({
+        loading: true,
+      })
+    }
+
+    if (this.props.authUser && this.props.quizzes.length > 0) {
+      this.setState({
+        loading: false,
+      })
+      this.getQuizzesFromDb();
+      this.checkLoaded();
+    }
   }
 
   componentDidUpdate(prevProps) {
+    console.log('componentDidUpdate')
     if (prevProps !== this.props) {
       if (this.props.authUser) {
         this.setState({
           signedInUser: this.props.authUser.uid,
         });
         this.getQuizzesFromDb();
+        this.getTheLoggedInUsersScores();
       }
+
+    }
+
+    if (this.props.authUser && this.props.quizzes.length > 0) {
+      console.log('IF CALLE')
+      this.setState({
+        loading: false,
+        noQuizzes: false,
+      })
     }
   }
 
@@ -97,6 +126,7 @@ class QuizArchiveBase extends Component {
   // user should be able to select a month for a dropdown and then retrieve the quizzes for that
   // month. the default on page load will be the current month
   getQuizzesFromDb = async () => {
+    console.log('get quizzes from db called')
     // instead of making a db call here, get the quizzes from local storage
     const data = this.props.quizzes; // eslint-disable-line no-undef
 
@@ -125,10 +155,11 @@ class QuizArchiveBase extends Component {
       titleArray: titleArray.reverse(),
       loading: false,
       page: 0,
+      displayMonth: this.state.selectedMonth,
     });
-    if (this.state.signedInUser) {
-      this.getTheLoggedInUsersScores();
-    }
+    // if (this.state.signedInUser) {
+    //   this.getTheLoggedInUsersScores();
+    // }
 
     window.scrollTo(0, 0); // eslint-disable-line no-undef
   }
@@ -146,8 +177,11 @@ class QuizArchiveBase extends Component {
       return;
     }
 
+    console.log(scores, 'this is scores')
+
     this.setState({
       scoreObject: scores,
+      loading: false,
     });
   }
 
@@ -159,6 +193,7 @@ class QuizArchiveBase extends Component {
 
   toggleLoaded = () => {
     if (this.props.quizzes.length === 0) {
+      console.log('toggleloaded called')
       this.setState({
         loading: false, 
         noQuizzes: true,
@@ -221,6 +256,8 @@ class QuizArchiveBase extends Component {
   }
 
   render() {
+    console.log(this.state.loading, 'loading')
+    console.log(this.state,'state')
     const {
       dateArray,
       titleArray,
@@ -359,8 +396,6 @@ class QuizArchiveBase extends Component {
       }
     }
 
-    console.log(this.props, 'props in quiz archive')
-
     return (
       <Paper className="home archive-holder">
         <Helmet>
@@ -372,7 +407,7 @@ class QuizArchiveBase extends Component {
         </div>
         <div className="mobile-archive-header">
           <Link to={routes.HOME} style={{ textDecoration: 'none'}} className="mobile-back"><Button color="primary">Back</Button></Link>
-          <h1 style={{ display: 'inline'}}>{moment(this.state.selectedMonth).format('MMMM')} Quizzes</h1>
+          <h1 style={{ display: 'inline'}}>{moment(this.state.displayMonth).format('MMMM')} Quizzes</h1>
           {moment().format('MMMM') !== moment(this.state.selectedMonth).format('MMMM')
             ? <p id="archive-disclaimer">You may take past quizzes to boost your politIQ, but they will not affect your rankings for this month.</p>
             : null
