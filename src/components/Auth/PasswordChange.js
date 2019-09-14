@@ -29,7 +29,7 @@ class PasswordChangeForm extends Component {
       .then(() => {
         this.setState({ ...INITIAL_STATE });
       })
-      .catch(error => {
+      .catch((error) => {
         this.setState(byPropKey('error', error));
       });
 
@@ -44,16 +44,15 @@ class PasswordChangeForm extends Component {
       error,
     } = this.state;
 
-    const isInvalid =
-      passwordOne !== passwordTwo ||
-      passwordOne === '';
+    const isInvalid = passwordOne !== passwordTwo
+      || passwordOne === '';
 
     return (
       <form onSubmit={this.onSubmit} className="password-change-form">
         <TextField
           fullWidth
           value={passwordOne}
-          onChange={event => this.setState(byPropKey('passwordOne', event.target.value ))}
+          onChange={(event) => this.setState(byPropKey('passwordOne', event.target.value))}
           type="password"
           placeholder="New Password"
           margin="normal"
@@ -61,18 +60,18 @@ class PasswordChangeForm extends Component {
         <TextField
           fullWidth
           value={passwordTwo}
-          onChange={event => this.setState(byPropKey('passwordTwo', event.target.value))}
+          onChange={(event) => this.setState(byPropKey('passwordTwo', event.target.value))}
           type="password"
           placeholder="Confirm New Password"
           margin="normal"
         />
-        <Button color="primary" variant="contained" disabled={isInvalid} type="submit" style={{ marginTop: "3vh"}}>
+        <Button color="primary" variant="contained" disabled={isInvalid} type="submit" style={{ marginTop: '3vh' }}>
           Reset My Password
         </Button>
 
         { error && <p>{error.message}</p> }
       </form>
-    )
+    );
   }
 }
 
