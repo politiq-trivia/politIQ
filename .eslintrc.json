@@ -20,7 +20,12 @@
         "react",
         "jest"
     ],
+    "settings": {
+        "react": {
+            "version": "16.8.6"
+        }
+    },
     "rules": {
-        "padded-blocks": "off"
+        "no-confusing-arrow": "off"
     }
 }

@@ -2,18 +2,17 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import Helmet from 'react-helmet';
 
-import { auth, withFirebase } from '../../firebase';
-import * as routes from '../../constants/routes';
-
 import Paper from '@material-ui/core/Paper';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 
-const PasswordForgetPage = () =>
-  <div>
-    <h1>Password Forget</h1>
-    <PasswordForgetForm />
-  </div>
+import { auth, withFirebase } from '../../firebase';
+import * as routes from '../../constants/routes';
+
+const PasswordForgetPage = () => <div>
+  <h1>Password Forget</h1>
+  <PasswordForgetForm />
+</div>;
 
 const byPropKey = (propertyName, value) => () => ({
   [propertyName]: value,
@@ -38,7 +37,7 @@ class PasswordForgetFormBase extends Component {
       .then(() => {
         this.setState({ ...INITIAL_STATE });
       })
-      .catch(error => {
+      .catch((error) => {
         this.setState(byPropKey('error', error));
       });
     event.preventDefault();
@@ -53,7 +52,15 @@ class PasswordForgetFormBase extends Component {
     const isInvalid = email === '';
 
     return (
-      <Paper style={{ padding: '5vh', marginBottom: '40vh', marginTop: '10vh', width: '80vw', marginLeft: 'auto', marginRight: 'auto', textAlign: 'center' }}>
+      <Paper style={{
+        padding: '5vh',
+        marginBottom: '40vh',
+        marginTop: '10vh',
+        width: '80vw',
+        marginLeft: 'auto',
+        marginRight: 'auto',
+        textAlign: 'center',
+      }}>
         <Helmet>
           <title>Reset Password | politIQ trivia</title>
         </Helmet>
@@ -61,10 +68,10 @@ class PasswordForgetFormBase extends Component {
         <form onSubmit={this.onSubmit}>
           <TextField
             value={this.state.email}
-            onChange={event => this.setState(byPropKey('email', event.target.value ))}
+            onChange={(event) => this.setState(byPropKey('email', event.target.value))}
             type="text"
             placeholder="Email Address"
-            style={{ width: '30vw'}}
+            style={{ width: '30vw' }}
             color="primary"
           />
           <Button disabled={isInvalid} type="submit" color="primary">
@@ -74,14 +81,13 @@ class PasswordForgetFormBase extends Component {
           { error && <p>{error.message}</p> }
         </form>
       </Paper>
-    )
+    );
   }
 }
 
-const PasswordForgetLink = () =>
-  <p>
-    <Link to={routes.PASSWORD_FORGET}>Forgot Password?</Link>
-  </p>
+const PasswordForgetLink = () => <p>
+  <Link to={routes.PASSWORD_FORGET}>Forgot Password?</Link>
+</p>;
 
 export default PasswordForgetPage;
 
@@ -90,4 +96,4 @@ const PasswordForgetForm = withFirebase(PasswordForgetFormBase);
 export {
   PasswordForgetForm,
   PasswordForgetLink,
-}
+};

@@ -1,18 +1,16 @@
 import React, { Component } from 'react';
-import { app, provider, db } from '../../firebase';
+import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
 import moment from 'moment';
 import { compose } from 'recompose';
-
-import { HOME } from '../../constants/routes';
-
 import { FacebookIcon } from 'react-share';
 import Button from '@material-ui/core/Button';
 
+import { app, provider, db } from '../../firebase';
+import { HOME } from '../../constants/routes';
 import { trackEvent } from '../../utils/googleAnalytics';
 
-const ERROR_CODE_ACCOUNT_EXISTS =
-  'auth/account-exists-with-different-credential';
+const ERROR_CODE_ACCOUNT_EXISTS = 'auth/account-exists-with-different-credential';
 
 const ERROR_MSG_ACCOUNT_EXISTS = `
   An account with an E-Mail address to
@@ -22,108 +20,117 @@ const ERROR_MSG_ACCOUNT_EXISTS = `
 
 class FacebookAuth extends Component {
   constructor(props) {
-    super(props)
+    super(props);
     this.state = {
       redirect: false,
-    }
+    };
   }
-  
+
   componentWillUnmount = () => {
     // this.listener();
   }
 
   promptUserForPassword = () => {
-    const userPassword = prompt("You've already registered an account using a different sign-in method. Please enter your password to continue.")
+    const userPassword = prompt("You've already registered an account using a different sign-in method. Please enter your password to continue."); // eslint-disable-line
     return userPassword;
   }
 
   redirect = () => {
-    this.props.history.push(HOME)
+    this.props.history.push(HOME);
   }
 
   doSignInWithFacebook = () => {
     app.auth().signInWithPopup(provider)
-    .then((result, error) => {
-      if (error && error.code === "auth/account-exists-with-different-credential") {
-        console.log('accoutn already exists')
-      } else {
+      .then((result, error) => {
+        if (error && error.code === 'auth/account-exists-with-different-credential') {
+          console.log('accoutn already exists'); // eslint-disable-line no-console
+        } else {
         // The signed-in user info.
-        var user = result.user;
-        const uid = user.uid;
-        db.getOneUser(uid)
-          .then(response => {
-            const data = response.val()
-            // if we're creating a new account, the response will be null
-            if (data === null) {
-              db.doCreateUser(uid, user.displayName, result.additionalUserInfo.profile.email, "", false, "", [])
-                .then(() => {
-                  const date = moment().format('YYYY-MM-DD')
-                  db.lastActive(uid, date)
-                  this.props.getSignedInUser(uid)
-                  localStorage.setItem('fbAuth', 'true')
-                  window.location.replace('/profile');
-                })
+          const { user } = result;
+          const { uid } = user;
+          db.getOneUser(uid)
+            .then((response) => {
+              const data = response.val();
+              // if we're creating a new account, the response will be null
+              if (data === null) {
+                db.doCreateUser(uid, user.displayName, result.additionalUserInfo.profile.email, '', false, '', [])
+                  .then(() => {
+                    const date = moment().format('YYYY-MM-DD');
+                    db.lastActive(uid, date);
+                    this.props.getSignedInUser(uid);
+                    localStorage.setItem('fbAuth', 'true'); // eslint-disable-line no-undef
+                    window.location.replace('/profile'); // eslint-disable-line no-undef
+                  });
                 // this.listener();
-                if (localStorage.authUser) {
-                  const authUser = JSON.parse(localStorage.authUser)
+                if (localStorage.authUser) { // eslint-disable-line no-undef
+                  const authUser = JSON.parse(localStorage.authUser);// eslint-disable-line no-undef
                   this.setState({
                     signedInUser: authUser.uid,
-                    isAdmin: true
-                  })
+                    isAdmin: true,
+                  });
                 }
-                trackEvent('Account', 'Sign up with Facebook', 'SIGN_UP')
-            } else { // if the user already has an account
-              const date = moment().format('YYYY-MM-DD')
-              db.lastActive(uid, date)
-              this.props.getSignedInUser(uid)
-              this.props.history.push(HOME)
+                trackEvent('Account', 'Sign up with Facebook', 'SIGN_UP');
+              } else { // if the user already has an account
+                const date = moment().format('YYYY-MM-DD');
+                db.lastActive(uid, date);
+                this.props.getSignedInUser(uid);
+                this.props.history.push(HOME);
 
-              if(this.props.scoreObject && this.props.scoreObject === {}) {
-                db.setScore(uid, this.props.scoreObject.date, this.props.scoreObject.score)
-                  .catch(error => console.log(error))
+                if (this.props.scoreObject && this.props.scoreObject === {}) {
+                  db.setScore(uid, this.props.scoreObject.date, this.props.scoreObject.score)
+                    .catch((error) => console.log(error)); // eslint-disable-line
+                }
               }
-            }
-          })
-      }
-      this.redirect();
-
-    }).catch(error => {
-      const errorCode = error.code;
-      if (errorCode === ERROR_CODE_ACCOUNT_EXISTS) {
-        error.message = ERROR_MSG_ACCOUNT_EXISTS;
-        console.error(error.message)
-        this.setState({ error })
-      }
-      this.props.fbError()
-    })
+            });
+        }
+        this.redirect();
+      }).catch((error) => {
+        const errorCode = error.code;
+        if (errorCode === ERROR_CODE_ACCOUNT_EXISTS) {
+          error.message = ERROR_MSG_ACCOUNT_EXISTS; // eslint-disable-line no-param-reassign
+          console.error(error.message); // eslint-disable-line no-console
+          this.setState({ error });
+        }
+        this.props.fbError();
+      });
   }
 
   setError = (error) => {
-    this.setState({ error })
+    this.setState({ error });
   }
 
-  onSubmit = event => {
+  onSubmit = (event) => {
     this.doSignInWithFacebook()
-    .then(socialAuthUser => {
-      this.setState({ error: null });
-      this.props.history.push(HOME);
-    })
-    .catch(error => {
-      this.setState({ error });
-    });
-    event.preventDefault()
+      .then(() => {
+        this.setState({ error: null });
+        this.props.history.push(HOME);
+      })
+      .catch((error) => {
+        this.setState({ error });
+      });
+    event.preventDefault();
   }
 
   render() {
-    const { error } = this.state; 
+    const { error } = this.state;
     return (
-      <div style={{ marginTop: '10px'}}>
-        <Button onClick={() => this.doSignInWithFacebook()}><FacebookIcon round={true} size={32}/> <span style={{ marginLeft: '5px'}}>Continue With Facebook</span></Button>
+      <div style={{ marginTop: '10px' }}>
+        <Button onClick={() => this.doSignInWithFacebook()}>
+          <FacebookIcon round={true} size={32}/>
+          <span style={{ marginLeft: '5px' }}>Continue With Facebook</span>
+        </Button>
         {error && <p>{error.message}</p>}
       </div>
-    )
+    );
   }
 }
+
+FacebookAuth.propTypes = {
+  history: PropTypes.object.isRequired,
+  getSignedInUser: PropTypes.func.isRequired,
+  scoreObject: PropTypes.object,
+  fbError: PropTypes.func,
+};
 
 export default compose(
   withRouter,
