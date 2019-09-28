@@ -60,6 +60,10 @@
   height: 14vh;
   width: 100%;
   justify-content: space-between;
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: 1vh;
 }
 
 #demScore {
@@ -142,7 +146,7 @@
   -webkit-box-shadow: 0px 4px 10px 0px rgba(0,0,0,0.75);
   -moz-box-shadow: 0px 4px 10px 0px rgba(0,0,0,0.75);
   box-shadow: 0px 4px 10px 0px rgba(0,0,0,0.75);
-  height: 42.5vh;
+  height: 57.5vh;
   width: 75%;
   border-radius: 15px;
   margin-top: 5vh !important;
@@ -166,7 +170,8 @@
 }
 
 .userScore {
-  width: 22%;
+  width: 30%;
+  max-width: 175px;
   background-color: #8E6DA7;
   color: white;
   box-sizing: border-box;
@@ -202,9 +207,20 @@
   font-size: 13px;
 }
 
-/* .reg-score {
-  margin-top: 1.6vh;
-} */
+.second-row:nth-of-type(1) {
+  margin-right: 1vw;
+}
+
+.second-row:nth-of-type(2) {
+  margin-left: 1vw;
+}
+
+@media screen and (max-width: 415px) {
+  .second-row {
+    margin-top: 2vh;
+    /* margin: 0 2vw 2vh 2vw; */
+  }
+}
 
 .last-mobile {
   margin-top: 1.6vh;
@@ -253,7 +269,7 @@
 @media screen and (max-width: 415px) {
   .small-scoreboardHolder {
     width: 90%;
-    height: 60vh;
+    height: 72vh;
   }
   .small-scoreboard {
     width: 100%;
