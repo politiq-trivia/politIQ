@@ -182,7 +182,8 @@
   padding-left: 5vh;
   padding-bottom: 2vh;
   padding-top: 3vh;
-  width: 93vw;
+  padding-right: 5vh;
+  width: 88vw;
   overflow: scroll;
   text-align: center;
   margin-left: auto;
@@ -193,6 +194,33 @@
   .party-leaders {
     margin-top: 10vh;
   }
+}
+
+.admin--scoreCounter {
+  display: flex;
+  justify-content: space-between;
+  width: 60%;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+@media screen and (max-width: 600px) {
+  .admin--scoreCounter {
+    flex-wrap: wrap;
+    width: 90%;
+  }
+
+  .admin--scoreCounter div {
+    width: 125px;
+    text-align: left;
+  }
+}
+
+.admin--scoreCounter-box {
+  border: 1px solid black;
+  padding-bottom: 20px;
+  border-radius: 10px;
+  background-color: #ECD6FD;
 }
 
 /* ------------------ quiz list styles --------------- */

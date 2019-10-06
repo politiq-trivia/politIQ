@@ -83,6 +83,8 @@ class PartyScores extends Component {
         const rankReverse = rankedScores.reverse().slice(0,3)
         // get the information for those top 3 people.
         this.getUserInfo(rankReverse)
+
+        this.props.setCount(demScores.length);
       })
   }
 
