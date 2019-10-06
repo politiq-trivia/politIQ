@@ -13,6 +13,7 @@ import { db } from '../../firebase';
 import PolitIQBar from './PolitIQBar';
 import BarChart from './ScoreChart/BarChart.1';
 import LastLeaders from './LastLeaders';
+import LeaderboardMarquee from './LeaderboardMarqee';
 import { QUIZ_ARCHIVE } from '../../constants/routes';
 import AuthUserContext from '../Auth/AuthUserContext';
 import './leaderboard2.css';
@@ -307,6 +308,7 @@ class LeaderboardWithContext extends Component {
                 : <p>Monthly leader of each party eligible to compete for $50!</p>
               }
             </div>
+            <LeaderboardMarquee />
             <div className="leaderboard-holder">
                 <div className="leaderboard-left">
                   {this.state.uid !== "" ? 
