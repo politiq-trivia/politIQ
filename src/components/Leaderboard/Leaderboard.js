@@ -268,7 +268,7 @@ class LeaderboardWithContext extends Component {
         let n = this.state.n;
 
         const renderMonthlyLeaders = rankingArray.map((stat, i) => {
-            if (i < n || i >= n + 5) { return null; }
+            if (i < n || i >= n + 10) { return null; }
             return (
                 <div className="leaderboard-object" key={i} onClick={() => this.handleClickUser(stat[2]) }>
                   <p className="leaderboard-num">{i + 1}</p>
@@ -437,15 +437,7 @@ class LeaderboardWithContext extends Component {
                           <Link to={QUIZ_ARCHIVE} style={{ textDecoration: 'none' }}><Button variant="contained" color="primary" style={{ marginTop: '3vh', marginBottom: '3vh' }}>View Past Quizzes</Button></Link>
                         </div>
                       : <>
-
                           {renderMonthlyLeaders}
-                          {this.state.isLoaded
-                            ? <div className="pagination">
-                                <p className={this.state.n - 5 < 0 ? "p-item p-disabled" : "p-item"} onClick={this.state.n - 5 < 0 ? null : this.pageDown}> &lt;&lt; Prev</p>
-                                <p className={this.state.n + 5 >= this.state.nMax ? "p-item p-disabled" : "p-item"} onClick={this.state.n + 5 >= this.state.nMax ? null : this.pageUp}>Next >></p>
-                              </div>
-                            : null
-                          }
                         </>
                     }
 
