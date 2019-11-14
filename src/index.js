@@ -5,9 +5,9 @@ import App from './components/App';
 import * as serviceWorker from './serviceWorker';
 import { Router } from 'react-router-dom';
 import ReactGA from 'react-ga';
-import createHistory from 'history/createBrowserHistory';
+import { createBrowserHistory } from 'history';
 
-const history = createHistory()
+const history = createBrowserHistory()
 ReactGA.initialize('UA-141105324-1');
 history.listen((location, action) => {
   ReactGA.pageview(location.pathname);
