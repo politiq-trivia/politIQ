@@ -44,17 +44,45 @@ class QuizBase extends Component {
       stopRendering: false,
       uid: "",
       clicked: false,
-      volumeUp: true
+      volumeUp: true,
+      userHasScoreSubmitted: false
     };
     this.myRef = React.createRef();
   }
-
   error = new Audio(errorUrl);
   correct = new Audio(correctUrl);
 
+  // This method will redirect the user instead of refreshing, thus triggering Prompt warning
+  handleWindowBeforeUnload = e => {
+    e.preventDefault();
+  };
+
+  checkForScores = date => {
+    // need to check for user score, regardless of prevprops
+    // If quiz score exists they cannot retake the quiz
+    console.log("checking scores");
+
+    if (this.props.authUser && date) {
+      db.checkQuizScore(this.props.authUser.uid, date).then(res => {
+        if (typeof res.val() === "number") {
+          // if a score is submitted already
+          // User cannot be displayed quiz any longer
+          this.setState({ userHasScoreSubmitted: true });
+        }
+      });
+    }
+  };
+
   componentDidMount = () => {
+    console.log("did mount");
+
+    // add listener to give the user a prompt before unloading (refreshing)
+    window.addEventListener("beforeunload", this.handleWindowBeforeUnload);
+    window.addEventListener("popstate", this.handleWindowBeforeUnload);
+    this.setState({ refreshTriggered: true });
     const url = window.location.href;
     const date = url.split("/")[4];
+    this.checkForScores(date);
 
     let uid = "";
     this.getUser();
@@ -76,13 +104,18 @@ class QuizBase extends Component {
         contestQuestion: false,
         uid
       });
+
       this.getQuiz(date);
     }
 
     trackEvent("Quizzes", "Quiz loaded", "QUIZ_LOADED");
   };
 
-  componentDidUpdate = prevProps => {
+  componentDidUpdate = (prevProps, prevState) => {
+    console.log("updated");
+    console.log(this.props);
+    console.log(this.state);
+
     if (prevProps !== this.props) {
       if (this.props.authUser) {
         this.getUser();
@@ -90,12 +123,16 @@ class QuizBase extends Component {
           uid: this.props.authUser.uid
         });
       }
+      this.checkForScores(this.state.selectedQuizId);
     }
   };
 
   componentWillUnmount = () => {
+    console.log("will unmount");
     window.clearTimeout(this.timer);
     window.clearTimeout(this.sadTrombone);
+    window.removeEventListener("beforeunload", this.handleWindowBeforeUnload);
+    window.removeEventListener("popstate", this.handleWindowBeforeUnload);
     // maybe should also store the score so the user can't take the quiz again ?
     if (this.state.finished === false) {
       trackEvent("Quizzes", "Quiz forfeited", "QUIZ_FORFEIT");
@@ -406,7 +443,20 @@ class QuizBase extends Component {
       }
     }
 
-    return (
+    return this.state.userHasScoreSubmitted ? (
+      <div className="catch-a-cheater">
+        <div
+          style={{
+            padding: "70px 0",
+            textAlign: "center",
+            marginTop: "20vh",
+            marginBottom: "5vh"
+          }}
+        >
+          You already have a score recorded for this quiz.
+        </div>
+      </div>
+    ) : (
       <AuthUserContext.Consumer>
         {authUser => (
           <Paper className="quiz-body">
