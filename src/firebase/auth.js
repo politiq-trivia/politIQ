@@ -65,12 +65,33 @@ export const doSendEmailVerification = () => {
 };
 
 export const deleteUser = (email, password) => {
-  console.log(email);
+  // first reauthenticate the user
   doSignInWithEmailAndPassword(email, password)
-    .then(() => {
-      auth.currentUser
+    .then(res => {
+      var user = auth.currentUser;
+      const uid = res.user.uid;
+
+      //then
+
+      //delete user in database
+      db.ref("scores")
+        .child(uid)
+        .remove()
+        .then(res => console.log(res))
+        .catch(error => console.log(error));
+      db.ref("users")
+        .child(uid)
+        .remove()
+        .then(res => console.log(res))
+        .catch(error => console.log(error));
+
+      // and delete user in authentification database
+      user
         .delete()
-        .then(console.log("user deleted").catch(err => console.log(err)));
+        .then(res => {
+          console.log(res);
+        })
+        .catch(err => console.error(err));
     })
-    .catch(err => console.log(err));
+    .catch(err => console.error(err));
 };

@@ -66,7 +66,6 @@ class PublicProfileBase extends Component {
   };
 
   componentWillReceiveProps(nextProps) {
-    console.log(nextProps);
     //const uid = nextProps.location.pathname.split("/")[2];   Replaced
     const uid = nextProps.authUser.uid;
     this.setState({
@@ -103,7 +102,6 @@ class PublicProfileBase extends Component {
   };
 
   render() {
-    console.log(this.state.userData);
     // get the username to display correctly in the helmet
     let displayName;
     if (this.state.userData) {
@@ -230,7 +228,7 @@ class PublicProfileBase extends Component {
                   <CommentWidget
                     userName={this.state.userData.displayName}
                     profileID={this.state.uid}
-                    authUserName={this.state.userData.displayName}
+                    authUserName={this.props.authUser.displayName}
                     isAdmin={this.props.isAdmin}
                   />
                 </div>

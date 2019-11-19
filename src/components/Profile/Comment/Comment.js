@@ -40,7 +40,6 @@ class Comment extends Component {
   };
   render() {
     console.log(this.props.data);
-
     const { user, text, date, uid } = this.props.data;
     const shortDate = date.slice(0, 10);
     const userInitial = user[0];

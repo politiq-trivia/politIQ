@@ -63,6 +63,7 @@ class CommentWidget extends Component {
   };
 
   render() {
+    console.log(this.state.commentsObj);
     let comments;
     if (this.state.dateArray !== []) {
       comments = this.state.dateArray.map((date, i) => {
@@ -72,6 +73,7 @@ class CommentWidget extends Component {
               <Comment
                 data={this.state.commentsObj[date]}
                 uid={authUser.uid}
+                authUserName={this.props.authUserName}
                 toggleDeleteModal={this.toggleDeleteModal}
                 isAdmin={this.props.isAdmin}
               />

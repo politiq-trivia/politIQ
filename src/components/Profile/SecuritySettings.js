@@ -36,7 +36,7 @@ const SecuritySettings = props => {
     }));
   };
 
-  console.log(deleteAccountInputs);
+  console.log(props);
   return (
     <>
       <h1 id="settings-heading">Security Settings</h1>
