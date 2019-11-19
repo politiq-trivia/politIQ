@@ -613,6 +613,7 @@ export const addComment = (profileID, commentObj) => {
     .child("comments")
     .child(profileID)
     .child(commentObj.date);
+  console.log(commentObj);
   comment.child("text").set(commentObj.text);
   comment.child("user").set(commentObj.user);
   comment.child("uid").set(commentObj.uid);
