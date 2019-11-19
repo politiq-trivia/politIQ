@@ -8,7 +8,8 @@
 
 # production
 /build
-/.env.production
+.env.production
+.env
 
 # misc
 .DS_Store
@@ -26,4 +27,4 @@ yarn-error.log*
 /src/firebase/firebase.js
 /src/fb_auth.js
 
-/.env.development
+.env.development
