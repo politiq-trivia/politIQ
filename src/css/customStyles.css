@@ -1,0 +1,21 @@
+button.customButton {
+  color: white;
+  background-color: transparent;
+  border: none;
+  font-size: 20px;
+  margin: 5px;
+  padding: 20px;
+  border-radius: 4px;
+}
+button.customButton {
+  -webkit-transition-duration: 0.4s;
+  transition-duration: 0.4s;
+}
+
+button.customButton:hover {
+  background-color: rgba(130, 43, 170, 0.534);
+  color: white;
+  box-shadow: 0 12px 16px 0 rgba(0, 0, 0, 0.24),
+    0 17px 50px 0 rgba(0, 0, 0, 0.19);
+  cursor: pointer;
+}

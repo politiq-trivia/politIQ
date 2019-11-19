@@ -6,7 +6,7 @@ import { compose } from "recompose";
 
 import { withAuthorization } from "../Auth/index";
 import AuthUserContext from "../Auth/AuthUserContext";
-
+import "../../css/customStyles.css";
 import Paper from "@material-ui/core/Paper";
 import Button from "@material-ui/core/Button";
 
@@ -130,17 +130,17 @@ class PublicProfileBase extends Component {
                 <div
                   style={{ display: "flex", justifyContent: "space-between" }}
                 >
-                  <Button
-                    className="back-button"
+                  <button
+                    className="customButton"
                     onClick={this.props.history.goBack}
                   >
                     Back
-                  </Button>
+                  </button>
                   {this.state.match ? (
                     // ? <Link to={PROFILE} style={{ textDecoration: 'none', alignSelf: 'flex-end', width: '16vw', display: 'inline-flex' }}>
-                    <Button className="back-button" onClick={this.editProfile}>
+                    <button className="customButton" onClick={this.editProfile}>
                       Edit My Profile
-                    </Button>
+                    </button>
                   ) : // </Link>
                   null}
                 </div>
