@@ -60,9 +60,10 @@ class QuizBase extends Component {
   checkForScores = date => {
     // need to check for user score, regardless of prevprops
     // If quiz score exists they cannot retake the quiz
-    console.log("checking scores");
+    console.log("checkForScores() runs");
 
     if (this.props.authUser && date) {
+      console.log("database request for score");
       db.checkQuizScore(this.props.authUser.uid, date).then(res => {
         if (typeof res.val() === "number") {
           // if a score is submitted already
@@ -75,16 +76,19 @@ class QuizBase extends Component {
 
   componentDidMount = () => {
     console.log("did mount");
-
     // add listener to give the user a prompt before unloading (refreshing)
     window.addEventListener("beforeunload", this.handleWindowBeforeUnload);
+    // also add a listener to give the prompt before going back a page
     window.addEventListener("popstate", this.handleWindowBeforeUnload);
-    this.setState({ refreshTriggered: true });
+
     const url = window.location.href;
     const date = url.split("/")[4];
+
+    //Check if the user already has a score in the database
     this.checkForScores(date);
 
     let uid = "";
+    console.log("getUser");
     this.getUser();
     if (this.props.authUser) {
       const userInfo = this.props.authUser;
@@ -113,9 +117,6 @@ class QuizBase extends Component {
 
   componentDidUpdate = (prevProps, prevState) => {
     console.log("updated");
-    console.log(this.props);
-    console.log(this.state);
-
     if (prevProps !== this.props) {
       if (this.props.authUser) {
         this.getUser();
@@ -123,7 +124,11 @@ class QuizBase extends Component {
           uid: this.props.authUser.uid
         });
       }
-      this.checkForScores(this.state.selectedQuizId);
+      // We check the user score on component updates as well as mounts, because renavigating to the page does not trigger remount
+      if (prevState.volumeUp === this.state.volumeUp)
+        // avoid volume settings changes sending a checkForScores request
+
+        this.checkForScores(this.state.selectedQuizId);
     }
   };
 
@@ -411,14 +416,14 @@ class QuizBase extends Component {
 
   toggleVolume = () => {
     this.setState({
-      volumeUp: !this.state.volumeUß
+      volumeUp: !this.state.volumeUp
     });
 
-    // set the local storage
+    /* // set the local storage
     const userInfo = this.props.authUser;
     userInfo.soundsOn = !this.state.volumeUp;
     localStorage.setItem("authUser", JSON.stringify(userInfo));
-
+ */
     // also change the database?
     db.soundSettings(this.state.uid, !this.state.volumeUp);
   };
