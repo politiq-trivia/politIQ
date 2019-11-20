@@ -60,8 +60,6 @@ class QuizBase extends Component {
   checkForScores = date => {
     // need to check for user score, regardless of prevprops
     // If quiz score exists they cannot retake the quiz
-    console.log("checkForScores() runs");
-
     if (this.props.authUser && date) {
       console.log("database request for score");
       db.checkQuizScore(this.props.authUser.uid, date).then(res => {
@@ -75,7 +73,6 @@ class QuizBase extends Component {
   };
 
   componentDidMount = () => {
-    console.log("did mount");
     // add listener to give the user a prompt before unloading (refreshing)
     window.addEventListener("beforeunload", this.handleWindowBeforeUnload);
     // also add a listener to give the prompt before going back a page
@@ -88,7 +85,6 @@ class QuizBase extends Component {
     this.checkForScores(date);
 
     let uid = "";
-    console.log("getUser");
     this.getUser();
     if (this.props.authUser) {
       const userInfo = this.props.authUser;
@@ -98,7 +94,6 @@ class QuizBase extends Component {
     // I think this was for checking if the user is contesting the question
     if (localStorage.hasOwnProperty("state")) {
       const newState = JSON.parse(localStorage.state);
-      console.log(newState, "this is newState");
       this.setState(newState);
       this.renderQ(0, newState.uid);
       return;
@@ -116,7 +111,6 @@ class QuizBase extends Component {
   };
 
   componentDidUpdate = (prevProps, prevState) => {
-    console.log("updated");
     if (prevProps !== this.props) {
       if (this.props.authUser) {
         this.getUser();
@@ -133,7 +127,6 @@ class QuizBase extends Component {
   };
 
   componentWillUnmount = () => {
-    console.log("will unmount");
     window.clearTimeout(this.timer);
     window.clearTimeout(this.sadTrombone);
     window.removeEventListener("beforeunload", this.handleWindowBeforeUnload);
@@ -171,30 +164,38 @@ class QuizBase extends Component {
 
   getQuiz = async date => {
     // what if it just reads the localstorage allquizzes object for a quiz of that date?
-    const quizzes = JSON.parse(localStorage.getItem("quizzes"));
+    /* const quizzes = JSON.parse(localStorage.getItem("quizzes"));
+    const quiz = quizzes[date]; */
+    //Must read the quizzes a different way, possibly a database request
+    console.log("db request for quiz");
+    db.getQuiz(date)
+      .then(quizval => {
+        // handle nonexistent quiz
+        const quiz = quizval.val();
+        console.log(quiz);
 
-    const quiz = quizzes[date];
-    // handle nonexistent quiz
-    if (quiz === null || quiz === undefined) {
-      return;
-    }
-    const quizQs = Object.keys(quiz);
-    quizQs.pop();
-    const qArray = [];
-    for (let i = 1; i <= quizQs.length; i++) {
-      qArray.push(quiz[i]);
-    }
-    this.setState({
-      selectedQuiz: quiz,
-      questionsArray: qArray,
-      quizLength: qArray.length,
-      selectedQuizId: date,
-      completed: 0,
-      finished: false,
-      clicked: false,
-      currentQ: 1,
-      score: 0
-    });
+        if (quiz === null || quiz === undefined) {
+          return;
+        }
+        const quizQs = Object.keys(quiz);
+        quizQs.pop();
+        const qArray = [];
+        for (let i = 1; i <= quizQs.length; i++) {
+          qArray.push(quiz[i]);
+        }
+        this.setState({
+          selectedQuiz: quiz,
+          questionsArray: qArray,
+          quizLength: qArray.length,
+          selectedQuizId: date,
+          completed: 0,
+          finished: false,
+          clicked: false,
+          currentQ: 1,
+          score: 0
+        });
+      })
+      .catch(err => console.log(err));
   };
 
   getNextQuiz = date => {
