@@ -1,94 +1,104 @@
-import React, { Component } from 'react';
-import { withRouter } from 'react-router-dom';
-import moment from 'moment';
-import { db } from '../../firebase';
+import React, { Component } from "react";
+import { withRouter } from "react-router-dom";
+import moment from "moment";
+import { db } from "../../firebase";
 
-import Button from '@material-ui/core/Button';
-import './quiz.css';
+import Button from "@material-ui/core/Button";
+import "./quiz.css";
 
 class NextAvailableQuizButton extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            nextQuizDate: '',
-            disabled: false,
-        }
-    }
-    componentDidMount() {
-        this.nextQuiz()
-    }
+  constructor(props) {
+    super(props);
+    this.state = {
+      nextQuizDate: "",
+      disabled: false
+    };
+    this.getNextQuiz = this.getNextQuiz.bind(this);
+  }
 
-    nextQuiz = async () => {
-        // get the quizzes from localstorage
-        const data = JSON.parse(localStorage.getItem('quizzes'));
+  getNextQuiz = async () => {
+    // get quizzes
+    let quizzes;
+    await db.getQuizzes().then(res => {
+      quizzes = res.val();
+    });
 
-        const ogQuizDates = Object.keys(data);
-        const quizDates = ogQuizDates.filter(date => date < moment().format('YYYY-MM-DDTHH:mm') && date > moment().startOf('month').format('YYYY-MM-DDTHH:mm'))
-        const url = window.location.pathname
-        const currentQuizDate = url.slice(6,22)
-        const currentDateIndex = quizDates.indexOf(currentQuizDate)
-        // get the index of the previous quiz
-        const nextQuizIndex = currentDateIndex - 1;
-        const nextQuizDate  = quizDates[nextQuizIndex]
+    // get scores
+    let uidScoreDates;
 
-        // make sure that there is a quiz at that index (not -1)
-        if (!quizDates[nextQuizIndex]) {
-            this.setState({
-                disabled: true,
-            })
-            return;
-        }
+    await db.getScoresByUid(this.props.uid).then(res => {
+      uidScoreDates = Object.keys(res.val());
+      if (!uidScoreDates) uidScoreDates = [];
+    });
+    ///////// get All dates this month where user score does not exist
 
-        // need to make a db call here to get the latest updated score 
-        if (localStorage.hasOwnProperty('authUser')) {
-            const uid = this.props.uid
-            db.getScoresByUid(uid)
-                .then(response => {
-                    const scoreData = response.val();
-                    const hasScoresFor = Object.keys(scoreData);
-                    const filteredDates = quizDates.filter((date) => {
-                        if (hasScoresFor.includes(date)) {
-                            return false;
-                        } else {
-                            return true;
-                        }
-                    })
+    //get this month quiz dates
+    const quizDates = Object.keys(quizzes).filter(
+      date =>
+        date < moment().format("YYYY-MM-DDTHH:mm") &&
+        date >
+          moment()
+            .startOf("month")
+            .format("YYYY-MM-DDTHH:mm")
+    );
 
-                    const nextDateWithoutScore = filteredDates[filteredDates.length - 1]
-                    if (quizDates.indexOf(nextDateWithoutScore) !== -1) {
-                        this.setState({
-                            nextQuizDate: nextDateWithoutScore
-                        })
-                    } else {
-                        this.setState({
-                            disabled: true,
-                        })
-                    }
+    // which quiz dates this month don't have a score already?
+    const availableQuizDates = quizDates.filter(
+      date => !(uidScoreDates.indexOf(date) > -1)
+    );
 
-                })
-        } else {
-            this.setState({
-                nextQuizUrl: nextQuizDate,
-                nextQuizDate,
-            })
-        }                
-    }
-
-    handleClick = () => {
-        this.props.getNextQuiz(this.state.nextQuizDate);
-        this.props.history.push(this.state.nextQuizDate);
-    }
-
-    render() {
-        return (
-            <>  
-                {this.state.disabled 
-                    ? <Button variant="contained" disabled={true}>No More Quizzes Available</Button>
-                    : <Button variant="contained" id={this.state.disabled ? "keep-playing disabled" : "keep-playing"} onClick={this.handleClick} disabled={this.state.disabled}>{this.props.text !== undefined ? this.props.text : "Keep Playing" }</Button>
-                }
-            </>
+    // which is most recent
+    const nextAvailableQuizDate = moment(
+      new Date(
+        Math.max.apply(
+          null,
+          availableQuizDates.map(date => new Date(date))
         )
+      )
+    ).format("YYYY-MM-DDTHH:mm");
+    console.log(typeof nextAvailableQuizDate);
+    console.log(nextAvailableQuizDate.toString());
+    return nextAvailableQuizDate;
+  };
+
+  handleClick = async () => {
+    //get next quiz in this month with no score
+    let quizDateUrl;
+    let quizDate;
+    await this.getNextQuiz(this.props.date).then(res => {
+      quizDate = res;
+      quizDateUrl = "quiz/" + res;
+    });
+    // redirect if all quizzes finished
+    if (quizDate === "Invalid date") {
+      this.props.history.push("/quiz-archive");
     }
+    // redirect if new quiz available
+    console.log("changing page with url " + quizDateUrl);
+
+    this.props.renderNextQuiz(quizDate);
+  };
+
+  render() {
+    return (
+      <>
+        {this.state.disabled ? (
+          <Button variant="contained" disabled={true}>
+            No More Quizzes Available
+          </Button>
+        ) : (
+          <Button
+            variant="contained"
+            id={this.state.disabled ? "keep-playing disabled" : "keep-playing"}
+            onClick={this.handleClick}
+            disabled={this.state.disabled}
+          >
+            {this.props.text !== undefined ? this.props.text : "Keep Playing"}
+          </Button>
+        )}
+      </>
+    );
+  }
 }
 
 export default withRouter(NextAvailableQuizButton);

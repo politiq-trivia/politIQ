@@ -48,6 +48,7 @@ class QuizBase extends Component {
       userHasScoreSubmitted: false
     };
     this.myRef = React.createRef();
+    this.renderNextQuiz = this.renderNextQuiz.bind(this);
   }
   error = new Audio(errorUrl);
   correct = new Audio(correctUrl);
@@ -62,6 +63,7 @@ class QuizBase extends Component {
     // If quiz score exists they cannot retake the quiz
     if (this.props.authUser && date) {
       console.log("database request for score");
+      console.log(date);
       db.checkQuizScore(this.props.authUser.uid, date).then(res => {
         if (typeof res.val() === "number") {
           // if a score is submitted already
@@ -73,6 +75,7 @@ class QuizBase extends Component {
   };
 
   componentDidMount = () => {
+    console.log("component did mount");
     // add listener to give the user a prompt before unloading (refreshing)
     window.addEventListener("beforeunload", this.handleWindowBeforeUnload);
     // also add a listener to give the prompt before going back a page
@@ -111,6 +114,8 @@ class QuizBase extends Component {
   };
 
   componentDidUpdate = (prevProps, prevState) => {
+    console.log("component did update");
+
     if (prevProps !== this.props) {
       if (this.props.authUser) {
         this.getUser();
@@ -119,10 +124,11 @@ class QuizBase extends Component {
         });
       }
       // We check the user score on component updates as well as mounts, because renavigating to the page does not trigger remount
-      if (prevState.volumeUp === this.state.volumeUp)
-        // avoid volume settings changes sending a checkForScores request
+      if (prevState.volumeUp === this.state.volumeUp) {
+        // avoid volume settings changes, which cause update, when sending a checkForScores request
 
         this.checkForScores(this.state.selectedQuizId);
+      }
     }
   };
 
@@ -172,7 +178,6 @@ class QuizBase extends Component {
       .then(quizval => {
         // handle nonexistent quiz
         const quiz = quizval.val();
-        console.log(quiz);
 
         if (quiz === null || quiz === undefined) {
           return;
@@ -198,7 +203,7 @@ class QuizBase extends Component {
       .catch(err => console.log(err));
   };
 
-  getNextQuiz = date => {
+  renderNextQuiz = date => {
     this.getQuiz(date);
   };
 
@@ -560,11 +565,12 @@ class QuizBase extends Component {
 
                 {this.state.finished ? (
                   <FinishQuiz
+                    renderNextQuiz={this.renderNextQuiz}
+                    date={this.state.selectedQuizId}
                     uid={authUser ? authUser.uid : ""}
                     score={this.state.score}
                     quizLength={this.state.quizLength}
                     toggleContest={this.toggleContest}
-                    getNextQuiz={this.getNextQuiz}
                   />
                 ) : (
                   <div>
