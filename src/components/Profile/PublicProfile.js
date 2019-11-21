@@ -30,7 +30,6 @@ import loadingGif from "../../loadingGif.gif";
 import UserScoreboard from "../Leaderboard/UserScoreboard";
 import PublicProfilePhoto from "./PublicProfilePhoto";
 import CommentWidget from "./Comment/CommentWidget";
-import CashOutButton from "./CashOutButton";
 
 import "./profile.css";
 
@@ -125,88 +124,89 @@ class PublicProfileBase extends Component {
             </Helmet>
             <div className="public-profile">
               <div className="public-profile-top">
-                <div
-                  style={{ display: "flex", justifyContent: "space-between" }}
-                >
-                  <button
-                    className="customButton"
-                    onClick={this.props.history.goBack}
-                  >
-                    Back
+                <h1>{this.state.userData.displayName}</h1>
+
+                {this.state.match ? (
+                  // ? <Link to={PROFILE} style={{ textDecoration: 'none', alignSelf: 'flex-end', width: '16vw', display: 'inline-flex' }}>
+                  <button className="customButton" onClick={this.editProfile}>
+                    Edit My Profile
                   </button>
-                  {this.state.match ? (
-                    // ? <Link to={PROFILE} style={{ textDecoration: 'none', alignSelf: 'flex-end', width: '16vw', display: 'inline-flex' }}>
-                    <button className="customButton" onClick={this.editProfile}>
-                      Edit My Profile
-                    </button>
-                  ) : // </Link>
-                  null}
-                </div>
-                <PublicProfilePhoto uid={this.state.uid} />
+                ) : // </Link>
+                null}
               </div>
-              <h1>{this.state.userData.displayName}</h1>
+
+              <PublicProfilePhoto uid={this.state.uid} />
 
               <div className="socials">
-                <FacebookShareButton
-                  url={getHref()}
-                  // className="shareable"
-                  quote={
-                    this.state.match
-                      ? `Check out my profile on politIQ! Click here to see how you rank up!`
-                      : `Check out ${displayName}'s profile on politIQ! Click here to see how you rank up!`
-                  }
-                >
-                  <FacebookIcon round={true} size={32} />
-                </FacebookShareButton>
-                <LinkedinShareButton
-                  url={getHref()}
-                  // className=""
-                  description={
-                    this.state.match
-                      ? `Check out my profile on politIQ! Click here to see how you rank up!`
-                      : `Check out ${displayName}'s profile on politIQ! Click here to see how you rank up!`
-                  }
-                >
-                  <LinkedinIcon round={true} size={32} />
-                </LinkedinShareButton>
-                <TwitterShareButton
-                  url={getHref()}
-                  title={
-                    this.state.match
-                      ? `Check out my profile on politIQ! Click here to see how you rank up!`
-                      : `Check out ${displayName}'s profile on politIQ! Click here to see how you rank up!`
-                  }
-                >
-                  <TwitterIcon round={true} size={32} />
-                </TwitterShareButton>
-                <WhatsappShareButton
-                  url={getHref()}
-                  title={
-                    this.state.match
-                      ? `Check out my profile on politIQ! Click here to see how you rank up!`
-                      : `Check out ${displayName}'s profile on politIQ! Click here to see how you rank up!`
-                  }
-                >
-                  <WhatsappIcon round={true} size={32} />
-                </WhatsappShareButton>
-                <EmailShareButton
-                  url={getHref()}
-                  subject={
-                    this.state.match
-                      ? `Check out my proflie on politIQ!`
-                      : `Check out ${displayName}'s profile on politIQ!`
-                  }
-                  body={
-                    this.state.match
-                      ? `Click here to see how you rank up!`
-                      : `Click here to see how you rank up!`
-                  }
-                >
-                  <EmailIcon round={true} size={32} />
-                </EmailShareButton>
+                <div className="social">
+                  <FacebookShareButton
+                    url={getHref()}
+                    // className="shareable"
+                    quote={
+                      this.state.match
+                        ? `Check out my profile on politIQ! Click here to see how you rank up!`
+                        : `Check out ${displayName}'s profile on politIQ! Click here to see how you rank up!`
+                    }
+                  >
+                    <FacebookIcon round={true} size={32} />
+                  </FacebookShareButton>
+                </div>{" "}
+                <div className="social">
+                  <LinkedinShareButton
+                    url={getHref()}
+                    // className=""
+                    description={
+                      this.state.match
+                        ? `Check out my profile on politIQ! Click here to see how you rank up!`
+                        : `Check out ${displayName}'s profile on politIQ! Click here to see how you rank up!`
+                    }
+                  >
+                    <LinkedinIcon round={true} size={32} />
+                  </LinkedinShareButton>
+                </div>
+                <div className="social">
+                  <TwitterShareButton
+                    url={getHref()}
+                    title={
+                      this.state.match
+                        ? `Check out my profile on politIQ! Click here to see how you rank up!`
+                        : `Check out ${displayName}'s profile on politIQ! Click here to see how you rank up!`
+                    }
+                  >
+                    <TwitterIcon round={true} size={32} />
+                  </TwitterShareButton>
+                </div>
+                <div className="social">
+                  <WhatsappShareButton
+                    url={getHref()}
+                    title={
+                      this.state.match
+                        ? `Check out my profile on politIQ! Click here to see how you rank up!`
+                        : `Check out ${displayName}'s profile on politIQ! Click here to see how you rank up!`
+                    }
+                  >
+                    <WhatsappIcon round={true} size={32} />
+                  </WhatsappShareButton>
+                </div>
+                <div className="social">
+                  <EmailShareButton
+                    url={getHref()}
+                    subject={
+                      this.state.match
+                        ? `Check out my proflie on politIQ!`
+                        : `Check out ${displayName}'s profile on politIQ!`
+                    }
+                    body={
+                      this.state.match
+                        ? `Click here to see how you rank up!`
+                        : `Click here to see how you rank up!`
+                    }
+                  >
+                    <EmailIcon round={true} size={32} />
+                  </EmailShareButton>
+                </div>
               </div>
 
-              <h3>About {displayName2}</h3>
               <p>{this.state.userData.bio}</p>
               <UserScoreboard
                 uid={this.state.uid}
@@ -214,14 +214,14 @@ class PublicProfileBase extends Component {
                 name={displayName2}
                 moneyWon={this.state.userData.moneyWon}
               />
-              <CashOutButton
-                uid={this.state.uid}
-                userInfo={this.state.userData}
-              />
 
               {this.state.showingComments ? (
                 <div>
-                  <Button color="primary" onClick={this.toggleComments}>
+                  <Button
+                    color="primary"
+                    variant="contained"
+                    onClick={this.toggleComments}
+                  >
                     Hide Comments
                   </Button>
                   <h3 className="comment-heading">Comments: </h3>
@@ -233,7 +233,11 @@ class PublicProfileBase extends Component {
                   />
                 </div>
               ) : (
-                <Button color="primary" onClick={this.toggleComments}>
+                <Button
+                  color="primary"
+                  variant="contained"
+                  onClick={this.toggleComments}
+                >
                   Show Comments
                 </Button>
               )}
@@ -260,7 +264,7 @@ const PublicProfile = ({ history }) => (
   </AuthUserContext.Consumer>
 );
 
-const condition = authUser => !!authUser;
+const condition = authUser => !!authUser; //??????
 
 export default compose(
   // withEmailVerification,

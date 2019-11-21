@@ -1,5 +1,5 @@
 /* profile page styles */
-.profile-header{
+.profile-header {
   display: flex;
   padding: 5vh;
   padding-top: 3vh;
@@ -21,21 +21,22 @@
   flex-direction: column;
 }
 .public-profile-top {
-  background-color: #C790F1;
-  height: 25vh;
+  background-color: #c790f1;
+  height: 10vh;
   width: 100%;
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
+  justify-content: space-between;
 }
 .profile h1 {
   text-align: center;
   /* margin-left: 15vw; */
   margin-top: 16vh;
 }
-.public-profile h1, {
-  text-align: center;
-  margin-top: 10vh;
-  margin-left: 0;
+.public-profile h1 {
+  color: white;
+  font-weight: bold;
+  margin: 2vh;
 }
 #profile-heading {
   margin-left: 15vw;
@@ -71,7 +72,8 @@
     margin-top: 8vh;
   }
 }
-.public-profile p, .public-profile h3 {
+.public-profile p,
+.public-profile h3 {
   width: 80%;
   margin-left: auto;
   margin-right: auto;
@@ -79,7 +81,8 @@
 }
 
 @media screen and (max-width: 415px) {
-  .public-profile h3, .public-profile p {
+  .public-profile h3,
+  .public-profile p {
     width: 90%;
   }
 }
@@ -103,7 +106,8 @@
   min-width: 270px;
 } */
 
-.public-photo, .profile-photo {
+.public-photo,
+.profile-photo {
   border-radius: 50%;
   max-width: 20vw;
   max-height: 28vh;
@@ -111,12 +115,13 @@
   margin-right: auto;
   margin-top: 4vh;
   border: 5px solid white;
-  -webkit-box-shadow: 5px 5px 20px 0px rgba(0,0,0,0.56);
-  -moz-box-shadow: 5px 5px 20px 0px rgba(0,0,0,0.56);
-  box-shadow: 5px 5px 20px 0px rgba(0,0,0,0.56);
+  -webkit-box-shadow: 5px 5px 20px 0px rgba(0, 0, 0, 0.56);
+  -moz-box-shadow: 5px 5px 20px 0px rgba(0, 0, 0, 0.56);
+  box-shadow: 5px 5px 20px 0px rgba(0, 0, 0, 0.56);
 }
 @media screen and (max-width: 415px) {
-  .public-photo, .profile-photo {
+  .public-photo,
+  .profile-photo {
     max-height: 25vh;
     max-width: 30vw;
     margin-left: auto;
@@ -301,22 +306,14 @@
 /* ------ sharing button styles --------------- */
 
 .socials {
-  width: 80%;
   margin-left: auto;
   margin-right: auto;
   display: flex;
+  justify-content: center;
+  flex-direction: row;
 }
-@media screen and (max-width: 415px) {
-  .socials {
-    justify-content: center;
-    margin-bottom: 2vh;
-  }
-}
-
-@media screen and (max-width: 320px) {
-  .socials {
-    margin-bottom: 4vh;
-  }
+.social {
+  margin: 5px;
 }
 
 /*  ---------- drawer styles ----------- */
@@ -331,7 +328,7 @@
   transition: width 300ms ease;
 }
 
-.drawer-closed > div{
+.drawer-closed > div {
   overflow-x: hidden;
   width: 56px;
   transition: 300ms ease;
@@ -343,8 +340,6 @@
   width: 85vw;
   margin-left: 66px;
 }
-
-
 
 @media screen and (max-width: 415px) {
   .settings-page {
@@ -431,7 +426,7 @@
   margin-left: auto;
   margin-right: auto;
   text-transform: capitalize;
-  font-family: 'Quicksand', sans-serif;
+  font-family: "Quicksand", sans-serif;
   padding-top: 2vh;
   font-weight: bolder;
   padding-bottom: 2vh;
@@ -442,7 +437,7 @@
   top: 25% !important;
   left: 20% !important;
   width: 40%;
-  background-color: 'white';
+  background-color: "white";
   outline: none;
   padding: 10vh;
   text-align: center;

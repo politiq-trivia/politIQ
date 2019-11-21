@@ -6,7 +6,7 @@ class PublicProfilePhoto extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      avatarUrl: "//style.anu.edu.au/_anu/4/images/placeholders/person_6x8.png",
+      avatarUrl: "",
       uid: "",
       loading: true
     };
@@ -73,21 +73,28 @@ class PublicProfilePhoto extends Component {
   };
 
   render() {
-    return (
-      <div
-        style={{
-          display: "flex",
-          justifyContent: "center",
-          flexDirection: "column"
-        }}
-      >
-        <img
-          src={this.state.avatarUrl}
-          alt="Profile"
-          className="public-photo"
-        />
-      </div>
-    );
+    let photoContent;
+    if (this.state.avatarUrl === "") {
+      photoContent = <div></div>;
+    } else {
+      photoContent = (
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            flexDirection: "column"
+          }}
+        >
+          <img
+            src={this.state.avatarUrl}
+            alt="Profile"
+            className="public-photo"
+          />
+        </div>
+      );
+    }
+
+    return <div> {photoContent}</div>;
   }
 }
 

@@ -1,11 +1,13 @@
 button.customButton {
   color: white;
+  font-weight: bold;
   background-color: transparent;
   border: none;
   font-size: 20px;
   margin: 5px;
   padding: 20px;
   border-radius: 4px;
+  width: 200px;
 }
 button.customButton {
   -webkit-transition-duration: 0.4s;
