@@ -49,6 +49,7 @@ class QuizBase extends Component {
     };
     this.myRef = React.createRef();
     this.renderNextQuiz = this.renderNextQuiz.bind(this);
+    this.toggleContest = this.toggleContest.bind(this);
   }
   error = new Audio(errorUrl);
   correct = new Audio(correctUrl);
@@ -59,13 +60,16 @@ class QuizBase extends Component {
   };
 
   checkForScores = date => {
-    // need to check for user score, regardless of prevprops
+    // guarentee render of quiz if score isn't found
+    this.setState({ userHasScoreSubmitted: false });
+
     // If quiz score exists they cannot retake the quiz
+
     if (this.props.authUser && date) {
       console.log("database request for score");
-      console.log(date);
       db.checkQuizScore(this.props.authUser.uid, date).then(res => {
         if (typeof res.val() === "number") {
+          console.log("changing userHasScoreSubmitted");
           // if a score is submitted already
           // User cannot be displayed quiz any longer
           this.setState({ userHasScoreSubmitted: true });
@@ -83,9 +87,6 @@ class QuizBase extends Component {
 
     const url = window.location.href;
     const date = url.split("/")[4];
-
-    //Check if the user already has a score in the database
-    this.checkForScores(date);
 
     let uid = "";
     this.getUser();
@@ -108,6 +109,9 @@ class QuizBase extends Component {
       });
 
       this.getQuiz(date);
+
+      //Check if the user already has a score in the database after getting quiz
+      this.checkForScores(date);
     }
 
     trackEvent("Quizzes", "Quiz loaded", "QUIZ_LOADED");
@@ -204,6 +208,9 @@ class QuizBase extends Component {
   };
 
   renderNextQuiz = date => {
+    // guarentee render of quiz if score isn't found
+    this.setState({ userHasScoreSubmitted: false });
+
     this.getQuiz(date);
   };
 
@@ -274,20 +281,7 @@ class QuizBase extends Component {
           clicked={this.state.clicked}
           myRef={this.myRef}
           volumeUp={this.state.volumeUp}
-        />
-      );
-    } else if (
-      this.state.finished === true &&
-      this.state.contestQuestion === true
-    ) {
-      return (
-        <ContestAQuestion
-          quiz={this.state.selectedQuiz}
-          quizID={this.state.selectedQuizId}
-          uid={uid}
-          email={this.state.email}
-          back={this.toggleContest}
-          atEndOfQuiz={true}
+          toggleContest={this.toggleContest}
         />
       );
     }
@@ -454,20 +448,7 @@ class QuizBase extends Component {
       }
     }
 
-    return this.state.userHasScoreSubmitted ? (
-      <div className="catch-a-cheater">
-        <div
-          style={{
-            padding: "70px 0",
-            textAlign: "center",
-            marginTop: "20vh",
-            marginBottom: "5vh"
-          }}
-        >
-          You already have a score recorded for this quiz.
-        </div>
-      </div>
-    ) : (
+    return (
       <AuthUserContext.Consumer>
         {authUser => (
           <Paper className="quiz-body">
@@ -563,7 +544,7 @@ class QuizBase extends Component {
                   />
                 ) : null}
 
-                {this.state.finished ? (
+                {this.state.finished || this.state.userHasScoreSubmitted ? (
                   <FinishQuiz
                     renderNextQuiz={this.renderNextQuiz}
                     date={this.state.selectedQuizId}

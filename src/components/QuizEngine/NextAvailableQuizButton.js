@@ -33,14 +33,9 @@ class NextAvailableQuizButton extends Component {
     ///////// get All dates this month where user score does not exist
 
     //get this month quiz dates
-    const quizDates = Object.keys(quizzes).filter(
-      date =>
-        date < moment().format("YYYY-MM-DDTHH:mm") &&
-        date >
-          moment()
-            .startOf("month")
-            .format("YYYY-MM-DDTHH:mm")
-    );
+    const quizDates = Object.keys(quizzes);
+
+    console.log(quizDates);
 
     // which quiz dates this month don't have a score already?
     const availableQuizDates = quizDates.filter(
