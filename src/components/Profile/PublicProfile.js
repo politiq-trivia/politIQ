@@ -108,6 +108,16 @@ class PublicProfileBase extends Component {
       displayName = "User";
     }
 
+    let userBio;
+    this.state.userData.bio === ""
+      ? (userBio = <div></div>)
+      : (userBio = (
+          <center>
+            <div className="bioContainer">
+              <p className="bio">{this.state.userData.bio}</p>
+            </div>
+          </center>
+        ));
     const isLoading = () => {
       if (this.state.userData) {
         let displayName2;
@@ -205,11 +215,7 @@ class PublicProfileBase extends Component {
                   </EmailShareButton>
                 </div>
               </div>
-              <center>
-                <div className="bioContainer">
-                  <p className="bio">{this.state.userData.bio}</p>
-                </div>
-              </center>
+              {userBio}
 
               <UserScoreboard
                 uid={this.state.uid}

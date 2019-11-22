@@ -136,11 +136,7 @@ class ProfilePhoto extends Component {
           </div>
         ) : (
           <div className="upload-holder">
-            <Button
-              color="primary"
-              variant="contained"
-              className="upload-button"
-            >
+            <button variant="contained" className="customButton">
               <FileUploader
                 accept="image/*"
                 name="avatar"
@@ -151,7 +147,7 @@ class ProfilePhoto extends Component {
                 onUploadSuccess={this.handleUploadSuccess}
                 onProgress={this.handleProgress}
               />
-            </Button>
+            </button>
             <img
               src={placeHolderImg}
               alt="placeholder"

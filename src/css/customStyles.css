@@ -22,28 +22,27 @@ button.customButton:hover {
     0 17px 50px 0 rgba(0, 0, 0, 0.19);
   cursor: pointer;
 }
-
-button.deleteButton {
-  color: rgba(170, 24, 24, 0.767);
-  font-weight: bold;
-  background-color: transparent;
-  box-shadow: 0px;
-  font-size: 15px;
-  height: auto;
-  box-shadow: none;
-
-  -webkit-box-shadow: none;
-  -moz-box-shadow: none;
-}
-button.deleteButton {
-  -webkit-transition-duration: 0.4s;
-  transition-duration: 0.4s;
-}
-
-button.deleteButton:hover {
-  background-color: rgba(170, 24, 24, 0.767);
-  color: white;
-  box-shadow: 0 12px 16px 0 rgba(0, 0, 0, 0.24),
-    0 17px 50px 0 rgba(0, 0, 0, 0.19);
+.deleteButton {
+  text-align: center;
+  margin: 30px;
+  background: linear-gradient(to bottom, #f24537 5%, #c62d1f 100%);
+  background-color: #f24537;
+  border-radius: 6px;
+  border: 1px solid #d02718;
+  display: inline-block;
   cursor: pointer;
+  color: #ffffff;
+  font-family: Arial;
+  font-size: 15px;
+  font-weight: bold;
+  width: 300px;
+  text-decoration: none;
+}
+.deleteButton:hover {
+  background: linear-gradient(to bottom, #c62d1f 5%, #f24537 100%);
+  background-color: #c62d1f;
+}
+.deleteButton:active {
+  position: relative;
+  top: 1px;
 }

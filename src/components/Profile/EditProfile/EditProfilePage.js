@@ -28,13 +28,13 @@ const EditProfilePage = props => (
               float: "right"
             }}
           >
-            <button
-              className="customButtonBlack"
+            <Button
+              color="primary"
               onClick={() => props.toPublicProfile(authUser.uid)}
               style={{ marginRight: "1vw !important" }}
             >
               View Public Profile
-            </button>
+            </Button>
           </Link>
         </MediaQuery>
 
