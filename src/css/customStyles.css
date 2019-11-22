@@ -1,13 +1,14 @@
 button.customButton {
   color: white;
   font-weight: bold;
-  background-color: transparent;
+  background-color: rgb(142, 109, 167);
   border: none;
   font-size: 20px;
-  margin: 5px;
-  padding: 20px;
-  border-radius: 4px;
+  margin: 10px;
+  padding: 10px;
+  border-radius: 8px;
   width: 200px;
+  height: auto;
 }
 button.customButton {
   -webkit-transition-duration: 0.4s;
@@ -15,7 +16,32 @@ button.customButton {
 }
 
 button.customButton:hover {
-  background-color: rgba(130, 43, 170, 0.534);
+  background-color: rgba(199, 144, 241);
+  color: white;
+  box-shadow: 0 12px 16px 0 rgba(0, 0, 0, 0.24),
+    0 17px 50px 0 rgba(0, 0, 0, 0.19);
+  cursor: pointer;
+}
+
+button.deleteButton {
+  color: rgba(170, 24, 24, 0.767);
+  font-weight: bold;
+  background-color: transparent;
+  box-shadow: 0px;
+  font-size: 15px;
+  height: auto;
+  box-shadow: none;
+
+  -webkit-box-shadow: none;
+  -moz-box-shadow: none;
+}
+button.deleteButton {
+  -webkit-transition-duration: 0.4s;
+  transition-duration: 0.4s;
+}
+
+button.deleteButton:hover {
+  background-color: rgba(170, 24, 24, 0.767);
   color: white;
   box-shadow: 0 12px 16px 0 rgba(0, 0, 0, 0.24),
     0 17px 50px 0 rgba(0, 0, 0, 0.19);

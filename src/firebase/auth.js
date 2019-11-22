@@ -1,4 +1,5 @@
 import { auth, db } from "./firebase";
+import { storage } from "../firebase";
 // import * as db from './db';
 
 // Sign Up
@@ -84,6 +85,13 @@ export const deleteUser = (email, password) => {
         .remove()
         .then(res => console.log(res))
         .catch(error => console.log(error));
+
+      // and delete image reference if they have one
+      storage.imageRef
+        .child(this.props.authUser.uid + ".jpg")
+        .delete()
+        .then(res => console.log(res))
+        .catch(err => console.log(err));
 
       // and delete user in authentification database
       user

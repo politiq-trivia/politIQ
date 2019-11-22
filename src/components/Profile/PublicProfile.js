@@ -8,7 +8,6 @@ import { withAuthorization } from "../Auth/index";
 import AuthUserContext from "../Auth/AuthUserContext";
 import "../../css/customStyles.css";
 import Paper from "@material-ui/core/Paper";
-import Button from "@material-ui/core/Button";
 
 import {
   FacebookShareButton,
@@ -206,8 +205,12 @@ class PublicProfileBase extends Component {
                   </EmailShareButton>
                 </div>
               </div>
+              <center>
+                <div className="bioContainer">
+                  <p className="bio">{this.state.userData.bio}</p>
+                </div>
+              </center>
 
-              <p>{this.state.userData.bio}</p>
               <UserScoreboard
                 uid={this.state.uid}
                 public="true"
@@ -217,13 +220,12 @@ class PublicProfileBase extends Component {
 
               {this.state.showingComments ? (
                 <div>
-                  <Button
-                    color="primary"
-                    variant="contained"
+                  <button
+                    className="customButton"
                     onClick={this.toggleComments}
                   >
                     Hide Comments
-                  </Button>
+                  </button>
                   <h3 className="comment-heading">Comments: </h3>
                   <CommentWidget
                     userName={this.state.userData.displayName}
@@ -233,13 +235,9 @@ class PublicProfileBase extends Component {
                   />
                 </div>
               ) : (
-                <Button
-                  color="primary"
-                  variant="contained"
-                  onClick={this.toggleComments}
-                >
+                <button className="customButton" onClick={this.toggleComments}>
                   Show Comments
-                </Button>
+                </button>
               )}
             </div>
           </div>

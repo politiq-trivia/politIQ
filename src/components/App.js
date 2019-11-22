@@ -77,6 +77,7 @@ class App extends Component {
   }
 
   componentDidMount() {
+    console.log("component Mounted");
     // sets the auth user in app state
     this.listener = firebase.auth.onAuthStateChanged(authUser => {
       authUser // eslint-disable-line no-unused-expressions
@@ -145,6 +146,7 @@ class App extends Component {
   };
 
   getSignedInUser = async uid => {
+    console.log("getting user");
     const userData = await db.getDisplayNames(uid);
     userData.displayName.then(displayName => {
       this.setState({
@@ -179,6 +181,7 @@ class App extends Component {
   };
 
   render() {
+    console.log(this.state);
     return (
       // <Router history
       <MuiThemeProvider theme={theme}>
@@ -191,7 +194,9 @@ class App extends Component {
             exact
             path={routes.LANDING}
             component={
-              localStorage.hasOwnProperty("authUser") ? HomePage : LandingPage
+              /* localStorage.hasOwnProperty("authUser") */
+              // This logic works for safari chrome and firefox
+              this.state.authUser ? HomePage : LandingPage
             } // eslint-disable-line
           />
           <Route
