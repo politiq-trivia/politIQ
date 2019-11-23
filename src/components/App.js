@@ -181,7 +181,6 @@ class App extends Component {
   };
 
   render() {
-    console.log(this.state);
     return (
       // <Router history
       <MuiThemeProvider theme={theme}>

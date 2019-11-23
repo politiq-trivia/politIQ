@@ -34,7 +34,6 @@ export const onAuthUserListener = (next, fallback) =>
         .child(authUser.uid)
         .on("value", function(snapshot) {
           dbUser = snapshot.val();
-
           if (!dbUser.roles) {
             dbUser.roles = [];
           }
@@ -47,6 +46,7 @@ export const onAuthUserListener = (next, fallback) =>
             providerData: authUser.providerData,
             ...dbUser
           };
+          console.log(authUser);
           next(authUser);
         });
     } else {

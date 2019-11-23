@@ -14,7 +14,7 @@ import Tab from "@material-ui/core/Tab";
 import { db, withFirebase } from "../../firebase";
 import { LEADERBOARD } from "../../constants/routes";
 import * as ROLES from "../../constants/roles";
-import { withAuthorization } from "../Auth/index";
+import { withAuthorization, withAuthentication } from "../Auth/index";
 
 import AddQuiz from "./AddQuiz";
 import QuizList from "./QuizList";
@@ -62,6 +62,7 @@ class AdminDashboard extends Component {
 
   componentDidUpdate(prevProps) {
     if (this.props.renderPage !== prevProps.renderPage) {
+      console.log("redirecting components");
       this.redirectComponents();
       return true;
     }

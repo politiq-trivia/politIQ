@@ -96,7 +96,6 @@ export const editUser = (uid, updates) => {
 // admin route - when user wins a competition, admin adds
 // money won to their money earned & lifetime earnings (TO DO)
 export const awardMoney = (uid, amount, lifetimeAmount) => {
-  console.log({ uid, amount, lifetimeAmount });
   db.ref("users")
     .child(uid)
     .child("moneyWon")
@@ -613,7 +612,6 @@ export const addComment = (profileID, commentObj) => {
     .child("comments")
     .child(profileID)
     .child(commentObj.date);
-  console.log(commentObj);
   comment.child("text").set(commentObj.text);
   comment.child("user").set(commentObj.user);
   comment.child("uid").set(commentObj.uid);
