@@ -130,7 +130,6 @@ class QuizArchiveBase extends Component {
      */
 
     let data;
-    console.log("database request for quizzes");
     await db.getQuizzes().then(res => {
       data = res.val();
     });

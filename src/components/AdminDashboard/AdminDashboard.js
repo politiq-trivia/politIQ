@@ -1,35 +1,35 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
-import { Link } from 'react-router-dom';
-import { compose } from 'recompose';
-import moment from 'moment';
-import MediaQuery from 'react-responsive';
-import Helmet from 'react-helmet';
+import React, { Component } from "react";
+import PropTypes from "prop-types";
+import { Link } from "react-router-dom";
+import { compose } from "recompose";
+import moment from "moment";
+import MediaQuery from "react-responsive";
+import Helmet from "react-helmet";
 
-import Paper from '@material-ui/core/Paper';
-import AppBar from '@material-ui/core/AppBar';
-import Tabs from '@material-ui/core/Tabs';
-import Tab from '@material-ui/core/Tab';
+import Paper from "@material-ui/core/Paper";
+import AppBar from "@material-ui/core/AppBar";
+import Tabs from "@material-ui/core/Tabs";
+import Tab from "@material-ui/core/Tab";
 
-import { db, withFirebase } from '../../firebase';
-import { LEADERBOARD } from '../../constants/routes';
-import * as ROLES from '../../constants/roles';
-import { withAuthorization } from '../Auth/index';
+import { db, withFirebase } from "../../firebase";
+import { LEADERBOARD } from "../../constants/routes";
+import * as ROLES from "../../constants/roles";
+import { withAuthorization } from "../Auth/index";
 
-import AddQuiz from './AddQuiz';
-import QuizList from './QuizList';
-import ShowQuiz from './ShowQuiz';
-import EditQuiz from './EditQuiz';
-import ManageQuizzes from './ManageQuizzes';
-import QuestionsToReview from './SubmittedQuestions/QuestionsToReview';
-import ContestedQuestions from './ContestedQuestions';
-import Scoreboard from '../Leaderboard/Scoreboard';
-import UserShow from './UserShow/UserShow';
-import PartyLeaders from '../Leaderboard/PartyLeaders';
-import CashOutRequest from './CashOut/CashOutRequest';
-import CashOutReview from './CashOut/CashOutReview';
+import AddQuiz from "./AddQuiz";
+import QuizList from "./QuizList";
+import ShowQuiz from "./ShowQuiz";
+import EditQuiz from "./EditQuiz";
+import ManageQuizzes from "./ManageQuizzes";
+import QuestionsToReview from "./SubmittedQuestions/QuestionsToReview";
+import ContestedQuestions from "./ContestedQuestions";
+import Scoreboard from "../Leaderboard/Scoreboard";
+import UserShow from "./UserShow/UserShow";
+import PartyLeaders from "../Leaderboard/PartyLeaders";
+import CashOutRequest from "./CashOut/CashOutRequest";
+import CashOutReview from "./CashOut/CashOutReview";
 
-import loadingGif from '../../loadingGif.gif';
+import loadingGif from "../../loadingGif.gif";
 
 class AdminDashboard extends Component {
   constructor(props) {
@@ -47,10 +47,10 @@ class AdminDashboard extends Component {
       dateArray: [],
       titleArray: [],
       value: 0,
-      selectedQuizId: '',
+      selectedQuizId: "",
       selectedQuiz: {},
       showDeleteModal: false,
-      cashoutData: {},
+      cashoutData: {}
     };
   }
 
@@ -58,7 +58,7 @@ class AdminDashboard extends Component {
     this.getQuizzesFromDb();
     this.redirectComponents();
     this.getCashOutRequests();
-  }
+  };
 
   componentDidUpdate(prevProps) {
     if (this.props.renderPage !== prevProps.renderPage) {
@@ -73,18 +73,18 @@ class AdminDashboard extends Component {
   // on the props it receives from react router.
   redirectComponents = () => {
     const { renderPage } = this.props;
-    if (renderPage === 'Create New Quiz') {
+    if (renderPage === "Create New Quiz") {
       this.toggleAddQuiz();
-    } else if (renderPage === 'Manage Quizzes') {
+    } else if (renderPage === "Manage Quizzes") {
       this.toggleManageQuizzes();
-    } else if (renderPage === 'Manage Users') {
+    } else if (renderPage === "Manage Users") {
       this.toggleUserShow();
-    } else if (renderPage === 'Leaderboard') {
+    } else if (renderPage === "Leaderboard") {
       this.toggleLeaderShow();
-    } else if (renderPage === '') {
+    } else if (renderPage === "") {
       this.toggleDashboard();
     }
-  }
+  };
 
   toggleAddQuiz = () => {
     if (this.state.addingQuiz) {
@@ -97,28 +97,40 @@ class AdminDashboard extends Component {
       showQuiz: false,
       showLeaders: false,
       managingQuizzes: false,
-      manageCashOut: false,
+      manageCashOut: false
     });
-  }
+  };
 
   // this one gets the list of quizzes to render in the quiz index component
   getQuizzesFromDb = async () => {
-    const data = JSON.parse(localStorage.getItem('quizzes')); // eslint-disable-line no-undef
+    /*     const data = JSON.parse(localStorage.getItem('quizzes')); // eslint-disable-line no-undef
+     */
 
+    // get quizzes from database now
+    let data;
+    await db.getQuizzes().then(res => {
+      data = res.val();
+    });
     const allDates = Object.keys(data);
-    const dateArray = allDates.filter((date) => date > moment().startOf('month').format('YYYY-MM-DDTHH:mm'));
+    const dateArray = allDates.filter(
+      date =>
+        date >
+        moment()
+          .startOf("month")
+          .format("YYYY-MM-DDTHH:mm")
+    );
     const titleArray = [];
     for (let i = 0; i < dateArray.length; i += 1) {
       const date = dateArray[i];
-      const title = data[date]['quiz-title'];
+      const title = data[date]["quiz-title"];
       titleArray.push(title);
     }
 
     this.setState({
       dateArray: dateArray.reverse(),
-      titleArray: titleArray.reverse(),
+      titleArray: titleArray.reverse()
     });
-  }
+  };
 
   toggleDashboard = () => {
     this.setState({
@@ -129,9 +141,9 @@ class AdminDashboard extends Component {
       showLeaders: false,
       editingQuiz: false,
       managingQuizzes: false,
-      manageCashOut: false,
+      manageCashOut: false
     });
-  }
+  };
 
   toggleUserShow = () => {
     this.setState({
@@ -141,11 +153,11 @@ class AdminDashboard extends Component {
       showUsers: true,
       showLeaders: false,
       managingQuizzes: false,
-      manageCashOut: false,
+      manageCashOut: false
     });
-  }
+  };
 
-  toggleQuizShow = (id) => {
+  toggleQuizShow = id => {
     if (this.state.editingQuiz) {
       this.getQuiz(id);
     }
@@ -157,22 +169,21 @@ class AdminDashboard extends Component {
       showUsers: false,
       showLeaders: false,
       managingQuizzes: false,
-      manageCashOut: false,
+      manageCashOut: false
     });
-  }
+  };
 
   // this one gets an individual quiz so that the admin can view it.
-  getQuiz = (date) => {
-    db.getQuiz(date)
-      .then((response) => {
-        const quiz = response.val();
-        this.setState({
-          selectedQuiz: quiz,
-          selectedQuizId: date,
-        });
-        this.toggleQuizShow();
+  getQuiz = date => {
+    db.getQuiz(date).then(response => {
+      const quiz = response.val();
+      this.setState({
+        selectedQuiz: quiz,
+        selectedQuizId: date
       });
-  }
+      this.toggleQuizShow();
+    });
+  };
 
   toggleEditQuiz = () => {
     this.setState({
@@ -183,27 +194,27 @@ class AdminDashboard extends Component {
       showUsers: false,
       showLeaders: false,
       managingQuizzes: false,
-      manageCashOut: false,
+      manageCashOut: false
     });
-  }
+  };
 
   toggleDeleteModal = () => {
     this.setState({
-      showDeleteModal: !this.state.showDeleteModal,
+      showDeleteModal: !this.state.showDeleteModal
     });
-  }
+  };
 
-  deleteQuiz = (selected) => {
+  deleteQuiz = selected => {
     for (let i = 0; i < selected.length; i += 1) {
       this.removeQuizzes(selected[i]);
       db.deleteQuiz(selected[i]);
     }
     this.setState({
-      selected: [],
+      selected: []
     });
-  }
+  };
 
-  removeQuizzes = (date) => {
+  removeQuizzes = date => {
     const index = this.state.dateArray.indexOf(date);
     const dates = this.state.dateArray;
     dates.splice(index, 1);
@@ -211,9 +222,9 @@ class AdminDashboard extends Component {
     titles.splice(index, 1);
     this.setState({
       dateArray: [...dates],
-      titleArray: [...titles],
+      titleArray: [...titles]
     });
-  }
+  };
 
   handleChange = (event, value) => {
     this.setState({ value });
@@ -228,9 +239,9 @@ class AdminDashboard extends Component {
       showUsers: false,
       showLeaders: true,
       managingQuizzes: false,
-      manageCashOut: false,
+      manageCashOut: false
     });
-  }
+  };
 
   toggleManageQuizzes = () => {
     this.setState({
@@ -241,9 +252,9 @@ class AdminDashboard extends Component {
       showQuiz: false,
       showUsers: false,
       showLeaders: false,
-      manageCashOut: false,
+      manageCashOut: false
     });
-  }
+  };
 
   toggleCashOut = () => {
     this.setState({
@@ -254,19 +265,18 @@ class AdminDashboard extends Component {
       showQuiz: false,
       showUsers: false,
       showLeaders: false,
-      manageCashOut: true,
+      manageCashOut: true
     });
-  }
+  };
 
   getCashOutRequests = async () => {
-    await db.getAllCashoutRequests()
-      .then((response) => {
-        const data = response.val();
-        this.setState({
-          cashoutData: data,
-        });
+    await db.getAllCashoutRequests().then(response => {
+      const data = response.val();
+      this.setState({
+        cashoutData: data
       });
-  }
+    });
+  };
 
   render() {
     const { value } = this.state;
@@ -275,7 +285,7 @@ class AdminDashboard extends Component {
       if (this.state.dateArray.length === 0) {
         return (
           <div className="gifStyle">
-            <img src={loadingGif} alt="loading gif"/>
+            <img src={loadingGif} alt="loading gif" />
           </div>
         );
       }
@@ -299,100 +309,118 @@ class AdminDashboard extends Component {
         </Helmet>
         <MediaQuery minWidth={415}>
           <AppBar position="static" color="default">
-            <Tabs variant="fullWidth" value={value} onChange={this.handleChange} style={{ marginTop: '8.5vh' }}>
+            <Tabs
+              variant="fullWidth"
+              value={value}
+              onChange={this.handleChange}
+              style={{ marginTop: "8.5vh" }}
+            >
               <Tab label="Dashboard" onClick={this.toggleDashboard} />
               <Tab label="Create New Quiz" onClick={this.toggleAddQuiz} />
               <Tab label="Manage Quizzes" onClick={this.toggleManageQuizzes} />
-              <Tab label="Manage Users" onClick={this.toggleUserShow}/>
+              <Tab label="Manage Users" onClick={this.toggleUserShow} />
               <Tab label="Leaders" onClick={this.toggleLeaderShow} />
             </Tabs>
           </AppBar>
         </MediaQuery>
-        {this.state.manageCashOut
-          ? <CashOutReview
-              cashoutData={this.state.cashoutData}
-              getCashOutRequests={this.getCashOutRequests}
-              toggleDashboard={this.toggleDashboard}
-            />
-          : <div>
-            { this.state.addingQuiz
-              ? <AddQuiz toggleAddQuiz={this.toggleAddQuiz} toggleDashboard={this.toggleDashboard}/>
-              : <div>
-                { this.state.showQuiz
-                  ? <ShowQuiz
-                      toggleDashboard={this.toggleDashboard}
-                      quiz={this.state.selectedQuiz}
-                      quizId={this.state.selectedQuizId}
-                      toggleEditQuiz={this.toggleEditQuiz}
-                    />
-                  : <div>
-                    {this.state.editingQuiz
-                      ? <EditQuiz
-                          toggleQuizShow={this.toggleQuizShow}
-                          quiz={this.state.selectedQuiz}
-                          quizId={this.state.selectedQuizId}
-                          toggleDeleteModal={this.toggleDeleteModal}
-                          deleteQuiz={this.deleteQuiz}
-                          showDeleteModal={this.state.showDeleteModal}
-                          toggleDashboard={this.toggleDashboard}
-                        />
-                      : <div>
-                        { this.state.showUsers
-                          ? <UserShow />
-                          : <div>
-                            {this.state.showLeaders
-                              ? <PartyLeaders />
-                              : <div>
-                                { this.state.managingQuizzes
-                                  ? <ManageQuizzes
-                                      toggleQuizShow={this.toggleQuizShow}
-                                      getQuiz={this.getQuiz}
-                                      toggleDeleteModal={this.toggleDeleteModal}
-                                      deleteQuiz={this.deleteQuiz}
-                                      showDeleteModal={this.state.showDeleteModal}
-                                    />
-                                  : <div className="dashboard">
-                                      <Paper className="dashContainer">
-                                        {isLoaded()}
-                                      </Paper>
-                                      <div className="dashContainer2">
-                                        <Link to={LEADERBOARD} style={{ textDecoration: 'none' }}>
-                                          <Scoreboard />
-                                        </Link>
-                                        <QuestionsToReview />
-                                        <ContestedQuestions />
-                                        <CashOutRequest
-                                          toggleCashOut={this.toggleCashOut}
-                                          cashoutData={this.state.cashoutData}
-                                        />
-                                      </div>
+        {this.state.manageCashOut ? (
+          <CashOutReview
+            cashoutData={this.state.cashoutData}
+            getCashOutRequests={this.getCashOutRequests}
+            toggleDashboard={this.toggleDashboard}
+          />
+        ) : (
+          <div>
+            {this.state.addingQuiz ? (
+              <AddQuiz
+                toggleAddQuiz={this.toggleAddQuiz}
+                toggleDashboard={this.toggleDashboard}
+              />
+            ) : (
+              <div>
+                {this.state.showQuiz ? (
+                  <ShowQuiz
+                    toggleDashboard={this.toggleDashboard}
+                    quiz={this.state.selectedQuiz}
+                    quizId={this.state.selectedQuizId}
+                    toggleEditQuiz={this.toggleEditQuiz}
+                  />
+                ) : (
+                  <div>
+                    {this.state.editingQuiz ? (
+                      <EditQuiz
+                        toggleQuizShow={this.toggleQuizShow}
+                        quiz={this.state.selectedQuiz}
+                        quizId={this.state.selectedQuizId}
+                        toggleDeleteModal={this.toggleDeleteModal}
+                        deleteQuiz={this.deleteQuiz}
+                        showDeleteModal={this.state.showDeleteModal}
+                        toggleDashboard={this.toggleDashboard}
+                      />
+                    ) : (
+                      <div>
+                        {this.state.showUsers ? (
+                          <UserShow />
+                        ) : (
+                          <div>
+                            {this.state.showLeaders ? (
+                              <PartyLeaders />
+                            ) : (
+                              <div>
+                                {this.state.managingQuizzes ? (
+                                  <ManageQuizzes
+                                    toggleQuizShow={this.toggleQuizShow}
+                                    getQuiz={this.getQuiz}
+                                    toggleDeleteModal={this.toggleDeleteModal}
+                                    deleteQuiz={this.deleteQuiz}
+                                    showDeleteModal={this.state.showDeleteModal}
+                                  />
+                                ) : (
+                                  <div className="dashboard">
+                                    <Paper className="dashContainer">
+                                      {isLoaded()}
+                                    </Paper>
+                                    <div className="dashContainer2">
+                                      <Link
+                                        to={LEADERBOARD}
+                                        style={{ textDecoration: "none" }}
+                                      >
+                                        <Scoreboard />
+                                      </Link>
+                                      <QuestionsToReview />
+                                      <ContestedQuestions />
+                                      <CashOutRequest
+                                        toggleCashOut={this.toggleCashOut}
+                                        cashoutData={this.state.cashoutData}
+                                      />
                                     </div>
-                                }
+                                  </div>
+                                )}
                               </div>
-                            }
+                            )}
                           </div>
-                        }
+                        )}
                       </div>
-                    }
+                    )}
                   </div>
-                }
+                )}
               </div>
-            }
+            )}
           </div>
-        }
+        )}
       </div>
     );
   }
 }
 
-const condition = (authUser) => authUser && authUser.roles.includes(ROLES.ADMIN);
+const condition = authUser => authUser && authUser.roles.includes(ROLES.ADMIN);
 
 AdminDashboard.propTypes = {
-  renderPage: PropTypes.string.isRequired,
+  renderPage: PropTypes.string.isRequired
 };
 
 export default compose(
   // withEmailVerification,
   withAuthorization(condition),
-  withFirebase,
+  withFirebase
 )(AdminDashboard);
