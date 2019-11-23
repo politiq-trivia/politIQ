@@ -157,82 +157,116 @@ class UserScoreboard extends Component {
     return (
       <AuthUserContext.Consumer>
         {data => (
-          <div
-            className="small-scoreboardHolder user-scoreboard-public"
-            style={{
-              justifyContent: "center",
-              height: "auto",
-              padding: "20px 20px 20px 18px"
-            }}
-          >
-            <h2>{this.props.public ? `${this.props.name}'s` : "My"} Scores</h2>
-            <div className="userScore politIQ">
-              PolitIQ
-              <span className="s reg-score politIQ-score">
-                {this.state.politIQ + this.state.recentSubmittedScores}
-              </span>
-            </div>
+          <div>
             <MediaQuery minWidth={416}>
-              <div className="small-scoreboard">
-                <div className="userScore">
-                  Monthly Score
-                  <span className="s reg-score">{this.state.monthlyScore}</span>
-                </div>
-
-                <div className="userScore">
-                  Weekly Score
-                  <span className="s reg-score">{this.state.weeklyScore}</span>
-                </div>
-                <div className="userScore" id="submittedQScore">
-                  Submitted & Contested Q Score
-                  <span className="s">{this.state.submittedScore}</span>
-                </div>
-              </div>
               <div
-                className="small-scoreboard"
-                style={{ justifyContent: "center" }}
+                className="small-scoreboardHolder user-scoreboard-public"
+                style={{
+                  justifyContent: "center",
+                  height: "auto",
+                  padding: "20px 20px 20px 18px"
+                }}
               >
-                <div className="userScore second-row">
-                  Money Won
-                  <span className="s reg-score">${data.moneyWon || 0}</span>
-                </div>
-                <div className="userScore second-row">
-                  Lifetime Earnings
-                  <span className="s reg-score">
-                    ${data.lifetimeEarnings || 0}
+                <h2>
+                  {this.props.public ? `${this.props.name}'s` : "My"} Scores
+                </h2>
+                <div className="userScore politIQ">
+                  PolitIQ
+                  <span className="s reg-score politIQ-score">
+                    {this.state.politIQ + this.state.recentSubmittedScores}
                   </span>
+                </div>
+                <div className="small-scoreboard">
+                  <div className="userScore">
+                    Monthly Score
+                    <span className="s reg-score">
+                      {this.state.monthlyScore}
+                    </span>
+                  </div>
+
+                  <div className="userScore">
+                    Weekly Score
+                    <span className="s reg-score">
+                      {this.state.weeklyScore}
+                    </span>
+                  </div>
+                  <div className="userScore" id="submittedQScore">
+                    Submitted & Contested Q Score
+                    <span className="s">{this.state.submittedScore}</span>
+                  </div>
+                </div>
+                <div
+                  className="small-scoreboard"
+                  style={{ justifyContent: "center" }}
+                >
+                  <div className="userScore second-row">
+                    Money Won
+                    <span className="s reg-score">${data.moneyWon || 0}</span>
+                  </div>
+                  <div className="userScore second-row">
+                    Lifetime Earnings
+                    <span className="s reg-score">
+                      ${data.lifetimeEarnings || 0}
+                    </span>
+                  </div>
                 </div>
               </div>
             </MediaQuery>
             <MediaQuery maxWidth={415}>
-              <div className="small-scoreboard">
-                <div
-                  className="userScore"
-                  style={{ borderLeft: "none", margin: "0" }}
-                >
-                  Monthly Score
-                  <span className="s reg-score">{this.state.monthlyScore}</span>
-                </div>
-                <div
-                  className="userScore"
-                  style={{ borderLeft: "none", margin: "0" }}
-                >
-                  Weekly Score
-                  <span className="s reg-score">{this.state.weeklyScore}</span>
-                </div>
-                <div className="userScore second-row" id="submittedQScore">
-                  Submitted & Contested Q Score
-                  <span className="s">{this.state.submittedScore}</span>
-                </div>
-                <div className="userScore second-row">
-                  Money Won
-                  <span className="s reg-score">${data.moneyWon || 0}</span>
-                </div>
-                <div className="userScore">
-                  Lifetime Earnings
-                  <span className="s reg-score">
-                    ${data.lifetimeEarnings || 0}
+              <div
+                className="small-scoreboardHolder user-scoreboard-public"
+                style={{
+                  justifyContent: "center",
+                  height: "auto",
+                  padding: "20px 20px 20px 18px"
+                }}
+              >
+                <h2>
+                  {this.props.public ? `${this.props.name}'s` : "My"} Scores
+                </h2>
+                <div className="userScore politIQ">
+                  PolitIQ
+                  <span className="s reg-score politIQ-score">
+                    {this.state.politIQ + this.state.recentSubmittedScores}
                   </span>
+                </div>
+                <div className="small-scoreboard">
+                  <div className="userScore">
+                    Monthly Score
+                    <span className="s reg-score">
+                      {this.state.monthlyScore}
+                    </span>
+                  </div>
+
+                  <div className="userScore">
+                    Weekly Score
+                    <span className="s reg-score">
+                      {this.state.weeklyScore}
+                    </span>
+                  </div>
+                </div>
+                <div className="small-scoreboard">
+                  <div className="userScore" id="submittedQScore">
+                    Submitted & Contested Q Score
+                    <span className="s reg-score">
+                      {this.state.submittedScore}
+                    </span>
+                  </div>
+                  <div className="userScore">
+                    Money Won
+                    <span className="s reg-score">${data.moneyWon || 0}</span>
+                  </div>
+                </div>
+                <div
+                  className="small-scoreboard"
+                  style={{ justifyContent: "center" }}
+                >
+                  <div className="userScore">
+                    Lifetime Earnings
+                    <span className="s reg-score">
+                      ${data.lifetimeEarnings || 0}
+                    </span>
+                  </div>
                 </div>
               </div>
             </MediaQuery>

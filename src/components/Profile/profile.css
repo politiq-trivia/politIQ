@@ -22,7 +22,7 @@
 }
 .public-profile-top {
   background-color: rgba(53, 25, 74);
-  height: 80px;
+  height: auto;
   width: 100%;
   display: flex;
   flex-direction: row;
@@ -34,6 +34,7 @@
   margin-top: 16vh;
 }
 .public-profile h1 {
+  overflow: hidden;
   color: white;
   font-weight: bold;
   padding: 10px;
@@ -76,24 +77,9 @@
   text-align: left;
 }
 
-@media screen and (max-width: 415px) {
-  .public-profile h3,
-  .public-profile p {
-    width: 90%;
-  }
-}
-
 .user-scoreboard-public {
   margin-left: auto;
   margin-right: auto;
-  margin-top: 10vh;
-  margin-bottom: 10vh;
-}
-@media screen and (max-width: 415px) {
-  .user-scoreboard-public {
-    margin-top: 5vh;
-    margin-bottom: 5vh;
-  }
 }
 
 /* .profile-photo {
@@ -474,6 +460,10 @@
 }
 
 /* -------------- Scoreboard styles ------------------- */
+
+.small-scoreboard {
+  height: 100px;
+}
 
 /* -------------- Public Bio styles ------------------- */
 

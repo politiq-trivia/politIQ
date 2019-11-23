@@ -137,7 +137,11 @@ class PublicProfileBase extends Component {
 
                 {this.state.match ? (
                   // ? <Link to={PROFILE} style={{ textDecoration: 'none', alignSelf: 'flex-end', width: '16vw', display: 'inline-flex' }}>
-                  <button className="customButton" onClick={this.editProfile}>
+                  <button
+                    style={{ maxHeight: "100px" }}
+                    className="customButton"
+                    onClick={this.editProfile}
+                  >
                     Edit My Profile
                   </button>
                 ) : // </Link>
