@@ -79,7 +79,6 @@ class QuizBase extends Component {
   };
 
   componentDidMount = () => {
-    console.log("component did mount");
     // add listener to give the user a prompt before unloading (refreshing)
     window.addEventListener("beforeunload", this.handleWindowBeforeUnload);
     // also add a listener to give the prompt before going back a page
@@ -118,8 +117,6 @@ class QuizBase extends Component {
   };
 
   componentDidUpdate = (prevProps, prevState) => {
-    console.log("component did update");
-
     if (prevProps !== this.props) {
       if (this.props.authUser) {
         this.getUser();
@@ -177,7 +174,6 @@ class QuizBase extends Component {
     /* const quizzes = JSON.parse(localStorage.getItem("quizzes"));
     const quiz = quizzes[date]; */
     //Must read the quizzes a different way, possibly a database request
-    console.log("db request for quiz");
     db.getQuiz(date)
       .then(quizval => {
         // handle nonexistent quiz

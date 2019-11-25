@@ -13,6 +13,8 @@ import RadioButtonUncheckedIcon from "@material-ui/icons/RadioButtonUnchecked";
 import RadioButtonCheckedIcon from "@material-ui/icons/RadioButtonChecked";
 import Check from "@material-ui/icons/DoneAll";
 
+import QuizContext from "./quizContext";
+
 import { db } from "../../firebase";
 
 import loadingGif from "../../loadingGif.gif";

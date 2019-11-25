@@ -3,6 +3,8 @@ import { withRouter } from "react-router-dom";
 import moment from "moment";
 import { db } from "../../firebase";
 
+import QuizContext from "./quizContext";
+
 import Button from "@material-ui/core/Button";
 import "./quiz.css";
 
@@ -18,10 +20,11 @@ class NextAvailableQuizButton extends Component {
 
   getNextQuiz = async () => {
     // get quizzes
-    let quizzes;
-    await db.getQuizzes().then(res => {
+    const quizzes = this.context; //provided by App.js
+
+    /*     await db.getQuizzes().then(res => {
       quizzes = res.val();
-    });
+    }); */
 
     // get scores
     let uidScoreDates;
@@ -34,8 +37,6 @@ class NextAvailableQuizButton extends Component {
 
     //get this month quiz dates
     const quizDates = Object.keys(quizzes);
-
-    console.log(quizDates);
 
     // which quiz dates this month don't have a score already?
     const availableQuizDates = quizDates.filter(
@@ -51,8 +52,6 @@ class NextAvailableQuizButton extends Component {
         )
       )
     ).format("YYYY-MM-DDTHH:mm");
-    console.log(typeof nextAvailableQuizDate);
-    console.log(nextAvailableQuizDate.toString());
     return nextAvailableQuizDate;
   };
 
@@ -95,5 +94,7 @@ class NextAvailableQuizButton extends Component {
     );
   }
 }
+//defined the context, which contains all the quizzes
+NextAvailableQuizButton.contextType = QuizContext;
 
 export default withRouter(NextAvailableQuizButton);

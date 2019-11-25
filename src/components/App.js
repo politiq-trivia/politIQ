@@ -37,6 +37,8 @@ import LatestQuizRedirect from "./QuizEngine/LatestQuizRedirect";
 import NoMatch from "./StaticPages/NoMatch";
 import FAQ from "./StaticPages/FAQ";
 
+import QuizContext from "./QuizEngine/quizContext";
+
 import * as routes from "../constants/routes";
 import { firebase, db, withFirebase } from "../firebase";
 import withAuthentication from "./Auth/withAuthentication";
@@ -72,12 +74,12 @@ class App extends Component {
       signedInUser: "",
       scoreObject: {},
       displayName: "",
-      isAdmin: false
+      isAdmin: false,
+      quizzes: {}
     };
   }
 
   componentDidMount() {
-    console.log("component Mounted");
     // sets the auth user in app state
     this.listener = firebase.auth.onAuthStateChanged(authUser => {
       authUser // eslint-disable-line no-unused-expressions
@@ -95,9 +97,15 @@ class App extends Component {
       });
     }
 
-    storeQuizzes();
+    /*     storeQuizzes();   */
+    //Instead of storeQuizzes, we will get the quizzes and set them in quizContext provider
+    db.getQuizzes()
+      .then(response => {
+        this.setState({ quizzes: response.val() });
+      })
+      .catch(err => console.log(err));
   }
-
+  x;
   componentWillUnmount() {
     this.listener();
   }
@@ -183,177 +191,186 @@ class App extends Component {
   render() {
     return (
       // <Router history
-      <MuiThemeProvider theme={theme}>
-        <Navigation
-          signedInUser={this.state.signedInUser}
-          clearStateOnSignout={this.clearStateOnSignout}
-        />
-        <Switch>
-          <Route
-            exact
-            path={routes.LANDING}
-            component={
-              /* localStorage.hasOwnProperty("authUser") */
-              // This logic works for safari chrome and firefox
-              this.state.authUser ? HomePage : LandingPage
-            } // eslint-disable-line
+      //Provide quiz value to everything
+      <QuizContext.Provider value={this.state.quizzes}>
+        <MuiThemeProvider theme={theme}>
+          <Navigation
+            signedInUser={this.state.signedInUser}
+            clearStateOnSignout={this.clearStateOnSignout}
           />
-          <Route
-            exact
-            path={routes.SIGN_UP}
-            render={props => (
-              <SignUpPage
-                {...props}
-                getSignedInUser={this.getSignedInUser}
-                scoreObject={this.state.scoreObject}
-              />
-            )}
-          />
-          <Route
-            exact
-            path={routes.SIGN_IN}
-            render={props => (
-              <SignInPage
-                {...props}
-                getSignedInUser={this.getSignedInUser}
-                scoreObject={this.state.scoreObject}
-                checkAdmin={this.checkAdmin}
-              />
-            )}
-          />
-          <Route
-            exact
-            path={routes.PASSWORD_FORGET}
-            component={PasswordForgetPage}
-          />
-          <Route
-            exact
-            path={routes.PROFILE}
-            render={props => (
-              <ProfilePage {...props} signedInUser={this.state.signedInUser} />
-            )}
-          />
-          <Route
-            exact
-            path={routes.HOME}
-            render={props => (
-              <HomePage {...props} signedInUser={this.state.signedInUser} />
-            )}
-          />
+          <Switch>
+            <Route
+              exact
+              path={routes.LANDING}
+              component={
+                /* localStorage.hasOwnProperty("authUser") */
+                // This logic works for safari chrome and firefox
+                this.state.authUser ? HomePage : LandingPage
+              } // eslint-disable-line
+            />
+            <Route
+              exact
+              path={routes.SIGN_UP}
+              render={props => (
+                <SignUpPage
+                  {...props}
+                  getSignedInUser={this.getSignedInUser}
+                  scoreObject={this.state.scoreObject}
+                />
+              )}
+            />
+            <Route
+              exact
+              path={routes.SIGN_IN}
+              render={props => (
+                <SignInPage
+                  {...props}
+                  getSignedInUser={this.getSignedInUser}
+                  scoreObject={this.state.scoreObject}
+                  checkAdmin={this.checkAdmin}
+                />
+              )}
+            />
+            <Route
+              exact
+              path={routes.PASSWORD_FORGET}
+              component={PasswordForgetPage}
+            />
+            <Route
+              exact
+              path={routes.PROFILE}
+              render={props => (
+                <ProfilePage
+                  {...props}
+                  signedInUser={this.state.signedInUser}
+                />
+              )}
+            />
+            <Route
+              exact
+              path={routes.HOME}
+              render={props => (
+                <HomePage {...props} signedInUser={this.state.signedInUser} />
+              )}
+            />
 
-          {/* Admin Dashboard Routes */}
-          <Route
-            exact
-            path={routes.CREATE_NEW_QUIZ}
-            render={props => (
-              <AdminDashboard {...props} renderPage={"Create New Quiz"} />
-            )}
-          />
-          <Route
-            exact
-            path={routes.MANAGE_QUIZZES}
-            render={props => (
-              <AdminDashboard {...props} renderPage={"Manage Quizzes"} />
-            )}
-          />
-          <Route
-            exact
-            path={routes.MANAGE_USERS}
-            render={props => (
-              <AdminDashboard {...props} renderPage={"Manage Users"} />
-            )}
-          />
-          <Route
-            exact
-            path={routes.ADMIN_LEADERBOARD}
-            render={props => (
-              <AdminDashboard {...props} renderPage={"Leaderboard"} />
-            )}
-          />
-          <Route
-            exact
-            path={routes.ADMIN_DASHBOARD}
-            render={props => <AdminDashboard {...props} renderPage={""} />}
-          />
+            {/* Admin Dashboard Routes */}
+            <Route
+              exact
+              path={routes.CREATE_NEW_QUIZ}
+              render={props => (
+                <AdminDashboard {...props} renderPage={"Create New Quiz"} />
+              )}
+            />
+            <Route
+              exact
+              path={routes.MANAGE_QUIZZES}
+              render={props => (
+                <AdminDashboard {...props} renderPage={"Manage Quizzes"} />
+              )}
+            />
+            <Route
+              exact
+              path={routes.MANAGE_USERS}
+              render={props => (
+                <AdminDashboard {...props} renderPage={"Manage Users"} />
+              )}
+            />
+            <Route
+              exact
+              path={routes.ADMIN_LEADERBOARD}
+              render={props => (
+                <AdminDashboard {...props} renderPage={"Leaderboard"} />
+              )}
+            />
+            <Route
+              exact
+              path={routes.ADMIN_DASHBOARD}
+              render={props => <AdminDashboard {...props} renderPage={""} />}
+            />
 
-          {/* Quiz Routes */}
-          <Route
-            exact
-            path={routes.QUIZ_ARCHIVE}
-            render={props => (
-              <QuizArchive {...props} signedInUser={this.state.signedInUser} />
-            )}
-          />
-          <Route
-            exact
-            path={routes.QUIZ}
-            render={props => (
-              <Quiz
-                {...props}
-                storeScore={this.storeScore}
-                signedInUser={this.state.signedInUser}
-              />
-            )}
-          />
-          <Route exact path={routes.QUIZ_REDIRECT} component={QuizRedirect} />
-          <Route
-            exact
-            path={routes.PROFILE_TO_QUIZ_REDIRECT}
-            component={ProfileToQuizRedirect}
-          />
-          <Route
-            exact
-            path={routes.LATEST_QUIZ}
-            component={LatestQuizRedirect}
-          />
-          <Route
-            exact
-            path={routes.ARCHIVED_QUIZ}
-            render={props => <ArchivedQuiz {...props} />}
-          />
-          <Route exact path={routes.LEADERBOARD} component={Leaderboard} />
-          <Route exact path={routes.ABOUT} component={About} />
-          <Route exact path={routes.FAQ} component={FAQ} />
-          <Route
-            exact
-            path={routes.SUBMIT_QUESTION}
-            render={props => (
-              <QuestionSubmitForm
-                {...props}
-                signedInUser={this.state.signedInUser}
-              />
-            )}
-          />
-          <Route exact path={routes.REVIEW} component={ReviewQuestions} />
-          <Route
-            exact
-            path={routes.CONTEST}
-            component={ReviewContestedQuestions}
-          />
-          <Route
-            exact
-            path={routes.USER_PROFILES}
-            render={props => (
-              <PublicProfile
-                {...props}
-                key={window.location.pathName} // eslint-disable-line no-undef
-                signedInUser={this.state.signedInUser}
-                displayName={this.state.displayName}
-                isAdmin={this.state.isAdmin}
-              />
-            )}
-          />
-          <Route exact path={routes.PRIVACY} component={PrivacyPolicy} />
-          <Route
-            exact
-            path={routes.ADD_TO_HOMESCREEN}
-            component={AddToHomescreen}
-          />
+            {/* Quiz Routes */}
+            <Route
+              exact
+              path={routes.QUIZ_ARCHIVE}
+              render={props => (
+                <QuizArchive
+                  {...props}
+                  signedInUser={this.state.signedInUser}
+                />
+              )}
+            />
+            <Route
+              exact
+              path={routes.QUIZ}
+              render={props => (
+                <Quiz
+                  {...props}
+                  storeScore={this.storeScore}
+                  signedInUser={this.state.signedInUser}
+                />
+              )}
+            />
+            <Route exact path={routes.QUIZ_REDIRECT} component={QuizRedirect} />
+            <Route
+              exact
+              path={routes.PROFILE_TO_QUIZ_REDIRECT}
+              component={ProfileToQuizRedirect}
+            />
+            <Route
+              exact
+              path={routes.LATEST_QUIZ}
+              component={LatestQuizRedirect}
+            />
+            <Route
+              exact
+              path={routes.ARCHIVED_QUIZ}
+              render={props => <ArchivedQuiz {...props} />}
+            />
+            <Route exact path={routes.LEADERBOARD} component={Leaderboard} />
+            <Route exact path={routes.ABOUT} component={About} />
+            <Route exact path={routes.FAQ} component={FAQ} />
+            <Route
+              exact
+              path={routes.SUBMIT_QUESTION}
+              render={props => (
+                <QuestionSubmitForm
+                  {...props}
+                  signedInUser={this.state.signedInUser}
+                />
+              )}
+            />
+            <Route exact path={routes.REVIEW} component={ReviewQuestions} />
+            <Route
+              exact
+              path={routes.CONTEST}
+              component={ReviewContestedQuestions}
+            />
+            <Route
+              exact
+              path={routes.USER_PROFILES}
+              render={props => (
+                <PublicProfile
+                  {...props}
+                  key={window.location.pathName} // eslint-disable-line no-undef
+                  signedInUser={this.state.signedInUser}
+                  displayName={this.state.displayName}
+                  isAdmin={this.state.isAdmin}
+                />
+              )}
+            />
+            <Route exact path={routes.PRIVACY} component={PrivacyPolicy} />
+            <Route
+              exact
+              path={routes.ADD_TO_HOMESCREEN}
+              component={AddToHomescreen}
+            />
 
-          <Route path="*" component={NoMatch} />
-        </Switch>
-        <Footer signedInUser={this.state.signedInUser} />
-      </MuiThemeProvider>
+            <Route path="*" component={NoMatch} />
+          </Switch>
+          <Footer signedInUser={this.state.signedInUser} />
+        </MuiThemeProvider>
+      </QuizContext.Provider>
     );
   }
 }

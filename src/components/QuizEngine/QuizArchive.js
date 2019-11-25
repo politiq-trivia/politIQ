@@ -24,6 +24,15 @@ import bg from "../StaticPages/politiq-bg2.jpg";
 import AuthUserContext from "../Auth/AuthUserContext";
 import { db } from "../../firebase";
 
+import QuizContext from "./quizContext";
+
+function isEmpty(obj) {
+  for (var key in obj) {
+    if (obj.hasOwnProperty(key)) return false;
+  }
+  return true;
+}
+
 class QuizArchiveBase extends Component {
   constructor(props) {
     super(props);
@@ -128,12 +137,20 @@ class QuizArchiveBase extends Component {
     // this is dangerous all users can see quizzes then
     /*     const data = await JSON.parse(localStorage.getItem("quizzes"));
      */
+    let quizzes;
+    if (!isEmpty(this.context)) {
+      // get quizzes from context
+      console.log("getting quizzes from context");
+      quizzes = this.context; //provided by App.js
+    } else {
+      console.log("getting quizzes from db");
 
-    let data;
-    await db.getQuizzes().then(res => {
-      data = res.val();
-    });
-    const allDates = Object.keys(data);
+      // Context hasn't populated yet, (page reloaded), so get quizzes from database
+      await db.getQuizzes().then(res => {
+        quizzes = res.val();
+      });
+    }
+    const allDates = Object.keys(quizzes);
 
     const dateArray = allDates.filter(date => this.dateFilter(date));
     if (dateArray.length === 0) {
@@ -151,7 +168,7 @@ class QuizArchiveBase extends Component {
     let titleArray = [];
     for (let i = 0; i < dateArray.length; i++) {
       let date = dateArray[i];
-      const title = data[date]["quiz-title"];
+      const title = quizzes[date]["quiz-title"];
       titleArray.push(title);
     }
     this.setState({
@@ -509,6 +526,9 @@ class QuizArchiveBase extends Component {
     );
   }
 }
+
+//defined the context, which contains all the quizzes
+QuizArchiveBase.contextType = QuizContext;
 
 const QuizArchive = ({ history }) => (
   <AuthUserContext.Consumer>
