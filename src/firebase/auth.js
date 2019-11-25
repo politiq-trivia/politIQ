@@ -46,7 +46,6 @@ export const onAuthUserListener = (next, fallback) =>
             providerData: authUser.providerData,
             ...dbUser
           };
-          console.log(authUser);
           next(authUser);
         });
     } else {

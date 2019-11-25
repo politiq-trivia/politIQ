@@ -535,7 +535,7 @@ class QuizBase extends Component {
                     quiz={this.state.selectedQuiz}
                     quizID={this.state.selectedQuizId}
                     uid={authUser.uid}
-                    email={this.state.email}
+                    email={authUser.email}
                     back={this.toggleContest}
                     currentQ={this.state.finished ? null : this.state.currentQ}
                     atEndOfQuiz={this.state.finished}

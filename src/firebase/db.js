@@ -391,6 +391,25 @@ export const getDisplayNames = username => {
   return userData;
 };
 
+export const getDisplayNames2 = async username => {
+  let displayName;
+  let invisibleScore;
+  await db
+    .ref()
+    .child("users/" + username)
+    .child("displayName")
+    .once("value")
+    .then(res => (displayName = res.val()));
+  await db
+    .ref()
+    .child("users/" + username)
+    .child("invisibleScore")
+    .once("value")
+    .then(res => (invisibleScore = res.val()));
+  const userData = { displayName, invisibleScore };
+  return userData;
+};
+
 export const getOnlyDisplayNames = username => {
   const displayName = db
     .ref()
