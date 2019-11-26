@@ -102,6 +102,8 @@ class HomePage extends Component {
   };
 
   render() {
+    console.log("HomePage", this.state.authUser);
+
     return (
       <Paper className="pageStyle home">
         <Helmet>

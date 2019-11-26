@@ -28,6 +28,7 @@ class QuizBase extends Component {
     super(props);
 
     this.state = {
+      loading: true,
       questionsArray: [],
       selectedQuizId: "",
       selectedQuiz: {},
@@ -60,6 +61,8 @@ class QuizBase extends Component {
   };
 
   checkForScores = date => {
+    console.log("checkForScores");
+
     // guarentee render of quiz if score isn't found
     this.setState({ userHasScoreSubmitted: false });
 
@@ -73,6 +76,14 @@ class QuizBase extends Component {
           // if a score is submitted already
           // User cannot be displayed quiz any longer
           this.setState({ userHasScoreSubmitted: true });
+          this.setState({ score: res.val() }); //actually set the score to the state
+          this.setState({ finished: true });
+          this.setState({ loading: false });
+        } else {
+          console.log("getting next quiz");
+          this.setState({ finished: false });
+
+          this.getQuiz(date);
         }
       });
     }
@@ -95,23 +106,14 @@ class QuizBase extends Component {
     }
 
     // I think this was for checking if the user is contesting the question
-    if (localStorage.hasOwnProperty("state")) {
-      const newState = JSON.parse(localStorage.state);
-      this.setState(newState);
-      this.renderQ(0, newState.uid);
-      return;
-    } else {
-      this.setState({
-        selectedQuizId: date,
-        contestQuestion: false,
-        uid
-      });
 
-      this.getQuiz(date);
-
-      //Check if the user already has a score in the database after getting quiz
-      this.checkForScores(date);
-    }
+    this.setState({
+      selectedQuizId: date,
+      contestQuestion: false,
+      uid
+    });
+    //Check if the user already has a score in the database, if they don't, render the quiz
+    this.checkForScores(date);
 
     trackEvent("Quizzes", "Quiz loaded", "QUIZ_LOADED");
   };
@@ -146,6 +148,8 @@ class QuizBase extends Component {
   };
 
   getUser = () => {
+    console.log("getUser");
+
     if (this.props.authUser) {
       const userInfo = this.props.authUser;
       const uid = userInfo.uid;
@@ -170,6 +174,9 @@ class QuizBase extends Component {
   };
 
   getQuiz = async date => {
+    this.setState({ loading: true });
+    console.log("getQuiz");
+
     // what if it just reads the localstorage allquizzes object for a quiz of that date?
     /* const quizzes = JSON.parse(localStorage.getItem("quizzes"));
     const quiz = quizzes[date]; */
@@ -197,13 +204,15 @@ class QuizBase extends Component {
           finished: false,
           clicked: false,
           currentQ: 1,
-          score: 0
+          score: 0,
+          loading: false //finish loading
         });
       })
       .catch(err => console.log(err));
   };
 
   renderNextQuiz = date => {
+    console.log("renderNextQuiz");
     // guarentee render of quiz if score isn't found
     this.setState({ userHasScoreSubmitted: false });
 
@@ -211,6 +220,8 @@ class QuizBase extends Component {
   };
 
   nextQ = () => {
+    console.log("nextQ");
+
     clearTimeout(this.timer);
     clearInterval(this.progressBar);
     const qNum = this.state.currentQ + 1;
@@ -256,6 +267,8 @@ class QuizBase extends Component {
   };
 
   renderQ = (qNum, uid) => {
+    console.log("renderQ");
+
     if (
       qNum > 0 &&
       this.state.selectedQuiz[qNum] &&
@@ -378,6 +391,7 @@ class QuizBase extends Component {
   };
 
   submitScore = (score, uid) => {
+    console.log("submitScore");
     const scoreObj = {
       date: this.state.selectedQuizId,
       score
@@ -425,6 +439,7 @@ class QuizBase extends Component {
   };
 
   render() {
+    console.log("finished", this.state.finished);
     const quizHeader = this.state.selectedQuizId.slice(0, 10);
 
     // for variable question durations
@@ -461,7 +476,7 @@ class QuizBase extends Component {
               message={`Are you sure you want to leave? Your score will be saved as ${this.state.score} and you will not be able to retake this quiz.`}
             />
 
-            {this.state.questionsArray.length === 0 ? (
+            {this.state.loading ? (
               <img
                 src={loadingGif}
                 alt="loading gif"
@@ -500,31 +515,31 @@ class QuizBase extends Component {
                             id="volume"
                           />
                         )}
+                        <MediaQuery minWidth={416}>
+                          <div
+                            style={{ float: "right" }}
+                            className={
+                              this.state.clicked ? "dontShowClock" : "showClock"
+                            }
+                          >
+                            <ReactCountdownClock
+                              key={this.state.currentQ}
+                              seconds={timerDuration}
+                              size={50}
+                              color="#a54ee8"
+                              alpha={0.9}
+                              onComplete={
+                                this.state.selectedValue === ""
+                                  ? () => this.checkCorrect()
+                                  : null
+                              }
+                            />
+                          </div>
+                        </MediaQuery>
                       </>
                     )}
                   </div>
                 </div>
-                <MediaQuery minWidth={416}>
-                  <div
-                    style={{ float: "right" }}
-                    className={
-                      this.state.clicked ? "dontShowClock" : "showClock"
-                    }
-                  >
-                    <ReactCountdownClock
-                      key={this.state.currentQ}
-                      seconds={timerDuration}
-                      size={50}
-                      color="#a54ee8"
-                      alpha={0.9}
-                      onComplete={
-                        this.state.selectedValue === ""
-                          ? () => this.checkCorrect()
-                          : null
-                      }
-                    />
-                  </div>
-                </MediaQuery>
 
                 {this.state.contestQuestion && authUser ? (
                   <ContestAQuestion
@@ -551,7 +566,7 @@ class QuizBase extends Component {
                   />
                 ) : (
                   <div>
-                    {authUser
+                    {authUser && this.state.userHasScoreSubmitted === false
                       ? this.renderQ(this.state.currentQ, authUser.uid)
                       : this.renderQ(this.state.currentQ, "")}
                   </div>

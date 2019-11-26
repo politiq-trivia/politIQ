@@ -9,7 +9,6 @@ import {
   getUserScores,
   getAllScores
 } from "../utils/storeScoreData";
-import { storeQuizzes } from "../utils/storeQuizzes";
 
 import Navigation from "./Navigation/Navigation";
 import LandingPage from "./StaticPages/Landing";
@@ -154,7 +153,6 @@ class App extends Component {
   };
 
   getSignedInUser = async uid => {
-    console.log("getting user");
     const userData = await db.getDisplayNames(uid);
     userData.displayName.then(displayName => {
       this.setState({

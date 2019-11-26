@@ -9,10 +9,13 @@ import { db } from "../../firebase";
 import AuthUserContext from "../Auth/AuthUserContext";
 
 class TodaysQuizButton extends Component {
-  state = {
-    mostRecentQuizURL: "",
-    noAvailableQuizzes: false
-  };
+  constructor(props) {
+    super(props);
+    this.state = {
+      mostRecentQuizURL: "",
+      noAvailableQuizzes: false
+    };
+  }
 
   componentDidMount() {
     this.getMostRecentQuizId();
@@ -36,31 +39,53 @@ class TodaysQuizButton extends Component {
     // need to get scores of the user to see if they've taken the quiz already
     // use context to do this
     let uidScoreDates;
-    await db.getScoresByUid(this.context.uid).then(res => {
-      uidScoreDates = Object.keys(res.val());
-      if (!uidScoreDates) uidScoreDates = [];
-    });
-    console.log(quizId.substring(5, 50));
-    console.log(
-      uidScoreDates.filter(date => date === quizId.substring(5, 50)).length
-    );
-    if (quizId === "No Available Quizzes") {
-      // there is no quiz returned
-      this.setState({
-        noAvailableQuizzes: true
+    // we have the context of authuser available
+    if (this.context) {
+      console.log("context available");
+      console.log(this.context);
+      await db.getScoresByUid(this.context.uid).then(res => {
+        if (!res.val()) {
+          uidScoreDates = [];
+        } else {
+          uidScoreDates = Object.keys(res.val());
+        }
       });
-      if (this.props.showErrorMessage) {
-        this.props.showErrorMessage();
+
+      if (quizId === "No Available Quizzes") {
+        // there is no quiz returned
+        this.setState({
+          noAvailableQuizzes: true
+        });
+        if (this.props.showErrorMessage) {
+          this.props.showErrorMessage();
+        }
+      } else if (
+        uidScoreDates.filter(date => date === quizId.substring(5, 50)).length >
+        0
+      ) {
+        // if the user has a score for that quiz already
+        this.setState({ noAvailableQuizzes: true });
+      } else {
+        this.setState({
+          mostRecentQuizURL: quizId
+        });
       }
-    } else if (
-      uidScoreDates.filter(date => date === quizId.substring(5, 50)).length > 0
-    ) {
-      // if the user has a score for that quiz already
-      this.setState({ noAvailableQuizzes: true });
     } else {
-      this.setState({
-        mostRecentQuizURL: quizId
-      });
+      console.log("no context available");
+      // there is no context available
+      const quizId = await getMostRecentQuizId();
+      if (quizId === "No Available Quizzes") {
+        this.setState({
+          noAvailableQuizzes: true
+        });
+        if (this.props.showErrorMessage) {
+          this.props.showErrorMessage();
+        }
+      } else {
+        this.setState({
+          mostRecentQuizURL: quizId
+        });
+      }
     }
   };
 
@@ -69,6 +94,7 @@ class TodaysQuizButton extends Component {
   };
 
   render() {
+    console.log(this.context);
     const { buttonText, id } = this.props;
     return (
       <Button

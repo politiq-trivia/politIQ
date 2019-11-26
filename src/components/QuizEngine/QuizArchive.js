@@ -44,7 +44,9 @@ class QuizArchiveBase extends Component {
       rowsPerPage: 10,
       page: 0,
       loading: true,
-      selectedMonth: "",
+      selectedMonth: moment()
+        .startOf("month")
+        .format("YYYY-MM-DDTHH:mm"),
       modalOpen: false
     };
   }
@@ -68,11 +70,13 @@ class QuizArchiveBase extends Component {
   };
 
   componentDidUpdate(prevProps, prevState) {
+    console.log("component updated");
     if (prevProps !== this.props) {
       if (this.props.authUser) {
         this.setState({
           signedInUser: this.props.authUser.uid
         });
+
         // important for [last page, next page] macro.  Otherwise get quizzes runs twice also
         if (prevState !== this.state) this.getQuizzesFromDb();
       }
@@ -99,6 +103,7 @@ class QuizArchiveBase extends Component {
   };
 
   dateFilter = date => {
+    console.log(this.state.selectedMonth);
     if (
       this.state.selectedMonth ===
       moment()
@@ -138,21 +143,22 @@ class QuizArchiveBase extends Component {
     /*     const data = await JSON.parse(localStorage.getItem("quizzes"));
      */
     let quizzes;
-    if (!isEmpty(this.context)) {
+    /*   if (!isEmpty(this.context)) {
       // get quizzes from context
       console.log("getting quizzes from context");
       quizzes = this.context; //provided by App.js
-    } else {
-      console.log("getting quizzes from db");
+    } else {  */
+    console.log("getting quizzes from db");
 
-      // Context hasn't populated yet, (page reloaded), so get quizzes from database
-      await db.getQuizzes().then(res => {
-        quizzes = res.val();
-      });
-    }
+    // Context hasn't populated yet, (page reloaded), so get quizzes from database
+    await db.getQuizzes().then(res => {
+      quizzes = res.val();
+    });
+    // }
     const allDates = Object.keys(quizzes);
 
     const dateArray = allDates.filter(date => this.dateFilter(date));
+
     if (dateArray.length === 0) {
       this.setState({
         noQuizzes: true,
@@ -177,6 +183,7 @@ class QuizArchiveBase extends Component {
       loading: false,
       page: 0
     });
+
     if (this.state.signedInUser) {
       this.getTheLoggedInUsersScores();
     }
@@ -185,6 +192,7 @@ class QuizArchiveBase extends Component {
   };
 
   getTheLoggedInUsersScores = () => {
+    console.log("getting user scores");
     const uid = this.state.signedInUser;
     if (uid === "") {
       return;
