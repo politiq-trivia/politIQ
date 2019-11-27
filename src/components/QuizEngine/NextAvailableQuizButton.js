@@ -7,7 +7,10 @@ import QuizContext from "./quizContext";
 
 import Button from "@material-ui/core/Button";
 import "./quiz.css";
-
+Date.prototype.addHours = function(h) {
+  this.setTime(this.getTime() + h * 60 * 60 * 1000);
+  return this;
+};
 class NextAvailableQuizButton extends Component {
   constructor(props) {
     super(props);
@@ -39,18 +42,24 @@ class NextAvailableQuizButton extends Component {
     const quizDates = Object.keys(quizzes);
 
     // which quiz dates this month don't have a score already?
-    const availableQuizDates = quizDates.filter(
+    let availableQuizDates = quizDates.filter(
       date => !(uidScoreDates.indexOf(date) > -1)
     );
 
+    // we need to fix date strings to have time zone at the end because safari is amazing!
+    availableQuizDates = availableQuizDates.map(date => {
+      if (date.length < 13) {
+        date = date + "T00:00:00Z"; //ISO 8601!!!!
+        return new Date(date).addHours(8);
+      } else {
+        date = date + ":00Z"; //ISO 8601!!!!
+        return new Date(date).addHours(8);
+      }
+    });
+
     // which is most recent
     const nextAvailableQuizDate = moment(
-      new Date(
-        Math.max.apply(
-          null,
-          availableQuizDates.map(date => new Date(date))
-        )
-      )
+      new Date(Math.max.apply(null, availableQuizDates))
     ).format("YYYY-MM-DDTHH:mm");
     return nextAvailableQuizDate;
   };
@@ -68,7 +77,6 @@ class NextAvailableQuizButton extends Component {
       this.props.history.push("/quiz-archive");
     }
     // redirect if new quiz available
-    console.log("changing page with url " + quizDateUrl);
 
     this.props.renderNextQuiz(quizDate);
   };
@@ -97,4 +105,4 @@ class NextAvailableQuizButton extends Component {
 //defined the context, which contains all the quizzes
 NextAvailableQuizButton.contextType = QuizContext;
 
-export default withRouter(NextAvailableQuizButton);
+export default NextAvailableQuizButton;

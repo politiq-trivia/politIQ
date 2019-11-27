@@ -22,6 +22,9 @@ import "./quiz.css";
 import errorUrl from "./sounds/error.wav";
 import wrongUrl from "./sounds/wrong.wav";
 import correctUrl from "./sounds/correct.wav";
+import QuizContext from "./quizContext";
+import wait from "waait";
+import { isEmpty } from "@firebase/util";
 
 class QuizBase extends Component {
   constructor(props) {
@@ -175,40 +178,33 @@ class QuizBase extends Component {
 
   getQuiz = async date => {
     this.setState({ loading: true });
-    console.log("getQuiz");
+    // Use quiz context to get quizzes
+    const quiz = this.context[date];
 
-    // what if it just reads the localstorage allquizzes object for a quiz of that date?
-    /* const quizzes = JSON.parse(localStorage.getItem("quizzes"));
-    const quiz = quizzes[date]; */
-    //Must read the quizzes a different way, possibly a database request
-    db.getQuiz(date)
-      .then(quizval => {
-        // handle nonexistent quiz
-        const quiz = quizval.val();
+    if (quiz === undefined) {
+      if (quiz === null || quiz === undefined) {
+        return;
+      }
+    }
 
-        if (quiz === null || quiz === undefined) {
-          return;
-        }
-        const quizQs = Object.keys(quiz);
-        quizQs.pop();
-        const qArray = [];
-        for (let i = 1; i <= quizQs.length; i++) {
-          qArray.push(quiz[i]);
-        }
-        this.setState({
-          selectedQuiz: quiz,
-          questionsArray: qArray,
-          quizLength: qArray.length,
-          selectedQuizId: date,
-          completed: 0,
-          finished: false,
-          clicked: false,
-          currentQ: 1,
-          score: 0,
-          loading: false //finish loading
-        });
-      })
-      .catch(err => console.log(err));
+    const quizQs = Object.keys(quiz);
+    quizQs.pop();
+    const qArray = [];
+    for (let i = 1; i <= quizQs.length; i++) {
+      qArray.push(quiz[i]);
+    }
+    this.setState({
+      selectedQuiz: quiz,
+      questionsArray: qArray,
+      quizLength: qArray.length,
+      selectedQuizId: date,
+      completed: 0,
+      finished: false,
+      clicked: false,
+      currentQ: 1,
+      score: 0,
+      loading: false //finish loading
+    });
   };
 
   renderNextQuiz = date => {
@@ -440,6 +436,7 @@ class QuizBase extends Component {
 
   render() {
     console.log("finished", this.state.finished);
+    console.log("loading", this.state.loading);
     const quizHeader = this.state.selectedQuizId.slice(0, 10);
 
     // for variable question durations
@@ -579,7 +576,7 @@ class QuizBase extends Component {
     );
   }
 }
-
+QuizBase.contextType = QuizContext;
 const Quiz = ({ storeScore }) => (
   <AuthUserContext.Consumer>
     {authUser => <QuizBase authUser={authUser} storeScore={storeScore} />}

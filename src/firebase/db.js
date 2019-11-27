@@ -273,7 +273,8 @@ export const getQuizzes = () => {
 export const getQuiz = date => {
   const quiz = db
     .ref()
-    .child("quizzes/" + date)
+    .child("quizzes")
+    .child(date)
     .once("value");
   return quiz;
 };
