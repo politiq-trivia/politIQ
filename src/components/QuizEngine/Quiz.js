@@ -177,7 +177,6 @@ class QuizBase extends Component {
   };
 
   getQuiz = async date => {
-    this.setState({ loading: true });
     // Use quiz context to get quizzes
     const quiz = this.context[date];
 
