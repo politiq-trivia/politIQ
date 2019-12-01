@@ -49,11 +49,11 @@ class NextAvailableQuizButton extends Component {
     // we need to fix date strings to have time zone at the end because safari is amazing!
     availableQuizDates = availableQuizDates.map(date => {
       if (date.length < 13) {
-        date = date + "T00:00:00Z"; //ISO 8601!!!!
-        return new Date(date).addHours(8);
+        date = date + "T00:00:00"; //ISO 8601!!!!
+        return new Date(date);
       } else {
-        date = date + ":00Z"; //ISO 8601!!!!
-        return new Date(date).addHours(8);
+        date = date + ":00"; //ISO 8601!!!!
+        return new Date(date);
       }
     });
 
@@ -61,6 +61,7 @@ class NextAvailableQuizButton extends Component {
     const nextAvailableQuizDate = moment(
       new Date(Math.max.apply(null, availableQuizDates))
     ).format("YYYY-MM-DDTHH:mm");
+    console.log(nextAvailableQuizDate);
     return nextAvailableQuizDate;
   };
 
