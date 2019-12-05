@@ -129,9 +129,9 @@ class ProfilePhoto extends Component {
               />
             </div>
             <div>
-              <button className="deleteButton" onClick={this.handleRemovePhoto}>
+              <Button color="primary" onClick={this.handleRemovePhoto}>
                 Remove Photo
-              </button>
+              </Button>
             </div>
           </div>
         ) : (
