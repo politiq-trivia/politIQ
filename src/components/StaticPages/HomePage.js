@@ -23,7 +23,6 @@ import {
 import { withAuthorization, withEmailVerification } from "../Auth/index";
 
 import * as routes from "../../constants/routes";
-
 import Paper from "@material-ui/core/Paper";
 import Button from "@material-ui/core/Button";
 import Snackbar from "@material-ui/core/Snackbar";
@@ -32,6 +31,7 @@ import CloseIcon from "@material-ui/icons/Close";
 import TodaysQuizButton from "./TodaysQuizButton";
 
 import "./Static.css";
+import QuizContext from "../QuizEngine/quizContext";
 
 const getHref = () => {
   return window.location.href.toString();
@@ -154,20 +154,24 @@ class HomePage extends Component {
             for the next challenge.
           </p>
         ) : null}
-
-        <TodaysQuizButton
-          buttonText="Take Today's Quiz"
-          id="today"
-          disabled={this.state.noAvailableQuizzes}
-          showErrorMessage={this.showErrorMessage}
-          signedInUser={this.props.signedInUser}
-        />
+        <QuizContext.Consumer>
+          {quizContext => (
+            <TodaysQuizButton
+              quizContext={quizContext}
+              buttonText="Take Today's Quiz"
+              id="today"
+              disabled={this.state.noAvailableQuizzes}
+              showErrorMessage={this.showErrorMessage}
+              signedInUser={this.props.signedInUser}
+            />
+          )}
+        </QuizContext.Consumer>
 
         <Link
           to={routes.QUIZ_ARCHIVE}
           style={{ textDecoration: "none", color: "#a54ee8" }}
         >
-          <Button color="primary" variant="outlined" id="archive-link">
+          <Button color="primary" variant="contained" id="archive-link">
             Past Quizzes
           </Button>
         </Link>

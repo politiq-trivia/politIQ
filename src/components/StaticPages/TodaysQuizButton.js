@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { withRouter } from "react-router-dom";
-import getMostRecentQuizId from "../../utils/mostRecentQuizId";
+import moment from "moment";
 
 import Button from "@material-ui/core/Button";
 
@@ -12,8 +12,8 @@ class TodaysQuizButton extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      mostRecentQuizURL: "",
-      noAvailableQuizzes: false
+      todaysQuizUrl: "",
+      todaysQuizNotAvailable: false
     };
   }
 
@@ -23,7 +23,7 @@ class TodaysQuizButton extends Component {
 
   shouldComponentUpdate(nextProps, nextState) {
     // see if there have been new scores added since the last time the component was rendered
-    if (nextState.mostRecentQuizURL !== this.state.mostRecentQuizURL) {
+    if (nextState.todaysQuizUrl !== this.state.todaysQuizUrl) {
       return true;
     } else return false;
   }
@@ -35,77 +35,74 @@ class TodaysQuizButton extends Component {
   };
 
   getMostRecentQuizId = async () => {
-    const quizId = await getMostRecentQuizId();
-    // need to get scores of the user to see if they've taken the quiz already
-    // use context to do this
-    let uidScoreDates;
-    // we have the context of authuser available
-    if (this.context) {
-      console.log("context available");
-      console.log(this.context);
-      await db.getScoresByUid(this.context.uid).then(res => {
-        if (!res.val()) {
-          uidScoreDates = [];
-        } else {
-          uidScoreDates = Object.keys(res.val());
-        }
-      });
+    // get auth user scores and quizzes from context
 
-      if (quizId === "No Available Quizzes") {
-        // there is no quiz returned
-        this.setState({
-          noAvailableQuizzes: true
-        });
-        if (this.props.showErrorMessage) {
-          this.props.showErrorMessage();
-        }
-      } else if (
-        uidScoreDates.filter(date => date === quizId.substring(5, 50)).length >
-        0
-      ) {
-        // if the user has a score for that quiz already
-        this.setState({ noAvailableQuizzes: true });
+    // get scores
+    let uidScoreDates;
+
+    await db.getScoresByUid(this.context.uid).then(res => {
+      if (res.val() === null) {
+        uidScoreDates = [];
       } else {
-        this.setState({
-          mostRecentQuizURL: quizId
-        });
+        uidScoreDates = Object.keys(res.val());
       }
-    } else {
-      console.log("no context available");
-      // there is no context available
-      const quizId = await getMostRecentQuizId();
-      if (quizId === "No Available Quizzes") {
-        this.setState({
-          noAvailableQuizzes: true
-        });
-        if (this.props.showErrorMessage) {
-          this.props.showErrorMessage();
-        }
-      } else {
-        this.setState({
-          mostRecentQuizURL: quizId
-        });
-      }
+    });
+
+    //get quiz dates
+    const quizDates = Object.keys(this.props.quizContext);
+
+    const mostRecentQuizDate = quizDates.slice(-1)[0]; // get last element in array (most recent quiz date)
+    // which quiz dates this month don't have a score already?
+    let availableQuizDates = quizDates.filter(
+      date => !(uidScoreDates.indexOf(date) > -1)
+    );
+
+    console.log("availableQuizDates:", availableQuizDates);
+    console.log("mostRecentQuizDate:", mostRecentQuizDate);
+    // if most recent quiz is taken set todaysQuizNotAvailable true
+    if (!availableQuizDates.includes(mostRecentQuizDate)) {
+      this.setState({ todaysQuizNotAvailable: true });
     }
+    // find next available quiz
+    // we need to fix date strings to have time zone at the end because safari is amazing!
+    availableQuizDates = availableQuizDates.map(date => {
+      if (date.length < 13) {
+        date = date + "T00:00:00"; //ISO 8601!!!!
+        return moment(date);
+      } else {
+        date = date + ":00"; //ISO 8601!!!!
+        return moment(date);
+      }
+    });
+
+    // which is most recent
+    const nextAvailableQuizDate = moment(
+      new Date(Math.max.apply(null, availableQuizDates))
+    ).format("YYYY-MM-DDTHH:mm");
+    console.log("nextAvailableQuizDate:", nextAvailableQuizDate);
+
+    this.setState({
+      todaysQuizUrl: nextAvailableQuizDate
+    });
   };
 
-  redirectToQuiz = () => {
-    this.props.history.push(`/${this.state.mostRecentQuizURL}`);
+  redirectToTodaysQuiz = () => {
+    this.props.history.push(`/quiz/${this.state.todaysQuizUrl}`);
   };
 
   render() {
+    console.log(this.state.todaysQuizNotAvailable);
+    let buttonText = this.state.todaysQuizNotAvailable
+      ? "Next Available Quiz"
+      : "Today's Quiz";
     console.log(this.context);
-    const { buttonText, id } = this.props;
     return (
       <Button
         color="primary"
-        variant="outlined"
+        variant="contained"
         size="large"
-        id={id}
-        disabled={
-          this.state.mostRecentQuizURL === "" || this.state.noAvailableQuizzes
-        }
-        onClick={this.redirectToQuiz}
+        id="archive-link"
+        onClick={this.redirectToTodaysQuiz}
       >
         {buttonText}
       </Button>

@@ -33,8 +33,11 @@ class NextAvailableQuizButton extends Component {
     let uidScoreDates;
 
     await db.getScoresByUid(this.props.uid).then(res => {
-      uidScoreDates = Object.keys(res.val());
-      if (!uidScoreDates) uidScoreDates = [];
+      if (res.val() === null) {
+        uidScoreDates = [];
+      } else {
+        uidScoreDates = Object.keys(res.val());
+      }
     });
     ///////// get All dates this month where user score does not exist
 

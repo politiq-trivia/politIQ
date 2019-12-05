@@ -49,7 +49,7 @@
   margin-top: 3vh;
 }
 .tableItem:hover {
-  background-color: #C790F1;
+  background-color: #c790f1;
   cursor: pointer;
 }
 .mobile-back {
@@ -90,7 +90,7 @@
   .viewOlder {
     display: block;
   }
-  
+
   .olderDescription {
     width: auto;
   }
@@ -104,7 +104,7 @@
   width: 70%;
   margin-left: auto;
   margin-right: auto;
-  color: #8643BA;
+  color: #8643ba;
   margin-bottom: 0;
 }
 
@@ -123,7 +123,7 @@
   top: 25% !important;
   left: 20% !important;
   width: 40%;
-  background-color: 'white';
+  background-color: "white";
   outline: none;
   padding: 10vh;
   text-align: center;
@@ -150,7 +150,6 @@
     line-height: 1.4;
   }
 }
-
 
 /* ---------------INDIVIDUAL ARCHIVED QUIZ SHOW STYLES ----- */
 
@@ -203,7 +202,6 @@
   }
 }
 
-
 /* ------------- QUIZ STYLES ----------------- */
 
 .quiz-body {
@@ -226,12 +224,12 @@
 
 .finish-quiz-buttons {
   display: flex;
-  justify-content:center;
+  justify-content: center;
   width: 25vw;
   flex-direction: column;
   margin-left: auto;
   margin-right: auto;
-} 
+}
 
 .end-button {
   width: 25vw;
@@ -254,7 +252,7 @@
 
 #keep-playing:hover {
   cursor: pointer;
-  background-color: #8643BA;
+  background-color: #8643ba;
 }
 
 @media screen and (max-width: 415px) {
@@ -285,7 +283,7 @@
     margin-top: 2vh;
   }
   .quiz-body h1 {
-    font-size: 1.1em;;
+    font-size: 1.1em;
     margin-bottom: 5vh;
     width: 100%;
   }
@@ -327,7 +325,6 @@
     width: 100%;
   }
 }
-
 
 .quiz-loading-gif {
   height: 80%;
