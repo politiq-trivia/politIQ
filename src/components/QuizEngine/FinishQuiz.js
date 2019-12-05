@@ -46,7 +46,8 @@ class FinishQuiz extends Component {
   }
 
   render() {
-    const { uid, score, quizLength, toggleContest } = this.props;
+    const { uid, score, toggleContest } = this.props;
+    let quizLength = 5;
     if (uid !== "") {
       return (
         <div className="finish-quiz">

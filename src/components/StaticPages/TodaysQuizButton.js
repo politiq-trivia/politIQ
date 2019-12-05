@@ -88,11 +88,9 @@ class TodaysQuizButton extends Component {
   };
 
   render() {
-    console.log(this.state.todaysQuizNotAvailable);
     let buttonText = this.state.todaysQuizNotAvailable
       ? "Next Available Quiz"
       : "Today's Quiz";
-    console.log(this.context);
     return (
       <Button
         color="primary"
