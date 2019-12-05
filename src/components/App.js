@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Route, Switch } from "react-router-dom";
+import { Route, Switch, Redirect } from "react-router-dom";
 import { MuiThemeProvider, createMuiTheme } from "@material-ui/core/styles";
 import moment from "moment";
 
@@ -205,12 +205,11 @@ class App extends Component {
             <Route
               exact
               path={routes.LANDING}
-              component={
-                /* localStorage.hasOwnProperty("authUser") */
-                // This logic works for safari chrome and firefox
-                this.state.authUser ? HomePage : LandingPage
-              } // eslint-disable-line
+              render={props =>
+                this.state.authUser ? <Redirect to="/home" /> : <LandingPage />
+              }
             />
+            <Route exact path={"/home"} component={HomePage} />
             <Route
               exact
               path={routes.SIGN_UP}
