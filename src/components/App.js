@@ -192,10 +192,15 @@ class App extends Component {
       //Provide quiz value to everything
       <QuizContext.Provider value={this.state.quizzes}>
         <MuiThemeProvider theme={theme}>
-          <Navigation
-            signedInUser={this.state.signedInUser}
-            clearStateOnSignout={this.clearStateOnSignout}
-          />
+          <QuizContext.Consumer>
+            {quizContext => (
+              <Navigation
+                quizContext={quizContext}
+                signedInUser={this.state.signedInUser}
+              />
+            )}
+          </QuizContext.Consumer>
+
           <Switch>
             <Route
               exact

@@ -57,8 +57,6 @@ class TodaysQuizButton extends Component {
       date => !(uidScoreDates.indexOf(date) > -1)
     );
 
-    console.log("availableQuizDates:", availableQuizDates);
-    console.log("mostRecentQuizDate:", mostRecentQuizDate);
     // if most recent quiz is taken set todaysQuizNotAvailable true
     if (!availableQuizDates.includes(mostRecentQuizDate)) {
       this.setState({ todaysQuizNotAvailable: true });
@@ -79,7 +77,6 @@ class TodaysQuizButton extends Component {
     const nextAvailableQuizDate = moment(
       new Date(Math.max.apply(null, availableQuizDates))
     ).format("YYYY-MM-DDTHH:mm");
-    console.log("nextAvailableQuizDate:", nextAvailableQuizDate);
 
     this.setState({
       todaysQuizUrl: nextAvailableQuizDate

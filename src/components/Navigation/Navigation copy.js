@@ -229,9 +229,7 @@ class NavigationAuthBase extends Component {
               <ListItem button disabled={this.state.noQuizzes}>
                 <ListItemText
                   primary={
-                    this.state.noQuizzes
-                      ? "No Available Quizzes"
-                      : "Play Today's Quiz"
+                    this.state.noQuizzes ? "No Available Quizzes" : "Play Game"
                   }
                 />
               </ListItem>
@@ -309,9 +307,7 @@ class NavigationAuthBase extends Component {
               <ListItem button disabled={this.state.noQuizzes}>
                 <ListItemText
                   primary={
-                    this.state.noQuizzes
-                      ? "No Available Quizzes"
-                      : "Take Today's Quiz"
+                    this.state.noQuizzes ? "No Available Quizzes" : "Play Game"
                   }
                 />
               </ListItem>
