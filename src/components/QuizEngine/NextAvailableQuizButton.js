@@ -50,10 +50,10 @@ class NextAvailableQuizButton extends Component {
     availableQuizDates = availableQuizDates.map(date => {
       if (date.length < 13) {
         date = date + "T00:00:00"; //ISO 8601!!!!
-        return new Date(date);
+        return moment(date);
       } else {
         date = date + ":00"; //ISO 8601!!!!
-        return new Date(date);
+        return moment(date);
       }
     });
 
