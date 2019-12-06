@@ -82,6 +82,7 @@ class FinishQuiz extends Component {
               color="primary"
               variant="contained"
               onClick={toggleContest}
+              disabled={Object.keys(this.props.quiz).length === 0 && this.props.quiz.constructor === Object}
               className="end-button"
             >
               Contest a Question

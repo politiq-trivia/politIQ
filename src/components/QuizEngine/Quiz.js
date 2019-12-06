@@ -82,6 +82,7 @@ class QuizBase extends Component {
           this.setState({ score: res.val() }); //actually set the score to the state
           this.setState({ finished: true });
           this.setState({ loading: false });
+
         } else {
           console.log("getting next quiz");
           this.setState({ finished: false });
@@ -344,7 +345,7 @@ class QuizBase extends Component {
           if (this.state.volumeUp === true) {
             // add one more second after when the timer ends and when the trombone plays
             this.error.play();
-            this.error.onended = function() {
+            this.error.onended = function () {
               let wrong = new Audio(wrongUrl);
               wrong.play();
             };
@@ -434,8 +435,7 @@ class QuizBase extends Component {
   };
 
   render() {
-    console.log("finished", this.state.finished);
-    console.log("loading", this.state.loading);
+    console.log("quiz", this.state.selectedQuiz)
     const quizHeader = this.state.selectedQuizId.slice(0, 10);
 
     // for variable question durations
@@ -479,96 +479,97 @@ class QuizBase extends Component {
                 className="quiz-loading-gif"
               />
             ) : (
-              <div style={{ height: "100%" }}>
-                <div className="quiz-header">
-                  <h3>
-                    {this.state.selectedQuiz["quiz-title"]} ({quizHeader})
+                <div style={{ height: "100%" }}>
+                  <div className="quiz-header">
+                    <h3>
+                      {this.state.selectedQuiz["quiz-title"]} ({quizHeader})
                   </h3>
-                  <div style={{ display: "flex", flexDirection: "column" }}>
-                    {this.state.currentQ <= this.state.quizLength ? (
-                      <>
-                        <MediaQuery minWidth={416}>
-                          <h5 style={{ marginBottom: "8px" }}>
-                            Question {this.state.currentQ} of{" "}
-                            {this.state.quizLength}
-                          </h5>
-                        </MediaQuery>
-                        <MediaQuery maxWidth={415}>
-                          <h5 style={{ marginBottom: "3px" }}>
-                            {this.state.currentQ} of {this.state.quizLength}
-                          </h5>
-                        </MediaQuery>
-                      </>
-                    ) : null}
-                    {this.state.finished ? null : (
-                      <>
-                        {this.state.volumeUp === true ? (
-                          <VolumeUp onClick={this.toggleVolume} id="volume" />
-                        ) : (
-                          <VolumeOff
-                            color="primary"
-                            onClick={this.toggleVolume}
-                            id="volume"
-                          />
-                        )}
-                        <MediaQuery minWidth={416}>
-                          <div
-                            style={{ float: "right" }}
-                            className={
-                              this.state.clicked ? "dontShowClock" : "showClock"
-                            }
-                          >
-                            <ReactCountdownClock
-                              key={this.state.currentQ}
-                              seconds={timerDuration}
-                              size={50}
-                              color="#a54ee8"
-                              alpha={0.9}
-                              onComplete={
-                                this.state.selectedValue === ""
-                                  ? () => this.checkCorrect()
-                                  : null
+                    <div style={{ display: "flex", flexDirection: "column" }}>
+                      {this.state.currentQ <= this.state.quizLength ? (
+                        <>
+                          <MediaQuery minWidth={416}>
+                            <h5 style={{ marginBottom: "8px" }}>
+                              Question {this.state.currentQ} of{" "}
+                              {this.state.quizLength}
+                            </h5>
+                          </MediaQuery>
+                          <MediaQuery maxWidth={415}>
+                            <h5 style={{ marginBottom: "3px" }}>
+                              {this.state.currentQ} of {this.state.quizLength}
+                            </h5>
+                          </MediaQuery>
+                        </>
+                      ) : null}
+                      {this.state.finished ? null : (
+                        <>
+                          {this.state.volumeUp === true ? (
+                            <VolumeUp onClick={this.toggleVolume} id="volume" />
+                          ) : (
+                              <VolumeOff
+                                color="primary"
+                                onClick={this.toggleVolume}
+                                id="volume"
+                              />
+                            )}
+                          <MediaQuery minWidth={416}>
+                            <div
+                              style={{ float: "right" }}
+                              className={
+                                this.state.clicked ? "dontShowClock" : "showClock"
                               }
-                            />
-                          </div>
-                        </MediaQuery>
-                      </>
+                            >
+                              <ReactCountdownClock
+                                key={this.state.currentQ}
+                                seconds={timerDuration}
+                                size={50}
+                                color="#a54ee8"
+                                alpha={0.9}
+                                onComplete={
+                                  this.state.selectedValue === ""
+                                    ? () => this.checkCorrect()
+                                    : null
+                                }
+                              />
+                            </div>
+                          </MediaQuery>
+                        </>
+                      )}
+                    </div>
+                  </div>
+
+                  {this.state.contestQuestion && authUser ? (
+                    <ContestAQuestion
+                      quiz={this.state.selectedQuiz}
+                      quizID={this.state.selectedQuizId}
+                      uid={authUser.uid}
+                      email={authUser.email}
+                      back={this.toggleContest}
+                      currentQ={this.state.finished ? null : this.state.currentQ}
+                      atEndOfQuiz={this.state.finished}
+                      toggleContest={this.closeContest}
+                      state={this.state}
+                    />
+                  ) : null}
+
+                  {(this.state.finished || this.state.userHasScoreSubmitted) && !this.state.contestQuestion ? (
+                    <FinishQuiz
+                      renderNextQuiz={this.renderNextQuiz}
+                      quiz={this.state.selectedQuiz}
+                      date={this.state.selectedQuizId}
+                      uid={authUser ? authUser.uid : ""}
+                      score={this.state.score}
+                      quizLength={this.state.quizLength}
+                      toggleContest={this.toggleContest}
+                    />
+                  ) : (
+                      <div>
+                        {authUser && this.state.userHasScoreSubmitted === false
+                          ? this.renderQ(this.state.currentQ, authUser.uid)
+                          : this.renderQ(this.state.currentQ, "")}
+                      </div>
                     )}
-                  </div>
                 </div>
-
-                {this.state.contestQuestion && authUser ? (
-                  <ContestAQuestion
-                    quiz={this.state.selectedQuiz}
-                    quizID={this.state.selectedQuizId}
-                    uid={authUser.uid}
-                    email={authUser.email}
-                    back={this.toggleContest}
-                    currentQ={this.state.finished ? null : this.state.currentQ}
-                    atEndOfQuiz={this.state.finished}
-                    toggleContest={this.closeContest}
-                    state={this.state}
-                  />
-                ) : null}
-
-                {this.state.finished || this.state.userHasScoreSubmitted ? (
-                  <FinishQuiz
-                    renderNextQuiz={this.renderNextQuiz}
-                    date={this.state.selectedQuizId}
-                    uid={authUser ? authUser.uid : ""}
-                    score={this.state.score}
-                    quizLength={this.state.quizLength}
-                    toggleContest={this.toggleContest}
-                  />
-                ) : (
-                  <div>
-                    {authUser && this.state.userHasScoreSubmitted === false
-                      ? this.renderQ(this.state.currentQ, authUser.uid)
-                      : this.renderQ(this.state.currentQ, "")}
-                  </div>
-                )}
-              </div>
-            )}
+              )}
           </Paper>
         )}
       </AuthUserContext.Consumer>
