@@ -99,7 +99,7 @@ const LandingPage = () => (
         <span style={{ fontWeight: "bold" }}>3 points</span> (depending upon
         approval of its content and validity). All are welcome to contribute!
       </p>
-      <NavLink to="/signup">
+      <NavLink style={{ textDecoration: 'none' }} to="/signup">
         <Button variant="contained" color="primary">
           Sign up and start playing
         </Button>

@@ -110,6 +110,8 @@ class App extends Component {
   }
 
   initializeApp = authUser => {
+    console.log("Initialize App runs")
+
     // get all the user's scores (all time)
     getUserScores(authUser.uid);
 
@@ -153,6 +155,7 @@ class App extends Component {
   };
 
   getSignedInUser = async uid => {
+    console.log("get Signed in User runs")
     const userData = await db.getDisplayNames(uid);
     userData.displayName.then(displayName => {
       this.setState({
