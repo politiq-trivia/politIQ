@@ -25,7 +25,7 @@ import * as routes from "../../constants/routes";
 import getMostRecentQuizId from "../../utils/mostRecentQuizId";
 import NavigationNonAuth from "./NonAuth";
 
-import Logo from "../logo1.png";
+import Logo from "../logo1.ico";
 
 const Navigation = ({ clearStateOnSignout }) => {
   return (
@@ -38,8 +38,8 @@ const Navigation = ({ clearStateOnSignout }) => {
               clearStateOnSignout={clearStateOnSignout}
             />
           ) : (
-            <NavigationNonAuth />
-          )}
+              <NavigationNonAuth />
+            )}
         </>
       )}
     </AuthUserContext.Consumer>
@@ -154,73 +154,73 @@ class NavigationAuthBase extends Component {
         <MediaQuery query="(max-width: 415px)">
           <List component="nav">
             {this.props.authUser &&
-            this.props.authUser.roles.includes("ADMIN") ? (
-              <>
-                <ListItem button onClick={this.handleAdminClick}>
-                  <ListItemText primary="Admin Dashboard" />
-                  {this.state.open ? <ExpandLess /> : <ExpandMore />}
-                </ListItem>
-                <Collapse in={this.state.open} timeout="auto" unmountOnExit>
-                  <List component="div" disablePadding>
-                    <Link
-                      to={routes.ADMIN_DASHBOARD}
-                      style={{ textDecoration: "none" }}
-                    >
-                      <ListItem
-                        button
-                        onClick={this.toggleDrawer("top", false)}
+              this.props.authUser.roles.includes("ADMIN") ? (
+                <>
+                  <ListItem button onClick={this.handleAdminClick}>
+                    <ListItemText primary="Admin Dashboard" />
+                    {this.state.open ? <ExpandLess /> : <ExpandMore />}
+                  </ListItem>
+                  <Collapse in={this.state.open} timeout="auto" unmountOnExit>
+                    <List component="div" disablePadding>
+                      <Link
+                        to={routes.ADMIN_DASHBOARD}
+                        style={{ textDecoration: "none" }}
                       >
-                        <ListItemText inset primary="Dashboard Home" />
-                      </ListItem>
-                    </Link>
-                    <Link
-                      to={routes.CREATE_NEW_QUIZ}
-                      style={{ textDecoration: "none" }}
-                    >
-                      <ListItem
-                        button
-                        onClick={this.toggleDrawer("top", false)}
+                        <ListItem
+                          button
+                          onClick={this.toggleDrawer("top", false)}
+                        >
+                          <ListItemText inset primary="Dashboard Home" />
+                        </ListItem>
+                      </Link>
+                      <Link
+                        to={routes.CREATE_NEW_QUIZ}
+                        style={{ textDecoration: "none" }}
                       >
-                        <ListItemText inset primary="Create New Quiz" />
-                      </ListItem>
-                    </Link>
-                    <Link
-                      to={routes.MANAGE_QUIZZES}
-                      style={{ textDecoration: "none" }}
-                    >
-                      <ListItem
-                        button
-                        onClick={this.toggleDrawer("top", false)}
+                        <ListItem
+                          button
+                          onClick={this.toggleDrawer("top", false)}
+                        >
+                          <ListItemText inset primary="Create New Quiz" />
+                        </ListItem>
+                      </Link>
+                      <Link
+                        to={routes.MANAGE_QUIZZES}
+                        style={{ textDecoration: "none" }}
                       >
-                        <ListItemText inset primary="Manage Quizzes" />
-                      </ListItem>
-                    </Link>
-                    <Link
-                      to={routes.MANAGE_USERS}
-                      style={{ textDecoration: "none" }}
-                    >
-                      <ListItem
-                        button
-                        onClick={this.toggleDrawer("top", false)}
+                        <ListItem
+                          button
+                          onClick={this.toggleDrawer("top", false)}
+                        >
+                          <ListItemText inset primary="Manage Quizzes" />
+                        </ListItem>
+                      </Link>
+                      <Link
+                        to={routes.MANAGE_USERS}
+                        style={{ textDecoration: "none" }}
                       >
-                        <ListItemText inset primary="Manage Users" />
-                      </ListItem>
-                    </Link>
-                    <Link
-                      to={routes.ADMIN_LEADERBOARD}
-                      style={{ textDecoration: "none" }}
-                    >
-                      <ListItem
-                        button
-                        onClick={this.toggleDrawer("top", false)}
+                        <ListItem
+                          button
+                          onClick={this.toggleDrawer("top", false)}
+                        >
+                          <ListItemText inset primary="Manage Users" />
+                        </ListItem>
+                      </Link>
+                      <Link
+                        to={routes.ADMIN_LEADERBOARD}
+                        style={{ textDecoration: "none" }}
                       >
-                        <ListItemText inset primary="Party Leaders" />
-                      </ListItem>
-                    </Link>
-                  </List>
-                </Collapse>
-              </>
-            ) : null}
+                        <ListItem
+                          button
+                          onClick={this.toggleDrawer("top", false)}
+                        >
+                          <ListItemText inset primary="Party Leaders" />
+                        </ListItem>
+                      </Link>
+                    </List>
+                  </Collapse>
+                </>
+              ) : null}
             <Link
               to={this.state.mostRecentQuizURL}
               style={{ textDecoration: "none" }}
@@ -290,17 +290,17 @@ class NavigationAuthBase extends Component {
         <MediaQuery query="(min-width: 416px)">
           <List component="nav">
             {this.props.authUser &&
-            this.props.authUser.roles.includes("ADMIN") ? (
-              <Link
-                to={routes.ADMIN_DASHBOARD}
-                style={{ textDecoration: "none" }}
-                onClick={this.toggleDrawer("top", false)}
-              >
-                <ListItem button>
-                  <ListItemText primary="Admin Dashboard" />
-                </ListItem>
-              </Link>
-            ) : null}
+              this.props.authUser.roles.includes("ADMIN") ? (
+                <Link
+                  to={routes.ADMIN_DASHBOARD}
+                  style={{ textDecoration: "none" }}
+                  onClick={this.toggleDrawer("top", false)}
+                >
+                  <ListItem button>
+                    <ListItemText primary="Admin Dashboard" />
+                  </ListItem>
+                </Link>
+              ) : null}
             <Link
               to={this.state.mostRecentQuizURL}
               style={{ textDecoration: "none" }}

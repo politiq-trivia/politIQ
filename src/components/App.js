@@ -87,14 +87,14 @@ class App extends Component {
     });
     // checks local storage for auth user - maybe there was a user from a
     // previous session
-    if (localStorage.authUser) {
-      // eslint-disable-line no-undef
-      const authUser = JSON.parse(localStorage.authUser); // eslint-disable-line no-undef
-      this.setState({
-        signedInUser: authUser.uid,
-        isAdmin: true
-      });
-    }
+    /*  if (localStorage.authUser) {
+       // eslint-disable-line no-undef
+       const authUser = JSON.parse(localStorage.authUser); // eslint-disable-line no-undef
+       this.setState({
+         signedInUser: authUser.uid,
+         isAdmin: true
+       });
+     } */
 
     /*     storeQuizzes();   */
     //Instead of storeQuizzes, we will get the quizzes and set them in quizContext provider
