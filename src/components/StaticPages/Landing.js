@@ -100,7 +100,7 @@ const LandingPage = () => (
         approval of its content and validity). All are welcome to contribute!
       </p>
       <NavLink style={{ textDecoration: 'none' }} to="/signup">
-        <Button variant="contained" color="primary">
+        <Button size="large" variant="contained" color="primary">
           Sign up and start playing
         </Button>
       </NavLink>
