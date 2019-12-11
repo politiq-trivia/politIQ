@@ -32,7 +32,7 @@ const INITIAL_STATE = {
   bio: '',
   error: null,
   emailSubscribe: true,
-  consent: false,
+  consent: true,
   tooltip1Open: false,
   tooltip2Open: false,
 };
@@ -57,7 +57,7 @@ It will not be viewable to other users and you may change this on your profile a
 `;
 
 const emailText = `
-  Email address is required so that we can contact you if you win the politIQ jackpot - no spam. 
+  Email address is required so that we can contact you if you win the politIQ jackpot - we do not send spam. 
 `;
 
 class SignUpFormBase extends Component {
@@ -166,7 +166,7 @@ class SignUpFormBase extends Component {
   // this is necessary to be able to unsubscribe the user in the future.
   subscribeToEmailUpdates = (email, displayName, uid, freq) => {
     axios.post(`https://politiq.herokuapp.com/email-subscribe-${freq}`, {
-    // axios.post(`http://localhost:3001/email-subscribe-${freq}`, {
+      // axios.post(`http://localhost:3001/email-subscribe-${freq}`, {
       email,
       displayName,
     }).then((response) => {
@@ -216,6 +216,8 @@ class SignUpFormBase extends Component {
           type="email"
           label="Email Address"
         />
+        <FormHelperText>Your email will not be shared publicly or privately.</FormHelperText>
+
         <ClickAwayListener onClickAway={this.handleTooltip1Close}>
           <Tooltip title={emailText} placement="left-start" onClose={this.handleTooltip1Close} open={this.state.tooltip1Open} disableFocusListener disableHoverListener disableTouchListener>
             <FormHelperText style={{ marginTop: '0', float: 'right', width: '0.6em' }}><Help onClick={this.handleTooltip1Open} color='primary' /></FormHelperText>
@@ -240,6 +242,7 @@ class SignUpFormBase extends Component {
           type="password"
           label="Confirm Password"
         />
+        {passwordOne !== passwordTwo ? <div>Passwords do not match</div> : <div />}
         <TextField
           select
           required
@@ -261,10 +264,10 @@ class SignUpFormBase extends Component {
 
         </TextField>
         <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-          <FormHelperText>Affiliation will not be shared publicly.</FormHelperText>
+          <FormHelperText>Affiliation will not be shared publicly or privately.</FormHelperText>
           <ClickAwayListener onClickAway={this.handleTooltip2Close}>
             <Tooltip title={affiliationText} placement="left-start" onClose={this.handleTooltip2Close} open={this.state.tooltip2Open} disableFocusListener disableHoverListener disableTouchListener>
-              <FormHelperText style={{ marginTop: '0' }}><Help onClick={this.handleTooltip2Open} color='primary' style={{ width: '0.6em' }}/></FormHelperText>
+              <FormHelperText style={{ marginTop: '0', float: 'right', width: '0.6em' }}><Help onClick={this.handleTooltip2Open} color='primary' /></FormHelperText>
             </Tooltip>
           </ClickAwayListener>
 
@@ -279,23 +282,16 @@ class SignUpFormBase extends Component {
           />
           <p style={{ textAlign: 'left' }}>I would like to receive email communications and push notifications from politIQ when new quizzes are posted.</p>
         </div>
-        <div style={{ display: 'flex' }}>
-          <Checkbox
-            checked={this.state.consent}
-            onChange={this.handleCheck}
-            value="consent"
-            color="primary"
-            style={{ display: 'inline' }}
-          />
-          <p style={{ textAlign: 'left' }}>I have read and agree to the <Link to={'/privacy-policy'} target="_blank">PolitIQ Privacy Policy and Terms of Serivce.</Link> *</p>
-        </div>
+
+        <FormHelperText>By Registering an Account I Proclaim I have Read and Agree to the <a href="https://www.whatsmypolitiq.com/privacy-policy">PolitIQ Privacy Policy and Terms of Service</a> </FormHelperText>
 
         <Button disabled={isInvalid} type="submit" variant="contained" color="primary" style={{ marginTop: '4vh' }}>
           Sign Up
         </Button>
 
-        { error && <p>{error.message}</p> }
-      </form>
+
+        {error && <p>{error.message}</p>}
+      </form >
     );
   }
 }

@@ -64,7 +64,6 @@ class QuizBase extends Component {
   };
 
   checkForScores = date => {
-    console.log("checkForScores");
 
     // guarentee render of quiz if score isn't found
     this.setState({ userHasScoreSubmitted: false });
@@ -72,10 +71,8 @@ class QuizBase extends Component {
     // If quiz score exists they cannot retake the quiz
 
     if (this.props.authUser && date) {
-      console.log("database request for score");
       db.checkQuizScore(this.props.authUser.uid, date).then(res => {
         if (typeof res.val() === "number") {
-          console.log("changing userHasScoreSubmitted");
           // if a score is submitted already
           // User cannot be displayed quiz any longer
           this.setState({ userHasScoreSubmitted: true });
@@ -84,7 +81,6 @@ class QuizBase extends Component {
           this.setState({ loading: false });
 
         } else {
-          console.log("getting next quiz");
           this.setState({ finished: false });
 
           this.getQuiz(date);
@@ -119,6 +115,13 @@ class QuizBase extends Component {
     //Check if the user already has a score in the database, if they don't, render the quiz
     this.checkForScores(date);
 
+    if (this.props.authUser === null) {
+      this.setState({ loading: false, finished: false });
+      this.getQuiz(date);
+
+    }
+
+
     trackEvent("Quizzes", "Quiz loaded", "QUIZ_LOADED");
   };
 
@@ -152,7 +155,6 @@ class QuizBase extends Component {
   };
 
   getUser = () => {
-    console.log("getUser");
 
     if (this.props.authUser) {
       const userInfo = this.props.authUser;
@@ -180,7 +182,6 @@ class QuizBase extends Component {
   getQuiz = async date => {
     // Use quiz context to get quizzes
     const quiz = this.context[date];
-
     if (quiz === undefined) {
       if (quiz === null || quiz === undefined) {
         return;
@@ -208,7 +209,6 @@ class QuizBase extends Component {
   };
 
   renderNextQuiz = date => {
-    console.log("renderNextQuiz");
     // guarentee render of quiz if score isn't found
     this.setState({ userHasScoreSubmitted: false });
 
@@ -216,7 +216,6 @@ class QuizBase extends Component {
   };
 
   nextQ = () => {
-    console.log("nextQ");
 
     clearTimeout(this.timer);
     clearInterval(this.progressBar);
@@ -262,9 +261,7 @@ class QuizBase extends Component {
     this.nextQ();
   };
 
-  renderQ = (qNum, uid) => {
-    console.log("renderQ");
-
+  renderQ = (qNum) => {
     if (
       qNum > 0 &&
       this.state.selectedQuiz[qNum] &&
@@ -387,7 +384,6 @@ class QuizBase extends Component {
   };
 
   submitScore = (score, uid) => {
-    console.log("submitScore");
     const scoreObj = {
       date: this.state.selectedQuizId,
       score
@@ -435,7 +431,6 @@ class QuizBase extends Component {
   };
 
   render() {
-    console.log("quiz", this.state.selectedQuiz)
     const quizHeader = this.state.selectedQuizId.slice(0, 10);
 
     // for variable question durations
@@ -511,27 +506,7 @@ class QuizBase extends Component {
                                 id="volume"
                               />
                             )}
-                          <MediaQuery minWidth={416}>
-                            <div
-                              style={{ float: "right" }}
-                              className={
-                                this.state.clicked ? "dontShowClock" : "showClock"
-                              }
-                            >
-                              <ReactCountdownClock
-                                key={this.state.currentQ}
-                                seconds={timerDuration}
-                                size={50}
-                                color="#a54ee8"
-                                alpha={0.9}
-                                onComplete={
-                                  this.state.selectedValue === ""
-                                    ? () => this.checkCorrect()
-                                    : null
-                                }
-                              />
-                            </div>
-                          </MediaQuery>
+
                         </>
                       )}
                     </div>
@@ -562,11 +537,34 @@ class QuizBase extends Component {
                       toggleContest={this.toggleContest}
                     />
                   ) : (
-                      <div>
-                        {authUser && this.state.userHasScoreSubmitted === false
-                          ? this.renderQ(this.state.currentQ, authUser.uid)
-                          : this.renderQ(this.state.currentQ, "")}
-                      </div>
+                      <>
+                        <div>
+                          {this.state.userHasScoreSubmitted === false
+                            ? this.renderQ(this.state.currentQ)
+                            : this.renderQ(this.state.currentQ)}
+                        </div>
+                        <center>
+                          <div
+                            style={{ width: "50px" }}
+                            className={
+                              this.state.clicked ? "dontShowClock" : "showClock"
+                            }
+                          >
+                            <ReactCountdownClock
+                              key={this.state.currentQ}
+                              seconds={timerDuration}
+                              size={60}
+                              color="#a54ee8"
+                              alpha={0.9}
+                              onComplete={
+                                this.state.selectedValue === ""
+                                  ? () => this.checkCorrect()
+                                  : null
+                              }
+                            />
+                          </div>
+                        </center>
+                      </>
                     )}
                 </div>
               )}
