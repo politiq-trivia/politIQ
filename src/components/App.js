@@ -110,7 +110,9 @@ class App extends Component {
   }
 
   initializeApp = authUser => {
+    console.log("authUser:", authUser.uid)
     console.log("Initialize App runs")
+    console.log(this.state.authUser)
 
     // get all the user's scores (all time)
     getUserScores(authUser.uid);

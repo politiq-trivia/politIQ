@@ -29,8 +29,6 @@ class ReviewContestedQuestions extends Component {
   }
 
   componentDidMount = () => {
-    console.log("initial State");
-    console.log(this.state);
     this.getContest();
   };
 
@@ -95,6 +93,8 @@ class ReviewContestedQuestions extends Component {
     const date = Object.keys(data)[0];
     const objectWithUids = data[date];
     const uid = Object.keys(Object.values(objectWithUids)[qNum])[qVal];
+    console.log("uid:", uid)
+
     await db.getDisplayNames2(uid).then(response => {
       const nameData = response;
       const { displayName } = nameData;
@@ -308,8 +308,6 @@ class ReviewContestedQuestions extends Component {
   };
 
   render() {
-    console.log("Render State");
-    console.log(this.state);
     let quizzes;
     let question;
 
@@ -376,51 +374,51 @@ class ReviewContestedQuestions extends Component {
             </MediaQuery>
           </div>
         ) : (
-          <div>
-            {this.state.selectedQuizId === "" ? (
-              <div>
-                <h1 id="reviewHeading">Quizzes with Contested Questions</h1>
-                <div className="questionHolder">{quizzes}</div>
-              </div>
-            ) : (
-              <div>
-                <h1 id="reviewHeading">Contested Questions</h1>
-                <div className="questionHolder">
-                  {question}
-                  <div
-                    style={{
-                      display: "flex",
-                      width: "100%",
-                      justifyContent: "space-between"
-                    }}
-                  >
-                    <Button color="primary">
-                      <span
-                        style={{ color: "red" }}
-                        onClick={this.reject}
-                        onKeyDown={e => {
-                          if (e.keyCode === 13) {
-                            this.reject();
-                          }
-                        }}
-                        role="button"
-                        tabIndex={0}
-                      >
-                        Reject Issue
-                      </span>
-                    </Button>
-                    <Button color="primary" onClick={this.skip}>
-                      Skip
-                    </Button>
-                    <Button color="primary" onClick={this.accept}>
-                      Accept Issue
-                    </Button>
-                  </div>
+            <div>
+              {this.state.selectedQuizId === "" ? (
+                <div>
+                  <h1 id="reviewHeading">Quizzes with Contested Questions</h1>
+                  <div className="questionHolder">{quizzes}</div>
                 </div>
-              </div>
-            )}{" "}
-          </div>
-        )}
+              ) : (
+                  <div>
+                    <h1 id="reviewHeading">Contested Questions</h1>
+                    <div className="questionHolder">
+                      {question}
+                      <div
+                        style={{
+                          display: "flex",
+                          width: "100%",
+                          justifyContent: "space-between"
+                        }}
+                      >
+                        <Button color="primary">
+                          <span
+                            style={{ color: "red" }}
+                            onClick={this.reject}
+                            onKeyDown={e => {
+                              if (e.keyCode === 13) {
+                                this.reject();
+                              }
+                            }}
+                            role="button"
+                            tabIndex={0}
+                          >
+                            Reject Issue
+                      </span>
+                        </Button>
+                        <Button color="primary" onClick={this.skip}>
+                          Skip
+                    </Button>
+                        <Button color="primary" onClick={this.accept}>
+                          Accept Issue
+                    </Button>
+                      </div>
+                    </div>
+                  </div>
+                )}{" "}
+            </div>
+          )}
       </Paper>
     );
   }

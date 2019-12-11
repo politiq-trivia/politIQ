@@ -57,12 +57,8 @@ class TodaysQuizButton extends Component {
       date => !(uidScoreDates.indexOf(date) > -1)
     );
 
-    // if most recent quiz is taken set todaysQuizNotAvailable true
-    if (!availableQuizDates.includes(mostRecentQuizDate)) {
-      this.setState({ todaysQuizNotAvailable: true });
-    }
+
     // find next available quiz
-    // we need to fix date strings to have time zone at the end because safari is amazing!
     availableQuizDates = availableQuizDates.map(date => {
       if (date.length < 13) {
         date = date + "T00:00:00"; //ISO 8601!!!!
@@ -72,6 +68,15 @@ class TodaysQuizButton extends Component {
         return moment(date);
       }
     });
+
+    // Get rid of available quiz dates in the future
+    availableQuizDates = availableQuizDates.filter(date => date < moment())
+
+
+    // if most recent quiz is not available set todaysQuizNotAvailable to true
+    if (!availableQuizDates.includes(mostRecentQuizDate)) {
+      this.setState({ todaysQuizNotAvailable: true });
+    }
 
     // which is most recent
     const nextAvailableQuizDate = moment(
