@@ -244,7 +244,7 @@ class Question extends Component {
                 >
                   Continue
                 </Button>
-                <Button variant="contained" onClick={this.props.toggleContest}>
+                <Button variant="contained" disabled={!this.props.authUser} onClick={this.props.toggleContest}>
                   Contest This Question
                 </Button>
               </div>

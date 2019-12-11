@@ -168,20 +168,7 @@ class FinishQuiz extends Component {
                 className="end-button"
                 id="signup-button"
               >
-                Sign Up to Save Your Score
-              </Button>
-            </Link>
-            <NextAvailableQuizButton
-              getNextQuiz={this.props.getNextQuiz}
-              uid={uid}
-            />
-            <Link to={QUIZ_ARCHIVE} style={{ textDecoration: "none" }}>
-              <Button
-                color="primary"
-                variant="contained"
-                className="end-button"
-              >
-                See Previous Quizzes
+                Sign Up to Keep Playing and Save Your Score
               </Button>
             </Link>
           </div>
