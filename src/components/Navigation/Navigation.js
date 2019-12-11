@@ -25,7 +25,7 @@ import * as routes from "../../constants/routes";
 import getMostRecentQuizId from "../../utils/mostRecentQuizId";
 import NavigationNonAuth from "./NonAuth";
 
-import Logo from "../logo1.ico";
+import Logo from "../logo1.1.ico";
 
 const Navigation = ({ clearStateOnSignout }) => {
   return (

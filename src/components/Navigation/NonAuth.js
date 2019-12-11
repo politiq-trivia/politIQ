@@ -7,7 +7,7 @@ import Toolbar from '@material-ui/core/Toolbar';
 import Button from '@material-ui/core/Button';
 
 import * as routes from '../../constants/routes';
-import Logo from '../logo1.ico';
+import Logo from '../logo1.1.ico';
 
 
 
