@@ -280,10 +280,10 @@ class SignUpFormBase extends Component {
             color="primary"
             style={{ display: 'inline' }}
           />
-          <p style={{ textAlign: 'left' }}>I would like to receive email communications and push notifications from politIQ when new quizzes are posted.</p>
+          <p style={{ textAlign: 'left' }}>I would like to receive email notifications from politIQ when new quizzes are posted (no spam).</p>
         </div>
 
-        <FormHelperText>By Registering an Account I Proclaim I have Read and Agree to the <a href="https://www.whatsmypolitiq.com/privacy-policy">PolitIQ Privacy Policy and Terms of Service</a> </FormHelperText>
+        <FormHelperText>By registering an account I confirm I have read and agree to the <a href="https://www.whatsmypolitiq.com/privacy-policy">PolitIQ Privacy Policy and Terms of Service</a> </FormHelperText>
 
         <Button disabled={isInvalid} type="submit" variant="contained" color="primary" style={{ marginTop: '4vh' }}>
           Sign Up
