@@ -233,7 +233,7 @@ class HomePage extends Component {
           style={{ textDecoration: "none" }}
         >
           <Button color="primary" variant="contained" id="gameshow">
-            Watch last month's leaders face off in a live gameshow!
+            Watch last month's leaders face off in a recorded gameshow!
           </Button>
         </a>
       </Paper>
