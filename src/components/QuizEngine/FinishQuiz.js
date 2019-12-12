@@ -165,8 +165,6 @@ class FinishQuiz extends Component {
               <Button
                 color="primary"
                 variant="contained"
-                className="end-button"
-                id="signup-button"
               >
                 Sign Up to Keep Playing and Save Your Score
               </Button>

@@ -543,7 +543,7 @@ class QuizBase extends Component {
                         </div>
                         <center>
                           <div
-                            style={{ width: "50px" }}
+                            style={{ width: "0px" }}
                             className={
                               this.state.clicked ? "dontShowClock" : "showClock"
                             }

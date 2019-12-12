@@ -96,21 +96,24 @@ const LandingPage = () => {
               <p>Sign up and create your user profile, it’s very easy.</p>
             </div>
           </NavLink>
-          <div className="icon-div">
-            <i className="fas fa-pen-square icon"></i>
-            <h6>Start Playing</h6>
-            <p>
-              Answer on your own time. New questions added daily and expire at the
-              end of each month.
+          <NavLink to={`/quiz/${quizDate}`} style={{ textDecoration: "none", color: "inherit" }}>
+            <div className="icon-div">
+              <i className="fas fa-pen-square icon"></i>
+              <h6>Start Playing</h6>
+              <p>
+                Answer on your own time. New questions added daily and expire at the
+                end of each month.
           </p>
-          </div>
+            </div>
+          </NavLink>
+
           <div className="icon-div">
             <i className="fas fa-clipboard icon"></i>
             <h6>Increase Score</h6>
             <p>
               <span style={{ fontWeight: "bold" }}>1 point</span> for correct
             answers, <span style={{ fontWeight: "bold" }}>0 points</span> for
-                                                        incorrect answers.
+                                                                incorrect answers.
           </p>
           </div>
           <div className="icon-div">
@@ -145,7 +148,7 @@ const LandingPage = () => {
             variant="contained"
             size="large"
           >
-            Take a Sample Quiz
+            Click Here to Start Playing
             </Button>
         </NavLink>
       </div>
