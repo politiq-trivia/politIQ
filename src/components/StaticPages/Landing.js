@@ -113,7 +113,7 @@ const LandingPage = () => {
             <p>
               <span style={{ fontWeight: "bold" }}>1 point</span> for correct
             answers, <span style={{ fontWeight: "bold" }}>0 points</span> for
-                                                                incorrect answers.
+                                                                  incorrect answers.
           </p>
           </div>
           <div className="icon-div">
@@ -142,7 +142,9 @@ const LandingPage = () => {
           <span style={{ fontWeight: "bold" }}>3 points</span> (depending upon
           approval of its content and validity). All are welcome to contribute!
       </p>
-        <NavLink to={`/quiz/${quizDate}`} >
+        <NavLink
+          style={{ textDecoration: "none", color: "inherit" }}
+          to={`/quiz/${quizDate}`} >
           <Button
             color="primary"
             variant="contained"
