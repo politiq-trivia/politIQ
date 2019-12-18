@@ -15,6 +15,7 @@ import AuthUserContext from '../Auth/AuthUserContext';
 import { useScoresUsers } from "./useScoresUsers"
 import PolBarChart from "./barChart"
 
+import Marquee from "./marquee"
 import "./leaderboard.css"
 
 const Leaderboard = () => {
@@ -170,7 +171,7 @@ const Leaderboard = () => {
                         </NavLink>
 
                     </div>
-                    \
+
                 </div>
 
                 )
@@ -198,15 +199,15 @@ const Leaderboard = () => {
         }
     }
 
-    const bannerText = timeframe => {
-        if (timeframe === "Month") {
-            return (<p>Monthly leader of each party eligible to compete for $50!</p>)
-        }
-        if (timeframe === "Week") {
-            return (<p>Weekly leader receives $5!</p>)
-        }
-    }
-
+    /*  const bannerText = timeframe => {
+         if (timeframe === "Month") {
+             return (<p>Monthly leader of each party eligible to compete for $50!</p>)
+         }
+         if (timeframe === "Week") {
+             return (<p>Weekly leader receives $5!</p>)
+         }
+     }
+  */
 
 
     const loadingGif = <center><img src={LoadingGif} alt="loading" style={{ maxWidth: '100%' }} /></center>
@@ -214,9 +215,9 @@ const Leaderboard = () => {
 
     return (
         <div>
-            <div className="banner">
-                {bannerText(timeframe)}
-            </div>
+            <NavLink style={{ textDecoration: 'none', color: "#554E3F" }} to={`/sponsor`}>
+                <Marquee />
+            </NavLink>
             <div className="leaderboard-holder">
                 <div className="leaderboard-left">
                     <div className="leader-user-info">
@@ -228,9 +229,9 @@ const Leaderboard = () => {
                     <div className="leader-link-holder">
                     </div>
                     {showChart ? (loading ? loadingGif : <PolBarChart politIQs={politIQs} />) : (loading ? loadingGif : lastLeaders(timeframe))}
-                    <center><Button onClick={() => setShowChart(!showChart)} color="primary" variant="contained" >
+                    <center><p className="weekly" onClick={() => setShowChart(!showChart)}  >
                         {showChart ? "Show Party Scores" : `Show Last ${timeframe}'s Leaders`}
-                    </Button></center>
+                    </p></center>
 
                 </div>
                 <div className="leaderboard-right">
