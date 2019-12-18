@@ -1,5 +1,5 @@
 import React from 'react';
-import './leaderboard2.css';
+import './leaderboard.css';
 
 const PolitIQBar = (props) => {
     return (

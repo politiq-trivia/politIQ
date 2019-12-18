@@ -116,9 +116,12 @@ class ReviewContestedQuestions extends Component {
     ]; // eslint-disable-line max-len
 
     if (Object.keys(userKeys).length === 1) {
+      console.log("1")
       qNum += 1;
 
       if (qNum > Object.keys(contestedQsForThisQuiz).length - 1) {
+        console.log("2")
+
         this.getContest();
         this.setState({
           selectedQuiz: {},
@@ -132,18 +135,25 @@ class ReviewContestedQuestions extends Component {
         qNum
       });
     } else if (Object.keys(userKeys).length > 1) {
+      console.log("3")
+
       let { qVal } = this.state;
       if (qVal === Object.keys(userKeys)) {
+        console.log("4")
+
         qNum += 1;
         this.setState({
           qVal: 0,
           qNum
         });
       } else {
+        console.log("5")
+
         qVal += 1;
         this.setState({ qVal });
       }
     }
+
     this.getQuestionUid();
   };
 
@@ -198,6 +208,7 @@ class ReviewContestedQuestions extends Component {
   renderContest = () => {
     // get the first key from each contest object
     const contestedQsForThisQuiz = this.state.data[this.state.selectedQuizId];
+
 
     // gets the first contested question
     const questionNum = Object.keys(contestedQsForThisQuiz)[this.state.qNum];
@@ -337,7 +348,8 @@ class ReviewContestedQuestions extends Component {
       this.state.loaded &&
       this.state.selectedQuiz !== {} &&
       this.state.selectedQuizId !== "" &&
-      this.state.noQuestionsRemaining === false
+      this.state.noQuestionsRemaining === false &&
+      this.state.data[this.state.selectedQuizId]
     ) {
       question = this.renderContest();
     }

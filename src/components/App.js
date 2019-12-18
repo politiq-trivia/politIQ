@@ -22,7 +22,7 @@ import AdminDashboard from "./AdminDashboard/AdminDashboard";
 import QuizArchive from "./QuizEngine/QuizArchive";
 import ArchivedQuiz from "./QuizEngine/ArchivedQuiz";
 import Quiz from "./QuizEngine/Quiz";
-import Leaderboard from "./Leaderboard/Leaderboard";
+import Leaderboard from "./Leaderboard2/Leaderboard";
 import About from "./StaticPages/About";
 import QuestionSubmitForm from "./QuestionSubmit/QuestionSubmitForm";
 import ReviewQuestions from "./AdminDashboard/SubmittedQuestions/ReviewQuestions";

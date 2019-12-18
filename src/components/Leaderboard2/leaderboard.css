@@ -1,0 +1,447 @@
+.leaderboard-holder {
+    display: flex;
+    flex-direction: row;
+    height: 720px;
+    margin-top: 128px;
+    /* overflow: scroll; */
+}
+
+.leaderboard-left {
+    /* background-color: #150A1D; */
+    color: white;
+    width: 45%;
+    z-index: 10;
+    -webkit-box-shadow: 4px 6px 16px 0px rgba(0,0,0,0.75);
+    -moz-box-shadow: 4px 6px 16px 0px rgba(0,0,0,0.75);
+    box-shadow: 4px 6px 16px 0px rgba(0,0,0,0.75);
+    border-radius: 0 5px 5px 0;
+    background: rgba(41,20,58,1);
+    background: -moz-linear-gradient(-45deg, rgba(41,20,58,1) 0%, rgba(41,20,58,1) 9%, rgba(41,20,58,1) 44%, rgba(62,29,87,1) 86%, rgba(41,20,58,1) 100%);
+    background: -webkit-gradient(left top, right bottom, color-stop(0%, rgba(41,20,58,1)), color-stop(9%, rgba(41,20,58,1)), color-stop(44%, rgba(41,20,58,1)), color-stop(86%, rgba(62,29,87,1)), color-stop(100%, rgba(41,20,58,1)));
+    background: -webkit-linear-gradient(-45deg, rgba(41,20,58,1) 0%, rgba(41,20,58,1) 9%, rgba(41,20,58,1) 44%, rgba(62,29,87,1) 86%, rgba(41,20,58,1) 100%);
+    background: -o-linear-gradient(-45deg, rgba(41,20,58,1) 0%, rgba(41,20,58,1) 9%, rgba(41,20,58,1) 44%, rgba(62,29,87,1) 86%, rgba(41,20,58,1) 100%);
+    background: -ms-linear-gradient(-45deg, rgba(41,20,58,1) 0%, rgba(41,20,58,1) 9%, rgba(41,20,58,1) 44%, rgba(62,29,87,1) 86%, rgba(41,20,58,1) 100%);
+    background: linear-gradient(135deg, rgba(41,20,58,1) 0%, rgba(41,20,58,1) 9%, rgba(41,20,58,1) 44%, rgba(62,29,87,1) 86%, rgba(41,20,58,1) 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#29143a', endColorstr='#29143a', GradientType=1 );
+}
+
+.leaderboard-right {
+    background-color: white;
+    width: 55%;
+    overflow: scroll;
+    height: 100%;
+    padding-bottom: 20px;
+}
+
+@media screen and (max-width: 560px) {
+    .leaderboard-holder {
+        height: 1500px;
+        flex-direction: column;
+    }
+
+    .leaderboard-left {
+        width: 100%;
+        padding-bottom: 3vh;
+    }
+
+    .leaderboard-right {
+        height: 3000px;
+        width: 100%;
+    }
+}
+
+.leaderboard-left h1 {
+    text-align: center;
+    text-transform: uppercase;
+    margin-top: 2vh;
+    margin-bottom: 0;
+}
+
+.leader-user-info {
+    text-align: center;
+    margin-top: 5vh;
+}
+
+.leader-user-info h2 {
+    margin-bottom: 0;
+    color: #A54EE8;
+}
+
+.leader-user-info h4 {
+    margin-top: 1vh;
+    font-size: 16px;
+    font-style: italic;
+    font-weight: 500;
+    color: #F4E9FC;
+}
+
+.leader-user-stats {
+    display: flex;
+    flex-direction: row;
+    text-align: center;
+    margin-top: 8vh;
+}
+
+@media screen and (max-width: 560px) {
+    .leader-user-stats {
+        margin-top: 4vh;
+    }
+}
+
+.stat-rank, .stat-month, .stat-politIQ {
+    width: 33%;
+}
+
+.stat-rank > p, .stat-month > p, .politIQ-label, .stat-politIQ {
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 0;
+    color: #F4E9FC;
+}
+
+/* .politIQ-label {
+    color: #F4E9FC;
+} */
+
+.stat-rank, .stat-month {
+    border-right: 1px solid #F4E9FC;
+}
+
+.stat-rank > h3, .stat-month > h3, .stat-politIQ > h3 {
+    font-size: 32px;
+}
+
+.politIQ-circle {
+    height: 35vh;
+}
+
+.leaderboard-left > p, .leader-link-holder > p {
+    margin-left: 4vw;
+    color: #D2A7F3;
+}
+
+.leaderboard-left > p:hover {
+    text-decoration: underline;
+}
+
+.leader-link-holder {
+    display: flex;
+    justify-content: space-between;
+}
+
+.leader-see-more {
+    text-align: right;
+    margin-right: 4vw;
+    margin-top: 3vh;
+    margin-bottom: 0;
+}
+
+.leaderboard-tabs {
+    text-align: center;
+    text-transform: uppercase;
+    display: flex;
+    flex-direction: row;
+    margin-top: 5vh;
+}
+
+.leaderboard-tabs > p:hover {
+    color: #A54EE8;
+}
+
+.leaderboard-tabs > p {
+    width: 50%;
+}
+
+@media screen and (max-width: 560px) {
+    .leaderboard-tabs {
+        margin-top: 2vh;
+        font-size: 18px;
+    }
+}
+
+.weekly:last-child {
+    border-left: 1px solid #150A1D;
+}
+
+.weekly:hover {
+    color: #A54EE8;
+    cursor: pointer;
+}
+
+.selected {
+    color: #150A1D;
+    text-decoration: underline #150A1D;
+    text-shadow: rgba(0,0,0,0.75) 1px 0 1px;
+    /* font-weight: bold; */
+    /* line-height: 1.5; */
+}
+
+.leaderboard-object {
+    display: flex;
+    flex-direction: row;
+    width: 88%;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 2vh;
+    margin-bottom: 4vh;
+    transition: background 0.5s;
+}
+
+.leaderboard-object:hover {
+    cursor: pointer;
+    background: #F4E9FC;
+}
+
+.leaderboard-num {
+    font-weight: bold;
+    /* display: inline; */
+    width: 5%;
+    color: rgba(45, 45, 45, 0.80);
+    margin-top: auto;
+    margin-bottom: auto;
+    padding-bottom: 5px;
+}
+
+.leader-info {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    margin-top: 10px;
+    color: rgba(45, 45, 45, 0.80);
+}
+
+.leader-info > p {
+    margin-top: 0;
+    margin-bottom: 0;
+    width: 50%;
+}
+
+.score {
+    text-align: right;
+}
+
+.politiq-bar {
+    width: 100%;
+    background-color: #A54EE8;
+    height: 2vh;
+    margin-bottom: 1vh;
+}
+
+.score-bar {
+    position: relative;
+    height: 3vh;
+    width: 100%;
+    background: lightgray;
+}
+
+.filler {
+    background: #A54EE8;
+    height: 100%;
+    transition: width .2s ease-in;
+}
+
+.content {
+    width: 94%;
+    margin-top: 3vh;
+}
+
+#circle {
+    margin-left: 28%;
+    margin-top: 6vh;
+    margin-bottom: 2vh;
+}
+
+.circle-background,
+.circle-progress {
+  fill: none;
+
+}
+
+.circle-background {
+  stroke: rgba(244, 233, 252, 0.4);
+}
+
+.circle-progress {
+  stroke: rgba(83, 39, 116, 1);
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.circle-text {
+  font-size: 3em;
+  font-weight: bold;
+  fill: #A54EE8;
+}
+
+.politIQ-label {
+    fill: #D2A7F3;
+}
+
+.leaderboard-object:nth-child(6) {
+    margin-bottom: 5vh;
+}
+
+.pagination {
+    width: 80%;
+    margin-left: auto;
+    margin-right: auto;
+    display: flex;
+    position: relative;
+    bottom: -46px;
+    width: 85%;
+    padding: 3%;
+}
+
+@media screen and (max-width: 560px) {
+    .pagination {
+        position: unset;
+        width: 78%;
+    }
+}
+
+.p-item {
+    color: #A54EE8;
+    width: 50%;
+}
+
+.p-item:first-child {
+    text-align: left;
+}
+
+.p-item:last-child {
+    text-align: right;
+}
+
+.p-item:hover {
+    text-decoration: underline;
+}
+
+.p-disabled {
+    color:  gray;
+}
+
+.p-disabled:hover {
+    text-decoration: none;
+}
+
+.lastLeadersBox2 {
+    width: 100%;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 8vh;
+    margin-bottom: 3vh;
+}
+
+.lastLeadersBox2 h2 {
+    font-weight: normal;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    text-align: center;
+    font-size: 20px;
+    color: #F4E9FC;
+}
+
+.lastLeadersBox2 img {
+    margin-left: auto;
+    margin-right: auto;
+    display: block;
+    margin-top: 12vh;
+    margin-bottom: 15vh;
+}
+
+.lastLeadersHeader {
+    display: flex;
+    width: 90%;
+    justify-content: space-between;
+    text-transform: uppercase;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.lastLeadersHeader p {
+    letter-spacing: 1px;
+    border-right: 1px solid #F4E9FC;
+    width: 33%;
+    text-align: center;
+    border-bottom: 1px solid #F4E9FC;
+    padding-bottom: 1vh;
+}
+
+.lastLeadersHeader p:last-child {
+    border-right: none;
+}
+
+.leader-row {
+    width: 90%;
+    display: flex;
+    justify-content: space-around;
+    margin-left: auto;
+    margin-right: auto;
+    transition: background 0.5s;
+}
+
+.leader-row:hover {
+    cursor: pointer;
+    background: #7C3BAE;
+}
+
+.leader-row p {
+    width: 33%;
+    text-align: center;
+}
+
+.non-logged {
+    margin-top: 2vh;
+}
+
+.banner {
+    margin-top: 64px;
+    height: 64px;
+    text-align: center;
+    background: linear-gradient(to top, rgb(239, 188, 77) 0%, rgb(239, 188, 77) 24%, rgb(244, 207, 126) 50%, rgb(255, 244, 219) 100%);
+    -webkit-box-shadow: 0px 2px 50px 0px rgba(0,0,0,0.75);
+    -moz-box-shadow: 0px 2px 50px 0px rgba(0,0,0,0.75);
+    box-shadow: 0px 2px 50px 0px rgba(0,0,0,0.75);
+    z-index: 100;
+    position: fixed;
+    top: 0;
+    width: 100%;
+}
+
+.banner p {
+    font-size: 24px;
+    font-weight: bold;
+    margin: 2vh;
+}
+
+@media screen and (max-width: 560px) {
+    .banner p {
+        font-size: 18px;
+    }
+}
+
+.politIQ-label {
+    color: white;
+    letter-spacing: 2px;
+    margin-bottom: 10px;
+    position: absolute;
+    float: right;
+    margin-left: auto;
+    font-size: 10px;
+    top: 2px;
+}
+
+#noScores {
+    color: #7C3BAE;
+    width: 60%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+@media screen and (max-width: 560px) {
+    #noScores {
+        width: 60vw;
+        margin-left: auto;
+        margin-right: auto;
+    }
+}

@@ -1,157 +1,164 @@
-
 <!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="shortcut icon" href="/logo-192.png">
-    <link rel="manifest" href="%PUBLIC_URL%/manifest.json">
-    <meta name="mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="default">
-    <meta name="apple-mobile-web-app-title" content="politIQ">
-    <meta property="og:image" content="https://www.whatsmypolitiq.com/logo.png" />
-    <meta property="og:url" content="https://www.whatsmypolitiq.com" />
-    <meta property="og:title" content="politIQ" />
-    <meta property="og:description" content="Are you smarter than a Republican? Democrat? Independent?" />
-    <meta property="fb:app_id" content="283076422330971" />
-    <link rel="apple-touch-icon" href="apple-touch-icon.png">
-    <link rel="apple-touch-icon" sizes="152x152" href="logo-152.png">
-    <link rel="apple-touch-icon" sizes="180x180" href="logo-180.png">
-    <link rel="apple-touch-icon" sizes="167x167" href="logo-167.png">
-    <meta name="theme-color" content="#536878">
-    <title>politIQ trivia</title>
-    <link href="https://fonts.googleapis.com/css?family=Baloo+Bhaina|Quicksand:300,400,500,700" rel="stylesheet">
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
-    <style type="text/css">
-      body {
-        margin: 0;
-        padding: 0;
-        font-family: 'Quicksand', 'cursive';
-        color: rgba(45, 45, 45, 0.80);
-      }
-      .App {
-        text-align: center;
-      }
-      .App-header {
-        background-color: #222;
-        height: 150px;
-        padding: 20px;
-        color: white;
-      }
-      .App-intro {
-        font-size: large;
-      }
-      #main {
-        color: rgba(45, 45, 45, 0.80);
-        /* filter: drop-shadow(0.5em 0em 0.69em #a54ee8); */
-        font-size: 3.2em;
-        letter-spacing: 2px;
-        /* text-shadow: -0.02em 0em 0.69em #a54ee8; */
-        margin-top: 1vh;
-        margin-bottom: 5vh;
-        line-height: 80%;
-        /* font-weight: bold; */
-        font-family: 'Quicksand', 'cursive';
-        /* font-family: 'Baloo Bhaina', cursive; */
-        margin-top: 10vh;
-      }
-      #iq {
-        color: #a54ee8;
-      }
-    </style>
-  </head>
-  <body>
-    <script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
-    <script type="text/javascript" src="//cdn.pushwoosh.com/webpush/v3/pushwoosh-web-notifications.js" async></script>
 
-    <div id="root">
-      <div class="App">
-        <h1 id="main">Welcome to polit<span id="iq">IQ</span></h1>
-        <h2 style="font-size: 20px;">where you can answer the question...</h2>
-        <h2>Are you smarter than a Democrat? Republican? Independent?</h2>
-        <p class="App-intro">
-          Loading site...
-        </p>
-        <img src="./loadingGif.gif" alt="loading" />
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="shortcut icon" href="/logo-192.png">
+  <link rel="manifest" href="%PUBLIC_URL%/manifest.json">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="apple-mobile-web-app-title" content="politIQ">
+  <meta property="og:image" content="https://www.whatsmypolitiq.com/logo.png" />
+  <meta property="og:url" content="https://www.whatsmypolitiq.com" />
+  <meta property="og:title" content="politIQ" />
+  <meta property="og:description" content="Are you smarter than a Republican? Democrat? Independent?" />
+  <meta property="fb:app_id" content="283076422330971" />
+  <link rel="apple-touch-icon" href="apple-touch-icon.png">
+  <link rel="apple-touch-icon" sizes="152x152" href="logo-152.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="logo-180.png">
+  <link rel="apple-touch-icon" sizes="167x167" href="logo-167.png">
+  <meta name="theme-color" content="#536878">
+  <title>politIQ trivia</title>
+  <link href="https://fonts.googleapis.com/css?family=Baloo+Bhaina|Quicksand:300,400,500,700" rel="stylesheet">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css"
+    integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+  <style type="text/css">
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Quicksand', 'cursive';
+      color: rgba(45, 45, 45, 0.80);
+    }
 
-        <script type="text/javascript">
-          var Pushwoosh = Pushwoosh || [];
+    .App {
+      text-align: center;
+    }
 
-          Pushwoosh.push(['init', {
-              logLevel: 'info',
-              applicationCode: '957F6-E387B',
-              safariWebsitePushId: 'web.com.firebaseapp.politiq-staging',
-              defaultNotificationTitle: 'PolitIQ',
-              defaultNotificationImage: './logo-192.png',
-              autoSubscribe: false,
-              subscribeWidget: {
-                enable: true,enable: true,
-                position: 'bottomRight', 
-                bgColor: '#673191',
-                bellColor: 'white',
-                bellStrokeColor: '#3E1D57',
-                bellButtonBorder: '1px solid #3E1D57',
-                shadow: '0px 0px 6px rgba(0, 0, 0, 0.75)',
-                size: '48px',
-                indent: '20px',
-                zIndex: '999999',
-                tooltipText: {
-                  successSubscribe: 'You are successfully subscribed!',
-                  needSubscribe: 'Get notifications about the latest quizzes!',
-                  blockSubscribe: 'Click to see how to get notifications',
-                  alreadySubscribed: 'You are already subscribed'
-                }
-              }
-          }]);
-        </script>
+    .App-header {
+      background-color: #222;
+      height: 150px;
+      padding: 20px;
+      color: white;
+    }
 
-        <script type="text/javascript">
+    .App-intro {
+      font-size: large;
+    }
 
-          var AudioContext = window.AudioContext || window.webkitAudioContext;
+    #main {
+      color: rgba(45, 45, 45, 0.80);
+      /* filter: drop-shadow(0.5em 0em 0.69em #a54ee8); */
+      font-size: 3.2em;
+      letter-spacing: 2px;
+      /* text-shadow: -0.02em 0em 0.69em #a54ee8; */
+      margin-top: 1vh;
+      margin-bottom: 5vh;
+      line-height: 80%;
+      /* font-weight: bold; */
+      font-family: 'Quicksand', 'cursive';
+      /* font-family: 'Baloo Bhaina', cursive; */
+      margin-top: 10vh;
+    }
 
-          var context = new AudioContext();
+    #iq {
+      color: #a54ee8;
+    }
+  </style>
+</head>
 
-          function webAudioTouchUnlock (context) {
-            return new Promise(function (resolve, reject) {
-              // make sure this is an iOS device and not firefox
-              if (context.state === 'suspended' && 'ontouchstart' in window) {
-                // unlock it
-                const unlock = function () {
-                  context.resume().then(function () {
-                    // remove the listeners once the context has been resumed, since we
-                    // don't need them anymore
-                    document.body.removeEventListener('touchstart', unlock);
-                    document.body.removeEventListener('touchend', unlock);
-                    document.body.removeEventListener('onclick', unlock);
+<body>
+  <script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
+  <script type="text/javascript" src="//cdn.pushwoosh.com/webpush/v3/pushwoosh-web-notifications.js" async></script>
 
-                    resolve(true);
-                  }, function(err) {
-                      reject(err)
-                  });
-                };
+  <div id="root">
+    <div class="App">
+      <h1 id="main">Welcome to polit<span id="iq">IQ</span></h1>
+      <h2 style="font-size: 20px;">where you can answer the question...</h2>
+      <h2>Are you smarter than a Democrat? Republican? Independent?</h2>
+      <p class="App-intro">
+        Loading site...
+      </p>
+      <img src="./loadingGif.gif" alt="loading" />
 
-                document.body.addEventListener('touchstart', unlock, false);
-                document.body.addEventListener('touchend', unlock, false);
-                document.body.addEventListener('onclick', unlock, false)
-              } else {
-                resolve(false);
-              }
-            })
+      <script type="text/javascript">
+        var Pushwoosh = Pushwoosh || [];
 
-          }
-
-          webAudioTouchUnlock(context).then(function(unlocked) {
-            if (unlocked) {
-              console.log('audio context was unlocked from an explicit user action')
-            } else {
-              console.log('there was no need for this to be unlocked because this device was not IOS')
+        Pushwoosh.push(['init', {
+          logLevel: 'info',
+          applicationCode: '957F6-E387B',
+          safariWebsitePushId: 'web.com.firebaseapp.politiq-staging',
+          defaultNotificationTitle: 'PolitIQ',
+          defaultNotificationImage: './logo-192.png',
+          autoSubscribe: false,
+          subscribeWidget: {
+            enable: true, enable: true,
+            position: 'bottomRight',
+            bgColor: '#673191',
+            bellColor: 'white',
+            bellStrokeColor: '#3E1D57',
+            bellButtonBorder: '1px solid #3E1D57',
+            shadow: '0px 0px 6px rgba(0, 0, 0, 0.75)',
+            size: '48px',
+            indent: '20px',
+            zIndex: '999999',
+            tooltipText: {
+              successSubscribe: 'You are successfully subscribed!',
+              needSubscribe: 'Get notifications about the latest quizzes!',
+              blockSubscribe: 'Click to see how to get notifications',
+              alreadySubscribed: 'You are already subscribed'
             }
-          }, function(error) {
-            console.error(error)
+          }
+        }]);
+      </script>
+      <script type="text/javascript">
+
+        var AudioContext = window.AudioContext || window.webkitAudioContext;
+
+        var context = new AudioContext();
+
+        function webAudioTouchUnlock(context) {
+          return new Promise(function (resolve, reject) {
+            // make sure this is an iOS device and not firefox
+            if (context.state === 'suspended' && 'ontouchstart' in window) {
+              // unlock it
+              const unlock = function () {
+                context.resume().then(function () {
+                  // remove the listeners once the context has been resumed, since we
+                  // don't need them anymore
+                  document.body.removeEventListener('touchstart', unlock);
+                  document.body.removeEventListener('touchend', unlock);
+                  document.body.removeEventListener('onclick', unlock);
+
+                  resolve(true);
+                }, function (err) {
+                  reject(err)
+                });
+              };
+
+              document.body.addEventListener('touchstart', unlock, false);
+              document.body.addEventListener('touchend', unlock, false);
+              document.body.addEventListener('onclick', unlock, false)
+            } else {
+              resolve(false);
+            }
           })
 
-        </script>
+        }
+
+        webAudioTouchUnlock(context).then(function (unlocked) {
+          if (unlocked) {
+            console.log('audio context was unlocked from an explicit user action')
+          } else {
+            console.log('there was no need for this to be unlocked because this device was not IOS')
+          }
+        }, function (error) {
+          console.error(error)
+        })
+
+      </script>
     </div>
-  </body>
+</body>
+
 </html>
