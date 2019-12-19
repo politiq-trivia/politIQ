@@ -28,12 +28,6 @@ const Leaderboard = () => {
 
     const [allRecentScores, politIQs, monthlyScores, weeklyScores, lastWeekScores, lastMonthScores, userRanks, loading] = useScoresUsers() // use a hook to get user scores and data into a data frame
 
-    console.log("politIQs", politIQs)
-    console.log("allRecentScores", allRecentScores)
-    console.log("monthlyScores", monthlyScores)
-    console.log("weeklyScores", weeklyScores)
-    console.log("lastWeekScores", lastWeekScores)
-    console.log("lastMonthScores", lastMonthScores)
 
 
 

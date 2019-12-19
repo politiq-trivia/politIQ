@@ -24,7 +24,7 @@ import bg from "../StaticPages/politiq-bg2.jpg";
 import AuthUserContext from "../Auth/AuthUserContext";
 import { db } from "../../firebase";
 
-import QuizContext from "./quizContext";
+import QuizContext from "../context/quizContext";
 
 function isEmpty(obj) {
   for (var key in obj) {
@@ -115,22 +115,22 @@ class QuizArchiveBase extends Component {
       return (
         date < moment().format("YYYY-MM-DDTHH:mm") &&
         date >
-          moment()
-            .startOf("month")
-            .format("YYYY-MM-DDTHH:mm")
+        moment()
+          .startOf("month")
+          .format("YYYY-MM-DDTHH:mm")
       );
     } else {
       // dates that are greater than the start of the selected month
       // dates that are less than the end of the selected month
       return (
         date >
-          moment(this.state.selectedMonth)
-            .startOf("month")
-            .format("YYYY-MM-DDTHH:mm") &&
+        moment(this.state.selectedMonth)
+          .startOf("month")
+          .format("YYYY-MM-DDTHH:mm") &&
         date <
-          moment(this.state.selectedMonth)
-            .add(1, "month")
-            .format("YYYY-MM-DDTHH:mm")
+        moment(this.state.selectedMonth)
+          .add(1, "month")
+          .format("YYYY-MM-DDTHH:mm")
       );
     }
   };
@@ -328,9 +328,9 @@ class QuizArchiveBase extends Component {
       } else if (
         this.state.dateArray.length === 0 &&
         this.state.selectedMonth ===
-          moment()
-            .startOf("month")
-            .format("YYYY-MM-DDTHH:mm")
+        moment()
+          .startOf("month")
+          .format("YYYY-MM-DDTHH:mm")
       ) {
         return (
           <>
@@ -426,12 +426,12 @@ class QuizArchiveBase extends Component {
               </TableFooter>
             </Table>
             {Object.keys(this.state.scoreObject).length !==
-            this.state.dateArray.length ? null : (
-              <p className="archive-warning">
-                You have taken all of the available quizzes. Check back tomorrow
-                for the latest challenge!
+              this.state.dateArray.length ? null : (
+                <p className="archive-warning">
+                  You have taken all of the available quizzes. Check back tomorrow
+                  for the latest challenge!
               </p>
-            )}
+              )}
             <hr style={{ marginBottom: "5vh", marginTop: "3vh" }} />
             <div className="viewOlder">
               <p className="olderDescription">
@@ -502,12 +502,12 @@ class QuizArchiveBase extends Component {
             {moment(this.state.selectedMonth).format("MMMM")} Quizzes
           </h1>
           {moment().format("MMMM") !==
-          moment(this.state.selectedMonth).format("MMMM") ? (
-            <p id="archive-disclaimer">
-              You may take past quizzes to boost your politIQ, but they will not
-              affect your rankings for this month.
+            moment(this.state.selectedMonth).format("MMMM") ? (
+              <p id="archive-disclaimer">
+                You may take past quizzes to boost your politIQ, but they will not
+                affect your rankings for this month.
             </p>
-          ) : null}
+            ) : null}
         </div>
         {isLoading()}
         <Modal

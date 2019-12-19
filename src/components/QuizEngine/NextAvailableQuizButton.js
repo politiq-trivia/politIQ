@@ -3,11 +3,11 @@ import { withRouter } from "react-router-dom";
 import moment from "moment";
 import { db } from "../../firebase";
 
-import QuizContext from "./quizContext";
+import QuizContext from "../context/quizContext";
 
 import Button from "@material-ui/core/Button";
 import "./quiz.css";
-Date.prototype.addHours = function(h) {
+Date.prototype.addHours = function (h) {
   this.setTime(this.getTime() + h * 60 * 60 * 1000);
   return this;
 };
@@ -93,15 +93,15 @@ class NextAvailableQuizButton extends Component {
             No More Quizzes Available
           </Button>
         ) : (
-          <Button
-            variant="contained"
-            id={this.state.disabled ? "keep-playing disabled" : "keep-playing"}
-            onClick={this.handleClick}
-            disabled={this.state.disabled}
-          >
-            {this.props.text !== undefined ? this.props.text : "Keep Playing"}
-          </Button>
-        )}
+            <Button
+              variant="contained"
+              id={this.state.disabled ? "keep-playing disabled" : "keep-playing"}
+              onClick={this.handleClick}
+              disabled={this.state.disabled}
+            >
+              {this.props.text !== undefined ? this.props.text : "Keep Playing"}
+            </Button>
+          )}
       </>
     );
   }

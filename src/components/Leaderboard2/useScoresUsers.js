@@ -3,9 +3,11 @@ import React, { useEffect, useState, useContext } from 'react';
 import { db } from '../../firebase';
 import moment from 'moment'
 import AuthUserContext from '../Auth/AuthUserContext';
+import ScoreContext from '../context/scoreContext';
 
 export const useScoresUsers = () => {
     const authUser = useContext(AuthUserContext)
+    let scoreContext = useContext(ScoreContext)
 
     const [error, setError] = useState("")
     const [loading, setLoading] = useState(true)
@@ -53,20 +55,20 @@ export const useScoresUsers = () => {
 
     useEffect(() => {
 
-        const fetchUsers = async () => {
-            try {
+        if (Object.keys(scoreContext).length > 1) {
+            const fetchUsers = async () => {
+                try {
 
-                const result = await db.onceGetUsers();
+                    const result = await db.onceGetUsers();
+                    findScores(result.val())
+                } catch (error) {
+                    setError(true);
+                }
+            };
 
-                setUsers(result.val());
-                findScores(result.val())
-            } catch (error) {
-                setError(true);
-            }
-        };
-        fetchUsers();
-
-    }, []);
+            fetchUsers();
+        }
+    }, [scoreContext]);
 
 
     useEffect(() => { // 2nd step, POlitiq calculations,  get top users in each respectable category, get user rank
@@ -129,10 +131,14 @@ export const useScoresUsers = () => {
     const findScores = (users) => {
 
         // Get array with all user names and scores
-        let allUserScoreArray = JSON.parse(scores).data
+        /*      let allUserScoreArray = JSON.parse(scores).data
+      */
 
-
+        let allUserScoreArray = Object.keys(scoreContext).map(key => {
+            return ({ user: key, data: scoreContext[key] })
+        })
         // add display name to allUserScoresArray
+
         allUserScoreArray = allUserScoreArray.map(userObject => {
             if (typeof users[userObject.user] === "undefined") {
                 userObject.displayName = ""

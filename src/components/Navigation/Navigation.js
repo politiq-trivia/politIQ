@@ -16,7 +16,7 @@ import ExpandLess from "@material-ui/icons/ExpandLess";
 import ExpandMore from "@material-ui/icons/ExpandMore";
 import Collapse from "@material-ui/core/Collapse";
 
-import QuizContext from "../QuizEngine/quizContext";
+import QuizContext from "../context/quizContext";
 
 import { auth, withFirebase } from "../../firebase";
 import { db } from "../../firebase/firebase";

@@ -22,7 +22,7 @@ import "./quiz.css";
 import errorUrl from "./sounds/error.wav";
 import wrongUrl from "./sounds/wrong.wav";
 import correctUrl from "./sounds/correct.wav";
-import QuizContext from "./quizContext";
+import QuizContext from "../context/quizContext";
 class QuizBase extends Component {
   constructor(props) {
     super(props);

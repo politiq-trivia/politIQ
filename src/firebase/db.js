@@ -64,7 +64,7 @@ export const checkAdmin = uid => {
   const user = db
     .ref("users")
     .child(uid)
-    .once("value", function(snapshot) {
+    .once("value", function (snapshot) {
       return snapshot.val().isAdmin;
     });
   return user;
@@ -187,7 +187,7 @@ export const getAffiliation = uid => {
     .ref("users")
     .child(uid)
     .child("affiliation")
-    .once("value", function(snapshot) {
+    .once("value", function (snapshot) {
       return snapshot.val();
     });
   return affiliation;
@@ -298,8 +298,8 @@ export const deleteQuiz = date => {
     .remove();
   db.ref()
     .child("scores")
-    .once("value", function(snapshot) {
-      snapshot.forEach(function(childSnapshot) {
+    .once("value", function (snapshot) {
+      snapshot.forEach(function (childSnapshot) {
         const childKey = childSnapshot.key;
         const childData = childSnapshot.val();
         const dates = Object.keys(childData);
@@ -375,7 +375,7 @@ export const getDisplayNames = username => {
     .child("users/" + username)
     .child("displayName")
     .once("value")
-    .then(function(snapshot) {
+    .then(function (snapshot) {
       const snap = snapshot.val();
       return snap;
     });
@@ -384,7 +384,7 @@ export const getDisplayNames = username => {
     .child("users/" + username)
     .child("invisibleScore")
     .once("value")
-    .then(function(snapshot) {
+    .then(function (snapshot) {
       const snap = snapshot.val();
       return snap;
     });
@@ -417,7 +417,7 @@ export const getOnlyDisplayNames = username => {
     .child("users/" + username)
     .child("displayName")
     .once("value")
-    .then(function(snapshot) {
+    .then(function (snapshot) {
       const snap = snapshot.val();
       return snap;
     });
@@ -432,7 +432,7 @@ export const getUserByAffiliation = affiliation => {
     .ref()
     .child("users/")
     .once("value")
-    .then(function(snapshot) {
+    .then(function (snapshot) {
       const snap = snapshot.val();
       const data = Object.values(snap);
       const uids = Object.keys(snap);

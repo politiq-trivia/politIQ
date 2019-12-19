@@ -31,7 +31,7 @@ import CloseIcon from "@material-ui/icons/Close";
 import TodaysQuizButton from "./TodaysQuizButton";
 
 import "./Static.css";
-import QuizContext from "../QuizEngine/quizContext";
+import QuizContext from "../context/quizContext";
 
 const getHref = () => {
   return window.location.href.toString();

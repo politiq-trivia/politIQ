@@ -8,7 +8,7 @@ import bg from "./politiq-bg2.jpg";
 
 import { NavLink } from "react-router-dom";
 import "./Static.css";
-import QuizContext from "../QuizEngine/quizContext";
+import QuizContext from "../context/quizContext";
 
 const LandingPage = () => {
   const [quizDate, setQuizDate] = React.useState("")
@@ -113,7 +113,7 @@ const LandingPage = () => {
             <p>
               <span style={{ fontWeight: "bold" }}>1 point</span> for correct
             answers, <span style={{ fontWeight: "bold" }}>0 points</span> for
-                                                                  incorrect answers.
+                                                                    incorrect answers.
           </p>
           </div>
           <div className="icon-div">
