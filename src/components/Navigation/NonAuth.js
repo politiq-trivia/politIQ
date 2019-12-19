@@ -14,14 +14,16 @@ import Logo from '../logo1.1.ico';
 const styles = theme => ({
   root: {
     flexGrow: 1,
-    height: 440,
+    height: "64px",
     zIndex: 1,
     overflow: 'hidden',
     position: 'relative',
     display: 'flex',
   },
   appBar: {
+    height: "64px",
     zIndex: theme.zIndex.drawer + 1,
+
   }
 });
 
@@ -46,7 +48,7 @@ class NavigationNonAuth extends Component {
         <AppBar position="fixed" className={styles.appBar}>
           <Toolbar>
             <Link to={routes.LANDING} style={{ textDecoration: 'none' }}>
-              <img src={Logo} alt="PolitIQ" style={{ height: '7vh', marginTop: '3px' }} />
+              <img src={Logo} alt="PolitIQ" style={{ height: '59px', marginTop: '3px' }} />
             </Link>
             <div style={{ width: '100%' }}>
 
@@ -64,6 +66,14 @@ class NavigationNonAuth extends Component {
                   color="inherit"
                 >
                   About
+                  </Button>
+              </Link>
+              <Link to={"/leaderboard"} style={{ textDecoration: 'none', marginLeft: 'auto', marginRight: '0', color: 'white', float: 'right' }}>
+                <Button
+                  aria-haspopup='true'
+                  color="inherit"
+                >
+                  Leaders
                   </Button>
               </Link>
             </div>

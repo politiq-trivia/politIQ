@@ -25,7 +25,6 @@ const Leaderboard = () => {
 
     const [timeframe, setTimeframe] = useState("Month")
     const authUser = useContext(AuthUserContext)
-    console.log(authUser)
 
     const [allRecentScores, politIQs, monthlyScores, weeklyScores, lastWeekScores, lastMonthScores, userRanks, loading] = useScoresUsers() // use a hook to get user scores and data into a data frame
 
@@ -35,9 +34,7 @@ const Leaderboard = () => {
     console.log("weeklyScores", weeklyScores)
     console.log("lastWeekScores", lastWeekScores)
     console.log("lastMonthScores", lastMonthScores)
-    console.log("allRecentScores.filter(userObject => return (userObject.uid == authUser.uid);})", allRecentScores.filter(userObject => {   /// filter array for uid that matches user, then find month scored
-        return (userObject.uid == authUser.uid);
-    }).length)
+
 
 
 
@@ -112,57 +109,76 @@ const Leaderboard = () => {
     }
 
     const authUserStats = () => {
-        if (timeframe === "Week") {
+        if (authUser === null) {
+            console.log("authUser is null", authUser === null)
             return (<div className="leader-user-stats">
                 <div className="stat-rank">
                     <p>Rank</p>
-                    <h3>{userRanks.weekRank}</h3>
+                    <h3>N/A</h3>
 
                 </div>
                 <div className="stat-month">
                     <p>Score</p>
-                    <h3>{allRecentScores.filter(userObject => {   /// filter array for uid that matches user, then find month scored
-                        return (userObject.uid == authUser.uid);
-                    }).length !== 0 ? (allRecentScores.filter(userObject => {   /// filter array for uid that matches user, then find month scored
-                        return (userObject.uid == authUser.uid);
-                    })[0].weeklyScore) : 0}</h3>
+                    <h3>N/A</h3>
                 </div>
                 <div className="stat-politIQ">
                     <p>PolitIQ</p>
-                    <h3>{allRecentScores.filter(userObject => {   /// filter array for uid that matches user, then find month scored
-                        return (userObject.uid == authUser.uid);
-                    }).length !== 0 ? (allRecentScores.filter(userObject => {   /// filter array for uid that matches user, then find month scored
-                        return (userObject.uid == authUser.uid);
-                    })[0].politIQ) : 0}</h3>
+                    <h3>N/A</h3>
                 </div>
             </div>)
+        } else {
+            if (timeframe === "Week") {
+                return (<div className="leader-user-stats">
+                    <div className="stat-rank">
+                        <p>Rank</p>
+                        <h3>{userRanks.weekRank}</h3>
+
+                    </div>
+                    <div className="stat-month">
+                        <p>Score</p>
+                        <h3>{allRecentScores.filter(userObject => {   /// filter array for uid that matches user, then find month scored
+                            return (userObject.uid == authUser.uid);
+                        }).length !== 0 ? (allRecentScores.filter(userObject => {   /// filter array for uid that matches user, then find month scored
+                            return (userObject.uid == authUser.uid);
+                        })[0].weeklyScore) : 0}</h3>
+                    </div>
+                    <div className="stat-politIQ">
+                        <p>PolitIQ</p>
+                        <h3>{allRecentScores.filter(userObject => {   /// filter array for uid that matches user, then find month scored
+                            return (userObject.uid == authUser.uid);
+                        }).length !== 0 ? (allRecentScores.filter(userObject => {   /// filter array for uid that matches user, then find month scored
+                            return (userObject.uid == authUser.uid);
+                        })[0].politIQ) : 0}</h3>
+                    </div>
+                </div>)
+            }
+            if (timeframe === "Month") {
+                return (<div className="leader-user-stats">
+                    <div className="stat-rank">
+                        <p>Rank</p>
+                        <h3>{userRanks.monthRank}</h3>
+
+                    </div>
+                    <div className="stat-month">
+                        <p>Score</p>
+                        <h3>{allRecentScores.filter(userObject => {   /// filter array for uid that matches user, then find month scored
+                            return (userObject.uid == authUser.uid);
+                        }).length !== 0 ? (allRecentScores.filter(userObject => {   /// filter array for uid that matches user, then find month scored
+                            return (userObject.uid == authUser.uid);
+                        })[0].monthlyScore) : 0}</h3>
+                    </div>
+                    <div className="stat-politIQ">
+                        <p>PolitIQ</p>
+                        <h3>{allRecentScores.filter(userObject => {   /// filter array for uid that matches user, then find month scored
+                            return (userObject.uid == authUser.uid);
+                        }).length !== 0 ? (allRecentScores.filter(userObject => {   /// filter array for uid that matches user, then find month scored
+                            return (userObject.uid == authUser.uid);
+                        })[0].politIQ) : 0}</h3>
+                    </div>
+                </div>)
+            }
         }
 
-        if (timeframe === "Month") {
-            return (<div className="leader-user-stats">
-                <div className="stat-rank">
-                    <p>Rank</p>
-                    <h3>{userRanks.monthRank}</h3>
-
-                </div>
-                <div className="stat-month">
-                    <p>Score</p>
-                    <h3>{allRecentScores.filter(userObject => {   /// filter array for uid that matches user, then find month scored
-                        return (userObject.uid == authUser.uid);
-                    }).length !== 0 ? (allRecentScores.filter(userObject => {   /// filter array for uid that matches user, then find month scored
-                        return (userObject.uid == authUser.uid);
-                    })[0].monthlyScore) : 0}</h3>
-                </div>
-                <div className="stat-politIQ">
-                    <p>PolitIQ</p>
-                    <h3>{allRecentScores.filter(userObject => {   /// filter array for uid that matches user, then find month scored
-                        return (userObject.uid == authUser.uid);
-                    }).length !== 0 ? (allRecentScores.filter(userObject => {   /// filter array for uid that matches user, then find month scored
-                        return (userObject.uid == authUser.uid);
-                    })[0].politIQ) : 0}</h3>
-                </div>
-            </div>)
-        }
     }
 
     const renderLeaders = timeframe => {   // Creates teh leaders object based on 
@@ -222,7 +238,7 @@ const Leaderboard = () => {
   */
 
 
-    const loadingGif = <center><img src={LoadingGif} alt="loading" style={{ maxWidth: '100%' }} /></center>
+    const loadingGif = <center style={{ height: "150px" }}><img src={LoadingGif} alt="loading" style={{ maxWidth: '100%' }} /></center>
 
 
     return (
@@ -234,7 +250,7 @@ const Leaderboard = () => {
                 <div className="leaderboard-left">
                     <div className="leader-user-info">
                         <VerifiedUser size={40} />
-                        <h2>{authUser ? (authUser.displayName) : ""}</h2>
+                        <h2>{authUser ? (authUser.displayName) : "Sign up and find your PolitIQ!"}</h2>
                         <h4>{authUser ? (authUser.affiliation) : ""}</h4>
                     </div>
                     {loading ? loadingGif : authUserStats()}
@@ -242,7 +258,7 @@ const Leaderboard = () => {
                     </div>
                     {showChart ? (loading ? loadingGif : <PolBarChart politIQs={politIQs} />) : (loading ? loadingGif : lastLeaders(timeframe))}
                     <center><p className="weekly" onClick={() => setShowChart(!showChart)}  >
-                        {showChart ? "Show Party Scores" : `Show Last ${timeframe}'s Leaders`}
+                        {!showChart ? "Show Party Scores" : `Show Last ${timeframe}'s Leaders`}
                     </p></center>
 
                 </div>

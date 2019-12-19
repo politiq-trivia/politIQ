@@ -10,6 +10,7 @@ import {
   getAllScores
 } from "../utils/storeScoreData";
 
+import Sponsor from "./StaticPages/sponsor"
 import Navigation from "./Navigation/Navigation";
 import LandingPage from "./StaticPages/Landing";
 import SignUpPage from "./Auth/SignUp/SignUpPage";
@@ -237,6 +238,11 @@ class App extends Component {
                   checkAdmin={this.checkAdmin}
                 />
               )}
+            />
+            <Route
+              exact
+              path={"/sponsor"}
+              render={Sponsor}
             />
             <Route
               exact

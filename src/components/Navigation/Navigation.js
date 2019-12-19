@@ -51,15 +51,15 @@ const drawerWidth = 240;
 const styles = theme => ({
   root: {
     flexGrow: 1,
-    height: 440,
+    height: "64px",
     zIndex: 1,
     overflow: "hidden",
-    position: "relative",
+    position: "absolute",
     display: "flex"
   },
   appBar: {
     zIndex: theme.zIndex.drawer + 1,
-    minHeight: "64px"
+    height: "64px",
   },
   drawerPaper: {
     position: "relative",
@@ -368,7 +368,7 @@ class NavigationAuthBase extends Component {
               <img
                 src={Logo}
                 alt="PolitIQ"
-                style={{ height: "7vh", marginTop: "3px" }}
+                style={{ height: '59px', marginTop: "3px" }}
               />
             </Link>
             <div>

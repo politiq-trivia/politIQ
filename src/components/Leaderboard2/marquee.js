@@ -5,12 +5,16 @@ const Marquee = () => {
 
     return (
         <div className="marquee" >
-            <h2 id="marquee-text">Click Here to sponsor a future jackpot!
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-            Monthly leaders compete for $50!
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-            Weekly leader receives $5!
+            <span>
+                <h2 id="marquee-text">Click Here to sponsor a future jackpot!
             </h2>
+                <h2 id="marquee-text2">
+                    Monthly leaders compete for $50!
+            </h2>
+                <h2 id="marquee-text3">
+                    Weekly leader receives $5!
+            </h2>
+            </span>
         </div >
     )
 }

@@ -1,5 +1,5 @@
 
-import React, { useHooks, useEffect, useState, useContext } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import { db } from '../../firebase';
 import moment from 'moment'
 import AuthUserContext from '../Auth/AuthUserContext';
@@ -52,9 +52,12 @@ export const useScoresUsers = () => {
 
 
     useEffect(() => {
+
         const fetchUsers = async () => {
             try {
+
                 const result = await db.onceGetUsers();
+
                 setUsers(result.val());
                 findScores(result.val())
             } catch (error) {
@@ -62,13 +65,12 @@ export const useScoresUsers = () => {
             }
         };
         fetchUsers();
+
     }, []);
 
 
     useEffect(() => { // 2nd step, POlitiq calculations,  get top users in each respectable category, get user rank
         if (allRecentScores.length === 0) { } else { // don't run first time page loads
-
-
             // POLITIQ CALCULATION
 
             var polInt = allRecentScores.map(userObj => {
@@ -109,10 +111,10 @@ export const useScoresUsers = () => {
             var tempMonthlyScores = [...tempAllRecentScores].sort(({ monthlyScore: a }, { monthlyScore: b }) => b - a)
             var tempWeeklyScores = [...tempAllRecentScores].sort(({ weeklyScore: a }, { weeklyScore: b }) => b - a)
 
-            setUserRanks({
+            setUserRanks(authUser !== null ? {
                 weekRank: tempWeeklyScores.map(function (x) { return x.uid; }).indexOf(authUser.uid) + 1,
                 monthRank: tempMonthlyScores.map(function (x) { return x.uid; }).indexOf(authUser.uid) + 1
-            }
+            } : { weekRank: null, monthRank: null }
             )
 
 
