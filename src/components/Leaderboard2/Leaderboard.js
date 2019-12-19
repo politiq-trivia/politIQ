@@ -30,8 +30,6 @@ const Leaderboard = () => {
 
 
 
-
-
     const lastLeaders = (timeframe) => {
         if (timeframe === "Month") {
             return (
@@ -104,7 +102,6 @@ const Leaderboard = () => {
 
     const authUserStats = () => {
         if (authUser === null) {
-            console.log("authUser is null", authUser === null)
             return (<div className="leader-user-stats">
                 <div className="stat-rank">
                     <p>Rank</p>

@@ -166,7 +166,6 @@ class App extends Component {
   };
 
   getSignedInUser = async uid => {
-    console.log("get Signed in User runs")
     const userData = await db.getDisplayNames(uid);
     userData.displayName.then(displayName => {
       this.setState({

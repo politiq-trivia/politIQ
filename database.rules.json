@@ -9,6 +9,7 @@
       ".write": "auth!= null"
     },
     "users": {
+      ".read": true,
       "$user": {
         "displayName": {
           ".read": true

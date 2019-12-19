@@ -55,11 +55,14 @@ export const useScoresUsers = () => {
 
     useEffect(() => {
 
+
         if (Object.keys(scoreContext).length > 1) {
+
             const fetchUsers = async () => {
                 try {
 
                     const result = await db.onceGetUsers();
+
                     findScores(result.val())
                 } catch (error) {
                     setError(true);
@@ -134,9 +137,11 @@ export const useScoresUsers = () => {
         /*      let allUserScoreArray = JSON.parse(scores).data
       */
 
+
         let allUserScoreArray = Object.keys(scoreContext).map(key => {
             return ({ user: key, data: scoreContext[key] })
         })
+
         // add display name to allUserScoresArray
 
         allUserScoreArray = allUserScoreArray.map(userObject => {
