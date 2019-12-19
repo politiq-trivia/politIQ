@@ -27,13 +27,17 @@ const Leaderboard = () => {
     const authUser = useContext(AuthUserContext)
     console.log(authUser)
 
-    const [politIQs, monthlyScores, weeklyScores, lastWeekScores, lastMonthScores, userRanks, loading] = useScoresUsers() // use a hook to get user scores and data into a data frame
+    const [allRecentScores, politIQs, monthlyScores, weeklyScores, lastWeekScores, lastMonthScores, userRanks, loading] = useScoresUsers() // use a hook to get user scores and data into a data frame
 
     console.log("politIQs", politIQs)
+    console.log("allRecentScores", allRecentScores)
     console.log("monthlyScores", monthlyScores)
     console.log("weeklyScores", weeklyScores)
     console.log("lastWeekScores", lastWeekScores)
     console.log("lastMonthScores", lastMonthScores)
+    console.log("allRecentScores.filter(userObject => return (userObject.uid == authUser.uid);})", allRecentScores.filter(userObject => {   /// filter array for uid that matches user, then find month scored
+        return (userObject.uid == authUser.uid);
+    }).length)
 
 
 
@@ -117,15 +121,19 @@ const Leaderboard = () => {
                 </div>
                 <div className="stat-month">
                     <p>Score</p>
-                    <h3>{weeklyScores.filter(userObject => {   /// filter array for uid that matches user, then find month scored
+                    <h3>{allRecentScores.filter(userObject => {   /// filter array for uid that matches user, then find month scored
                         return (userObject.uid == authUser.uid);
-                    })[0].weeklyScore}</h3>
+                    }).length !== 0 ? (allRecentScores.filter(userObject => {   /// filter array for uid that matches user, then find month scored
+                        return (userObject.uid == authUser.uid);
+                    })[0].weeklyScore) : 0}</h3>
                 </div>
                 <div className="stat-politIQ">
                     <p>PolitIQ</p>
-                    <h3>{weeklyScores.filter(userObject => {   /// filter array for uid that matches user, then find month scored
+                    <h3>{allRecentScores.filter(userObject => {   /// filter array for uid that matches user, then find month scored
                         return (userObject.uid == authUser.uid);
-                    })[0].politIQ}</h3>
+                    }).length !== 0 ? (allRecentScores.filter(userObject => {   /// filter array for uid that matches user, then find month scored
+                        return (userObject.uid == authUser.uid);
+                    })[0].politIQ) : 0}</h3>
                 </div>
             </div>)
         }
@@ -139,15 +147,19 @@ const Leaderboard = () => {
                 </div>
                 <div className="stat-month">
                     <p>Score</p>
-                    <h3>{monthlyScores.filter(userObject => {   /// filter array for uid that matches user, then find month scored
+                    <h3>{allRecentScores.filter(userObject => {   /// filter array for uid that matches user, then find month scored
                         return (userObject.uid == authUser.uid);
-                    })[0].monthlyScore}</h3>
+                    }).length !== 0 ? (allRecentScores.filter(userObject => {   /// filter array for uid that matches user, then find month scored
+                        return (userObject.uid == authUser.uid);
+                    })[0].monthlyScore) : 0}</h3>
                 </div>
                 <div className="stat-politIQ">
                     <p>PolitIQ</p>
-                    <h3>{monthlyScores.filter(userObject => {   /// filter array for uid that matches user, then find month scored
+                    <h3>{allRecentScores.filter(userObject => {   /// filter array for uid that matches user, then find month scored
                         return (userObject.uid == authUser.uid);
-                    })[0].politIQ}</h3>
+                    }).length !== 0 ? (allRecentScores.filter(userObject => {   /// filter array for uid that matches user, then find month scored
+                        return (userObject.uid == authUser.uid);
+                    })[0].politIQ) : 0}</h3>
                 </div>
             </div>)
         }

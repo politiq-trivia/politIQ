@@ -249,5 +249,5 @@ export const useScoresUsers = () => {
 
 
 
-    return [politIQs, monthlyScores, weeklyScores, lastWeekScores, lastMonthScores, userRanks, loading]
+    return [allRecentScores, politIQs, monthlyScores, weeklyScores, lastWeekScores, lastMonthScores, userRanks, loading]
 }

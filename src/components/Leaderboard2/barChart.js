@@ -27,18 +27,19 @@ const PolBarChart = (props) => {
                 textAlign: "center",
                 fontSize: "20px",
                 color: "#F4E9FC",
-                marginBottom: "-10px"
+                marginBottom: "10px"
             }}>Party PolitIQs</h2>
             <BarChart
                 width={300}
-                height={260}
+                height={220}
                 data={data}
                 margin={{
-                    top: 5, right: 30, left: 20, bottom: 5,
+                    top: 30, right: 30, left: 20, bottom: 5,
                 }}
             >
                 <XAxis dataKey="name" tick={{ fill: 'white' }} />
-                <Bar dataKey="politIQ" fill={data.fill} >     <LabelList dataKey="politIQ" position="top" />
+                <Bar dataKey="politIQ" fill={data.fill} >
+                    <LabelList dataKey={data.politIQ} position="top" />
                 </Bar>
             </BarChart>
         </center>

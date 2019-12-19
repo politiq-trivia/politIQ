@@ -147,7 +147,7 @@ class App extends Component {
       if (
         allScores.lastUpdated <
         moment()
-          .subtract(1, "hour")
+          .subtract(10, "minute")
           .format("YYYY-MM-DDTHH:mm")
       ) {
         getAllScores();
