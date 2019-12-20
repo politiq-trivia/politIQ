@@ -202,12 +202,15 @@ const Leaderboard = () => {
                 return (<div key={i} className="leaderboard-object"  >
                     <p className="leaderboard-num">{i + 1}</p>
                     <div className="content">
-                        <PolitIQBar percentage={d.politIQ} />
-                        <div className="leader-info">
-                            <p>{d.displayName}</p>
-                            <p style={{ textAlign: 'center' }}>PolitIQ: <span style={{ fontWeight: 'bold' }}>{d.politIQ}</span></p>
-                            <p style={{ textAlign: 'right' }}>Score: <span style={{ fontWeight: 'bold' }}>{d.weeklyScore}</span></p>
-                        </div>
+                        <NavLink style={{ textDecoration: 'none' }} to={`/profile/${d.uid}`}>
+
+                            <PolitIQBar percentage={d.politIQ} />
+                            <div className="leader-info">
+                                <p>{d.displayName}</p>
+                                <p style={{ textAlign: 'center' }}>PolitIQ: <span style={{ fontWeight: 'bold' }}>{d.politIQ}</span></p>
+                                <p style={{ textAlign: 'right' }}>Score: <span style={{ fontWeight: 'bold' }}>{d.weeklyScore}</span></p>
+                            </div>
+                        </NavLink>
                     </div>
                 </div>
 
