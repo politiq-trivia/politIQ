@@ -10,13 +10,15 @@ import { NavLink } from "react-router-dom";
 import "./Static.css";
 import QuizContext from "../context/quizContext";
 
+import ReactPlayer from 'react-player'
+
+
 const LandingPage = () => {
   const [quizDate, setQuizDate] = React.useState("")
   const quizContext = React.useContext(QuizContext);
 
 
   React.useEffect(() => {
-    console.log("useEffect running")
 
     //get quiz dates
     let availableQuizDates = Object.keys(quizContext);
@@ -50,6 +52,11 @@ const LandingPage = () => {
 
   return (
     <Paper className="home-holder">
+      <center>
+        <div className="container" style={{ content: "center", marginTop: "0px", marginBottom: "40px" }}>
+          <ReactPlayer className="youtube" width='75%' height="620px" url='https://www.youtube.com/watch?v=PeuwGYasIfU' playing />
+        </div>
+      </center>
       <h1 id="main">
         Welcome to polit<span id="iq">IQ</span>
       </h1>
@@ -113,7 +120,7 @@ const LandingPage = () => {
             <p>
               <span style={{ fontWeight: "bold" }}>1 point</span> for correct
             answers, <span style={{ fontWeight: "bold" }}>0 points</span> for
-                                                                    incorrect answers.
+                                                                                                                                        incorrect answers.
           </p>
           </div>
           <div className="icon-div">

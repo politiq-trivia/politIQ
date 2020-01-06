@@ -64,6 +64,7 @@
     "react-ga": "^2.5.7",
     "react-google-charts": "^3.0.10",
     "react-helmet": "^5.2.0",
+    "react-player": "^1.14.2",
     "react-responsive": "^6.0.1",
     "react-router": "^3.0.5",
     "react-router-dom": "^4.3.1",

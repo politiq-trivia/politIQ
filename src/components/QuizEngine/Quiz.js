@@ -541,33 +541,32 @@ class QuizBase extends Component {
                             ? this.renderQ(this.state.currentQ)
                             : this.renderQ(this.state.currentQ)}
                         </div>
-                        <center>
-                          <div
-                            style={{ width: "0px" }}
-                            className={
-                              this.state.clicked ? "dontShowClock" : "showClock"
+                        <div
+                          style={{ width: "90%", justifyContent: "center", marginLeft: "0px", marginRight: "20%" }}
+                          className={
+                            this.state.clicked ? "dontShowClock" : "showClock"
+                          }
+                        >
+                          <ReactCountdownClock
+                            key={this.state.currentQ}
+                            seconds={timerDuration}
+                            size={60}
+                            color="#a54ee8"
+                            alpha={0.9}
+                            onComplete={
+                              this.state.selectedValue === ""
+                                ? () => this.checkCorrect()
+                                : null
                             }
-                          >
-                            <ReactCountdownClock
-                              key={this.state.currentQ}
-                              seconds={timerDuration}
-                              size={60}
-                              color="#a54ee8"
-                              alpha={0.9}
-                              onComplete={
-                                this.state.selectedValue === ""
-                                  ? () => this.checkCorrect()
-                                  : null
-                              }
-                            />
-                          </div>
-                        </center>
+                          />
+                        </div>
                       </>
                     )}
                 </div>
               )}
           </Paper>
-        )}
+        )
+        }
       </AuthUserContext.Consumer>
     );
   }
