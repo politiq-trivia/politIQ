@@ -8,12 +8,15 @@ import { db } from "../../firebase";
 
 import AuthUserContext from "../Auth/AuthUserContext";
 
+import loading from "../../6.gif"
 class TodaysQuizButton extends Component {
   constructor(props) {
     super(props);
     this.state = {
       todaysQuizUrl: "",
-      todaysQuizNotAvailable: false
+      todaysQuizNotAvailable: false,
+      disabled: false,
+      loading: true
     };
   }
 
@@ -51,62 +54,106 @@ class TodaysQuizButton extends Component {
     //get quiz dates
     const quizDates = Object.keys(this.props.quizContext);
 
-    const mostRecentQuizDate = quizDates.slice(-1)[0]; // get last element in array (most recent quiz date)
+    let mostRecentQuizDate = quizDates.slice(-1)[0]; // get last element in array (most recent quiz date)
+
     // which quiz dates this month don't have a score already?
     let availableQuizDates = quizDates.filter(
       date => !(uidScoreDates.indexOf(date) > -1)
     );
 
 
-    // find next available quiz
+    // Fix available quiz dates and most recent quiz date format
     availableQuizDates = availableQuizDates.map(date => {
       if (date.length < 13) {
         date = date + "T00:00:00"; //ISO 8601!!!!
-        return moment(date);
+        return (date);
       } else {
         date = date + ":00"; //ISO 8601!!!!
-        return moment(date);
+        return (date);
       }
     });
 
+
+    if (mostRecentQuizDate.length < 13) {
+      mostRecentQuizDate = mostRecentQuizDate + "T00:00:00"; //ISO 8601!!!!
+      mostRecentQuizDate = (mostRecentQuizDate);
+    } else {
+      mostRecentQuizDate = mostRecentQuizDate + ":00"; //ISO 8601!!!!
+      mostRecentQuizDate = (mostRecentQuizDate);
+    }
+
+
+
     // Get rid of available quiz dates in the future
-    availableQuizDates = availableQuizDates.filter(date => date < moment())
+    availableQuizDates = availableQuizDates.filter(date => moment(date) < moment())
 
 
     // if most recent quiz is not available set todaysQuizNotAvailable to true
     if (!availableQuizDates.includes(mostRecentQuizDate)) {
+      console.log("changes quiz to not available")
       this.setState({ todaysQuizNotAvailable: true });
     }
+
+    // map availableQuizDates to moment objects
+    availableQuizDates = availableQuizDates.map(date => {
+      return (moment(date));
+    })
 
     // which is most recent
     const nextAvailableQuizDate = moment(
       new Date(Math.max.apply(null, availableQuizDates))
-    ).format("YYYY-MM-DDTHH:mm");
+    );
 
+    if (nextAvailableQuizDate < moment().startOf('week')) {
+      this.setState({ disabled: true })
+    }
     this.setState({
-      todaysQuizUrl: nextAvailableQuizDate
+      todaysQuizUrl: nextAvailableQuizDate.format("YYYY-MM-DDTHH:mm"),
+      loading: false
     });
+
+    console.log("nextAvailableQuizDate < moment().startOf('week')", nextAvailableQuizDate < moment().startOf('week'))
+
+
+
   };
+
+
 
   redirectToTodaysQuiz = () => {
     this.props.history.push(`/quiz/${this.state.todaysQuizUrl}`);
   };
 
   render() {
+
     let buttonText = this.state.todaysQuizNotAvailable
-      ? "Next Available Quiz"
+      ? "Next Weekly Quiz"
       : "Today's Quiz";
-    return (
-      <Button
+
+    let content = (<Button
+      color="primary"
+      variant="contained"
+      size="large"
+      id="archive-link"
+      onClick={this.redirectToTodaysQuiz}
+    >
+      {buttonText}
+    </Button>)
+    console.log(this.state.disabled)
+    if (this.state.disabled) {
+      content = <Button
         color="primary"
         variant="contained"
         size="large"
         id="archive-link"
-        onClick={this.redirectToTodaysQuiz}
+        disabled
       >
         {buttonText}
       </Button>
-    );
+    }
+
+
+    return (<div>{content}</div>);
   }
 }
 TodaysQuizButton.contextType = AuthUserContext;

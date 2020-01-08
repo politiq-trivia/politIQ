@@ -112,12 +112,12 @@ class PublicProfileBase extends Component {
     this.state.userData.bio === ""
       ? (userBio = <div></div>)
       : (userBio = (
-          <center>
-            <div className="bioContainer">
-              <p className="bio">{this.state.userData.bio}</p>
-            </div>
-          </center>
-        ));
+        <center>
+          <div className="bioContainer">
+            <p className="bio">{this.state.userData.bio}</p>
+          </div>
+        </center>
+      ));
     const isLoading = () => {
       if (this.state.userData) {
         let displayName2;
@@ -133,23 +133,32 @@ class PublicProfileBase extends Component {
             </Helmet>
             <div className="public-profile">
               <div className="public-profile-top">
-                <h1>{this.state.userData.displayName}</h1>
+                <h1 className="displayNameBox">{this.state.userData.displayName}</h1>
 
                 {this.state.match ? (
                   // ? <Link to={PROFILE} style={{ textDecoration: 'none', alignSelf: 'flex-end', width: '16vw', display: 'inline-flex' }}>
                   <button
-                    style={{ maxHeight: "100px" }}
+
                     className="customButton"
                     onClick={this.editProfile}
                   >
                     Edit My Profile
                   </button>
                 ) : // </Link>
-                null}
+                  null}
               </div>
 
               <PublicProfilePhoto uid={this.state.uid} />
 
+
+              {userBio}
+
+              <UserScoreboard
+                uid={this.state.uid}
+                public="true"
+                name={displayName2}
+                moneyWon={this.state.userData.moneyWon}
+              />
               <div className="socials">
                 <div className="social">
                   <FacebookShareButton
@@ -219,15 +228,6 @@ class PublicProfileBase extends Component {
                   </EmailShareButton>
                 </div>
               </div>
-              {userBio}
-
-              <UserScoreboard
-                uid={this.state.uid}
-                public="true"
-                name={displayName2}
-                moneyWon={this.state.userData.moneyWon}
-              />
-
               {this.state.showingComments ? (
                 <div>
                   <button
@@ -245,10 +245,10 @@ class PublicProfileBase extends Component {
                   />
                 </div>
               ) : (
-                <button className="customButton" onClick={this.toggleComments}>
-                  Show Comments
+                  <button className="customButton" onClick={this.toggleComments}>
+                    Show Comments
                 </button>
-              )}
+                )}
             </div>
           </div>
         );

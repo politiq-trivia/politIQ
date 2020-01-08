@@ -175,46 +175,54 @@ const Leaderboard = () => {
     const renderLeaders = timeframe => {   // Creates teh leaders object based on 
         if (timeframe === "Month") {
             return (monthlyScores.map((d, i) => {
-                return (<div key={i} className="leaderboard-object"  >
-                    <p className="leaderboard-num">{i + 1}</p>
+                if (d.monthlyScore === 0) {
+                    return (<div></div>)
+                } else {
+                    return (<div key={i} className="leaderboard-object"  >
+                        <p className="leaderboard-num">{i + 1}</p>
 
-                    <div className="content">
-                        <NavLink style={{ textDecoration: 'none' }} to={`/profile/${d.uid}`}>
+                        <div className="content">
+                            <NavLink style={{ textDecoration: 'none' }} to={`/profile/${d.uid}`}>
 
-                            <PolitIQBar percentage={d.politIQ} />
-                            <div className="leader-info">
-                                <p>{d.displayName}</p>
-                                <p style={{ textAlign: 'center' }}>PolitIQ: <span style={{ fontWeight: 'bold' }}>{d.politIQ}</span></p>
-                                <p style={{ textAlign: 'right' }}>Score: <span style={{ fontWeight: 'bold' }}>{d.monthlyScore}</span></p>
-                            </div>
-                        </NavLink>
+                                <PolitIQBar percentage={d.politIQ} />
+                                <div className="leader-info">
+                                    <p>{d.displayName}</p>
+                                    <p style={{ textAlign: 'center' }}>PolitIQ: <span style={{ fontWeight: 'bold' }}>{d.politIQ}</span></p>
+                                    <p style={{ textAlign: 'right' }}>Score: <span style={{ fontWeight: 'bold' }}>{d.monthlyScore}</span></p>
+                                </div>
+                            </NavLink>
+
+                        </div>
 
                     </div>
-
-                </div>
-
-                )
+                    )
+                }
             }
             ))
+
         }
         if (timeframe === "Week") {
             return (weeklyScores.map((d, i) => {
-                return (<div key={i} className="leaderboard-object"  >
-                    <p className="leaderboard-num">{i + 1}</p>
-                    <div className="content">
-                        <NavLink style={{ textDecoration: 'none' }} to={`/profile/${d.uid}`}>
+                if (d.weeklyScore === 0) {
+                    return (<div></div>)
+                } else {
+                    return (<div key={i} className="leaderboard-object"  >
+                        <p className="leaderboard-num">{i + 1}</p>
+                        <div className="content">
+                            <NavLink style={{ textDecoration: 'none' }} to={`/profile/${d.uid}`}>
 
-                            <PolitIQBar percentage={d.politIQ} />
-                            <div className="leader-info">
-                                <p>{d.displayName}</p>
-                                <p style={{ textAlign: 'center' }}>PolitIQ: <span style={{ fontWeight: 'bold' }}>{d.politIQ}</span></p>
-                                <p style={{ textAlign: 'right' }}>Score: <span style={{ fontWeight: 'bold' }}>{d.weeklyScore}</span></p>
-                            </div>
-                        </NavLink>
+                                <PolitIQBar percentage={d.politIQ} />
+                                <div className="leader-info">
+                                    <p>{d.displayName}</p>
+                                    <p style={{ textAlign: 'center' }}>PolitIQ: <span style={{ fontWeight: 'bold' }}>{d.politIQ}</span></p>
+                                    <p style={{ textAlign: 'right' }}>Score: <span style={{ fontWeight: 'bold' }}>{d.weeklyScore}</span></p>
+                                </div>
+                            </NavLink>
+                        </div>
                     </div>
-                </div>
 
-                )
+                    )
+                }
             }
             ))
 
@@ -229,7 +237,7 @@ const Leaderboard = () => {
              return (<p>Weekly leader receives $5!</p>)
          }
      }
-  */
+    */
 
 
     const loadingGif = <center style={{ height: "150px" }}><img src={LoadingGif} alt="loading" style={{ maxWidth: '100%' }} /></center>

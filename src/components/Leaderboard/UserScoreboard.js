@@ -191,7 +191,7 @@ class UserScoreboard extends Component {
                     </span>
                   </div>
                   <div className="userScore" id="submittedQScore">
-                    Submitted & Contested Q Score
+                    Contested Q Score
                     <span className="s">{this.state.submittedScore}</span>
                   </div>
                 </div>
@@ -204,7 +204,7 @@ class UserScoreboard extends Component {
                     <span className="s reg-score">${data.moneyWon || 0}</span>
                   </div>
                   <div className="userScore second-row">
-                    Lifetime Earnings
+                    Earnings
                     <span className="s reg-score">
                       ${data.lifetimeEarnings || 0}
                     </span>
@@ -247,7 +247,7 @@ class UserScoreboard extends Component {
                 </div>
                 <div className="small-scoreboard">
                   <div className="userScore" id="submittedQScore">
-                    Submitted & Contested Q Score
+                    Contested Q Score
                     <span className="s reg-score">
                       {this.state.submittedScore}
                     </span>
@@ -262,7 +262,7 @@ class UserScoreboard extends Component {
                   style={{ justifyContent: "center" }}
                 >
                   <div className="userScore">
-                    Lifetime Earnings
+                    Earnings
                     <span className="s reg-score">
                       ${data.lifetimeEarnings || 0}
                     </span>

@@ -44,5 +44,17 @@ button.customButton:hover {
 }
 .deleteButton:active {
   position: relative;
-  top: 1px;
+}
+
+.displayNameBox {
+  display: block;
+  height: 100%;
+  vertical-align: middle;
+}
+
+@media only screen and (max-width: 800px) {
+  button.customButton {
+   font-size: 15px;
+   height: 50%;
+  }
 }

@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import { FAQ } from '../../constants/routes';
 
 import Paper from '@material-ui/core/Paper';
+import YouTubePlayer from 'react-player/lib/players/YouTube'
 
 const About = () => {
   return (
@@ -24,7 +25,10 @@ const About = () => {
 
         <p>If you agree, or simply want to spread the word about an easy way to win some money, invite your friends and foes alike to join politIQ!</p>
 
-        <p style={{ marginTop: '8vh'}}>Have a question or want to send me some hate mail? Check out our <Link to={FAQ}>Frequently Asked Questions</Link> or email me at <a href="mailto: info@whatsmypolitiq.com">info@whatsmypolitiq.com</a></p>
+        <center>
+          <YouTubePlayer style={{ marginTop: '8vh' }} width="90%" className="youtube" controls={false} url='https://www.youtube.com/watch?v=PeuwGYasIfU' playing />
+        </center>
+        <p style={{ marginTop: '8vh' }}>Have a question or want to send me some hate mail? Check out our <Link to={FAQ}>Frequently Asked Questions</Link> or email me at <a href="mailto: info@whatsmypolitiq.com">info@whatsmypolitiq.com</a></p>
       </div>
     </Paper>
   );

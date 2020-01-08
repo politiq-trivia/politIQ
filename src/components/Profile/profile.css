@@ -18,28 +18,24 @@
 }
 
 .public-profile {
-  flex-direction: column;
+  flex-direction: row;
 }
 .public-profile-top {
   background-color: rgba(53, 25, 74);
-  height: auto;
   width: 100%;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
 }
 .profile h1 {
+  margin: 10px;
   text-align: center;
   /* margin-left: 15vw; */
-  margin-top: 16vh;
 }
 .public-profile h1 {
   overflow: hidden;
   color: white;
   font-weight: bold;
-  padding: 10px;
-  margin: 5px;
-  text-align: center;
 }
 #profile-heading {
   margin-left: 15vw;
@@ -47,10 +43,7 @@
 
 /* --------heading for most phone screens ----- */
 @media screen and (max-width: 415px) {
-  .profile h1 {
-    margin-top: 7vh;
-    margin-left: 0;
-  }
+  
   #profile-heading {
     margin-left: 0;
   }
@@ -58,8 +51,6 @@
 /* -------- iPhone 5 and equivalent phone screens ---- */
 @media screen and (max-width: 320px) {
   .profile h1 {
-    margin-top: 12vh;
-    margin-bottom: 1vh;
   }
   #profile-heading {
     margin-top: 14vh;
@@ -71,10 +62,8 @@
 }
 .public-profile p,
 .public-profile h3 {
-  width: 80%;
   margin-left: auto;
   margin-right: auto;
-  text-align: left;
 }
 
 .user-scoreboard-public {

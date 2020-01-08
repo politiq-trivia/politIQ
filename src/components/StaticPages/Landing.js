@@ -10,8 +10,7 @@ import { NavLink } from "react-router-dom";
 import "./Static.css";
 import QuizContext from "../context/quizContext";
 
-import ReactPlayer from 'react-player'
-
+import YouTubePlayer from 'react-player/lib/players/YouTube'
 
 const LandingPage = () => {
   const [quizDate, setQuizDate] = React.useState("")
@@ -52,31 +51,35 @@ const LandingPage = () => {
 
   return (
     <Paper className="home-holder">
-      <center>
-        <div className="container" style={{ content: "center", marginTop: "0px", marginBottom: "40px" }}>
-          <ReactPlayer className="youtube" width='75%' height="620px" url='https://www.youtube.com/watch?v=PeuwGYasIfU' playing />
+      <div className="welcomeHolder" >
+
+        <div className="welcomeBlock">
+
+          <h1 id="main">
+            Welcome to polit<span id="iq">IQ</span>
+          </h1>
+          <h2 style={{ fontSize: "20px", marginBottom: "40px" }}>where you can answer the question... </h2>
+
+          <img src={bg} id="bg-image" alt="democrats and republicans face off" />
+
+          <h2 style={{ marginBottom: "40px" }}>Are you smarter than a: </h2>
+          <div className="title anim-h1">
+            <span>Republican?</span>
+          </div>
+
+          <div className="title anim-h2">
+            <span>Democrat?</span>
+          </div>
+          <div className="title anim-h3">
+            <span>Independent?</span>
+          </div>
         </div>
-      </center>
-      <h1 id="main">
-        Welcome to polit<span id="iq">IQ</span>
-      </h1>
-      <h2 style={{ fontSize: "20px" }}>where you can answer the question... </h2>
-
-      <img src={bg} id="bg-image" alt="democrats and republicans face off" />
-
-      <h2 style={{ marginBottom: "2vh" }}>Are you smarter than a: </h2>
-      <div className="title anim-h1">
-        <span>Republican?</span>
+        <div className="welcomeBlock">
+          <center>
+            <YouTubePlayer style={{ marginTop: "100px" }} width="90%" className="youtube" controls={false} url='https://www.youtube.com/watch?v=PeuwGYasIfU' playing />
+          </center>
+        </div>
       </div>
-
-      <div className="title anim-h2">
-        <span>Democrat?</span>
-      </div>
-
-      <div className="title anim-h3">
-        <span>Independent?</span>
-      </div>
-
       <div className="home-description">
         <h4> INTERESTED IN POLITICS AND CONSTANTLY CONSUMED BY THE NEWS?</h4>
         <p>
@@ -120,7 +123,7 @@ const LandingPage = () => {
             <p>
               <span style={{ fontWeight: "bold" }}>1 point</span> for correct
             answers, <span style={{ fontWeight: "bold" }}>0 points</span> for
-                                                                                                                                        incorrect answers.
+                                                                                                                                                                                                    incorrect answers.
           </p>
           </div>
           <div className="icon-div">
