@@ -11,6 +11,9 @@ import "./Static.css";
 import QuizContext from "../context/quizContext";
 
 import YouTubePlayer from 'react-player/lib/players/YouTube'
+import sampleVid from '../../videos/PolitIQ_Final(1).mp4';
+import poster from "../didyouknow.png"
+
 
 const LandingPage = () => {
   const [quizDate, setQuizDate] = React.useState("")
@@ -76,7 +79,10 @@ const LandingPage = () => {
         </div>
         <div className="welcomeBlock">
           <center>
-            <YouTubePlayer style={{ marginTop: "100px" }} width="90%" className="youtube" controls={false} url='https://www.youtube.com/watch?v=PeuwGYasIfU' playing />
+            <video className="youtube" style={{ width: "90%" }} controls poster={poster}>
+              <source src={sampleVid} type='video/mp4' />
+            </video>
+
           </center>
         </div>
       </div>
@@ -123,7 +129,7 @@ const LandingPage = () => {
             <p>
               <span style={{ fontWeight: "bold" }}>1 point</span> for correct
             answers, <span style={{ fontWeight: "bold" }}>0 points</span> for
-                                                                                                                                                                                                    incorrect answers.
+                                                                                                                                                                                                                                                            incorrect answers.
           </p>
           </div>
           <div className="icon-div">

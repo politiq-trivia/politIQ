@@ -1,280 +1,190 @@
-import React, { Component } from "react";
-import { db } from "../../firebase";
+import React, { useContext } from "react";
 import { AuthUserContext } from "../Auth";
-import moment from "moment";
 import MediaQuery from "react-responsive";
 import { withFirebase } from "../../firebase";
-import { getPolitIQ } from "../../utils/calculatePolitIQ";
+import { useScoresUsers } from "../Leaderboard2/useScoresUsers"
+import LoadingGif from '../../6.gif';
+import { useGetMoneyEarned } from "../hooks/useGetMoneyEarned"
 
-class UserScoreboard extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      data: {},
-      weeklyScore: 0,
-      monthlyScore: 0,
-      submittedScore: 0,
-      recentSubmittedScores: 0,
-      moneyWon: "$0",
-      politIQ: 0
-    };
-  }
-  componentDidMount = () => {
-    this.getMyScore();
-  };
 
-  componentWillReceiveProps = () => {
-    this.getMyScore();
-    if (this.props.moneyWon !== undefined) {
-      this.setState({
-        moneyWon: "$" + this.props.moneyWon
-      });
-    }
-    if (this.props.public) {
-      const uid = window.location.href.split("/")[4];
-      this.getMyPolitIQ(uid, "month");
-    } else {
-      const uid = this.props.uid;
-      this.getMyPolitIQ(uid, "month");
-    }
-  };
+const UserScoreboard = () => {
+  const authUser = useContext(AuthUserContext)
 
-  componentDidUpdate = prevProps => {
-    if (this.props.moneyWon !== prevProps.moneyWon) {
-      if (this.props.moneyWon !== undefined) {
-        this.setState({
-          moneyWon: "$" + this.props.moneyWon
-        });
-      } else {
-        this.setState({
-          moneyWon: "$0"
-        });
-      }
-      return true;
-    } else {
-      return false;
-    }
-  };
+  const [allRecentScores, politIQs, monthlyScores, weeklyScores, lastWeekScores, lastMonthScores, userRanks, loading] = useScoresUsers() // use a hook to get user scores and data into a data frame
+  const [usersMoney, loadingWinners] = useGetMoneyEarned() // use a hook to get user scores and data into a data frame
 
-  getMyScore = async () => {
-    if (
-      this.props.uid === null ||
-      this.props.uid === undefined ||
-      this.props.uid === ""
-    ) {
-      return;
-    }
-    this.listener = await db.getScoresByUid(this.props.uid).then(response => {
-      const data = response.val();
-      if (data === null) {
-        this.setState({
-          monthlyScore: 0,
-          submittedScore: 0
-        });
-        return;
-      }
+  let userUid = window.location.href.split('profile/')[1]
 
-      let submitted = [];
-      let recentSubmittedScores = 0;
-      const quizDates = Object.keys(data);
-      if (quizDates[quizDates.length - 1] === "submitted") {
-        submitted = data["submitted"];
-        quizDates.pop();
-      }
+  if (!userUid) { userUid = authUser.uid }
+  const loadingGif = <center style={{ height: "150px" }}><img src={LoadingGif} alt="loading" style={{ maxWidth: '100%' }} /></center>
 
-      let weeklyScore = 0;
-      let monthlyScore = 0;
-      let submittedScore = 0;
 
-      for (let i = 0; i < quizDates.length; i++) {
-        if (
-          quizDates[i] >
-          moment()
-            .startOf("week")
-            .format("YYYY-MM-DD")
-        ) {
-          weeklyScore += data[quizDates[i]];
-        }
-      }
 
-      for (let i = 0; i < quizDates.length; i++) {
-        if (
-          quizDates[i] >
-          moment()
-            .startOf("month")
-            .format("YYYY-MM-DDTHH:mm")
-        ) {
-          monthlyScore += data[quizDates[i]];
-        }
-      }
-
-      if (submitted !== []) {
-        const dates = Object.keys(submitted);
-        const recentDates = dates.filter(
-          date =>
-            date >
-            moment()
-              .startOf("month")
-              .format("YYYY-MM-DDTHH:mm")
-        );
-        let recentScores = [];
-        for (let i = 0; i < recentDates.length; i++) {
-          const score = submitted[recentDates[i]];
-          recentScores.push(score);
-        }
-        const scores = Object.values(submitted);
-        if (scores.length !== 0) {
-          submittedScore = scores.reduce((a, b) => a + b);
-        }
-        if (recentScores.length !== 0) {
-          recentSubmittedScores = recentScores.reduce((a, b) => a + b);
-        }
-      }
-
-      this.setState({
-        weeklyScore,
-        monthlyScore,
-        submittedScore,
-        recentSubmittedScores
-      });
-    });
-  };
-
-  getMyPolitIQ = async (uid, timeframe) => {
-    let iq = await getPolitIQ(uid, timeframe);
-    if (isNaN(iq)) {
-      this.setState({
-        politIQ: 0
-      });
-    } else {
-      this.setState({
-        politIQ: iq
-      });
-    }
-  };
-
-  render() {
-    return (
-      <AuthUserContext.Consumer>
-        {data => (
-          <div>
-            <MediaQuery minWidth={416}>
-              <div
-                className="small-scoreboardHolder user-scoreboard-public"
-                style={{
-                  justifyContent: "center",
-                  height: "auto",
-                  padding: "20px 20px 20px 18px"
-                }}
-              >
-                <h2>
-                  {this.props.public ? `${this.props.name}'s` : "My"} Scores
+  console.log(usersMoney)
+  console.log(loading)
+  return (
+    loading && loadingWinners ? <div>{loadingGif}</div> :
+      <div>
+        <MediaQuery minWidth={416}>
+          <div
+            className="small-scoreboardHolder user-scoreboard-public"
+            style={{
+              justifyContent: "center",
+              height: "auto",
+              padding: "20px 20px 20px 18px"
+            }}
+          >
+            <h2>
+              {authUser.uid === userUid ? "My"  /// if authuser then "my" else find  user page displayname
+                :
+                `${allRecentScores.filter(userObject => {                   // go through all scores object (all users as well) and find display name of object with matching uid as the page
+                  return (userObject.uid == userUid);
+                })[0].displayName}'s`} Scores
                 </h2>
-                <div className="userScore politIQ">
-                  PolitIQ
+            <div className="userScore politIQ">
+              PolitIQ
                   <span className="s reg-score politIQ-score">
-                    {this.state.politIQ + this.state.recentSubmittedScores}
-                  </span>
-                </div>
-                <div className="small-scoreboard">
-                  <div className="userScore">
-                    Monthly Score
+                {allRecentScores.filter(userObject => {   /// filter array for uid that matches user, then find month scored
+                  return (userObject.uid == userUid);
+                }).length !== 0 ? (allRecentScores.filter(userObject => {   /// filter array for uid that matches user, then find month scored
+                  return (userObject.uid == userUid);
+                })[0].politIQ) : 0}
+              </span>
+            </div>
+            <div className="small-scoreboard">
+              <div className="userScore">
+                Monthly Score
                     <span className="s reg-score">
-                      {this.state.monthlyScore}
-                    </span>
-                  </div>
-
-                  <div className="userScore">
-                    Weekly Score
-                    <span className="s reg-score">
-                      {this.state.weeklyScore}
-                    </span>
-                  </div>
-                  <div className="userScore" id="submittedQScore">
-                    Contested Q Score
-                    <span className="s">{this.state.submittedScore}</span>
-                  </div>
-                </div>
-                <div
-                  className="small-scoreboard"
-                  style={{ justifyContent: "center" }}
-                >
-                  <div className="userScore second-row">
-                    Money Won
-                    <span className="s reg-score">${data.moneyWon || 0}</span>
-                  </div>
-                  <div className="userScore second-row">
-                    Earnings
-                    <span className="s reg-score">
-                      ${data.lifetimeEarnings || 0}
-                    </span>
-                  </div>
-                </div>
+                  {allRecentScores.filter(userObject => {   /// filter array for uid that matches user, then find month scored
+                    return (userObject.uid == userUid);
+                  }).length !== 0 ? (allRecentScores.filter(userObject => {   /// filter array for uid that matches user, then find month scored
+                    return (userObject.uid == userUid);
+                  })[0].monthlyScore) : 0}
+                </span>
               </div>
-            </MediaQuery>
-            <MediaQuery maxWidth={415}>
-              <div
-                className="small-scoreboardHolder user-scoreboard-public"
-                style={{
-                  justifyContent: "center",
-                  height: "auto",
-                  padding: "20px 20px 20px 18px"
-                }}
-              >
-                <h2>
-                  {this.props.public ? `${this.props.name}'s` : "My"} Scores
-                </h2>
-                <div className="userScore politIQ">
-                  PolitIQ
-                  <span className="s reg-score politIQ-score">
-                    {this.state.politIQ + this.state.recentSubmittedScores}
-                  </span>
-                </div>
-                <div className="small-scoreboard">
-                  <div className="userScore">
-                    Monthly Score
-                    <span className="s reg-score">
-                      {this.state.monthlyScore}
-                    </span>
-                  </div>
 
-                  <div className="userScore">
-                    Weekly Score
+              <div className="userScore">
+                Weekly Score
                     <span className="s reg-score">
-                      {this.state.weeklyScore}
-                    </span>
-                  </div>
-                </div>
-                <div className="small-scoreboard">
-                  <div className="userScore" id="submittedQScore">
-                    Contested Q Score
-                    <span className="s reg-score">
-                      {this.state.submittedScore}
-                    </span>
-                  </div>
-                  <div className="userScore">
-                    Money Won
-                    <span className="s reg-score">${data.moneyWon || 0}</span>
-                  </div>
-                </div>
-                <div
-                  className="small-scoreboard"
-                  style={{ justifyContent: "center" }}
-                >
-                  <div className="userScore">
-                    Earnings
-                    <span className="s reg-score">
-                      ${data.lifetimeEarnings || 0}
-                    </span>
-                  </div>
-                </div>
+                  {allRecentScores.filter(userObject => {   /// filter array for uid that matches user, then find month scored
+                    return (userObject.uid == userUid);
+                  }).length !== 0 ? (allRecentScores.filter(userObject => {   /// filter array for uid that matches user, then find month scored
+                    return (userObject.uid == userUid);
+                  })[0].weeklyScore) : 0}
+                </span>
               </div>
-            </MediaQuery>
+              <div className="userScore" id="submittedQScore">
+                Contested Q Score
+                    <span className="s"> {0}                           {// zero for now
+                } </span>
+              </div>
+            </div>
+            <div
+              className="small-scoreboard"
+              style={{ justifyContent: "center" }}
+            >
+              <div className="userScore second-row">
+                Money Won
+                    <span className="s reg-score">${(usersMoney.length > 0)
+                  ?
+                  (usersMoney.filter(userObj => userObj.uid === userUid).length === 0)
+                    ?
+                    0
+                    :
+                    usersMoney.filter(userObj => userObj.uid === userUid)[0].moneyEarned
+                  :
+                  0
+                }</span> {// check winners to see if current user page is a winner
+                }
+              </div>
+              <div className="userScore second-row">
+                Earnings
+                    <span className="s reg-score">
+                  ${0}            {// zero for now
+                  }
+                </span>
+              </div>
+            </div>
           </div>
-        )}
-      </AuthUserContext.Consumer>
-    );
-  }
+        </MediaQuery>
+        <MediaQuery maxWidth={415}>
+          <div
+            className="small-scoreboardHolder user-scoreboard-public"
+            style={{
+              justifyContent: "center",
+              height: "auto",
+              padding: "20px 20px 20px 18px"
+            }}
+          >
+            <h2>
+              {authUser.uid === userUid ? "My"  /// if authuser then "my" else find  user page displayname
+                :
+                `${allRecentScores.filter(userObject => {                   // go through all scores object (all users as well) and find display name of object with matching uid as the page
+                  return (userObject.uid == userUid);
+                })[0].displayName}'s`} Scores                </h2>
+            <div className="userScore politIQ">
+              PolitIQ
+                  <span className="s reg-score politIQ-score">
+                {allRecentScores.filter(userObject => {   /// filter array for uid that matches user, then find month scored
+                  return (userObject.uid == userUid);
+                }).length !== 0 ? (allRecentScores.filter(userObject => {   /// filter array for uid that matches user, then find month scored
+                  return (userObject.uid == userUid);
+                })[0].politIQ) : 0}
+              </span>
+            </div>
+            <div className="small-scoreboard">
+              <div className="userScore">
+                Monthly Score
+                    <span className="s reg-score">
+                  {allRecentScores.filter(userObject => {   /// filter array for uid that matches user, then find month scored
+                    return (userObject.uid == userUid);
+                  }).length !== 0 ? (allRecentScores.filter(userObject => {   /// filter array for uid that matches user, then find month scored
+                    return (userObject.uid == userUid);
+                  })[0].monthlyScore) : 0}
+                </span>
+              </div>
+
+              <div className="userScore">
+                Weekly Score
+                    <span className="s reg-score">
+                  {allRecentScores.filter(userObject => {   /// filter array for uid that matches user, then find month scored
+                    return (userObject.uid == userUid);
+                  }).length !== 0 ? (allRecentScores.filter(userObject => {   /// filter array for uid that matches user, then find month scored
+                    return (userObject.uid == userUid);
+                  })[0].weeklyScore) : 0}
+                </span>
+              </div>
+            </div>
+            <div className="small-scoreboard">
+              <div className="userScore" id="submittedQScore">
+                Contested Q Score
+                    <span className="s reg-score">
+                  {0}                           {// zero for now
+                  }
+                </span>
+              </div>
+              <div className="userScore">
+                Money Won
+              <span className="s reg-score">${0}</span> {// zero for now
+                }            </div>
+            </div>
+            <div
+              className="small-scoreboard"
+              style={{ justifyContent: "center" }}
+            >
+              <div className="userScore">
+                Earnings
+                    <span className="s reg-score">
+                  <span className="s reg-score">${0}</span> {// zero for now
+                  }              </span>
+              </div>
+            </div>
+          </div>
+        </MediaQuery>
+      </div>
+  )
+
 }
+
 
 export default withFirebase(UserScoreboard);

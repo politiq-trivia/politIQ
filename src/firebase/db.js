@@ -85,6 +85,7 @@ export const getOneUser = uid => {
   return user;
 };
 
+
 export const editUser = (uid, updates) => {
   const user = db
     .ref("users")
@@ -217,6 +218,13 @@ export const scoreVisibility = (uid, invisibleScore) => {
     .set(invisibleScore);
 };
 
+
+export const getWinners = () => {
+  const winners = db
+    .ref("winners")
+    .once("value");
+  return winners;
+};
 // -------------------------------------------------------------------------
 
 // QUIZZES

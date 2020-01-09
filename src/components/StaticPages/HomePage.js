@@ -33,6 +33,7 @@ import TodaysQuizButton from "./TodaysQuizButton";
 import "./Static.css";
 import QuizContext from "../context/quizContext";
 
+
 const getHref = () => {
   return window.location.href.toString();
 };

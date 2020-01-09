@@ -63,7 +63,6 @@ class CommentWidget extends Component {
   };
 
   render() {
-    console.log(this.state.commentsObj);
     let comments;
     if (this.state.dateArray !== []) {
       comments = this.state.dateArray.map((date, i) => {

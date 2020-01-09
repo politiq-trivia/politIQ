@@ -148,7 +148,7 @@ class PublicProfileBase extends Component {
                   null}
               </div>
 
-              <PublicProfilePhoto uid={this.state.uid} />
+              <PublicProfilePhoto uid={window.location.href.split('profile/')[1]} />
 
 
               {userBio}
