@@ -165,7 +165,16 @@ const UserScoreboard = () => {
               </div>
               <div className="userScore">
                 Money Won
-              <span className="s reg-score">${0}</span> {// zero for now
+              <span className="s reg-score">${(usersMoney.length > 0)
+                  ?
+                  (usersMoney.filter(userObj => userObj.uid === userUid).length === 0)
+                    ?
+                    0
+                    :
+                    usersMoney.filter(userObj => userObj.uid === userUid)[0].moneyEarned
+                  :
+                  0
+                }</span> {
                 }            </div>
             </div>
             <div
