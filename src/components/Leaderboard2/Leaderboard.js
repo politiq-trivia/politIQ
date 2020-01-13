@@ -174,57 +174,68 @@ const Leaderboard = () => {
 
     const renderLeaders = timeframe => {   // Creates teh leaders object based on 
         if (timeframe === "Month") {
-            return (monthlyScores.map((d, i) => {
-                if (d.monthlyScore === 0) {
-                    return (<div></div>)
-                } else {
-                    return (<div key={i} className="leaderboard-object"  >
-                        <p className="leaderboard-num">{i + 1}</p>
+            console.log(monthlyScores)
+            var scoreTotal = monthlyScores.reduce(function (prev, cur) { // total weekly score
+                return prev + cur.monthlyScore;
+            }, 0);
+            if (scoreTotal === 0) { return <div className="container" style={{ marginTop: "20px" }}><center>No Monthly Scores Available Yet</center></div> } else {  // if there are no scores avaialble 
+                return (monthlyScores.map((d, i) => {
+                    if (d.monthlyScore === 0) {
+                        return (<div></div>)
+                    } else {
+                        return (<div key={i} className="leaderboard-object"  >
+                            <p className="leaderboard-num">{i + 1}</p>
 
-                        <div className="content">
-                            <NavLink style={{ textDecoration: 'none' }} to={`/profile/${d.uid}`}>
+                            <div className="content">
+                                <NavLink style={{ textDecoration: 'none' }} to={`/profile/${d.uid}`}>
 
-                                <PolitIQBar percentage={d.politIQ} />
-                                <div className="leader-info">
-                                    <p>{d.displayName}</p>
-                                    <p style={{ textAlign: 'center' }}>PolitIQ: <span style={{ fontWeight: 'bold' }}>{d.politIQ}</span></p>
-                                    <p style={{ textAlign: 'right' }}>Score: <span style={{ fontWeight: 'bold' }}>{d.monthlyScore}</span></p>
-                                </div>
-                            </NavLink>
+                                    <PolitIQBar percentage={d.politIQ} />
+                                    <div className="leader-info">
+                                        <p>{d.displayName}</p>
+                                        <p style={{ textAlign: 'center' }}>PolitIQ: <span style={{ fontWeight: 'bold' }}>{d.politIQ}</span></p>
+                                        <p style={{ textAlign: 'right' }}>Score: <span style={{ fontWeight: 'bold' }}>{d.monthlyScore}</span></p>
+                                    </div>
+                                </NavLink>
+
+                            </div>
 
                         </div>
-
-                    </div>
-                    )
+                        )
+                    }
                 }
+                ))
             }
-            ))
 
         }
         if (timeframe === "Week") {
-            return (weeklyScores.map((d, i) => {
-                if (d.weeklyScore === 0) {
-                    return (<div></div>)
-                } else {
-                    return (<div key={i} className="leaderboard-object"  >
-                        <p className="leaderboard-num">{i + 1}</p>
-                        <div className="content">
-                            <NavLink style={{ textDecoration: 'none' }} to={`/profile/${d.uid}`}>
+            var scoreTotal = weeklyScores.reduce(function (prev, cur) { // total weekly score
+                return prev + cur.weeklyScore;
+            }, 0);
+            if (scoreTotal === 0) { return <div className="container" style={{ marginTop: "20px" }}><center>No Weekly Scores Available Yet</center></div> } else {
+                return (weeklyScores.map((d, i) => {
+                    if (d.weeklyScore === 0) {
+                        return (<div></div>)
+                    } else {
+                        return (<div key={i} className="leaderboard-object"  >
+                            <p className="leaderboard-num">{i + 1}</p>
+                            <div className="content">
+                                <NavLink style={{ textDecoration: 'none' }} to={`/profile/${d.uid}`}>
 
-                                <PolitIQBar percentage={d.politIQ} />
-                                <div className="leader-info">
-                                    <p>{d.displayName}</p>
-                                    <p style={{ textAlign: 'center' }}>PolitIQ: <span style={{ fontWeight: 'bold' }}>{d.politIQ}</span></p>
-                                    <p style={{ textAlign: 'right' }}>Score: <span style={{ fontWeight: 'bold' }}>{d.weeklyScore}</span></p>
-                                </div>
-                            </NavLink>
+                                    <PolitIQBar percentage={d.politIQ} />
+                                    <div className="leader-info">
+                                        <p>{d.displayName}</p>
+                                        <p style={{ textAlign: 'center' }}>PolitIQ: <span style={{ fontWeight: 'bold' }}>{d.politIQ}</span></p>
+                                        <p style={{ textAlign: 'right' }}>Score: <span style={{ fontWeight: 'bold' }}>{d.weeklyScore}</span></p>
+                                    </div>
+                                </NavLink>
+                            </div>
                         </div>
-                    </div>
 
-                    )
+                        )
+                    }
                 }
+                ))
             }
-            ))
 
         }
     }
