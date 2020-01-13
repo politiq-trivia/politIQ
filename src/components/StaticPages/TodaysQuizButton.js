@@ -104,7 +104,6 @@ class TodaysQuizButton extends Component {
       new Date(Math.max.apply(null, availableQuizDates))
     );
 
-    console.log("moment().startOf('isoWeek')", moment().startOf('isoWeek'))
     if (nextAvailableQuizDate < moment().startOf('isoWeek')) {
       this.setState({ disabled: true })
     }
@@ -112,9 +111,6 @@ class TodaysQuizButton extends Component {
       todaysQuizUrl: nextAvailableQuizDate.format("YYYY-MM-DDTHH:mm"),
       loading: false
     });
-
-    console.log("nextAvailableQuizDate < moment().startOf('week')", nextAvailableQuizDate < moment().startOf('week'))
-
 
 
   };
