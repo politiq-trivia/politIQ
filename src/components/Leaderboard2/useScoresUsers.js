@@ -161,11 +161,11 @@ export const useScoresUsers = () => {
 
 
         const startOfMonth = moment().startOf('month')
-        const startOfWeek = moment().startOf('week')
+        const startOfWeek = moment().startOf('isoWeek')
         const endOfLastMonth = moment().subtract(1, 'months').endOf('month')
         const startOfLastMonth = moment().subtract(1, 'months').startOf('month')
-        const endOfLastWeek = moment().subtract(1, 'weeks').endOf('week')
-        const startOfLastWeek = moment().subtract(1, 'weeks').startOf('week')
+        const endOfLastWeek = moment().subtract(1, 'weeks').endOf('isoWeek')
+        const startOfLastWeek = moment().subtract(1, 'weeks').startOf('isoWeek')
 
 
 
