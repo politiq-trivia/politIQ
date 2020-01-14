@@ -232,6 +232,10 @@ export const getWinners = () => {
 // --------------------------------------------------------------------------
 
 // Add a quiz
+export const getQuizRef = () => {
+  var quizRefs = db.ref().child("rssQuiz").once("value")
+  return (quizRefs)
+};
 export const addQuiz = (date, title) => {
   var quizzes = db.ref().child("quizzes");
   quizzes

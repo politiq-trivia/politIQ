@@ -20,10 +20,13 @@ const LandingPage = () => {
   const quizContext = React.useContext(QuizContext);
 
 
+
   React.useEffect(() => {
 
     //get quiz dates
     let availableQuizDates = Object.keys(quizContext);
+
+    console.log("availableQuizDates:", availableQuizDates)
 
 
 
@@ -129,7 +132,7 @@ const LandingPage = () => {
             <p>
               <span style={{ fontWeight: "bold" }}>1 point</span> for correct
             answers, <span style={{ fontWeight: "bold" }}>0 points</span> for
-                                                                                                                                                                                                                                                            incorrect answers.
+                                                                                                                                                                                                                                                                  incorrect answers.
           </p>
           </div>
           <div className="icon-div">

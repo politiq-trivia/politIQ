@@ -90,7 +90,6 @@ class TodaysQuizButton extends Component {
 
     // if most recent quiz is not available set todaysQuizNotAvailable to true
     if (!availableQuizDates.includes(mostRecentQuizDate)) {
-      console.log("changes quiz to not available")
       this.setState({ todaysQuizNotAvailable: true });
     }
 
@@ -136,7 +135,6 @@ class TodaysQuizButton extends Component {
     >
       {buttonText}
     </Button>)
-    console.log(this.state.disabled)
     if (this.state.disabled) {
       content = <Button
         color="primary"

@@ -68,14 +68,14 @@ class NavigationNonAuth extends Component {
                   About
                   </Button>
               </Link>
-              <Link to={"/leaderboard"} style={{ textDecoration: 'none', marginLeft: 'auto', marginRight: '0', color: 'white', float: 'right' }}>
+              {/*  <Link to={"/leaderboard"} style={{ textDecoration: 'none', marginLeft: 'auto', marginRight: '0', color: 'white', float: 'right' }}>
                 <Button
                   aria-haspopup='true'
                   color="inherit"
                 >
                   Leaders
                   </Button>
-              </Link>
+              </Link> */}
             </div>
           </Toolbar>
         </AppBar>

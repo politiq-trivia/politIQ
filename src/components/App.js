@@ -81,6 +81,36 @@ class App extends Component {
     };
   }
 
+  getOneQuiz = async () => {
+    let quizRef;    // Get quiz References and find the most recent quiz date not in the future
+    await db.getQuizRef().then(response => quizRef = response.val())
+    console.log(Object.keys(quizRef))
+    let quizRefs = Object.keys(quizRef)
+    // map quiz dates to moment objects 
+    quizRefs = quizRefs.map(date => {
+      if (date.length < 13) {
+        date = date + "T00:00:00"; //ISO 8601!!!!
+        return (moment(date));
+      } else {
+        date = date + ":00"; //ISO 8601!!!!
+        return (moment(date));
+      }
+    });
+
+    // Get rid of available quiz dates in the future
+    quizRefs = quizRefs.filter(date => moment(date) < moment())
+
+    // which quiz date is most recent
+    var nextAvailableQuizDate = moment(
+      new Date(Math.max.apply(null, quizRefs))
+    );
+
+    nextAvailableQuizDate = nextAvailableQuizDate.format("YYYY-MM-DDTHH:mm")
+    await db.getQuiz(nextAvailableQuizDate).then(result => {
+      this.setState({ quizzes: { [nextAvailableQuizDate]: result.val() } })
+    })
+
+  }
   componentDidMount() {
     // sets the auth user in app state
     this.listener = firebase.auth.onAuthStateChanged(authUser => {
@@ -98,11 +128,21 @@ class App extends Component {
          isAdmin: true
        });
      } */
+    this.getOneQuiz()
 
+
+  }
+
+  componentWillUnmount() {
+    this.listener();
+  }
+
+  initializeApp = authUser => {
     /*     storeQuizzes();   */
     //Instead of storeQuizzes, we will get the quizzes and set them in quizContext provider
     db.getQuizzes()
       .then(response => {
+        console.log("getting quizzes")
         this.setState({ quizzes: response.val() });
       })
       .catch(err => console.log(err));
@@ -115,53 +155,51 @@ class App extends Component {
         this.setState({ scores: data })
       })
       .catch(err => console.log(err));
-  }
 
-  componentWillUnmount() {
-    this.listener();
-  }
 
-  initializeApp = authUser => {
 
     // get all the user's scores (all time)
     getUserScores(authUser.uid);
 
-    // check if lastMonthScores are present
-    if (!localStorage.hasOwnProperty("lastMonthScores")) {
-      // eslint-disable-line
-      getLastMonthScores();
-    } else {
-      // check if lastMonthScores have been updated since the start of a new month.
-      // if not, update them.
-      const lastMonthScores = JSON.parse(
-        localStorage.getItem("lastMonthScores")
-      ); // eslint-disable-line no-undef
-      if (
-        lastMonthScores.lastUpdated <
-        moment()
-          .startOf("month")
-          .format("YYYY-MM-DDTHH:mm")
-      ) {
-        getLastMonthScores();
-      }
-    }
 
-    // check if allScore data is present
-    if (!localStorage.hasOwnProperty("allScores")) {
-      // eslint-disable-line
-      getAllScores();
-    } else {
-      const allScores = JSON.parse(localStorage.getItem("allScores")); // eslint-disable-line no-undef
-      // update score data if the score data is older than one hour
-      if (
-        allScores.lastUpdated <
-        moment()
-          .subtract(10, "minute")
-          .format("YYYY-MM-DDTHH:mm")
-      ) {
-        getAllScores();
-      }
-    }
+    //DONT THINK WE NEED ANY OF THIS ANYMORE
+
+    /*  // check if lastMonthScores are present
+     if (!localStorage.hasOwnProperty("lastMonthScores")) {
+       // eslint-disable-line
+       getLastMonthScores();
+     } else {
+       // check if lastMonthScores have been updated since the start of a new month.
+       // if not, update them.
+       const lastMonthScores = JSON.parse(
+         localStorage.getItem("lastMonthScores")
+       ); // eslint-disable-line no-undef
+       if (
+         lastMonthScores.lastUpdated <
+         moment()
+           .startOf("month")
+           .format("YYYY-MM-DDTHH:mm")
+       ) {
+         getLastMonthScores();
+       }
+     }
+   
+     // check if allScore data is present
+     if (!localStorage.hasOwnProperty("allScores")) {
+       // eslint-disable-line
+       getAllScores();
+     } else {
+       const allScores = JSON.parse(localStorage.getItem("allScores")); // eslint-disable-line no-undef
+       // update score data if the score data is older than one hour
+       if (
+         allScores.lastUpdated <
+         moment()
+           .subtract(10, "minute")
+           .format("YYYY-MM-DDTHH:mm")
+       ) {
+         getAllScores();
+       }
+     } */
     this.setState({ authUser });
   };
 

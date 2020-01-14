@@ -1,5 +1,5 @@
 import { db } from "../firebase";
-
+/*
 export const storeQuizzes = async () => {
   await db.getQuizzes().then(response => {
     const data = response.val();
@@ -11,3 +11,4 @@ export const storeQuizzes = async () => {
     localStorage.removeItem("quizzes");
   });
 };
+ */

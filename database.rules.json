@@ -8,6 +8,10 @@
       ".read": true,
       ".write": "auth!= null"
     },
+    "rssQuiz": {
+      ".read": true,
+      ".write": "auth!= null"
+    },
     "users": {
       ".read": true,
       "$user": {
