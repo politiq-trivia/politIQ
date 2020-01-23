@@ -6,62 +6,46 @@ import moment from 'moment'
 import AuthUserContext from '../Auth/AuthUserContext';
 import ScoreContext from '../context/scoreContext';
 
-export const useGetMoneyEarned = () => {
+export const useGetMoneyEarned = (userUid) => {
     const authUser = useContext(AuthUserContext)
-    const [loadingWinners, setLoadingWinners] = useState(true)
+    const [loadingMoneyWon, setLoadingMoneyWon] = useState(true)
 
-    const [usersMoney, setUsersMoney] = useState({})
+    const [usersMoney, setUsersMoney] = useState(0)
+    const [usersMoneyEarned, setUsersMoneyEarned] = useState(0)
 
 
 
     useEffect(() => {
+        const fetchMoney = async () => {
+            db.getMoneyWon(userUid).then(res => {
+                return (res.val()) //resolve promise
+            }).then(moneyWon => {
+                if (moneyWon === null) {
+                    setUsersMoney(0)
+                } else {
+                    setUsersMoney(moneyWon)
+                }
+            });
 
+            db.getMoneyEarned(userUid).then(res => {
+                return (res.val()) //resolve promise
+            }).then(moneyEarned => {
+                if (moneyEarned === null) {
+                    setUsersMoneyEarned(0)
+                } else {
+                    setUsersMoneyEarned(moneyEarned)
+                }
+            });
 
-        const fetchWinners = async () => {
-            try {
-                console.log("fetching winners")
-                const result = await db.getWinners();
-                extractUsersMoney(result.val())
-            } catch (error) {
-            }
+            setLoadingMoneyWon(false)
+
 
         };
-        fetchWinners();
+        fetchMoney();
+    }, [userUid])
 
 
 
-    }, []);
-
-    const extractUsersMoney = (winners) => {
-
-        let usersMoneyTemp = [];
-
-        let win;
-        for (win of Object.values(winners)) {
-            if (usersMoneyTemp.length === 0) {     // get first users money
-                const a = { displayName: win.displayName, uid: win.uid, moneyEarned: win.moneyEarned };
-
-                usersMoneyTemp = [...usersMoneyTemp, a]
-            } else {  // add money to existing users or create new users
-                if (usersMoneyTemp.map(obj => obj.uid).includes(win.uid)) {                                 // Check if user exists already in array
-                    let objIndex = usersMoneyTemp.findIndex(obj => obj.uid === win.uid)  //index of object to update
-                    usersMoneyTemp[objIndex].moneyEarned = usersMoneyTemp[objIndex].moneyEarned + win.moneyEarned    // add money to new object
-                } else {                                                                                              // If user does not exist add to array
-                    const a = { displayName: win.displayName, uid: win.uid, moneyEarned: win.moneyEarned };
-
-                    usersMoneyTemp = [...usersMoneyTemp, a]
-                }
-
-            }
-        }
-
-        setUsersMoney(usersMoneyTemp)
-
-        setLoadingWinners(false)
-    }
-
-
-
-    return [usersMoney, loadingWinners]
+    return [usersMoney, usersMoneyEarned, loadingMoneyWon]
 }
 

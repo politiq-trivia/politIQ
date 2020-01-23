@@ -82,7 +82,7 @@ export const getOneUser = uid => {
     .ref("users")
     .child(uid)
     .once("value");
-  return user;
+  return (user);
 };
 
 
@@ -96,6 +96,17 @@ export const editUser = (uid, updates) => {
 
 // admin route - when user wins a competition, admin adds
 // money won to their money earned & lifetime earnings (TO DO)
+
+export const getMoneyWon = (uid) => {
+  const moneyWon = db.ref("users").child(uid).child("moneyWon").once('value')
+  return (moneyWon)
+}
+export const getMoneyEarned = (uid) => {
+  const moneyEarned = db.ref("users").child(uid).child("lifetimeEarnings").once('value')
+  return (moneyEarned)
+}
+
+
 export const awardMoney = (uid, amount, lifetimeAmount) => {
   db.ref("users")
     .child(uid)

@@ -1,8 +1,9 @@
-import React, { Component } from "react";
+import React, { Component, useState, useEffect, useContext } from "react";
 import { db } from "../../firebase";
 import { Helmet } from "react-helmet";
-import { withRouter } from "react-router-dom";
+import { withRouter, NavLink } from "react-router-dom";
 import { compose } from "recompose";
+import LoadingGif from '../../6.gif';
 
 import { withAuthorization } from "../Auth/index";
 import AuthUserContext from "../Auth/AuthUserContext";
@@ -36,246 +37,171 @@ const getHref = () => {
   return window.location.href.toString();
 };
 
-class PublicProfileBase extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      uid: "",
-      showingComments: false,
-      userData: {}
-    };
+const PublicProfile = (props) => {
+  const authUser = props.signedInUser
+  const uid = window.location.href.split('profile/')[1]
+  const [showingComments, setShowingComments] = useState(false)
+  const [userInfo, setUserInfo] = useState(null)
+  const [loading, setLoading] = useState(true)
+
+
+
+  const fetchUserInfo = async () => {  // get user info
+    db.getOneUser(uid).then(response => {
+      return (response.val());
+    }).then(userData => {
+      setUserInfo({ ...userData, uid: uid })
+    })
+  }
+  if (userInfo === null) { // if there isn't user info yet
+    fetchUserInfo()
   }
 
-  componentDidMount = () => {
-    const uid = window.location.href.split("/")[4];
-    this.getUserInfo(uid);
-    const loggedInUser = this.props.authUser;
-    let match;
-    if (uid === loggedInUser.uid) {
-      match = true;
-    } else {
-      match = false;
+  if (userInfo) {
+    if (userInfo.uid !== uid) { // if user info needs to be updated to the window url
+      fetchUserInfo()
     }
-    this.setState({
-      uid,
-      match,
-      loggedInUser
-    });
-  };
-
-  componentWillReceiveProps(nextProps) {
-    //const uid = nextProps.location.pathname.split("/")[2];   Replaced
-    const uid = nextProps.authUser.uid;
-    this.setState({
-      uid
-    });
-    this.getUserInfo(uid);
   }
 
-  getUserInfo = async uid => {
-    // if it's your own profile, use the user info that's already stored
-    if (this.state.match) {
-      this.setState({
-        userData: this.state.loggedInUser
-      });
-      // otherwise, make a db call to get that user's info. that's not pre-fetched.
-    } else {
-      await db.getOneUser(uid).then(response => {
-        const data = response.val();
-        this.setState({
-          userData: data
-        });
-      });
-    }
-  };
+  let content = <center style={{ marginTop: "100px" }}><img src={LoadingGif} alt="loading" style={{ maxWidth: '100%' }} /></center>
 
-  toggleComments = () => {
-    this.setState({
-      showingComments: !this.state.showingComments
-    });
-  };
 
-  editProfile = () => {
-    this.props.history.push("/profile");
-  };
+  if (userInfo !== null) {
+    content = <div>
+      <Helmet>
+        <title>{userInfo.displayName} Profile | politIQ trivia</title>
+      </Helmet>
+      <div className="public-profile">
+        <div className="public-profile-top">
+          <h1 className="displayNameBox">{userInfo.displayName}</h1>
 
-  render() {
-    // get the username to display correctly in the helmet
-    let displayName;
-    if (this.state.userData) {
-      displayName = this.state.userData.displayName + "'s'";
-    } else {
-      displayName = "User";
-    }
+          {authUser.uid === userInfo.uid ? (  // user is on their own profile
+            <NavLink style={{ textDecoration: "none", color: "white" }} to="/profile">
+              <button
 
-    let userBio;
-    this.state.userData.bio === ""
-      ? (userBio = <div></div>)
-      : (userBio = (
-        <center>
+                className="customButton"
+              >
+                Edit My Profile
+              </button>
+            </NavLink>
+          ) :
+            null}
+        </div>
+
+        <PublicProfilePhoto uid={userInfo.uid} />
+
+
+        {<center>
           <div className="bioContainer">
-            <p className="bio">{this.state.userData.bio}</p>
+            <p className="bio">{userInfo.bio}</p>
           </div>
-        </center>
-      ));
-    const isLoading = () => {
-      if (this.state.userData) {
-        let displayName2;
-        if (this.state.userData.displayName !== undefined) {
-          displayName2 = this.state.userData.displayName.split(" ")[0];
-        } else {
-          displayName2 = "";
-        }
-        return (
+        </center>}
+
+        <UserScoreboard
+          uid={userInfo.uid}
+          authUser={authUser}
+          public="true"
+          name={userInfo.displayName}
+        />
+        <div className="socials">
+          <div className="social">
+            <FacebookShareButton
+              url={window.location.href.toString()}
+              // className="shareable"
+              quote={
+                authUser.uid === uid
+                  ? `Check out my profile on politIQ! Click here to see how you rank up!`
+                  : `Check out ${userInfo.displayName}'s profile on politIQ! Click here to see how you rank up!`
+              }
+            >
+              <FacebookIcon round={true} size={32} />
+            </FacebookShareButton>
+          </div>{" "}
+          <div className="social">
+            <LinkedinShareButton
+              url={window.location.href.toString()}
+              // className=""
+              description={
+                authUser.uid === uid
+                  ? `Check out my profile on politIQ! Click here to see how you rank up!`
+                  : `Check out ${userInfo.displayName}'s profile on politIQ! Click here to see how you rank up!`
+              }
+            >
+              <LinkedinIcon round={true} size={32} />
+            </LinkedinShareButton>
+          </div>
+          <div className="social">
+            <TwitterShareButton
+              url={window.location.href.toString()}
+              title={
+                authUser.uid === uid
+                  ? `Check out my profile on politIQ! Click here to see how you rank up!`
+                  : `Check out ${userInfo.displayName}'s profile on politIQ! Click here to see how you rank up!`
+              }
+            >
+              <TwitterIcon round={true} size={32} />
+            </TwitterShareButton>
+          </div>
+          <div className="social">
+            <WhatsappShareButton
+              url={window.location.href.toString()}
+              title={
+                authUser.uid === uid
+                  ? `Check out my profile on politIQ! Click here to see how you rank up!`
+                  : `Check out ${userInfo.displayName}'s profile on politIQ! Click here to see how you rank up!`
+              }
+            >
+              <WhatsappIcon round={true} size={32} />
+            </WhatsappShareButton>
+          </div>
+          <div className="social">
+            <EmailShareButton
+              url={window.location.href.toString()}
+              subject={
+                authUser.uid === uid
+                  ? `Check out my proflie on politIQ!`
+                  : `Check out ${userInfo.displayName}'s profile on politIQ!`
+              }
+              body={
+                authUser.uid === uid
+                  ? `Click here to see how you rank up!`
+                  : `Click here to see how you rank up!`
+              }
+            >
+              <EmailIcon round={true} size={32} />
+            </EmailShareButton>
+          </div>
+        </div>
+        {showingComments ? (
           <div>
-            <Helmet>
-              <title>{displayName} Profile | politIQ trivia</title>
-            </Helmet>
-            <div className="public-profile">
-              <div className="public-profile-top">
-                <h1 className="displayNameBox">{this.state.userData.displayName}</h1>
-
-                {this.state.match ? (
-                  // ? <Link to={PROFILE} style={{ textDecoration: 'none', alignSelf: 'flex-end', width: '16vw', display: 'inline-flex' }}>
-                  <button
-
-                    className="customButton"
-                    onClick={this.editProfile}
-                  >
-                    Edit My Profile
-                  </button>
-                ) : // </Link>
-                  null}
-              </div>
-
-              <PublicProfilePhoto uid={window.location.href.split('profile/')[1]} />
-
-
-              {userBio}
-
-              <UserScoreboard
-                uid={this.state.uid}
-                public="true"
-                name={displayName2}
-                moneyWon={this.state.userData.moneyWon}
-              />
-              <div className="socials">
-                <div className="social">
-                  <FacebookShareButton
-                    url={getHref()}
-                    // className="shareable"
-                    quote={
-                      this.state.match
-                        ? `Check out my profile on politIQ! Click here to see how you rank up!`
-                        : `Check out ${displayName}'s profile on politIQ! Click here to see how you rank up!`
-                    }
-                  >
-                    <FacebookIcon round={true} size={32} />
-                  </FacebookShareButton>
-                </div>{" "}
-                <div className="social">
-                  <LinkedinShareButton
-                    url={getHref()}
-                    // className=""
-                    description={
-                      this.state.match
-                        ? `Check out my profile on politIQ! Click here to see how you rank up!`
-                        : `Check out ${displayName}'s profile on politIQ! Click here to see how you rank up!`
-                    }
-                  >
-                    <LinkedinIcon round={true} size={32} />
-                  </LinkedinShareButton>
-                </div>
-                <div className="social">
-                  <TwitterShareButton
-                    url={getHref()}
-                    title={
-                      this.state.match
-                        ? `Check out my profile on politIQ! Click here to see how you rank up!`
-                        : `Check out ${displayName}'s profile on politIQ! Click here to see how you rank up!`
-                    }
-                  >
-                    <TwitterIcon round={true} size={32} />
-                  </TwitterShareButton>
-                </div>
-                <div className="social">
-                  <WhatsappShareButton
-                    url={getHref()}
-                    title={
-                      this.state.match
-                        ? `Check out my profile on politIQ! Click here to see how you rank up!`
-                        : `Check out ${displayName}'s profile on politIQ! Click here to see how you rank up!`
-                    }
-                  >
-                    <WhatsappIcon round={true} size={32} />
-                  </WhatsappShareButton>
-                </div>
-                <div className="social">
-                  <EmailShareButton
-                    url={getHref()}
-                    subject={
-                      this.state.match
-                        ? `Check out my proflie on politIQ!`
-                        : `Check out ${displayName}'s profile on politIQ!`
-                    }
-                    body={
-                      this.state.match
-                        ? `Click here to see how you rank up!`
-                        : `Click here to see how you rank up!`
-                    }
-                  >
-                    <EmailIcon round={true} size={32} />
-                  </EmailShareButton>
-                </div>
-              </div>
-              {this.state.showingComments ? (
-                <div>
-                  <button
-                    className="customButton"
-                    onClick={this.toggleComments}
-                  >
-                    Hide Comments
-                  </button>
-                  <h3 className="comment-heading">Comments: </h3>
-                  <CommentWidget
-                    userName={this.state.userData.displayName}
-                    profileID={this.state.uid}
-                    authUserName={this.props.authUser.displayName}
-                    isAdmin={this.props.isAdmin}
-                  />
-                </div>
-              ) : (
-                  <button className="customButton" onClick={this.toggleComments}>
-                    Show Comments
-                </button>
-                )}
-            </div>
+            <button
+              className="customButton"
+              onClick={() => { setShowingComments(!showingComments) }}
+            >
+              Hide Comments
+              </button>
+            <h3 className="comment-heading">Comments: </h3>
+            <CommentWidget
+              userName={userInfo.displayName}
+              profileID={uid}
+              authUserName={authUser.displayName}
+              isAdmin={authUser.isAdmin}
+            />
           </div>
-        );
-      } else {
-        return (
-          <div className="gifStyle">
-            <img src={loadingGif} alt="loading gif" />
-          </div>
-        );
-      }
-    };
-
-    // gotta get a loading gif or something in here
-    return <Paper className="profile">{isLoading()}</Paper>;
+        ) : (
+            <button className="customButton" onClick={() => { setShowingComments(!showingComments) }}>
+              Show Comments
+            </button>
+          )}
+      </div>
+    </div>
   }
+  return (
+    <Paper className="profile"> {content} </Paper>
+  )
+
+
 }
 
-const PublicProfile = ({ history }) => (
-  <AuthUserContext.Consumer>
-    {authUser => <PublicProfileBase authUser={authUser} history={history} />}
-  </AuthUserContext.Consumer>
-);
 
-const condition = authUser => !!authUser; //??????
-
-export default compose(
-  // withEmailVerification,
-  withRouter,
-  withAuthorization(condition)
-)(PublicProfile);
+export default withRouter(PublicProfile);

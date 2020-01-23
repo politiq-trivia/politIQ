@@ -81,36 +81,7 @@ class App extends Component {
     };
   }
 
-  getOneQuiz = async () => {
-    let quizRef;    // Get quiz References and find the most recent quiz date not in the future
-    await db.getQuizRef().then(response => quizRef = response.val())
-    console.log(Object.keys(quizRef))
-    let quizRefs = Object.keys(quizRef)
-    // map quiz dates to moment objects 
-    quizRefs = quizRefs.map(date => {
-      if (date.length < 13) {
-        date = date + "T00:00:00"; //ISO 8601!!!!
-        return (moment(date));
-      } else {
-        date = date + ":00"; //ISO 8601!!!!
-        return (moment(date));
-      }
-    });
 
-    // Get rid of available quiz dates in the future
-    quizRefs = quizRefs.filter(date => moment(date) < moment())
-
-    // which quiz date is most recent
-    var nextAvailableQuizDate = moment(
-      new Date(Math.max.apply(null, quizRefs))
-    );
-
-    nextAvailableQuizDate = nextAvailableQuizDate.format("YYYY-MM-DDTHH:mm")
-    await db.getQuiz(nextAvailableQuizDate).then(result => {
-      this.setState({ quizzes: { [nextAvailableQuizDate]: result.val() } })
-    })
-
-  }
   componentDidMount() {
     // sets the auth user in app state
     this.listener = firebase.auth.onAuthStateChanged(authUser => {
@@ -128,13 +99,12 @@ class App extends Component {
          isAdmin: true
        });
      } */
-    this.getOneQuiz()
-
 
   }
 
 
   initializeApp = authUser => {
+    console.log("initializeApp", authUser)
     /*     storeQuizzes();   */
     //Instead of storeQuizzes, we will get the quizzes and set them in quizContext provider
     /* db.getQuizzes()
@@ -157,7 +127,7 @@ class App extends Component {
 
     // get all the user's scores (all time)
     getUserScores(authUser.uid);
-
+    this.setState({ authUser: authUser });
 
     //DONT THINK WE NEED ANY OF THIS ANYMORE
 
@@ -197,7 +167,7 @@ class App extends Component {
          getAllScores();
        }
      } */
-    this.setState({ authUser });
+
   };
 
   getSignedInUser = async uid => {
@@ -408,7 +378,7 @@ class App extends Component {
               <PublicProfile
                 {...props}
                 key={window.location.pathName} // eslint-disable-line no-undef
-                signedInUser={this.state.signedInUser}
+                signedInUser={this.state.authUser}
                 displayName={this.state.displayName}
                 isAdmin={this.state.isAdmin}
               />

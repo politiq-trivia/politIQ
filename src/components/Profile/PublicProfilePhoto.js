@@ -47,7 +47,7 @@ class PublicProfilePhoto extends Component {
             loading: false
           });
         })
-        .catch(function(error) {
+        .catch(function (error) {
           switch (error.code) {
             case "storage/object-not-found":
               console.log("Object does not exist");
