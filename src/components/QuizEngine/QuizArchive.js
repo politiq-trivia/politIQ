@@ -536,7 +536,6 @@ class QuizArchiveBase extends Component {
 }
 
 //defined the context, which contains all the quizzes
-QuizArchiveBase.contextType = QuizContext;
 
 const QuizArchive = ({ history }) => (
   <AuthUserContext.Consumer>

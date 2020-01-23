@@ -1,5 +1,5 @@
 import { db } from "./firebase";
-
+import moment from "moment"
 // User API
 
 export const doCreateUser = (
@@ -231,6 +231,27 @@ export const getWinners = () => {
 
 // --------------------------------------------------------------------------
 
+export const getMostRecentQuizDate = () => {
+  let currentTime = moment().format("YYYY-MM-DDTHH:mm")
+  var mostRecentQuizDate = db.ref().child('rssQuiz').orderByKey().endAt(currentTime).limitToLast(1).once("value")
+  return (mostRecentQuizDate)
+}
+export const getNextQuizDate = (inputQuiz) => {
+  console.log(inputQuiz)
+  var thisAndNextQuizDate = db.ref().child('rssQuiz').orderByKey().endAt(inputQuiz).limitToLast(2).once("value")
+  return (thisAndNextQuizDate)
+}
+export const getLastNQuizzes = (n) => {
+  let currentTime = moment().format("YYYY-MM-DDTHH:mm")
+  var lastNQuizzes = db.ref().child('rssQuiz').orderByKey().endAt(currentTime).limitToLast(n).once("value")
+  return (lastNQuizzes)
+}
+
+export const getLastNScores = (uid, n) => {
+  let currentTime = moment().format("YYYY-MM-DDTHH:mm")
+  var lastNScores = db.ref().child('scores').child(uid).orderByKey().endAt(currentTime).limitToLast(n).once("value")
+  return (lastNScores)
+}
 // Add a quiz
 export const getQuizRef = () => {
   var quizRefs = db.ref().child("rssQuiz").once("value")

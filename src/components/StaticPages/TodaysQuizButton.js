@@ -15,7 +15,7 @@ class TodaysQuizButton extends Component {
     this.state = {
       todaysQuizUrl: "",
       todaysQuizNotAvailable: false,
-      disabled: false,
+      disabled: true,
       loading: true
     };
   }
@@ -24,12 +24,7 @@ class TodaysQuizButton extends Component {
     this.getMostRecentQuizId();
   }
 
-  shouldComponentUpdate(nextProps, nextState) {
-    // see if there have been new scores added since the last time the component was rendered
-    if (nextState.todaysQuizUrl !== this.state.todaysQuizUrl) {
-      return true;
-    } else return false;
-  }
+
 
   componentWillUnmount = () => {
     this.setState({
@@ -40,77 +35,61 @@ class TodaysQuizButton extends Component {
   getMostRecentQuizId = async () => {
     // get auth user scores and quizzes from context
 
-    // get scores
-    let uidScoreDates;
 
-    await db.getScoresByUid(this.context.uid).then(res => {
-      if (res.val() === null) {
-        uidScoreDates = [];
-      } else {
-        uidScoreDates = Object.keys(res.val());
-      }
-    });
+    //NOT USING CONTEXT ANYMORE, GETTING QUIZ MANUALLY BY DATE
 
-    //get quiz dates
-    const quizDates = Object.keys(this.props.quizContext);
-
-    let mostRecentQuizDate = quizDates.slice(-1)[0]; // get last element in array (most recent quiz date)
-
-    // which quiz dates this month don't have a score already?
-    let availableQuizDates = quizDates.filter(
-      date => !(uidScoreDates.indexOf(date) > -1)
-    );
+    //first will get last 7 quizzes that are before the current time
+    let quizDates;
+    let nextUnscoredQuizDate;
+    db.getLastNQuizzes(7).then(res => {
+      return (res.val());  //resolve Promise
+    }).then(quizDates => {
+      //next filter the quiz dates after the start of the week
+      quizDates = Object.keys(quizDates).filter(quizDate => {
+        return (moment(quizDate) > moment().startOf("isoWeek"))
+      })
+      return (quizDates)
+    }).then(async quizDates => {
+      db.getLastNScores(this.context.uid, 7).then(res => {
+        return (res.val());  //resolve Promise
+      }).then(scores => {
 
 
-    // Fix available quiz dates and most recent quiz date format
-    availableQuizDates = availableQuizDates.map(date => {
-      if (date.length < 13) {
-        date = date + "T00:00:00"; //ISO 8601!!!!
-        return (date);
-      } else {
-        date = date + ":00"; //ISO 8601!!!!
-        return (date);
-      }
-    });
+        // get quizzes without score
+        if (scores !== null) { // if scores is null there are no recorded quizzes
+          quizDates = quizDates.filter(quizDate => {
+            if (typeof scores[quizDate] === "number") { // score exists
+              return (false);
+            } else {
+              return (true);
+            }
+          }
+          )
+        }
+        if (quizDates.length === 0) { /// no quizzes available this week
+          this.setState({
+            disabled: true,
+            loading: false,
+            todaysQuizNotAvailable: true,
+          })
+        } else if ((quizDates[quizDates.length - 1].substring(1, 10) !== moment().format("YYYY-MM-DD"))) { // Todays quiz not available but weekly quiz available
+          this.setState({
+            disabled: false,
+            todaysQuizUrl: quizDates[quizDates.length - 1],
+            todaysQuizNotAvailable: true,
+            loading: false,
+          })
+        } else if (quizDates.length === 1 && (quizDates[quizDates.length - 1].substring(1, 10) === moment().format("YYYY-MM-DD"))) { // todays quiz available
+          this.setState({
+            disabled: false,
+            todaysQuizUrl: quizDates[quizDates.length - 1],
+            todaysQuizNotAvailable: false,
+            loading: false,
+          })
+        }
 
-
-    if (mostRecentQuizDate.length < 13) {
-      mostRecentQuizDate = mostRecentQuizDate + "T00:00:00"; //ISO 8601!!!!
-      mostRecentQuizDate = (mostRecentQuizDate);
-    } else {
-      mostRecentQuizDate = mostRecentQuizDate + ":00"; //ISO 8601!!!!
-      mostRecentQuizDate = (mostRecentQuizDate);
-    }
-
-
-
-    // Get rid of available quiz dates in the future
-    availableQuizDates = availableQuizDates.filter(date => moment(date) < moment())
-
-
-    // if most recent quiz is not available set todaysQuizNotAvailable to true
-    if (!availableQuizDates.includes(mostRecentQuizDate)) {
-      this.setState({ todaysQuizNotAvailable: true });
-    }
-
-    // map availableQuizDates to moment objects
-    availableQuizDates = availableQuizDates.map(date => {
-      return (moment(date));
+      })
     })
-
-    // which is most recent
-    const nextAvailableQuizDate = moment(
-      new Date(Math.max.apply(null, availableQuizDates))
-    );
-
-    if (nextAvailableQuizDate < moment().startOf('isoWeek')) {
-      this.setState({ disabled: true })
-    }
-    this.setState({
-      todaysQuizUrl: nextAvailableQuizDate.format("YYYY-MM-DDTHH:mm"),
-      loading: false
-    });
-
 
   };
 
@@ -145,6 +124,18 @@ class TodaysQuizButton extends Component {
       >
         {buttonText}
       </Button>
+    }
+
+    if (this.state.loading) {
+      content = <div><Button
+        color="primary"
+        variant="contained"
+        size="large"
+        id="archive-link"
+        disabled
+      >
+        Loading...
+    </Button></div>
     }
 
 

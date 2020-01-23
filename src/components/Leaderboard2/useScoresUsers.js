@@ -3,11 +3,9 @@ import React, { useEffect, useState, useContext } from 'react';
 import { db } from '../../firebase';
 import moment from 'moment'
 import AuthUserContext from '../Auth/AuthUserContext';
-import ScoreContext from '../context/scoreContext';
 
 export const useScoresUsers = () => {
     const authUser = useContext(AuthUserContext)
-    let scoreContext = useContext(ScoreContext)
 
     const [error, setError] = useState("")
     const [loading, setLoading] = useState(true)
@@ -50,28 +48,42 @@ export const useScoresUsers = () => {
     }
 
 
-    const scores = localStorage.getItem("allScores")
 
 
     useEffect(() => {
 
 
-        if (Object.keys(scoreContext).length > 1) {
 
-            const fetchUsers = async () => {
-                try {
+        const fetchUsers = async () => {
+            try {
 
-                    const result = await db.onceGetUsers();
+                const users = await db.onceGetUsers();
 
-                    findScores(result.val())
-                } catch (error) {
-                    setError(true);
+                // Need to get new scores if haven't in the last 30 seconds
+                let scores = JSON.parse(localStorage.getItem("allScores"))
+                const lastLeaderboardUpdate = JSON.parse(localStorage.getItem("lastLeaderboardUpdate"))
+                if (lastLeaderboardUpdate) {  // leaderboard has been populated before
+                    if (moment(lastLeaderboardUpdate) < moment().subtract(2, 'minutes')) {
+                        var tempScores = await db.getScores();
+                        scores = tempScores.val()
+                        localStorage.setItem('lastLeaderboardUpdate', JSON.stringify(moment().format("YYYY-MM-DDTHH:mm")))
+                        localStorage.setItem('allScores', JSON.stringify(scores))
+                    }
+                } else { //leaderboard has not been populated yet
+                    var tempScores = await db.getScores();
+                    scores = tempScores.val()
+                    localStorage.setItem('lastLeaderboardUpdate', JSON.stringify(moment().format("YYYY-MM-DDTHH:mm")))
+                    localStorage.setItem('allScores', JSON.stringify(scores))
                 }
-            };
+                findScores(users.val(), scores)
+            } catch (error) {
+                setError(true);
+            }
+        };
 
-            fetchUsers();
-        }
-    }, [scoreContext]);
+        fetchUsers();
+
+    }, []);
 
 
     useEffect(() => { // 2nd step, POlitiq calculations,  get top users in each respectable category, get user rank
@@ -131,15 +143,15 @@ export const useScoresUsers = () => {
     }, [allRecentScores])
 
 
-    const findScores = (users) => {
+    const findScores = (users, scores) => {
 
         // Get array with all user names and scores
         /*      let allUserScoreArray = JSON.parse(scores).data
       */
 
 
-        let allUserScoreArray = Object.keys(scoreContext).map(key => {
-            return ({ user: key, data: scoreContext[key] })
+        let allUserScoreArray = Object.keys(scores).map(key => {
+            return ({ user: key, data: scores[key] })
         })
 
         // add display name to allUserScoresArray

@@ -13,46 +13,23 @@ import QuizContext from "../context/quizContext";
 import YouTubePlayer from 'react-player/lib/players/YouTube'
 import sampleVid from '../../videos/PolitIQ_Final(1).mp4';
 import poster from "../didyouknow.png"
+import { db } from "../../firebase";
 
 
 const LandingPage = () => {
   const [quizDate, setQuizDate] = React.useState("")
-  const quizContext = React.useContext(QuizContext);
 
+  React.useEffect(() => { // get most recent quiz date not in future
+    const fetchQuiz = async () => {
+      db.getMostRecentQuizDate().then(res => {
+        return (res.val()) // resolve promise
+      }).then(quizDate => {
+        setQuizDate(Object.keys(quizDate)[0])
+      })
+    }
+    fetchQuiz()
 
-
-  React.useEffect(() => {
-
-    //get quiz dates
-    let availableQuizDates = Object.keys(quizContext);
-
-    console.log("availableQuizDates:", availableQuizDates)
-
-
-
-    // find next available quiz
-    availableQuizDates = availableQuizDates.map(date => {
-      if (date.length < 13) {
-        date = date + "T00:00:00"; //ISO 8601!!!!
-        return moment(date);
-      } else {
-        date = date + ":00"; //ISO 8601!!!!
-        return moment(date);
-      }
-    });
-
-    // Get rid of available quiz dates in the future
-    availableQuizDates = availableQuizDates.filter(date => date < moment())
-
-
-    // which is most recent
-    const nextAvailableQuizDate = moment(
-      new Date(Math.max.apply(null, availableQuizDates))
-    ).format("YYYY-MM-DDTHH:mm");
-    console.log(nextAvailableQuizDate)
-
-    setQuizDate(nextAvailableQuizDate)
-  }, [quizContext])
+  }, [])
 
 
   return (
@@ -132,7 +109,7 @@ const LandingPage = () => {
             <p>
               <span style={{ fontWeight: "bold" }}>1 point</span> for correct
             answers, <span style={{ fontWeight: "bold" }}>0 points</span> for
-                                                                                                                                                                                                                                                                  incorrect answers.
+                                                                                                                                                                                                                                                                                  incorrect answers.
           </p>
           </div>
           <div className="icon-div">

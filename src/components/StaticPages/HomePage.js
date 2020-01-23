@@ -153,19 +153,13 @@ class HomePage extends Component {
             for the next challenge.
           </p>
         ) : null}
-        <QuizContext.Consumer>
-          {quizContext => (
-            <TodaysQuizButton
-              quizContext={quizContext}
-              buttonText="Take Today's Quiz"
-              id="today"
-              disabled={this.state.noAvailableQuizzes}
-              showErrorMessage={this.showErrorMessage}
-              signedInUser={this.props.signedInUser}
-            />
-          )}
-        </QuizContext.Consumer>
-
+        <TodaysQuizButton
+          buttonText="Take Today's Quiz"
+          id="today"
+          disabled={this.state.noAvailableQuizzes}
+          showErrorMessage={this.showErrorMessage}
+          signedInUser={this.props.signedInUser}
+        />
         <Link
           to={routes.QUIZ_ARCHIVE}
           style={{ textDecoration: "none", color: "#a54ee8" }}
