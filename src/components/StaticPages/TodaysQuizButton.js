@@ -68,6 +68,8 @@ class TodaysQuizButton extends Component {
           }
           )
         }
+      
+
         if (quizDates.length === 0) { /// no quizzes available this week
           this.setState({
             disabled: true,
@@ -81,7 +83,7 @@ class TodaysQuizButton extends Component {
             todaysQuizNotAvailable: true,
             loading: false,
           })
-        } else if (quizDates.length === 1 && (quizDates[quizDates.length - 1].substring(0, 10) === moment().format("YYYY-MM-DD"))) { // todays quiz available
+        } else if ((quizDates[quizDates.length - 1].substring(0, 10) === moment().format("YYYY-MM-DD"))) { // todays quiz available
           this.setState({
             disabled: false,
             todaysQuizUrl: quizDates[quizDates.length - 1],
