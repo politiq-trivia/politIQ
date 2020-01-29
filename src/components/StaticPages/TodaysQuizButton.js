@@ -9,6 +9,8 @@ import { db } from "../../firebase";
 import AuthUserContext from "../Auth/AuthUserContext";
 
 import loading from "../../6.gif"
+
+
 class TodaysQuizButton extends Component {
   constructor(props) {
     super(props);
@@ -72,14 +74,14 @@ class TodaysQuizButton extends Component {
             loading: false,
             todaysQuizNotAvailable: true,
           })
-        } else if ((quizDates[quizDates.length - 1].substring(1, 10) !== moment().format("YYYY-MM-DD"))) { // Todays quiz not available but weekly quiz available
+        } else if ((quizDates[quizDates.length - 1].substring(0, 10) !== moment().format("YYYY-MM-DD"))) { // Todays quiz not available but weekly quiz available
           this.setState({
             disabled: false,
             todaysQuizUrl: quizDates[quizDates.length - 1],
             todaysQuizNotAvailable: true,
             loading: false,
           })
-        } else if (quizDates.length === 1 && (quizDates[quizDates.length - 1].substring(1, 10) === moment().format("YYYY-MM-DD"))) { // todays quiz available
+        } else if (quizDates.length === 1 && (quizDates[quizDates.length - 1].substring(0, 10) === moment().format("YYYY-MM-DD"))) { // todays quiz available
           this.setState({
             disabled: false,
             todaysQuizUrl: quizDates[quizDates.length - 1],

@@ -54,16 +54,16 @@ export const useScoresUsers = () => {
 
 
 
-        const fetchUsers = async () => {
+        const runCalculationScoresUsers = async () => {
             try {
 
-                const users = await db.onceGetUsers();
+                const users = await db.onceGetUsers();  // can't store users in local Storage
 
-                // Need to get new scores if haven't in the last 30 seconds
+                // Need to get new scores if haven't in the last 2 minutes
                 let scores = JSON.parse(localStorage.getItem("allScores"))
                 const lastLeaderboardUpdate = JSON.parse(localStorage.getItem("lastLeaderboardUpdate"))
                 if (lastLeaderboardUpdate) {  // leaderboard has been populated before
-                    if (moment(lastLeaderboardUpdate) < moment().subtract(2, 'minutes')) {
+                    if (moment(lastLeaderboardUpdate) < moment().subtract(2, 'minutes')) {  // Leaderboard data is old by 2 minutes or more, needs to update
                         var tempScores = await db.getScores();
                         scores = tempScores.val()
                         localStorage.setItem('lastLeaderboardUpdate', JSON.stringify(moment().format("YYYY-MM-DDTHH:mm")))
@@ -75,13 +75,13 @@ export const useScoresUsers = () => {
                     localStorage.setItem('lastLeaderboardUpdate', JSON.stringify(moment().format("YYYY-MM-DDTHH:mm")))
                     localStorage.setItem('allScores', JSON.stringify(scores))
                 }
-                findScores(users.val(), scores)
+                findScores(users.val(), scores)  // Important function
             } catch (error) {
                 setError(true);
             }
         };
 
-        fetchUsers();
+        runCalculationScoresUsers();
 
     }, []);
 

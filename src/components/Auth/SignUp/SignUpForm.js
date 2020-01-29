@@ -261,6 +261,9 @@ class SignUpFormBase extends Component {
           <MenuItem key="Independent" value="Independent">
             Independent / Other
           </MenuItem>
+          <MenuItem key="none" value="none">
+            I choose not to disclose
+          </MenuItem>
 
         </TextField>
         <div style={{ display: 'flex', justifyContent: 'space-between' }}>
