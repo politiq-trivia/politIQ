@@ -185,8 +185,8 @@ class SignUpFormBase extends Component {
       consent,
     } = this.state;
 
-    const isInvalid = passwordOne !== passwordTwo
-      || passwordOne === ''
+    const isInvalid =
+      passwordOne === ''
       || email === ''
       || username === ''
       || affiliation === ''
@@ -204,7 +204,7 @@ class SignUpFormBase extends Component {
           value={username}
           onChange={(event) => this.setState(byPropKey('username', event.target.value))}
           type="text"
-          label="Display Name"
+          label="Username"
           style={{ marginTop: '0' }}
         />
         <TextField
@@ -216,7 +216,7 @@ class SignUpFormBase extends Component {
           type="email"
           label="Email Address"
         />
-        <FormHelperText>Your email will not be shared publicly or privately.</FormHelperText>
+        <FormHelperText>Your email will not be sold, rented, or shared with anyone.</FormHelperText>
 
         <ClickAwayListener onClickAway={this.handleTooltip1Close}>
           <Tooltip title={emailText} placement="left-start" onClose={this.handleTooltip1Close} open={this.state.tooltip1Open} disableFocusListener disableHoverListener disableTouchListener>
@@ -233,16 +233,7 @@ class SignUpFormBase extends Component {
           label="Password"
           style={{ marginTop: '0' }}
         />
-        <TextField
-          margin="normal"
-          fullWidth
-          required
-          value={passwordTwo}
-          onChange={(event) => this.setState(byPropKey('passwordTwo', event.target.value))}
-          type="password"
-          label="Confirm Password"
-        />
-        {passwordOne !== passwordTwo ? <div>Passwords do not match</div> : <div />}
+
         <TextField
           select
           required

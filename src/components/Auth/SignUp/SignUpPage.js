@@ -32,17 +32,18 @@ class SignUpPage extends Component {
           <title>Sign Up | politIQ trivia</title>
         </Helmet>
         <h1>Sign Up</h1>
-        {this.state.error
-          ? <p style={{ color: 'red' }}>An error occurred during the Facebook authentication. Please try a different authentication method.</p>
-          : null
-        }
-        <SignUpForm history={history} getSignedInUser={getSignedInUser} scoreObject={scoreObject}/>
         <FacebookAuth
             getSignedInUser={getSignedInUser}
             history={history}
             scoreObject={scoreObject}
             fbError={this.fbError}
         />
+        {this.state.error
+          ? <p style={{ color: 'red' }}>An error occurred during the Facebook authentication. Please try a different authentication method.</p>
+          : null
+        }
+        <SignUpForm history={history} getSignedInUser={getSignedInUser} scoreObject={scoreObject}/>
+     
         <SignInLink />
       </Paper>
     );

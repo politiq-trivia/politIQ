@@ -92,9 +92,10 @@ class ReviewQuestions extends Component {
             score,
           );
         } else {
-          const data = response.val();
+          /* const data = response.val();
           const scoreArray = Object.keys(data);
-          const score = (scoreArray.length * 3) + 3;
+          const score = (scoreArray.length * 3) + 3; */
+         const score = 3
           db.setSubmittedOrContestedScoreByUid(
             this.state.selectedQ.fromUser,
             this.state.selectedDate,
