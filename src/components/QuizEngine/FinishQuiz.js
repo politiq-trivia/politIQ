@@ -160,15 +160,23 @@ class FinishQuiz extends Component {
           <div style={{ marginTop: "2vh", marginBottom: "5vh" }}>
             Your score: {score} out of {quizLength} points.
           </div>
-          <div className="finish-quiz-buttons">
-            <Link to={SIGN_UP} style={{ textDecoration: "none" }}>
-              <Button
+          <div style={{  textAlign: "center"}} className="finish-quiz-buttons">
+            <Link to={SIGN_UP} style={{ fontSize: "2em", textDecoration: "none" }}>
+              <Button 
+                style={{ fontSize: "20px"}}
                 color="primary"
                 variant="contained"
               >
-                Sign Up to Keep Playing and Save Your Score
+                Free Sign Up
               </Button>
             </Link>
+            <span style = {{fontSize: "1em", margin: "0.5em", fontWeight: "bolder", color: "black"}}>Sign up to gain Access to...</span>
+
+            <span style = {{fontSize: "1.3em", margin: "0.5em", fontWeight: "bolder", color: "#7D3EAD"}}>-Cash Prizes</span>
+            <span style = {{fontSize: "1.3em", margin: "0.5em", fontWeight: "bolder", color: "#7D3EAD"}}>-All Quizzes</span>
+            <span style = {{fontSize: "1.3em", margin: "0.5em", fontWeight: "bolder", color: "#7D3EAD"}}>-Your PolitIQ</span>
+            <span style = {{fontSize: "1.3em", margin: "0.5em", fontWeight: "bolder", color: "#7D3EAD"}}>-Live Leaderboard</span>
+            <span style = {{fontSize: "1.3em", margin: "0.5em", fontWeight: "bolder", color: "#7D3EAD"}}>-Contest/Submit Questions</span>
           </div>
         </div>
       );
