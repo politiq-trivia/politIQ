@@ -517,7 +517,22 @@ export const setSubmittedOrContestedScoreByUid = (uid, date, score) => {
     .child("submitted")
     .child(date)
     .set(score);
+}
+export const setContestedScoreByUid = (uid, date, score) => {
+  db.ref()
+    .child("/scores/")
+    .child(uid)
+    .child("contested")
+    .child(date)
+    .set(score);
 };
+
+export const getContestedScoreByUid = (uid) => {
+  const scores = db.ref()
+    .child("/scores/").child(uid).child("contested").once('value')
+  return(scores)
+}
+
 
 // ----------------------------------------------------------
 

@@ -188,16 +188,16 @@ class ReviewContestedQuestions extends Component {
     db.acceptContest(this.state.selectedQuizId, selected, uid, issue, source);
     await db.getSubmittedOrContestedScoreByUid(uid).then(async response => {
       if (response.val() === null || response.val() === undefined) {
-        await db.setSubmittedOrContestedScoreByUid(uid, date, 2);
+        await db.setContestedScoreByUid(uid, date, 2);
       } else {
         const data = response.val();
         const datesArray = Object.keys(data);
         if (datesArray.indexOf(date) !== -1) {
           const score = data[date];
           const newScore = score + 5;
-          await db.setSubmittedOrContestedScoreByUid(uid, date, newScore);
+          await db.setContestedScoreByUid(uid, date, newScore);
         } else {
-          await db.setSubmittedOrContestedScoreByUid(uid, date, 2);
+          await db.setContestedScoreByUid(uid, date, 2);
         }
       }
     });

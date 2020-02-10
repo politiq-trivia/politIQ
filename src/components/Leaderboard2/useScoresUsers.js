@@ -3,6 +3,25 @@ import React, { useEffect, useState, useContext } from 'react';
 import { db } from '../../firebase';
 import moment from 'moment'
 import AuthUserContext from '../Auth/AuthUserContext';
+var flattenObject = function(ob) {
+	var toReturn = {};
+	
+	for (var i in ob) {
+		if (!ob.hasOwnProperty(i)) continue;
+		
+		if ((typeof ob[i]) == 'object') {
+			var flatObject = flattenObject(ob[i]);
+			for (var x in flatObject) {
+				if (!flatObject.hasOwnProperty(x)) continue;
+				
+				toReturn[i + '.' + x] = flatObject[x];
+			}
+		} else {
+			toReturn[i] = ob[i];
+		}
+	}
+	return toReturn;
+}
 
 export const useScoresUsers = () => {
     const authUser = useContext(AuthUserContext)
@@ -198,39 +217,44 @@ export const useScoresUsers = () => {
             }
             // if number of quiz scores is 2 or greater
             if (Object.keys(userObject.data).length >= 1) {
-                // For each quiz date
-                var allQuizDatesScores = Object.keys(userObject.data)
-                    .filter(key => key !== "submitted")     // THIS OMITS SUBMITTED OBJECT (MAY NEED TO CHANGE LATER)
+                
+                // need to flatten object             
+
+                const tempScores = flattenObject(userObject.data)
+
+
+                // For each quiz data
+                var allQuizDatesScores = Object.keys(tempScores)  // THIS OMITS SUBMITTED OBJECT (MAY NEED TO CHANGE LATER)
                     .reduce((obj, key) => {
-                        obj[key] = userObject.data[key];
+                        obj[key] = tempScores[key];
                         return obj;
                     }, {});
 
-                var monthlyQuizDatesScores = Object.keys(userObject.data)  // filter quizzes dates by this month
+                var monthlyQuizDatesScores = Object.keys(tempScores)  // filter quizzes dates by this month
                     .filter(key => moment(key) > startOfMonth)
                     .reduce((obj, key) => {
-                        obj[key] = userObject.data[key];
+                        obj[key] = tempScores[key];
                         return obj;
                     }, {});
 
-                var weeklyQuizDatesScores = Object.keys(userObject.data)  // filter quizzes dates by this week
+                var weeklyQuizDatesScores = Object.keys(tempScores)  // filter quizzes dates by this week
                     .filter(key => moment(key) > startOfWeek)
                     .reduce((obj, key) => {
-                        obj[key] = userObject.data[key];
+                        obj[key] = tempScores[key];
                         return obj;
                     }, {});
 
-                var lastWeekQuizDatesScores = Object.keys(userObject.data)  // filter quizzes dates by last week
+                var lastWeekQuizDatesScores = Object.keys(tempScores)  // filter quizzes dates by last week
                     .filter(key => moment(key) > startOfLastWeek && moment(key) < endOfLastWeek)
                     .reduce((obj, key) => {
-                        obj[key] = userObject.data[key];
+                        obj[key] = tempScores[key];
                         return obj;
                     }, {});
 
-                var lastMonthQuizDatesScores = Object.keys(userObject.data)  // filter quizzes dates by last Month
+                var lastMonthQuizDatesScores = Object.keys(tempScores)  // filter quizzes dates by last Month
                     .filter(key => moment(key) > startOfLastMonth && moment(key) < endOfLastMonth)
                     .reduce((obj, key) => {
-                        obj[key] = userObject.data[key];
+                        obj[key] = tempScores[key];
                         return obj;
                     }, {});
 

@@ -5,6 +5,7 @@ import { withFirebase } from "../../firebase";
 import { useScoresUsers } from "../Leaderboard2/useScoresUsers"
 import LoadingGif from '../../6.gif';
 import { useGetMoneyEarned } from "../hooks/useGetMoneyEarned"
+import { useGetContestedQScore } from "../hooks/useGetContestedQScore"
 
 
 const UserScoreboard = (props) => {
@@ -14,12 +15,13 @@ const UserScoreboard = (props) => {
   const loadingGif = <center style={{ height: "150px" }}><img src={LoadingGif} alt="loading" style={{ maxWidth: '100%' }} /></center>
 
   const [usersMoney, usersMoneyEarned, loadingMoneyWon] = useGetMoneyEarned(props.uid) // use a hook to get user scores and data into a data frame
+  const [contestedScore, loadingContestedScore] = useGetContestedQScore(props.uid) // use a hook to get user scores and data into a data frame
 
 
 
   let content = <div>{loadingGif}</div>
 
-  if (!(loading || loadingMoneyWon)) {
+  if (!(loading || loadingMoneyWon || loadingContestedScore)) {
 
     content =
       <div>
@@ -73,7 +75,7 @@ const UserScoreboard = (props) => {
               </div>
               <div className="userScore" id="submittedQScore">
                 Contested Q Score
-              <span className="s"> {0}                           {// zero for now
+              <span className="s"> {contestedScore}                           {// zero for now
                 } </span>
               </div>
             </div>
@@ -147,7 +149,7 @@ const UserScoreboard = (props) => {
               <div className="userScore" id="submittedQScore">
                 Contested Q Score
               <span className="s reg-score">
-                  {0}                           {// zero for now
+                  {contestedScore}                           {// zero for now
                   }
                 </span>
               </div>
