@@ -248,7 +248,6 @@ export const getMostRecentQuizDate = () => {
   return (mostRecentQuizDate)
 }
 export const getNextQuizDate = (inputQuiz) => {
-  console.log(inputQuiz)
   var thisAndNextQuizDate = db.ref().child('rssQuiz').orderByKey().endAt(inputQuiz).limitToLast(2).once("value")
   return (thisAndNextQuizDate)
 }

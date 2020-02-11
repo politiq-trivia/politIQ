@@ -60,10 +60,6 @@ class ContestAQuestion extends Component {
   };
 
   renderQ = () => {
-    console.log("important info");
-    console.log(this.props.currentQ);
-
-    console.log(this.state.contestedQuestion);
     if (
       this.props.atEndOfQuiz === true &&
       this.state.contestedQuestion !== ""

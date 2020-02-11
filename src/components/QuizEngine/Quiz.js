@@ -231,8 +231,8 @@ class QuizBase extends Component {
   renderNextQuiz = date => {
     // guarentee render of quiz if score isn't found
     this.setState({ userHasScoreSubmitted: false });
-
     this.getQuiz(date);
+    this.checkForScores(date);  //this also gets the quiz after checking
   };
 
   nextQ = () => {
