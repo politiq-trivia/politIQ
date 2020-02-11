@@ -143,6 +143,7 @@ class EditProfile extends Component {
             <option value="Democrat">Democrat</option>
             <option value="Republican">Republican</option>
             <option value="Independent">Independent</option>
+            <option value="none">I choose not to disclose</option>
           </Select>
           <TextField
             margin="normal"

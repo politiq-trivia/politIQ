@@ -58,7 +58,7 @@ class GoogleAuth extends Component {
                     const date = moment().format('YYYY-MM-DD');
                     db.lastActive(uid, date);
                     this.props.getSignedInUser(uid);
-                    localStorage.setItem('googAuth', 'true'); // eslint-disable-line no-undef
+                    localStorage.setItem('fbAuth', 'true'); // eslint-disable-line no-undef
                     window.location.replace('/profile'); // eslint-disable-line no-undef
                   });
                 // this.listener();
@@ -69,7 +69,7 @@ class GoogleAuth extends Component {
                     isAdmin: true,
                   });
                 }
-                trackEvent('Account', 'Sign up with Google', 'SIGN_UP');
+                trackEvent('Account', 'Sign up with facebook', 'SIGN_UP');
               } else { // if the user already has an account
                 const date = moment().format('YYYY-MM-DD');
                 db.lastActive(uid, date);
