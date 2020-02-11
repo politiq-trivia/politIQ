@@ -42,6 +42,10 @@ class Scoreboard extends Component {
               submitted = dateObject["submitted"]
               quizDates.pop()
             }
+            if (quizDates[quizDates.length -1] === 'contested') {
+              submitted = dateObject["contested"]
+              quizDates.pop()
+            }
           }
           let scoreCounter = 0;
           for (let j = 0; j < quizDates.length; j++) {
