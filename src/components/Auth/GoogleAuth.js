@@ -6,7 +6,7 @@ import { compose } from 'recompose';
 import { FacebookIcon } from 'react-share';
 import Button from '@material-ui/core/Button';
 
-import { app, provider, db } from '../../firebase';
+import { app, googleProvider, db } from '../../firebase';
 import { HOME } from '../../constants/routes';
 import { trackEvent } from '../../utils/googleAnalytics';
 
@@ -18,7 +18,7 @@ const ERROR_MSG_ACCOUNT_EXISTS = `
   this account instead.
 `;
 
-class FacebookAuth extends Component {
+class GoogleAuth extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -39,8 +39,8 @@ class FacebookAuth extends Component {
     this.props.history.push(HOME);
   }
 
-  doSignInWithFacebook = () => {
-    app.auth().signInWithPopup(provider)
+  doSignInWithGoogle = () => {
+    app.auth().signInWithPopup(googleProvider)
       .then((result, error) => {
         if (error && error.code === 'auth/account-exists-with-different-credential') {
           console.log('account already exists'); // eslint-disable-line no-console
@@ -58,7 +58,7 @@ class FacebookAuth extends Component {
                     const date = moment().format('YYYY-MM-DD');
                     db.lastActive(uid, date);
                     this.props.getSignedInUser(uid);
-                    localStorage.setItem('fbAuth', 'true'); // eslint-disable-line no-undef
+                    localStorage.setItem('googAuth', 'true'); // eslint-disable-line no-undef
                     window.location.replace('/profile'); // eslint-disable-line no-undef
                   });
                 // this.listener();
@@ -69,7 +69,7 @@ class FacebookAuth extends Component {
                     isAdmin: true,
                   });
                 }
-                trackEvent('Account', 'Sign up with Facebook', 'SIGN_UP');
+                trackEvent('Account', 'Sign up with Google', 'SIGN_UP');
               } else { // if the user already has an account
                 const date = moment().format('YYYY-MM-DD');
                 db.lastActive(uid, date);
@@ -100,7 +100,7 @@ class FacebookAuth extends Component {
   }
 
   onSubmit = (event) => {
-    this.doSignInWithFacebook()
+    this.doSignInWithGoogle()
       .then(() => {
         this.setState({ error: null });
         this.props.history.push(HOME);
@@ -115,9 +115,9 @@ class FacebookAuth extends Component {
     const { error } = this.state;
     return (
       <div style={{ marginTop: '10px' }}>
-        <Button onClick={() => this.doSignInWithFacebook()}>
-          <FacebookIcon round={true} size={32}/>
-          <span style={{ marginLeft: '5px' }}>Continue With Facebook</span>
+        <Button onClick={() => this.doSignInWithGoogle()}>
+          <img style = {{ height: "35px", margin: "5px"}}src={require("../../googleIcon.png")}/>
+          <span style={{ marginLeft: '5px' }}>Continue With Google</span>
         </Button>
         {error && <p>{error.message}</p>}
       </div>
@@ -125,7 +125,7 @@ class FacebookAuth extends Component {
   }
 }
 
-FacebookAuth.propTypes = {
+GoogleAuth.propTypes = {
   history: PropTypes.object.isRequired,
   getSignedInUser: PropTypes.func.isRequired,
   scoreObject: PropTypes.object,
@@ -134,4 +134,4 @@ FacebookAuth.propTypes = {
 
 export default compose(
   withRouter,
-)(FacebookAuth);
+)(GoogleAuth);

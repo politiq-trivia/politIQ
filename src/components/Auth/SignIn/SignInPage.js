@@ -8,6 +8,7 @@ import { Paper } from '@material-ui/core';
 import SignUpLink from '../SignUp/SignUpLink';
 import { PasswordForgetLink } from '../PasswordForget';
 import FacebookAuth from '../FacebookAuth';
+import GoogleAuth from '../GoogleAuth';
 import SignInForm from './SignInForm';
 
 
@@ -39,15 +40,20 @@ class SignInPage extends Component {
           <title>Sign In | politIQ trivia</title>
         </Helmet>
         <h1>Sign In</h1>
-        <SignInForm
-          history={history}
+        <GoogleAuth
           getSignedInUser={getSignedInUser}
-          scoreObject={scoreObject} checkAdmin={checkAdmin}
+          scoreObject={scoreObject}
+          fbError={this.fbError}
         />
         <FacebookAuth
           getSignedInUser={getSignedInUser}
           scoreObject={scoreObject}
           fbError={this.fbError}
+        />
+        <SignInForm
+          history={history}
+          getSignedInUser={getSignedInUser}
+          scoreObject={scoreObject} checkAdmin={checkAdmin}
         />
         <PasswordForgetLink />
         <SignUpLink />

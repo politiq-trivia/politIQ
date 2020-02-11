@@ -6,6 +6,7 @@ import Helmet from 'react-helmet';
 import { Paper } from '@material-ui/core';
 
 import FacebookAuth from '../FacebookAuth';
+import GoogleAuth from '../GoogleAuth';
 import SignUpForm from './SignUpForm';
 import SignInLink from '../SignIn/SignInLink';
 
@@ -32,6 +33,12 @@ class SignUpPage extends Component {
           <title>Sign Up | politIQ trivia</title>
         </Helmet>
         <h1>Sign Up</h1>
+        <GoogleAuth
+            getSignedInUser={getSignedInUser}
+            history={history}
+            scoreObject={scoreObject}
+            fbError={this.fbError}
+        />
         <FacebookAuth
             getSignedInUser={getSignedInUser}
             history={history}
