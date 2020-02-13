@@ -167,16 +167,15 @@ class FinishQuiz extends Component {
                 color="primary"
                 variant="contained"
               >
-                Free Sign Up
-              </Button>
+                Sign up to save score - it's free and easy!
+              </Button> 
             </Link>
-            <span style = {{fontSize: "1em", margin: "0.5em", fontWeight: "bolder", color: "black"}}>Sign up to gain Access to...</span>
+            <span style = {{fontSize: "1em", margin: "0.5em", fontWeight: "bolder", color: "black"}}>Must have a profile in order to:</span>
 
-            <span style = {{fontSize: "1.3em", margin: "0.5em", fontWeight: "bolder", color: "#7D3EAD"}}>-Cash Prizes</span>
-            <span style = {{fontSize: "1.3em", margin: "0.5em", fontWeight: "bolder", color: "#7D3EAD"}}>-All Quizzes</span>
-            <span style = {{fontSize: "1.3em", margin: "0.5em", fontWeight: "bolder", color: "#7D3EAD"}}>-Your PolitIQ</span>
-            <span style = {{fontSize: "1.3em", margin: "0.5em", fontWeight: "bolder", color: "#7D3EAD"}}>-Live Leaderboard</span>
-            <span style = {{fontSize: "1.3em", margin: "0.5em", fontWeight: "bolder", color: "#7D3EAD"}}>-Contest/Submit Questions</span>
+            <span style = {{fontSize: "1.3em", margin: "0.5em", fontWeight: "bolder", color: "#7D3EAD"}}>-win regular cash prizes</span>
+            <span style = {{fontSize: "1.3em", margin: "0.5em", fontWeight: "bolder", color: "#7D3EAD"}}>-submit or contest questions</span>
+            <span style = {{fontSize: "1.3em", margin: "0.5em", fontWeight: "bolder", color: "#7D3EAD"}}>-view updated leaderboard</span>
+            <span style = {{fontSize: "1.3em", margin: "0.5em", fontWeight: "bolder", color: "#7D3EAD"}}>--access old quizzes</span>
           </div>
         </div>
       );

@@ -26,14 +26,34 @@ class PartyScores extends Component {
   }
 
   getDemScores = async (affiliation) => {
-    const scores = JSON.parse(localStorage.getItem('allScores')).data
-    // uid array represents the users who have score data
-    let uidArray = [];
-    for (let i = 0; i < scores.length; i++) {
-      uidArray.push(scores[i].user)
-    }
+    let allScores = [];
 
-    this.getDems(scores, uidArray, affiliation)
+    await db.getScores()
+    .then(response => {
+        const data = response.val();
+        if (data === null) {
+            return 'No scores available';
+        }
+        const usernames = Object.keys(data)
+        usernames.forEach((user, i) => {
+            const dates = Object.keys(data[usernames[i]])
+            for (let k = 0; k < dates.length; k++) {
+                if (dates[k] >= '2019-04-01T00:00') {
+                    allScores.push({ user, data: data[usernames[i]]})
+                    return;
+                }
+            }
+        })
+    })
+    let uidArray = [];
+    for (let i = 0; i < allScores.length; i++) {
+      uidArray.push(allScores[i].user)
+    }
+    console.log("allScores", allScores)
+/*     const scores = JSON.parse(localStorage.getItem('allScores')).data
+ */    // uid array represents the users who have score data
+    
+    this.getDems(allScores, uidArray, affiliation)
   }
 
   // move the sort user by affiliation logic into a util so it can be reusable
@@ -54,7 +74,7 @@ class PartyScores extends Component {
         for (let k = 0; k < demsWithScores.length; k++) {
           const quizDates = Object.keys(demsWithScores[k].data)
 
-          if (quizDates[quizDates.length - 1] === 'submitted') {
+          if (quizDates[quizDates.length - 1] === ('submitted' || 'contested')) {
             quizDates.pop();
           }
 
