@@ -6,6 +6,7 @@ import { useScoresUsers } from "../Leaderboard2/useScoresUsers"
 import LoadingGif from '../../6.gif';
 import { useGetMoneyEarned } from "../hooks/useGetMoneyEarned"
 import { useGetContestedQScore } from "../hooks/useGetContestedQScore"
+import { useGetSubmittedQScore } from "../hooks/useGetSubmittedQScore"
 
 
 const UserScoreboard = (props) => {
@@ -16,12 +17,13 @@ const UserScoreboard = (props) => {
 
   const [usersMoney, usersMoneyEarned, loadingMoneyWon] = useGetMoneyEarned(props.uid) // use a hook to get user scores and data into a data frame
   const [contestedScore, loadingContestedScore] = useGetContestedQScore(props.uid) // use a hook to get user scores and data into a data frame
+  const [submittedScore, loadingSubmittedScore] = useGetSubmittedQScore(props.uid) // use a hook to get user scores and data into a data frame
 
 
 
   let content = <div>{loadingGif}</div>
 
-  if (!(loading || loadingMoneyWon || loadingContestedScore)) {
+  if (!(loading || loadingMoneyWon || loadingContestedScore || loadingSubmittedScore)) {
 
     content =
       <div>
@@ -74,8 +76,8 @@ const UserScoreboard = (props) => {
                 </span>
               </div>
               <div className="userScore" id="submittedQScore">
-                Contested Q Score
-              <span className="s"> {contestedScore}                           {// zero for now
+                Contested and Submitted Q Score
+              <span className="s"> {contestedScore + submittedScore}                          {// zero for now
                 } </span>
               </div>
             </div>
@@ -147,9 +149,9 @@ const UserScoreboard = (props) => {
             </div>
             <div className="small-scoreboard">
               <div className="userScore" id="submittedQScore">
-                Contested Q Score
+                Contested and Submitted Q Score
               <span className="s reg-score">
-                  {contestedScore}                           {// zero for now
+                  {contestedScore + submittedScore}                        {// zero for now
                   }
                 </span>
               </div>

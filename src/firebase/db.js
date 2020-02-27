@@ -531,6 +531,11 @@ export const getContestedScoreByUid = (uid) => {
     .child("/scores/").child(uid).child("contested").once('value')
   return(scores)
 }
+export const getSubmittedScoreByUid = (uid) => {
+  const scores = db.ref()
+    .child("/scores/").child(uid).child("submitted").once('value')
+  return(scores)
+}
 
 
 // ----------------------------------------------------------
