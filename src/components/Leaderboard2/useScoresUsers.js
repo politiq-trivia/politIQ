@@ -14,7 +14,7 @@ var flattenObject = function(ob) {
 			for (var x in flatObject) {
 				if (!flatObject.hasOwnProperty(x)) continue;
 				
-				toReturn[i + '.' + x] = flatObject[x];
+				toReturn[x] = flatObject[x];
 			}
 		} else {
 			toReturn[i] = ob[i];
@@ -223,6 +223,7 @@ export const useScoresUsers = () => {
                 const tempScores = flattenObject(userObject.data)
 
 
+                console.log(userObject.displayName, "tempScores", tempScores)
                 // For each quiz data
                 var allQuizDatesScores = Object.keys(tempScores)  // THIS OMITS SUBMITTED OBJECT (MAY NEED TO CHANGE LATER)
                     .reduce((obj, key) => {
