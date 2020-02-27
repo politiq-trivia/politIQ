@@ -160,7 +160,7 @@ class FinishQuiz extends Component {
           <div style={{ marginTop: "2vh", marginBottom: "5vh" }}>
             Your score: {score} out of {quizLength} points.
           </div>
-          <div style={{  textAlign: "center"}} className="finish-quiz-buttons">
+          <div style={{width: "50%",  textAlign: "center"}} className="finish-quiz-buttons">
             <Link to={SIGN_UP} style={{ fontSize: "2em", textDecoration: "none" }}>
               <Button 
                 style={{ fontSize: "20px"}}
@@ -170,12 +170,12 @@ class FinishQuiz extends Component {
                 Sign up to save score - it's free and easy!
               </Button> 
             </Link>
-            <span style = {{fontSize: "1em", margin: "0.5em", fontWeight: "bolder", color: "black"}}>Must have a profile in order to:</span>
+            <span style = {{fontSize: "1.4em", margin: "0.6em", fontWeight: "bolder", color: "black"}}>Must have a profile in order to:</span>
 
             <span style = {{fontSize: "1.3em", margin: "0.5em", fontWeight: "bolder", color: "#7D3EAD"}}>-win regular cash prizes</span>
             <span style = {{fontSize: "1.3em", margin: "0.5em", fontWeight: "bolder", color: "#7D3EAD"}}>-submit or contest questions</span>
             <span style = {{fontSize: "1.3em", margin: "0.5em", fontWeight: "bolder", color: "#7D3EAD"}}>-view updated leaderboard</span>
-            <span style = {{fontSize: "1.3em", margin: "0.5em", fontWeight: "bolder", color: "#7D3EAD"}}>--access old quizzes</span>
+            <span style = {{fontSize: "1.3em", margin: "0.5em", fontWeight: "bolder", color: "#7D3EAD"}}>-access old quizzes</span>
           </div>
         </div>
       );
