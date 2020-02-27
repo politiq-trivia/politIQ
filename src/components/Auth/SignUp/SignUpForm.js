@@ -266,7 +266,7 @@ class SignUpFormBase extends Component {
           </ClickAwayListener>
 
         </div>
-        <div style={{ display: 'flex', marginTop: '2vh' }}>
+        {/* <div style={{ display: 'flex', marginTop: '2vh' }}>
           <Checkbox
             checked={this.state.emailSubscribe}
             onChange={this.handleEmailCheck}
@@ -275,7 +275,7 @@ class SignUpFormBase extends Component {
             style={{ display: 'inline' }}
           />
           <p style={{ textAlign: 'left' }}>I would like to receive email notifications from politIQ when new quizzes are posted (no spam).</p>
-        </div>
+        </div> */}
 
         <FormHelperText>By registering an account I confirm I have read and agree to the <a href="https://www.whatsmypolitiq.com/privacy-policy">PolitIQ Privacy Policy and Terms of Service</a> </FormHelperText>
 
