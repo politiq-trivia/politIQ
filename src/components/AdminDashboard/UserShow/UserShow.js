@@ -106,8 +106,13 @@ class UserShow extends Component {
               if (scoreData[uidList[i]]) {
                 const scores = Object.values(scoreData[uidList[i]]);
                 let submittedScores;
+                let contestedScores;
                 if (Object.keys(scoreData[uidList[i]])[scores.length - 1] === 'submitted') {
                   submittedScores = scoreData[uidList[i]]['submitted']; // eslint-disable-line dot-notation
+                  scores.pop();
+                }
+                if (Object.keys(scoreData[uidList[i]])[scores.length - 1] === 'contested') {
+                  contestedScores = scoreData[uidList[i]]['contested']; // eslint-disable-line dot-notation
                   scores.pop();
                 }
                 alltimescore = scores.reduce((a, b) => a + b, 0);
@@ -120,8 +125,20 @@ class UserShow extends Component {
                     }
                   }
                 }
+                if (contestedScores !== undefined) {
+                  const dates = Object.keys(contestedScores);
+                  alltimescore += dates.length;
+                  for (let j = 0; j < dates.length; j += 1) {
+                    if (dates[j].slice(10) > moment().startOf('month').format('YYYY-MM-DD')) {
+                      scoreCounter += 1;
+                    }
+                  }
+                }
                 const quizDates = Object.keys(scoreData[uidList[i]]);
                 if (quizDates[quizDates.length - 1] === 'submitted') {
+                  quizDates.pop();
+                }
+                if (quizDates[quizDates.length - 1] === 'contested') {
                   quizDates.pop();
                 }
                 for (let j = 0; j < quizDates.length; j += 1) {
@@ -285,14 +302,14 @@ class UserShow extends Component {
     return (
       <Paper className="userShow">
         {this.state.showDeleteModal
-          ? <DeleteModal handleDeleteUser={this.handleDeleteUser} toggleDeleteModal={this.toggleDeleteModal} selected={this.state.selected} users="true"/>
+          ? <DeleteModal handleDeleteUser={this.handleDeleteUser} toggleDeleteModal={this.toggleDeleteModal} selected={this.state.selected} users="true" />
           : null
         }
         {this.state.showAwardMoneyModal
           ? <AwardMoneyModal
-              selected={this.state.selected} user={userObj}
-              toggleAwardMoneyModal={this.toggleAwardMoneyModal}
-            />
+            selected={this.state.selected} user={userObj}
+            toggleAwardMoneyModal={this.toggleAwardMoneyModal}
+          />
           : null
         }
         <h3>All Users</h3>
@@ -304,7 +321,7 @@ class UserShow extends Component {
           margin="dense"
           variant="outlined"
           fullWidth
-          // style={{ margin: '0' }}
+        // style={{ margin: '0' }}
         />
         <TableToolbar
           numSelected={selected.length}
@@ -358,11 +375,11 @@ class UserShow extends Component {
                   </TableRow>
                 );
               })}
-              {emptyRows > 0 && (
-                <TableRow style={{ height: 49 * emptyRows }}>
-                  <TableCell colSpan={6} />
-                </TableRow>
-              )}
+            {emptyRows > 0 && (
+              <TableRow style={{ height: 49 * emptyRows }}>
+                <TableCell colSpan={6} />
+              </TableRow>
+            )}
           </TableBody>
         </Table>
         <TablePagination
