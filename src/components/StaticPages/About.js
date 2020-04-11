@@ -25,7 +25,7 @@ const About = () => {
 
   }, [])
 
-  const video = videoDownload ? <video className="youtube" style={{ width: "90%" }} controls poster={poster}>
+  const video = videoDownload ? <video style={{ width: "90%" }} controls poster={poster}>
     <source src={videoDownload} type='video/mp4' />
   </video> : null
   return (
@@ -46,7 +46,7 @@ const About = () => {
 
         <p>If you agree, or simply want to spread the word about an easy way to win some money, invite your friends and foes alike to join politIQ!</p>
 
-        <center>
+        <center style={{ marginTop: '50px' }}>
           {video}
         </center>
         <p style={{ marginTop: '8vh' }}>Have a question or want to send me some hate mail? Check out our <Link to={FAQ}>Frequently Asked Questions</Link> or email me at <a href="mailto: info@whatsmypolitiq.com">info@whatsmypolitiq.com</a></p>

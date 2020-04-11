@@ -48,12 +48,15 @@ class FinishQuiz extends Component {
   render() {
     const { uid, score, toggleContest } = this.props;
     let quizLength = 5;
+
+    const scoreDisplay =
+      <center style={{ marginTop: "2vh", marginBottom: "2vh", color: "rgb(239, 188, 77)", fontWeight: "bold" }}>
+        Your score: {score} out of {quizLength} points.
+      </center>
     if (uid !== "") {
       return (
         <div className="finish-quiz">
-          <div style={{ marginTop: "2vh", marginBottom: "5vh" }}>
-            Your score: {score} out of {quizLength} points.
-          </div>
+          {scoreDisplay}
           <div className="finish-quiz-buttons">
             <NextAvailableQuizButton
               renderNextQuiz={this.props.renderNextQuiz}
@@ -157,25 +160,23 @@ class FinishQuiz extends Component {
     } else {
       return (
         <div className="finish-quiz">
-          <div style={{ marginTop: "2vh", marginBottom: "5vh" }}>
-            Your score: {score} out of {quizLength} points.
-          </div>
-          <div style={{width: "50%",  textAlign: "center"}} className="finish-quiz-buttons">
+          {scoreDisplay}
+          <div style={{ width: "50%", textAlign: "center" }} className="finish-quiz-buttons">
             <Link to={SIGN_UP} style={{ fontSize: "2em", textDecoration: "none" }}>
-              <Button 
-                style={{ fontSize: "20px"}}
+              <Button
+                style={{ fontSize: "20px" }}
                 color="primary"
                 variant="contained"
               >
                 Sign up to save score - it's free and easy!
-              </Button> 
+              </Button>
             </Link>
-            <span style = {{fontSize: "1.4em", margin: "0.6em", fontWeight: "bolder", color: "black"}}>Must have a profile in order to:</span>
+            <span style={{ fontSize: "1.4em", margin: "0.6em", fontWeight: "bolder", color: "black" }}>Must have a profile in order to:</span>
 
-            <span style = {{fontSize: "1.3em", margin: "0.5em", fontWeight: "bolder", color: "#7D3EAD"}}>-win regular cash prizes</span>
-            <span style = {{fontSize: "1.3em", margin: "0.5em", fontWeight: "bolder", color: "#7D3EAD"}}>-submit or contest questions</span>
-            <span style = {{fontSize: "1.3em", margin: "0.5em", fontWeight: "bolder", color: "#7D3EAD"}}>-view updated leaderboard</span>
-            <span style = {{fontSize: "1.3em", margin: "0.5em", fontWeight: "bolder", color: "#7D3EAD"}}>-access old quizzes</span>
+            <span style={{ fontSize: "1.3em", margin: "0.5em", fontWeight: "bolder", color: "#7D3EAD" }}>-win regular cash prizes</span>
+            <span style={{ fontSize: "1.3em", margin: "0.5em", fontWeight: "bolder", color: "#7D3EAD" }}>-submit or contest questions</span>
+            <span style={{ fontSize: "1.3em", margin: "0.5em", fontWeight: "bolder", color: "#7D3EAD" }}>-view updated leaderboard</span>
+            <span style={{ fontSize: "1.3em", margin: "0.5em", fontWeight: "bolder", color: "#7D3EAD" }}>-access old quizzes</span>
           </div>
         </div>
       );
