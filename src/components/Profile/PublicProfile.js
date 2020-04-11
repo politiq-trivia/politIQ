@@ -1,12 +1,8 @@
-import React, { Component, useState, useEffect, useContext } from "react";
+import React, { useState } from "react";
 import { db } from "../../firebase";
 import { Helmet } from "react-helmet";
 import { withRouter, NavLink } from "react-router-dom";
-import { compose } from "recompose";
 import LoadingGif from '../../6.gif';
-
-import { withAuthorization } from "../Auth/index";
-import AuthUserContext from "../Auth/AuthUserContext";
 import "../../css/customStyles.css";
 import Paper from "@material-ui/core/Paper";
 
@@ -26,23 +22,16 @@ import {
   EmailIcon
 } from "react-share";
 
-import loadingGif from "../../loadingGif.gif";
 import UserScoreboard from "../Leaderboard/UserScoreboard";
 import PublicProfilePhoto from "./PublicProfilePhoto";
-import CommentWidget from "./Comment/CommentWidget";
 
 import "./profile.css";
 
-const getHref = () => {
-  return window.location.href.toString();
-};
 
 const PublicProfile = (props) => {
   const authUser = props.signedInUser
   const uid = window.location.href.split('profile/')[1]
-  const [showingComments, setShowingComments] = useState(false)
   const [userInfo, setUserInfo] = useState(null)
-  const [loading, setLoading] = useState(true)
 
 
 
@@ -172,27 +161,7 @@ const PublicProfile = (props) => {
             </EmailShareButton>
           </div>
         </div>
-        {showingComments ? (
-          <div>
-            <button
-              className="customButton"
-              onClick={() => { setShowingComments(!showingComments) }}
-            >
-              Hide Comments
-              </button>
-            <h3 className="comment-heading">Comments: </h3>
-            <CommentWidget
-              userName={userInfo.displayName}
-              profileID={uid}
-              authUserName={authUser.displayName}
-              isAdmin={authUser.isAdmin}
-            />
-          </div>
-        ) : (
-            <button className="customButton" onClick={() => { setShowingComments(!showingComments) }}>
-              Show Comments
-            </button>
-          )}
+
       </div>
     </div>
   }
