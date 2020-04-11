@@ -1,14 +1,33 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Helmet } from 'react-helmet';
 import { Link } from 'react-router-dom';
 import { FAQ } from '../../constants/routes';
 
 import Paper from '@material-ui/core/Paper';
 import YouTubePlayer from 'react-player/lib/players/YouTube'
-import sampleVid from '../../videos/PolitIQ_Final(1).mp4';
 import poster from "../didyouknow.png"
+import { storage } from '../../firebase/firebase'
+
 
 const About = () => {
+
+  const [videoDownload, setVideoDownload] = useState(null)
+  useEffect(() => { // get most recent quiz date not in future
+
+    const fetchVideo = async () => {
+      storage.ref('videos/PolitIQ_Final.mp4').getDownloadURL().then(function (url) {
+        setVideoDownload(url)
+      }).catch(function (error) {
+        // Handle any errors
+      });;
+    }
+    fetchVideo()
+
+  }, [])
+
+  const video = videoDownload ? <video className="youtube" style={{ width: "90%" }} controls poster={poster}>
+    <source src={videoDownload} type='video/mp4' />
+  </video> : null
   return (
     <Paper className="about-holder">
       <Helmet>
@@ -28,11 +47,8 @@ const About = () => {
         <p>If you agree, or simply want to spread the word about an easy way to win some money, invite your friends and foes alike to join politIQ!</p>
 
         <center>
-          <video className="youtube" style={{ width: "90%" }} controls poster={poster}>
-            <source src={sampleVid} type='video/mp4' />
-          </video>
-          {/*           <YouTubePlayer style={{ marginTop: '8vh' }} width="90%" className="youtube" controls={false} url='https://www.youtube.com/watch?v=PeuwGYasIfU' playing />
- */}        </center>
+          {video}
+        </center>
         <p style={{ marginTop: '8vh' }}>Have a question or want to send me some hate mail? Check out our <Link to={FAQ}>Frequently Asked Questions</Link> or email me at <a href="mailto: info@whatsmypolitiq.com">info@whatsmypolitiq.com</a></p>
       </div>
     </Paper>

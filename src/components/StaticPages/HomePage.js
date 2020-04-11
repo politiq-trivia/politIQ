@@ -20,7 +20,7 @@ import {
   EmailIcon
 } from "react-share";
 
-import { withAuthorization, withEmailVerification } from "../Auth/index";
+import { withAuthorization } from "../Auth/index";
 
 import * as routes from "../../constants/routes";
 import Paper from "@material-ui/core/Paper";
@@ -29,9 +29,9 @@ import Snackbar from "@material-ui/core/Snackbar";
 import IconButton from "@material-ui/core/IconButton";
 import CloseIcon from "@material-ui/icons/Close";
 import TodaysQuizButton from "./TodaysQuizButton";
+import YouTubePlayer from 'react-player/lib/players/YouTube'
 
 import "./Static.css";
-import QuizContext from "../context/quizContext";
 
 
 const getHref = () => {
@@ -174,63 +174,67 @@ class HomePage extends Component {
           Don't forget to submit your own questions for a chance to win points!
         </h4>
 
-        <MediaQuery maxWidth={415}>
-          <hr />
-          <h5>Share Your Score on Social Media:</h5>
-          <div
-            className="mobile-socials"
-            style={{ display: "flex", marginTop: "1vh" }}
+        <hr />
+
+        <center style={{ marginBottom: "30px" }}>
+          <h2>Last Recorded Gameshow</h2>
+          <YouTubePlayer className="youtube" controls={false} url='https://www.youtube.com/watch?v=r3g_gFEv8wE&t=68s' />
+          <a
+            href="https://www.youtube.com/channel/UCv2imXzW9mKoZRVSF6BztBQ"
+            target="_blank noopener noreferrer"
+            style={{ textDecoration: "none" }}
           >
-            <FacebookShareButton
-              url={getHref()}
-              className="shareable"
-              quote="Check out my politIQ:"
-            >
-              <FacebookIcon round={true} size={32} />
-            </FacebookShareButton>
-            <LinkedinShareButton
-              url={getHref()}
-              className="shareable"
-              title="Check out my politIQ"
-              description="Are you smarter than a Republican? Democrat? Independent? Find out!"
-            >
-              <LinkedinIcon round={true} size={32} />
-            </LinkedinShareButton>
-            <TwitterShareButton
-              url={getHref()}
-              title="Check out my politIQ:"
-              className="shareable"
-            >
-              <TwitterIcon round={true} size={32} />
-            </TwitterShareButton>
-            <WhatsappShareButton
-              url={getHref()}
-              className="shareable"
-              title="Check out my politIQ:"
-            >
-              <WhatsappIcon round={true} size={32} />
-            </WhatsappShareButton>
-            <EmailShareButton
-              url={getHref()}
-              className="shareable"
-              subject="Check out my politIQ:"
-              body="Are you smarter than a Republican? Democrat? Independent? Find out!"
-            >
-              <EmailIcon round={true} size={32} />
-            </EmailShareButton>
-          </div>
-        </MediaQuery>
+            <Button color="primary" variant="contained" id="gameshow">
+              Click here to view previous gameshow challenges!
+          </Button>
+          </a>
+        </center>
 
         <hr />
-        <a
-          href="https://www.youtube.com/channel/UCv2imXzW9mKoZRVSF6BztBQ"
-          target="_blank noopener noreferrer"
-          style={{ textDecoration: "none" }}
+
+        <h3>Share Your Score on Social Media:</h3>
+        <div
+          className="mobile-socials"
+          style={{ display: "flex", marginTop: "1vh" }}
         >
-          <Button color="primary" variant="contained" id="gameshow">
-            Watch last month's leaders face off in a recorded gameshow!
-          </Button>
-        </a>
+          <FacebookShareButton
+            url={getHref()}
+            className="shareable"
+            quote="Check out my politIQ:"
+          >
+            <FacebookIcon round={true} size={32} />
+          </FacebookShareButton>
+          <LinkedinShareButton
+            url={getHref()}
+            className="shareable"
+            title="Check out my politIQ"
+            description="Are you smarter than a Republican? Democrat? Independent? Find out!"
+          >
+            <LinkedinIcon round={true} size={32} />
+          </LinkedinShareButton>
+          <TwitterShareButton
+            url={getHref()}
+            title="Check out my politIQ:"
+            className="shareable"
+          >
+            <TwitterIcon round={true} size={32} />
+          </TwitterShareButton>
+          <WhatsappShareButton
+            url={getHref()}
+            className="shareable"
+            title="Check out my politIQ:"
+          >
+            <WhatsappIcon round={true} size={32} />
+          </WhatsappShareButton>
+          <EmailShareButton
+            url={getHref()}
+            className="shareable"
+            subject="Check out my politIQ:"
+            body="Are you smarter than a Republican? Democrat? Independent? Find out!"
+          >
+            <EmailIcon round={true} size={32} />
+          </EmailShareButton>
+        </div>
       </Paper>
     );
   }

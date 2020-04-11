@@ -1,25 +1,22 @@
-import React from "react";
+import React, {useState, useEffect} from "react";
 
 import Paper from "@material-ui/core/Paper";
-import moment from "moment";
 
 import Button from "@material-ui/core/Button";
 import bg from "./politiq-bg2.jpg";
 
 import { NavLink } from "react-router-dom";
 import "./Static.css";
-import QuizContext from "../context/quizContext";
-
+import {storage} from '../../firebase/firebase'
 import YouTubePlayer from 'react-player/lib/players/YouTube'
-import sampleVid from '../../videos/PolitIQ_Final(1).mp4';
 import poster from "../didyouknow.png"
 import { db } from "../../firebase";
 
 
 const LandingPage = () => {
-  const [quizDate, setQuizDate] = React.useState("")
-
-  React.useEffect(() => { // get most recent quiz date not in future
+  const [quizDate, setQuizDate] = useState("")
+  const [videoDownload, setVideoDownload] = useState(null)
+  useEffect(() => { // get most recent quiz date not in future
     const fetchQuiz = async () => {
       db.getMostRecentQuizDate().then(res => {
         return (res.val()) // resolve promise
@@ -27,9 +24,23 @@ const LandingPage = () => {
         setQuizDate(Object.keys(quizDate)[0])
       })
     }
+    const fetchVideo = async () => {
+      storage.ref('videos/PolitIQ_Final.mp4').getDownloadURL().then(function(url) {
+        setVideoDownload(url)
+      }).catch(function(error) {
+        // Handle any errors
+        console.error(error)
+      });;
+    }
     fetchQuiz()
+    fetchVideo()
 
   }, [])
+
+
+  const video = videoDownload ? <video className="youtube" style={{ width: "90%" }} controls poster={poster}>
+  <source src={videoDownload} type='video/mp4' />
+</video> : null
 
 
   return (
@@ -59,10 +70,7 @@ const LandingPage = () => {
         </div>
         <div className="welcomeBlock">
           <center>
-            <video className="youtube" style={{ width: "90%" }} controls poster={poster}>
-              <source src={sampleVid} type='video/mp4' />
-            </video>
-
+            {video}
           </center>
         </div>
       </div>
