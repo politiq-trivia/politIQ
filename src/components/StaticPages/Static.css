@@ -99,7 +99,7 @@
 }
 
 .home-holder {
-  margin-top: 7.5vh;
+  margin-top: 66px;
   text-align: center;
   padding-top: 4vh;
   height: auto;
@@ -472,8 +472,8 @@ h6 {
   }
 }
 .youtube {
-  margin-top: 80px;
   display: block;
+  width: 60% !important;
   -webkit-box-shadow: 0px 0px 42px -3px rgba(0,0,0,0.75);
   -moz-box-shadow: 0px 0px 42px -3px rgba(0,0,0,0.75);
   box-shadow: 0px 0px 42px -3px rgba(0,0,0,0.75);
@@ -500,6 +500,13 @@ h6 {
     width: 100%;
   }
   .youtube {
-    width: 90%
+    width: 60% !important;
+    height: 300px !important;
+  }
+}
+@media screen and (max-width: 740px) {
+  .youtube {
+    width: 100% !important;
+    height: 200px !important;
   }
 }
