@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from "react";
+import React, { useState, useEffect } from "react";
 
 import Paper from "@material-ui/core/Paper";
 
@@ -7,7 +7,7 @@ import bg from "./politiq-bg2.jpg";
 
 import { NavLink } from "react-router-dom";
 import "./Static.css";
-import {storage} from '../../firebase/firebase'
+import { storage } from '../../firebase/firebase'
 import YouTubePlayer from 'react-player/lib/players/YouTube'
 import poster from "../didyouknow.png"
 import { db } from "../../firebase";
@@ -25,9 +25,9 @@ const LandingPage = () => {
       })
     }
     const fetchVideo = async () => {
-      storage.ref('videos/PolitIQ_Final.mp4').getDownloadURL().then(function(url) {
+      storage.ref('videos/PolitIQ_Final.mp4').getDownloadURL().then(function (url) {
         setVideoDownload(url)
-      }).catch(function(error) {
+      }).catch(function (error) {
         // Handle any errors
         console.error(error)
       });;
@@ -38,9 +38,9 @@ const LandingPage = () => {
   }, [])
 
 
-  const video = videoDownload ? <video className="youtube" style={{ width: "90%" }} controls poster={poster}>
-  <source src={videoDownload} type='video/mp4' />
-</video> : null
+  const video = videoDownload ? <video className="homepageVideo" style={{ width: "90%" }} controls poster={poster}>
+    <source src={videoDownload} type='video/mp4' />
+  </video> : null
 
 
   return (
@@ -69,9 +69,9 @@ const LandingPage = () => {
           </div>
         </div>
         <div className="welcomeBlock">
-          <center>
+          <div className='homepageVideoHolder'>
             {video}
-          </center>
+          </div>
         </div>
       </div>
       <div className="home-description">
