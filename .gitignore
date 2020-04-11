@@ -23,8 +23,5 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 
-# auth keys
-/src/firebase/firebase.js
-/src/fb_auth.js
 
 .env.development
