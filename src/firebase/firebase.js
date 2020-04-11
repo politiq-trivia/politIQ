@@ -25,13 +25,13 @@ const storage = firebase.storage();
 const functions = firebase.functions();
 
 let messaging;
-if (firebase.messaging.isSupported()) {
+/* if (firebase.messaging.isSupported()) {
   messaging = firebase.messaging();
   messaging.usePublicVapidKey(
     process.env.REACT_APP_MESSAGING_KEY
   );
 }
-
+ */
 // for facebook 
 const provider = new firebase.auth.FacebookAuthProvider();
 const googleProvider = new firebase.auth.GoogleAuthProvider();
