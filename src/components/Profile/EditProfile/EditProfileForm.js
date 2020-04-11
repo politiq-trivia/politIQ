@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { db } from "../../../firebase";
-import firebase from "firebase/app";
+import {auth} from "../../../firebase/firebase";
 import { withRouter } from "react-router-dom";
 import MediaQuery from "react-responsive";
 
@@ -54,7 +54,7 @@ class EditProfile extends Component {
     await db.editUser(uid, updates);
 
     if (this.props.email !== this.state.email) {
-      const user = firebase.auth().currentUser;
+      const user = auth.currentUser;
       await user
         .updateEmail(this.state.email)
         .then(function() {
@@ -88,7 +88,7 @@ class EditProfile extends Component {
     await db.editUser(this.props.uid, updates);
 
     if (this.props.email !== this.state.email) {
-      const user = firebase.auth().currentUser;
+      const user = auth.currentUser;
       await user
         .updateEmail(this.state.email)
         .then(function() {
