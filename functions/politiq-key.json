@@ -1,0 +1,12 @@
+{
+  "type": "service_account",
+  "project_id": "politiq-fc0e3",
+  "private_key_id": "aa5a8a6d0061878764b590c6e00d723dfb9382d9",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQCkVQNGQ7ZbuO/9\n9/AzUO11V9gmBMompFMLsT+tY/BqqfpjVXYaSnrfhwXwASaGy/UKCYgDALFDlRE/\nSZYKo4hwTRIEWe7/pHrxKTXjXZad9GfthZ+Fdj2ks/qmhXSRgyVKb0N1crk0Ocs/\nYIjYMpv6z7ux4wDCXOL3OGdoilm/CbeZse4uIJjtrdBCawAkDYgPQhMpInCG7GRB\n3Z//lYRQ/ylPyNKZ9Lk2ZVFpXWHYOZfDm7kmDFmNo5N7jA9xYXnVVIdIcQMzbeyB\nWuMquVSk1+tUfwDPJTh+PqJY/6oLVeN5XN7y5jU+is9Ko5bmZLw1kJzmh6+nE0lK\ndhtKIN3VAgMBAAECggEAAUwFDi80Y8VIpqrGGnr9cQSk/xKkXn/wr507Y/RKBtBO\nYh6rMplVad3cDwTq1bA4od5LY6DLmC5sPLftE4UB1PRcaM5h12KN0lCb1MyMtA8G\nR+XMBb5HGPm8T3S51Lxnlx2u+wZ+eTsa1UCwFa6dRwFqeUhoe6e/MaZNbexRm3rG\nQg0Mpxmfj4ImEdHxXlv6YUz+F9qgyWRYiH704mGG8zMWzyJJ93ihQxJPENv/X+m3\nRVtaypd8SAloTfq54CP/IDayLesFDOGIM3BC0vIf1K/qq4oRcSdKOeB0gF7sp1Dv\nJ6570hyKQ426rxSYq8+JJJ8A7gBFWOMyDoi4MnFGDQKBgQDenbZaavmiXTD55B9b\nZoAi4hKPz3xNFyD8KR7MXL1wHxg8aJ5qiuD8PrzAvvo0+YMkSgyip+guHPsF4cwV\n8M3lhtXto1deCL1Fl2Uh1Hx6FlMGrijsIaQG+X8UPwWkIxXTvZXFMjZfvWdHGX+q\ne75F1SqxZsjAL1+8kCmZiiLz/wKBgQC8+cNyQ+7EKTfme96EmDO8hrsQzdXq8gsl\nLvqkgg/QaDWlQmPFBboy6SOe2SRvYbXWBOFg0YDfmfrOXNP9Uu5BFPdJihI1J+Xj\n5LHRkUcJq1JKcJNgCB+00+vxB6gr3o40DeIwqXqhqgSy96WaozQu+C87rUSwEOwP\nAF7k+lYeKwKBgDBWIkAjtixw+69mvwBDk1L/r3QWYzEB8qGN9Cf/gwqTVdnYBX2w\nxgU/QhC/5ugVvUnl4jR3LMzGciLm0j95V9ucmVrN+qxqTV6M7uKXlqeTrVdn/W64\nJzt0dQlaXckz7QtawOhebLwBDim7+aJ01+2lyW1XmgNQxgLVcpLqEYjVAoGBALy5\nitEQuuE4cNVDm6Q8BF8hBqzvg9WRSEQoOLQWGAkAKaMTPGRFJgE2CBbZsKNzp49H\nbHWuhM/KDUoONr/lFH/2mkfdFfX0FIiVmmg6eAFWEWa6KtRbCJ8kjZs3FGJLbyTZ\nQK1sdEYDb5Hz9HUMzE6kGTe2AMT9AWKx8hMnVt3lAoGAJKNWo+aTABkgzbiyMoBu\nj3Ql68aV42ouR6Raq52Nr6E3zbbuvGF82dJuNklnBy+QXKpKe3LXg4swgKBz8Qji\nGIs5RIwb7xFoT3jLx2RoqTX2Sw7LQ5sSFsPmHt8nZ7M7SA6RyVQfdvs+V9falSoJ\nMDuZtXgyuHpWDMASYdOl9xE=\n-----END PRIVATE KEY-----\n",
+  "client_email": "politiq-fc0e3@appspot.gserviceaccount.com",
+  "client_id": "118409968212717048306",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/politiq-fc0e3%40appspot.gserviceaccount.com"
+}

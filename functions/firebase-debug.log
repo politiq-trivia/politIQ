@@ -1,0 +1,587 @@
+[debug] [2020-05-03T01:00:08.321Z] ----------------------------------------------------------------------
+[debug] [2020-05-03T01:00:08.323Z] Command:       /usr/local/bin/node /mnt/c/Users/Conner/AppData/Roaming/npm/node_modules/firebase-tools/lib/bin/firebase.js functions:shell
+[debug] [2020-05-03T01:00:08.323Z] CLI Version:   7.16.1
+[debug] [2020-05-03T01:00:08.323Z] Platform:      linux
+[debug] [2020-05-03T01:00:08.323Z] Node Version:  v12.16.1
+[debug] [2020-05-03T01:00:08.324Z] Time:          Sat May 02 2020 18:00:08 GMT-0700 (Pacific Daylight Time)
+[debug] [2020-05-03T01:00:08.324Z] ----------------------------------------------------------------------
+[debug] [2020-05-03T01:00:08.324Z] 
+[debug] [2020-05-03T01:00:08.333Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2020-05-03T01:00:08.333Z] > authorizing via signed-in user
+[debug] [2020-05-03T01:00:08.333Z] [iam] checking project politiq-fc0e3 for permissions ["firebase.projects.get"]
+[debug] [2020-05-03T01:00:08.336Z] >>> HTTP REQUEST POST https://cloudresourcemanager.googleapis.com/v1/projects/politiq-fc0e3:testIamPermissions  
+
+[debug] [2020-05-03T01:00:08.473Z] <<< HTTP RESPONSE 200
+[warn] ⚠  Your requested "node" version "8" doesn't match your global version "12"
+[info] ✔  functions: functions emulator started at http://localhost:5000
+[debug] [2020-05-03T01:00:08.545Z] [functions] Watching "/home/conner/Projects/politIQ/politIQ/functions" for Cloud Functions...
+[debug] [2020-05-03T01:00:08.570Z] DEBUG: [worker-pool] addWorker(~diagnostic~)
+[debug] [2020-05-03T01:00:08.571Z] DEBUG: [worker-pool] Adding worker with key ~diagnostic~, total=1
+[debug] [2020-05-03T01:00:08.571Z] DEBUG: [worker-pool] submitWork(triggerId=)
+[debug] [2020-05-03T01:00:08.571Z] DEBUG: [worker-~diagnostic~-99dec3e8-fd02-4318-a1c5-2ab4ae720f97]: Assigning socketPath: /tmp/fire_emu_1837.sock
+[debug] [2020-05-03T01:00:08.572Z] DEBUG: [worker-~diagnostic~-99dec3e8-fd02-4318-a1c5-2ab4ae720f97]: BUSY
+[debug] [2020-05-03T01:00:09.153Z] DEBUG: [runtime-status] [1837] Functions runtime initialized. {"cwd":"/home/conner/Projects/politIQ/politIQ/functions","node_version":"12.16.1"}
+[debug] [2020-05-03T01:00:09.154Z] DEBUG: [runtime-status] [1837] Disabled runtime features: {"functions_config_helper":true,"network_filtering":true,"timeout":true,"memory_limiting":true,"admin_stubs":true,"pubsub_emulator":true}
+[debug] [2020-05-03T01:00:09.156Z] DEBUG: [runtime-status] [1837] Resolved module firebase-admin {"declared":true,"installed":true,"version":"8.11.0","resolution":"/home/conner/Projects/politIQ/politIQ/functions/node_modules/firebase-admin/lib/index.js"}
+[debug] [2020-05-03T01:00:09.157Z] DEBUG: [runtime-status] [1837] Resolved module firebase-functions {"declared":true,"installed":true,"version":"3.6.1","resolution":"/home/conner/Projects/politIQ/politIQ/functions/node_modules/firebase-functions/lib/index.js"}
+[warn] ⚠  functions: Your GOOGLE_APPLICATION_CREDENTIALS environment variable points to politiq-key.json. Non-emulated services will access production using these credentials. Be careful!
+[debug] [2020-05-03T01:00:09.158Z] DEBUG: [runtime-status] [1837] Resolved module firebase-functions {"declared":true,"installed":true,"version":"3.6.1","resolution":"/home/conner/Projects/politIQ/politIQ/functions/node_modules/firebase-functions/lib/index.js"}
+[warn] ⚠  /home/conner/Projects/politIQ/politIQ/functions/index.js:250
+        console.log('AllPolitIq:', tempAllRecentScores.map(userObject => { return { uid: userObject.uid, politIQ: userObject.politIQ }))
+                                                                                                                                      ^
+
+SyntaxError: Unexpected token ')'
+    at wrapSafe (internal/modules/cjs/loader.js:1072:16)
+    at Module._compile (internal/modules/cjs/loader.js:1122:27)
+    at Object.Module._extensions..js (internal/modules/cjs/loader.js:1178:10)
+    at Module.load (internal/modules/cjs/loader.js:1002:32)
+    at Function.Module._load (internal/modules/cjs/loader.js:901:14)
+    at Module.require (internal/modules/cjs/loader.js:1044:19)
+    at require (internal/modules/cjs/helpers.js:77:18)
+    at /mnt/c/Users/Conner/AppData/Roaming/npm/node_modules/firebase-tools/lib/emulator/functionsEmulatorRuntime.js:761:33
+    at Generator.next (<anonymous>)
+    at fulfilled (/mnt/c/Users/Conner/AppData/Roaming/npm/node_modules/firebase-tools/lib/emulator/functionsEmulatorRuntime.js:5:58)
+[warn] ⚠  We were unable to load your functions code. (see above)
+[debug] [2020-05-03T01:00:09.207Z] DEBUG: [worker-~diagnostic~-99dec3e8-fd02-4318-a1c5-2ab4ae720f97]: exited
+[debug] [2020-05-03T01:00:09.207Z] DEBUG: [worker-~diagnostic~-99dec3e8-fd02-4318-a1c5-2ab4ae720f97]: FINISHED
+[debug] [2020-05-03T01:00:15.067Z] DEBUG: File /home/conner/Projects/politIQ/politIQ/functions/index.js changed, reloading triggers
+[debug] [2020-05-03T01:00:16.068Z] DEBUG: [worker-pool] Cleaned up workers for ~diagnostic~: 1 --> 0
+[debug] [2020-05-03T01:00:16.098Z] DEBUG: [worker-pool] addWorker(~diagnostic~)
+[debug] [2020-05-03T01:00:16.098Z] DEBUG: [worker-pool] Adding worker with key ~diagnostic~, total=1
+[debug] [2020-05-03T01:00:16.098Z] DEBUG: [worker-pool] submitWork(triggerId=)
+[debug] [2020-05-03T01:00:16.099Z] DEBUG: [worker-~diagnostic~-a0701f18-7bd7-4ee7-b68b-82a0d73f3ecc]: Assigning socketPath: /tmp/fire_emu_1851.sock
+[debug] [2020-05-03T01:00:16.099Z] DEBUG: [worker-~diagnostic~-a0701f18-7bd7-4ee7-b68b-82a0d73f3ecc]: BUSY
+[debug] [2020-05-03T01:00:16.737Z] DEBUG: [runtime-status] [1851] Functions runtime initialized. {"cwd":"/home/conner/Projects/politIQ/politIQ/functions","node_version":"12.16.1"}
+[debug] [2020-05-03T01:00:16.739Z] DEBUG: [runtime-status] [1851] Disabled runtime features: {"functions_config_helper":true,"network_filtering":true,"timeout":true,"memory_limiting":true,"admin_stubs":true,"pubsub_emulator":true}
+[debug] [2020-05-03T01:00:16.742Z] DEBUG: [runtime-status] [1851] Resolved module firebase-admin {"declared":true,"installed":true,"version":"8.11.0","resolution":"/home/conner/Projects/politIQ/politIQ/functions/node_modules/firebase-admin/lib/index.js"}
+[debug] [2020-05-03T01:00:16.743Z] DEBUG: [runtime-status] [1851] Resolved module firebase-functions {"declared":true,"installed":true,"version":"3.6.1","resolution":"/home/conner/Projects/politIQ/politIQ/functions/node_modules/firebase-functions/lib/index.js"}
+[warn] ⚠  functions: Your GOOGLE_APPLICATION_CREDENTIALS environment variable points to politiq-key.json. Non-emulated services will access production using these credentials. Be careful!
+[debug] [2020-05-03T01:00:16.744Z] DEBUG: [runtime-status] [1851] Resolved module firebase-functions {"declared":true,"installed":true,"version":"3.6.1","resolution":"/home/conner/Projects/politIQ/politIQ/functions/node_modules/firebase-functions/lib/index.js"}
+[warn] ⚠  /home/conner/Projects/politIQ/politIQ/functions/index.js:250
+        console.log('AllPolitIq:', tempAllRecentScores.map(userObject => { return { uid: userObject.uid, politIQ: userObject.politIQ })
+                                                                                                                                      ^
+
+SyntaxError: Unexpected token ')'
+    at wrapSafe (internal/modules/cjs/loader.js:1072:16)
+    at Module._compile (internal/modules/cjs/loader.js:1122:27)
+    at Object.Module._extensions..js (internal/modules/cjs/loader.js:1178:10)
+    at Module.load (internal/modules/cjs/loader.js:1002:32)
+    at Function.Module._load (internal/modules/cjs/loader.js:901:14)
+    at Module.require (internal/modules/cjs/loader.js:1044:19)
+    at require (internal/modules/cjs/helpers.js:77:18)
+    at /mnt/c/Users/Conner/AppData/Roaming/npm/node_modules/firebase-tools/lib/emulator/functionsEmulatorRuntime.js:761:33
+    at Generator.next (<anonymous>)
+    at fulfilled (/mnt/c/Users/Conner/AppData/Roaming/npm/node_modules/firebase-tools/lib/emulator/functionsEmulatorRuntime.js:5:58)
+[warn] ⚠  We were unable to load your functions code. (see above)
+[debug] [2020-05-03T01:00:16.809Z] DEBUG: [worker-~diagnostic~-a0701f18-7bd7-4ee7-b68b-82a0d73f3ecc]: exited
+[debug] [2020-05-03T01:00:16.809Z] DEBUG: [worker-~diagnostic~-a0701f18-7bd7-4ee7-b68b-82a0d73f3ecc]: FINISHED
+[debug] [2020-05-03T01:00:30.513Z] DEBUG: File /home/conner/Projects/politIQ/politIQ/functions/index.js changed, reloading triggers
+[debug] [2020-05-03T01:00:31.515Z] DEBUG: [worker-pool] Cleaned up workers for ~diagnostic~: 1 --> 0
+[debug] [2020-05-03T01:00:31.548Z] DEBUG: [worker-pool] addWorker(~diagnostic~)
+[debug] [2020-05-03T01:00:31.549Z] DEBUG: [worker-pool] Adding worker with key ~diagnostic~, total=1
+[debug] [2020-05-03T01:00:31.549Z] DEBUG: [worker-pool] submitWork(triggerId=)
+[debug] [2020-05-03T01:00:31.549Z] DEBUG: [worker-~diagnostic~-4fbd42aa-455e-4d49-a9e3-717d355c003d]: Assigning socketPath: /tmp/fire_emu_1865.sock
+[debug] [2020-05-03T01:00:31.550Z] DEBUG: [worker-~diagnostic~-4fbd42aa-455e-4d49-a9e3-717d355c003d]: BUSY
+[debug] [2020-05-03T01:00:32.208Z] DEBUG: [runtime-status] [1865] Functions runtime initialized. {"cwd":"/home/conner/Projects/politIQ/politIQ/functions","node_version":"12.16.1"}
+[debug] [2020-05-03T01:00:32.210Z] DEBUG: [runtime-status] [1865] Disabled runtime features: {"functions_config_helper":true,"network_filtering":true,"timeout":true,"memory_limiting":true,"admin_stubs":true,"pubsub_emulator":true}
+[debug] [2020-05-03T01:00:32.212Z] DEBUG: [runtime-status] [1865] Resolved module firebase-admin {"declared":true,"installed":true,"version":"8.11.0","resolution":"/home/conner/Projects/politIQ/politIQ/functions/node_modules/firebase-admin/lib/index.js"}
+[debug] [2020-05-03T01:00:32.213Z] DEBUG: [runtime-status] [1865] Resolved module firebase-functions {"declared":true,"installed":true,"version":"3.6.1","resolution":"/home/conner/Projects/politIQ/politIQ/functions/node_modules/firebase-functions/lib/index.js"}
+[warn] ⚠  functions: Your GOOGLE_APPLICATION_CREDENTIALS environment variable points to politiq-key.json. Non-emulated services will access production using these credentials. Be careful!
+[debug] [2020-05-03T01:00:32.214Z] DEBUG: [runtime-status] [1865] Resolved module firebase-functions {"declared":true,"installed":true,"version":"3.6.1","resolution":"/home/conner/Projects/politIQ/politIQ/functions/node_modules/firebase-functions/lib/index.js"}
+[debug] [2020-05-03T01:00:32.313Z] [functions[test]] http function initialized (http://localhost:5000/politiq-fc0e3/us-central1/test).
+[debug] [2020-05-03T01:00:32.313Z] DEBUG: [worker-~diagnostic~-4fbd42aa-455e-4d49-a9e3-717d355c003d]: IDLE
+[debug] [2020-05-03T01:00:37.070Z] ----------------------------------------------------------------------
+[debug] [2020-05-03T01:00:37.072Z] Command:       /usr/local/bin/node /mnt/c/Users/Conner/AppData/Roaming/npm/node_modules/firebase-tools/lib/bin/firebase.js functions:shell
+[debug] [2020-05-03T01:00:37.072Z] CLI Version:   7.16.1
+[debug] [2020-05-03T01:00:37.072Z] Platform:      linux
+[debug] [2020-05-03T01:00:37.072Z] Node Version:  v12.16.1
+[debug] [2020-05-03T01:00:37.073Z] Time:          Sat May 02 2020 18:00:37 GMT-0700 (Pacific Daylight Time)
+[debug] [2020-05-03T01:00:37.073Z] ----------------------------------------------------------------------
+[debug] [2020-05-03T01:00:37.073Z] 
+[debug] [2020-05-03T01:00:37.081Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2020-05-03T01:00:37.082Z] > authorizing via signed-in user
+[debug] [2020-05-03T01:00:37.082Z] [iam] checking project politiq-fc0e3 for permissions ["firebase.projects.get"]
+[debug] [2020-05-03T01:00:37.085Z] >>> HTTP REQUEST POST https://cloudresourcemanager.googleapis.com/v1/projects/politiq-fc0e3:testIamPermissions  
+
+[debug] [2020-05-03T01:00:37.327Z] <<< HTTP RESPONSE 200
+[warn] ⚠  Your requested "node" version "8" doesn't match your global version "12"
+[info] ✔  functions: functions emulator started at http://localhost:5000
+[debug] [2020-05-03T01:00:37.371Z] [functions] Watching "/home/conner/Projects/politIQ/politIQ/functions" for Cloud Functions...
+[debug] [2020-05-03T01:00:37.401Z] DEBUG: [worker-pool] addWorker(~diagnostic~)
+[debug] [2020-05-03T01:00:37.402Z] DEBUG: [worker-pool] Adding worker with key ~diagnostic~, total=1
+[debug] [2020-05-03T01:00:37.402Z] DEBUG: [worker-pool] submitWork(triggerId=)
+[debug] [2020-05-03T01:00:37.402Z] DEBUG: [worker-~diagnostic~-3251d2b3-bd01-4307-af92-20577054e8de]: Assigning socketPath: /tmp/fire_emu_1890.sock
+[debug] [2020-05-03T01:00:37.403Z] DEBUG: [worker-~diagnostic~-3251d2b3-bd01-4307-af92-20577054e8de]: BUSY
+[debug] [2020-05-03T01:00:37.983Z] DEBUG: [runtime-status] [1890] Functions runtime initialized. {"cwd":"/home/conner/Projects/politIQ/politIQ/functions","node_version":"12.16.1"}
+[debug] [2020-05-03T01:00:37.984Z] DEBUG: [runtime-status] [1890] Disabled runtime features: {"functions_config_helper":true,"network_filtering":true,"timeout":true,"memory_limiting":true,"admin_stubs":true,"pubsub_emulator":true}
+[debug] [2020-05-03T01:00:37.987Z] DEBUG: [runtime-status] [1890] Resolved module firebase-admin {"declared":true,"installed":true,"version":"8.11.0","resolution":"/home/conner/Projects/politIQ/politIQ/functions/node_modules/firebase-admin/lib/index.js"}
+[debug] [2020-05-03T01:00:37.988Z] DEBUG: [runtime-status] [1890] Resolved module firebase-functions {"declared":true,"installed":true,"version":"3.6.1","resolution":"/home/conner/Projects/politIQ/politIQ/functions/node_modules/firebase-functions/lib/index.js"}
+[warn] ⚠  functions: Your GOOGLE_APPLICATION_CREDENTIALS environment variable points to politiq-key.json. Non-emulated services will access production using these credentials. Be careful!
+[debug] [2020-05-03T01:00:37.989Z] DEBUG: [runtime-status] [1890] Resolved module firebase-functions {"declared":true,"installed":true,"version":"3.6.1","resolution":"/home/conner/Projects/politIQ/politIQ/functions/node_modules/firebase-functions/lib/index.js"}
+[debug] [2020-05-03T01:00:38.075Z] [functions[test]] http function initialized (http://localhost:5000/politiq-fc0e3/us-central1/test).
+[info] i  functions: Loaded functions: test
+[debug] [2020-05-03T01:00:38.087Z] DEBUG: [worker-~diagnostic~-3251d2b3-bd01-4307-af92-20577054e8de]: IDLE
+[debug] [2020-05-03T01:00:42.942Z] [work-queue] {"queueLength":1,"workRunningCount":0}
+[debug] [2020-05-03T01:00:42.942Z] [work-queue] {"queueLength":0,"workRunningCount":1}
+[debug] [2020-05-03T01:00:42.943Z] Accepted request GET /politiq-fc0e3/us-central1/test --> test
+[debug] [2020-05-03T01:00:42.969Z] DEBUG: [worker-pool] addWorker(test)
+[debug] [2020-05-03T01:00:42.969Z] DEBUG: [worker-pool] Adding worker with key test, total=1
+[debug] [2020-05-03T01:00:42.969Z] DEBUG: [worker-pool] submitWork(triggerId=test)
+[debug] [2020-05-03T01:00:42.969Z] DEBUG: [worker-test-017c30ce-bb91-4b73-8b67-aa42f638fc17]: Assigning socketPath: /tmp/fire_emu_1897.sock
+[debug] [2020-05-03T01:00:42.970Z] DEBUG: [worker-test-017c30ce-bb91-4b73-8b67-aa42f638fc17]: BUSY
+[debug] [2020-05-03T01:00:43.551Z] DEBUG: [runtime-status] [1897] Functions runtime initialized. {"cwd":"/home/conner/Projects/politIQ/politIQ/functions","node_version":"12.16.1"}
+[debug] [2020-05-03T01:00:43.553Z] DEBUG: [runtime-status] [1897] Disabled runtime features: {"functions_config_helper":true,"network_filtering":true,"timeout":true,"memory_limiting":true,"admin_stubs":true,"pubsub_emulator":true}
+[debug] [2020-05-03T01:00:43.555Z] DEBUG: [runtime-status] [1897] Resolved module firebase-admin {"declared":true,"installed":true,"version":"8.11.0","resolution":"/home/conner/Projects/politIQ/politIQ/functions/node_modules/firebase-admin/lib/index.js"}
+[debug] [2020-05-03T01:00:43.557Z] DEBUG: [runtime-status] [1897] Resolved module firebase-functions {"declared":true,"installed":true,"version":"3.6.1","resolution":"/home/conner/Projects/politIQ/politIQ/functions/node_modules/firebase-functions/lib/index.js"}
+[warn] ⚠  functions: Your GOOGLE_APPLICATION_CREDENTIALS environment variable points to politiq-key.json. Non-emulated services will access production using these credentials. Be careful!
+[debug] [2020-05-03T01:00:43.560Z] DEBUG: [runtime-status] [1897] Resolved module firebase-functions {"declared":true,"installed":true,"version":"3.6.1","resolution":"/home/conner/Projects/politIQ/politIQ/functions/node_modules/firebase-functions/lib/index.js"}
+[debug] [2020-05-03T01:00:43.641Z] DEBUG: [runtime-status] [1897] Trigger "test" has been found, beginning invocation!
+[debug] [2020-05-03T01:00:43.642Z] [functions] Beginning execution of "test"
+[debug] [2020-05-03T01:00:43.642Z] DEBUG: [runtime-status] [1897] triggerDefinition {"httpsTrigger":{},"name":"test","entryPoint":"test"}
+[debug] [2020-05-03T01:00:43.642Z] DEBUG: [runtime-status] [1897] Running test in mode HTTPS
+[debug] [2020-05-03T01:00:43.648Z] DEBUG: [runtime-status] [1897] Attempting to listen to socketPath: /tmp/fire_emu_1897.sock
+[debug] [2020-05-03T01:00:43.652Z] DEBUG: [functions] Runtime ready! Sending request!
+[debug] [2020-05-03T01:00:43.660Z] DEBUG: [runtime-status] [1897] Ephemeral server handling GET request
+[info] >  function ran
+[info] >  Deprecation warning: value provided is not in a recognized RFC2822 or ISO format. moment construction falls back to js Date(), which is not reliable across all browsers and versions. Non RFC2822/ISO date formats are discouraged and will be removed in an upcoming major release. Please refer to http://momentjs.com/guides/#/warnings/js-date/ for more info.
+[info] >  Arguments: 
+[info] >  [0] _isAMomentObject: true, _isUTC: false, _useUTC: false, _l: undefined, _i: Invalid%20date, _f: undefined, _strict: undefined, _locale: [object Object]
+[info] >  Error
+[info] >      at Function.createFromInputFallback (/home/conner/Projects/politIQ/politIQ/functions/node_modules/moment/moment.js:319:25)
+[info] >      at configFromString (/home/conner/Projects/politIQ/politIQ/functions/node_modules/moment/moment.js:2536:19)
+[info] >      at configFromInput (/home/conner/Projects/politIQ/politIQ/functions/node_modules/moment/moment.js:2980:13)
+[info] >      at prepareConfig (/home/conner/Projects/politIQ/politIQ/functions/node_modules/moment/moment.js:2963:13)
+[info] >      at createFromConfig (/home/conner/Projects/politIQ/politIQ/functions/node_modules/moment/moment.js:2930:44)
+[info] >      at createLocalOrUTC (/home/conner/Projects/politIQ/politIQ/functions/node_modules/moment/moment.js:3024:16)
+[info] >      at createLocal (/home/conner/Projects/politIQ/politIQ/functions/node_modules/moment/moment.js:3028:16)
+[info] >      at hooks (/home/conner/Projects/politIQ/politIQ/functions/node_modules/moment/moment.js:16:29)
+[info] >      at /home/conner/Projects/politIQ/politIQ/functions/index.js:138:36
+[info] >      at Array.filter (<anonymous>)
+[info] >  PolitIQs: { repPolitIQ: 17, demPolitIQ: 22, indPolitIQ: 19 }
+[info] >  MonthlyScores: [
+[info] >    {
+[info] >      displayName: 'poqpoq',
+[info] >      affiliation: 'Independent',
+[info] >      uid: '140mmB3FWLdO2pVTdBDMRcV5tem2',
+[info] >      monthlyScore: 11,
+[info] >      weeklyScore: 37,
+[info] >      lastMonthScore: 118,
+[info] >      lastWeekScore: 31,
+[info] >      politicalIntelligence: 374,
+[info] >      numberOfQuizzesTaken: 43,
+[info] >      politIQ: 28
+[info] >    },
+[info] >    {
+[info] >      displayName: 'Ayush. D',
+[info] >      affiliation: 'none',
+[info] >      uid: 'IKUSDL3m16Vo8aDR7Lp5ewboYp12',
+[info] >      monthlyScore: 6,
+[info] >      weeklyScore: 16,
+[info] >      lastMonthScore: 71,
+[info] >      lastWeekScore: 24,
+[info] >      politicalIntelligence: 272,
+[info] >      numberOfQuizzesTaken: 81,
+[info] >      politIQ: 20
+[info] >    },
+[info] >    {
+[info] >      displayName: 'Allan',
+[info] >      affiliation: 'Democrat',
+[info] >      uid: 'S1kSe1CJfRQUyeRA3B0AKTOqlZl2',
+[info] >      monthlyScore: 6,
+[info] >      weeklyScore: 24,
+[info] >      lastMonthScore: 102,
+[info] >      lastWeekScore: 23,
+[info] >      politicalIntelligence: 342,
+[info] >      numberOfQuizzesTaken: 323,
+[info] >      politIQ: 19
+[info] >    },
+[info] >    {
+[info] >      displayName: 'Shann859',
+[info] >      affiliation: 'Independent',
+[info] >      uid: '5ZCFI1vQYsUXlpsKp9pXsVE1wf93',
+[info] >      monthlyScore: 4,
+[info] >      weeklyScore: 20,
+[info] >      lastMonthScore: 96,
+[info] >      lastWeekScore: 34,
+[info] >      politicalIntelligence: 309,
+[info] >      numberOfQuizzesTaken: 213,
+[info] >      politIQ: 19
+[info] >    },
+[info] >    {
+[info] >      displayName: 'jdurst95',
+[info] >      affiliation: 'Republican',
+[info] >      uid: 'v6TpDQ3KiceTLeIWUIJShXEcPDx1',
+[info] >      monthlyScore: 4,
+[info] >      weeklyScore: 26,
+[info] >      lastMonthScore: 116,
+[info] >      lastWeekScore: 33,
+[info] >      politicalIntelligence: 376,
+[info] >      numberOfQuizzesTaken: 239,
+[info] >      politIQ: 23
+[info] >    },
+[info] >    {
+[info] >      displayName: 'George Dluhy',
+[info] >      affiliation: '',
+[info] >      uid: 'DzEWI4sbmObH5uY1QBWeNxSthtG2',
+[info] >      monthlyScore: 3,
+[info] >      weeklyScore: 26,
+[info] >      lastMonthScore: 102,
+[info] >      lastWeekScore: 37,
+[info] >      politicalIntelligence: 375,
+[info] >      numberOfQuizzesTaken: 28,
+[info] >      politIQ: 29
+[info] >    },
+[info] >    {
+[info] >      displayName: 'Tibs',
+[info] >      affiliation: 'Independent',
+[info] >      uid: 'PPW4WaqDa6VGXhzsajId9D3NV0Z2',
+[info] >      monthlyScore: 3,
+[info] >      weeklyScore: 22,
+[info] >      lastMonthScore: 108,
+[info] >      lastWeekScore: 32,
+[info] >      politicalIntelligence: 325,
+[info] >      numberOfQuizzesTaken: 171,
+[info] >      politIQ: 21
+[info] >    },
+[info] >    {
+[info] >      displayName: 'TLG62',
+[info] >      affiliation: 'Democrat',
+[info] >      uid: 'TZQw95eMlneQ0bBGRyLPXsNM5qm2',
+[info] >      monthlyScore: 3,
+[info] >      weeklyScore: 23,
+[info] >      lastMonthScore: 105,
+[info] >      lastWeekScore: 33,
+[info] >      politicalIntelligence: 348,
+[info] >      numberOfQuizzesTaken: 109,
+[info] >      politIQ: 24
+[info] >    },
+[info] >    {
+[info] >      displayName: 'Kaaryn',
+[info] >      affiliation: 'Independent',
+[info] >      uid: 'H1xBwPaiAJVcTXJNkOagcO3PSPk1',
+[info] >      monthlyScore: 2,
+[info] >      weeklyScore: 24,
+[info] >      lastMonthScore: 107,
+[info] >      lastWeekScore: 29,
+[info] >      politicalIntelligence: 317,
+[info] >      numberOfQuizzesTaken: 275,
+[info] >      politIQ: 18
+[info] >    },
+[info] >    {
+[info] >      displayName: 'Con Test',
+[info] >      affiliation: 'Democrat',
+[info] >      uid: 'JLay9v4HpDSSn9YMECOpZSEBuae2',
+[info] >      monthlyScore: 1,
+[info] >      weeklyScore: 7,
+[info] >      lastMonthScore: 40,
+[info] >      lastWeekScore: 5,
+[info] >      politicalIntelligence: 125,
+[info] >      numberOfQuizzesTaken: 121,
+[info] >      politIQ: 9
+[info] >    }
+[info] >  ]
+[info] >  WeeklyScores: [
+[info] >    {
+[info] >      displayName: 'poqpoq',
+[info] >      affiliation: 'Independent',
+[info] >      uid: '140mmB3FWLdO2pVTdBDMRcV5tem2',
+[info] >      monthlyScore: 11,
+[info] >      weeklyScore: 37,
+[info] >      lastMonthScore: 118,
+[info] >      lastWeekScore: 31,
+[info] >      politicalIntelligence: 374,
+[info] >      numberOfQuizzesTaken: 43,
+[info] >      politIQ: 28
+[info] >    },
+[info] >    {
+[info] >      displayName: 'George Dluhy',
+[info] >      affiliation: '',
+[info] >      uid: 'DzEWI4sbmObH5uY1QBWeNxSthtG2',
+[info] >      monthlyScore: 3,
+[info] >      weeklyScore: 26,
+[info] >      lastMonthScore: 102,
+[info] >      lastWeekScore: 37,
+[info] >      politicalIntelligence: 375,
+[info] >      numberOfQuizzesTaken: 28,
+[info] >      politIQ: 29
+[info] >    },
+[info] >    {
+[info] >      displayName: 'Catrambonelaw',
+[info] >      affiliation: 'Democrat',
+[info] >      uid: 'FmYf3GuLvUgdz4fc5y7hYZSiyyA3',
+[info] >      monthlyScore: 0,
+[info] >      weeklyScore: 26,
+[info] >      lastMonthScore: 118,
+[info] >      lastWeekScore: 34,
+[info] >      politicalIntelligence: 406,
+[info] >      numberOfQuizzesTaken: 88,
+[info] >      politIQ: 29
+[info] >    },
+[info] >    {
+[info] >      displayName: 'jdurst95',
+[info] >      affiliation: 'Republican',
+[info] >      uid: 'v6TpDQ3KiceTLeIWUIJShXEcPDx1',
+[info] >      monthlyScore: 4,
+[info] >      weeklyScore: 26,
+[info] >      lastMonthScore: 116,
+[info] >      lastWeekScore: 33,
+[info] >      politicalIntelligence: 376,
+[info] >      numberOfQuizzesTaken: 239,
+[info] >      politIQ: 23
+[info] >    },
+[info] >    {
+[info] >      displayName: 'Kaaryn',
+[info] >      affiliation: 'Independent',
+[info] >      uid: 'H1xBwPaiAJVcTXJNkOagcO3PSPk1',
+[info] >      monthlyScore: 2,
+[info] >      weeklyScore: 24,
+[info] >      lastMonthScore: 107,
+[info] >      lastWeekScore: 29,
+[info] >      politicalIntelligence: 317,
+[info] >      numberOfQuizzesTaken: 275,
+[info] >      politIQ: 18
+[info] >    },
+[info] >    {
+[info] >      displayName: 'Allan',
+[info] >      affiliation: 'Democrat',
+[info] >      uid: 'S1kSe1CJfRQUyeRA3B0AKTOqlZl2',
+[info] >      monthlyScore: 6,
+[info] >      weeklyScore: 24,
+[info] >      lastMonthScore: 102,
+[info] >      lastWeekScore: 23,
+[info] >      politicalIntelligence: 342,
+[info] >      numberOfQuizzesTaken: 323,
+[info] >      politIQ: 19
+[info] >    },
+[info] >    {
+[info] >      displayName: 'TLG62',
+[info] >      affiliation: 'Democrat',
+[info] >      uid: 'TZQw95eMlneQ0bBGRyLPXsNM5qm2',
+[info] >      monthlyScore: 3,
+[info] >      weeklyScore: 23,
+[info] >      lastMonthScore: 105,
+[info] >      lastWeekScore: 33,
+[info] >      politicalIntelligence: 348,
+[info] >      numberOfQuizzesTaken: 109,
+[info] >      politIQ: 24
+[info] >    },
+[info] >    {
+[info] >      displayName: 'Tibs',
+[info] >      affiliation: 'Independent',
+[info] >      uid: 'PPW4WaqDa6VGXhzsajId9D3NV0Z2',
+[info] >      monthlyScore: 3,
+[info] >      weeklyScore: 22,
+[info] >      lastMonthScore: 108,
+[info] >      lastWeekScore: 32,
+[info] >      politicalIntelligence: 325,
+[info] >      numberOfQuizzesTaken: 171,
+[info] >      politIQ: 21
+[info] >    },
+[info] >    {
+[info] >      displayName: 'Shann859',
+[info] >      affiliation: 'Independent',
+[info] >      uid: '5ZCFI1vQYsUXlpsKp9pXsVE1wf93',
+[info] >      monthlyScore: 4,
+[info] >      weeklyScore: 20,
+[info] >      lastMonthScore: 96,
+[info] >      lastWeekScore: 34,
+[info] >      politicalIntelligence: 309,
+[info] >      numberOfQuizzesTaken: 213,
+[info] >      politIQ: 19
+[info] >    },
+[info] >    {
+[info] >      displayName: 'Becky',
+[info] >      affiliation: 'Democrat',
+[info] >      uid: 'dIp6OAJoUKgpC5uz1zlrF7U7fzs2',
+[info] >      monthlyScore: 0,
+[info] >      weeklyScore: 20,
+[info] >      lastMonthScore: 102,
+[info] >      lastWeekScore: 33,
+[info] >      politicalIntelligence: 283,
+[info] >      numberOfQuizzesTaken: 193,
+[info] >      politIQ: 18
+[info] >    }
+[info] >  ]
+[info] >  LastWeekScores: [
+[info] >    {
+[info] >      displayName: 'George Dluhy',
+[info] >      affiliation: '',
+[info] >      uid: 'DzEWI4sbmObH5uY1QBWeNxSthtG2',
+[info] >      monthlyScore: 3,
+[info] >      weeklyScore: 26,
+[info] >      lastMonthScore: 102,
+[info] >      lastWeekScore: 37,
+[info] >      politicalIntelligence: 375,
+[info] >      numberOfQuizzesTaken: 28,
+[info] >      politIQ: 29
+[info] >    },
+[info] >    {
+[info] >      displayName: 'Shann859',
+[info] >      affiliation: 'Independent',
+[info] >      uid: '5ZCFI1vQYsUXlpsKp9pXsVE1wf93',
+[info] >      monthlyScore: 4,
+[info] >      weeklyScore: 20,
+[info] >      lastMonthScore: 96,
+[info] >      lastWeekScore: 34,
+[info] >      politicalIntelligence: 309,
+[info] >      numberOfQuizzesTaken: 213,
+[info] >      politIQ: 19
+[info] >    },
+[info] >    {
+[info] >      displayName: 'Catrambonelaw',
+[info] >      affiliation: 'Democrat',
+[info] >      uid: 'FmYf3GuLvUgdz4fc5y7hYZSiyyA3',
+[info] >      monthlyScore: 0,
+[info] >      weeklyScore: 26,
+[info] >      lastMonthScore: 118,
+[info] >      lastWeekScore: 34,
+[info] >      politicalIntelligence: 406,
+[info] >      numberOfQuizzesTaken: 88,
+[info] >      politIQ: 29
+[info] >    }
+[info] >  ]
+[info] >  LastMonthScores: [
+[info] >    {
+[info] >      displayName: 'poqpoq',
+[info] >      affiliation: 'Independent',
+[info] >      uid: '140mmB3FWLdO2pVTdBDMRcV5tem2',
+[info] >      monthlyScore: 11,
+[info] >      weeklyScore: 37,
+[info] >      lastMonthScore: 118,
+[info] >      lastWeekScore: 31,
+[info] >      politicalIntelligence: 374,
+[info] >      numberOfQuizzesTaken: 43,
+[info] >      politIQ: 28
+[info] >    },
+[info] >    {
+[info] >      displayName: 'Catrambonelaw',
+[info] >      affiliation: 'Democrat',
+[info] >      uid: 'FmYf3GuLvUgdz4fc5y7hYZSiyyA3',
+[info] >      monthlyScore: 0,
+[info] >      weeklyScore: 26,
+[info] >      lastMonthScore: 118,
+[info] >      lastWeekScore: 34,
+[info] >      politicalIntelligence: 406,
+[info] >      numberOfQuizzesTaken: 88,
+[info] >      politIQ: 29
+[info] >    },
+[info] >    {
+[info] >      displayName: 'jdurst95',
+[info] >      affiliation: 'Republican',
+[info] >      uid: 'v6TpDQ3KiceTLeIWUIJShXEcPDx1',
+[info] >      monthlyScore: 4,
+[info] >      weeklyScore: 26,
+[info] >      lastMonthScore: 116,
+[info] >      lastWeekScore: 33,
+[info] >      politicalIntelligence: 376,
+[info] >      numberOfQuizzesTaken: 239,
+[info] >      politIQ: 23
+[info] >    }
+[info] >  ]
+[info] >  AllPolitIq: [
+[info] >    { uid: '0GSNcdZ5jCYhm8BXXHhQ8B6NZdC3', politIQ: 32 },
+[info] >    { uid: '0HRKP905HggnOvTUN797iCf60eB2', politIQ: 12 },
+[info] >    { uid: '0d4WSt6Qb3Ye7uEXizixjczXYrF2', politIQ: 18 },
+[info] >    { uid: '13Y4rSiE3IhaUvVWaoiFVoe922h1', politIQ: 27 },
+[info] >    { uid: '140mmB3FWLdO2pVTdBDMRcV5tem2', politIQ: 28 },
+[info] >    { uid: '1ENHv3owggfFYSNWzh93bpCc0BQ2', politIQ: 32 },
+[info] >    { uid: '1Fu2UdxWxmf2G1EC4GncM5SGaqs2', politIQ: 29 },
+[info] >    { uid: '1ftyVcwoD2ZsqOACheriRdLM6vB2', politIQ: 18 },
+[info] >    { uid: '1lMjrcoEyOgZvU7WUfi6GnkuwPe2', politIQ: 26 },
+[info] >    { uid: '2XbpwxHxvdR5VrbkDpFF67K89hQ2', politIQ: 28 },
+[info] >    { uid: '2cnGYFput7SS3gcZYl0TdY7fGou1', politIQ: 16 },
+[info] >    { uid: '2gRaCozs64T0oLTWBDwv7kQiZec2', politIQ: 16 },
+[info] >    { uid: '3POqjwOvzLOLhAoq4fjJvncnzzI3', politIQ: 13 },
+[info] >    { uid: '3XSaxV6e7qR17g9D4KgSDQdMe973', politIQ: 16 },
+[info] >    { uid: '48d8m3aHnNa1itrsaAwzPaecXfn1', politIQ: 30 },
+[info] >    { uid: '49VGMIxi4GaqCFNDdSbuOnSUqUh1', politIQ: 5 },
+[info] >    { uid: '4J2OgKufk9erbxEstpHhZJfzS0x1', politIQ: 0 },
+[info] >    { uid: '4cHq9eKPT7c6MrcSPPauf4LtYle2', politIQ: 40 },
+[info] >    { uid: '4fIYSjdpzCcXFb89wPoNSAwpnot1', politIQ: 32 },
+[info] >    { uid: '4g0roCMMjlPnoNjIqaaTnwdjUMp1', politIQ: 22 },
+[info] >    { uid: '5FISrVNP1hamYcFWgtFJ6miCZ3Z2', politIQ: 23 },
+[info] >    { uid: '5Pbm8X61swTd79XIeNciocvtcOh1', politIQ: 24 },
+[info] >    { uid: '5ZCFI1vQYsUXlpsKp9pXsVE1wf93', politIQ: 19 },
+[info] >    { uid: '5aXPL7tzctUE1UwbM5ArkUy36MD2', politIQ: 0 },
+[info] >    { uid: '5awGA1zpI7T6aHjF4MV1US4AtR93', politIQ: 30 },
+[info] >    { uid: '6KUwSXXoVkdyTu9jBIQQLnMkdbd2', politIQ: 24 },
+[info] >    { uid: '6VnGXkqznaZ1jU8a3BNOMSwzDVy2', politIQ: 26 },
+[info] >    { uid: '6h6PIBUEauUvj5raHttSByEJ8Nz2', politIQ: 8 },
+[info] >    { uid: '6ntOHXnel3PF0WadbecfLbl6jzk1', politIQ: 16 },
+[info] >    { uid: '72cgIACVPGSAdUZD9ykFbB71g792', politIQ: 16 },
+[info] >    { uid: '757K0HjSBDefk8gdSjIzCsrJk9W2', politIQ: 18 },
+[info] >    { uid: '77KaoP8amNYssdEltTyHNg1i34p2', politIQ: 29 },
+[info] >    { uid: '7yphcr4THqVqebvJDCpph6QfRPj1', politIQ: 0 },
+[info] >    { uid: '9weGuw7x4DRWqsaOsBbtzx6tgGn1', politIQ: 10 },
+[info] >    { uid: 'AVduH1piptSQNoTfT6Qpz4b8Wth1', politIQ: 32 },
+[info] >    { uid: 'Ar0UfRTm4ZYBdN0F8fwJdQztvvw2', politIQ: 16 },
+[info] >    { uid: 'BJlCiqyr3vSYdN4duxE2czAvrFZ2', politIQ: 16 },
+[info] >    { uid: 'BaJVcBbrfxZNNfUUw9JLgI1Txmt2', politIQ: 28 },
+[info] >    { uid: 'BppmkcIHe1Y4LxV8kuvFh5wENdE2', politIQ: 8 },
+[info] >    { uid: 'CcYOdf6xRSYOigKEaf3DrRA05Y63', politIQ: 36 },
+[info] >    { uid: 'DFL8OZz0j6gDY40eMwZy37Vqo6K2', politIQ: 16 },
+[info] >    { uid: 'DsxwFn8BLDagx6ZiQZJnR9Aew5J2', politIQ: 24 },
+[info] >    { uid: 'DzEWI4sbmObH5uY1QBWeNxSthtG2', politIQ: 29 },
+[info] >    { uid: 'Ebuy1gkbGTfPT4klpmNcFia9D2H3', politIQ: 32 },
+[info] >    { uid: 'FbX3KwNXd8giLW7rTrnQtsbnN1U2', politIQ: 24 },
+[info] >    { uid: 'FmYf3GuLvUgdz4fc5y7hYZSiyyA3', politIQ: 29 },
+[info] >    { uid: 'FvAWPQXJzYa0lsQ7YTdRO3InmC33', politIQ: 16 },
+[info] >    { uid: 'G4Wixgt2SgOgJOrNYk0rph8HH2F3', politIQ: 16 },
+[info] >    { uid: 'G71qGPi2y7RU5K9qsWo4RK7zk7x2', politIQ: 13 },
+[info] >    { uid: 'GAJlLut5JIT7cE4R2MKWtmFC6iB3', politIQ: 16 },
+[info] >    { uid: 'GvM7fEkYp4fcaSuScwixV0xinfT2', politIQ: 22 },
+[info] >    { uid: 'H0yOQBt2ORWyq9u1mQ1Jsowul9i1', politIQ: 24 },
+[info] >    { uid: 'H1xBwPaiAJVcTXJNkOagcO3PSPk1', politIQ: 18 },
+[info] >    { uid: 'HGKiRlrrDMOdFbwWs8Na3QnlcAj2', politIQ: 24 },
+[info] >    { uid: 'HnJQghIYbQXImSbOqgoGZSL41Mq2', politIQ: 24 },
+[info] >    { uid: 'HtBt4vsN5QVVlB0XKDy6KOtTaly1', politIQ: 24 },
+[info] >    { uid: 'HzZ9Wuuqr3dfRkAud3idsXtoRyB2', politIQ: 20 },
+[info] >    { uid: 'IBKBHDgkcyQrHwJ1bk1wQ9s7yyk2', politIQ: 14 },
+[info] >    { uid: 'IKUSDL3m16Vo8aDR7Lp5ewboYp12', politIQ: 20 },
+[info] >    { uid: 'Ishy7auaPFNlXd6vZrBUPJjdMPO2', politIQ: 24 },
+[info] >    { uid: 'JGTLXkHLbuXR1OHlUaJZCeUK9HK2', politIQ: 0 },
+[info] >    { uid: 'JLay9v4HpDSSn9YMECOpZSEBuae2', politIQ: 9 },
+[info] >    { uid: 'JRtrHxVXU6bdJyFfSsWq87ab6LJ2', politIQ: 23 },
+[info] >    { uid: 'K8U7GD68eKYh9uU19Naf47tUCWI3', politIQ: 25 },
+[info] >    { uid: 'KHr1jY9GebWULDmn6EJL46FsvWD2', politIQ: 36 },
+[info] >    { uid: 'KPy1lSabCgYMAcBM9yF7WcDhzhf2', politIQ: 8 },
+[info] >    { uid: 'KTxrSBI3zbNxiYjT7iz2tPHZetj1', politIQ: 25 },
+[info] >    { uid: 'Kd5T1Gw257VytygULmIn4q2yZzm1', politIQ: 0 },
+[info] >    { uid: 'LZo7jPEwufNfgHqkpYbBXylx5z42', politIQ: 22 },
+[info] >    { uid: 'LnzhFWJzfuZKcBhOF44nDVt2Ii02', politIQ: 17 },
+[info] >    { uid: 'N4AcM1MJGGYy4PKXe9UEysmzk4Q2', politIQ: 28 },
+[info] >    { uid: 'NPN3eXnn0NTFsizIICJS4WJ1msM2', politIQ: 24 },
+[info] >    { uid: 'NSHzW00DXReOZZf3HITRymWWqZc2', politIQ: 6 },
+[info] >    { uid: 'NgF3Jes998VOu1pqixtfmdd3gkS2', politIQ: 21 },
+[info] >    { uid: 'O0TMW8GOa6WPq7IVhalpFf13UzV2', politIQ: 20 },
+[info] >    { uid: 'ORyXbwKuADXQodesYz5zsIT1iq22', politIQ: 16 },
+[info] >    { uid: 'PG1mRV2YLEW2THF91tJTI08TI3M2', politIQ: 26 },
+[info] >    { uid: 'PPW4WaqDa6VGXhzsajId9D3NV0Z2', politIQ: 21 },
+[info] >    { uid: 'PY6E0cMZL0MJpSyTfg9jL7eWAZv1', politIQ: 24 },
+[info] >    { uid: 'Q2i71WjFkqhhOK4wxsfQIUNO0ge2', politIQ: 23 },
+[info] >    { uid: 'Q5XL6xn2Ype0Vq0wDxW7SHO7KXg2', politIQ: 16 },
+[info] >    { uid: 'Q7TURbVTsga9g1it67rutregJQs2', politIQ: 13 },
+[info] >    { uid: 'Qc7PjdLxR6hJUaq55GVDd8jn1723', politIQ: 17 },
+[info] >    { uid: 'QnP66z82WYhqccXFgsDBeJiCV8G2', politIQ: 16 },
+[info] >    { uid: 'R6KhfegklxYGadelZb1k7Y5bllu2', politIQ: 37 },
+[info] >    { uid: 'R7IjjI0NFsdvgQsO1LFlqKYA0gJ3', politIQ: 5 },
+[info] >    { uid: 'RIjppdXqxaWu5yswlz7SqEYjIQP2', politIQ: 22 },
+[info] >    { uid: 'RfKXnOimIEfMQSPHgaE97ovfjI43', politIQ: 16 },
+[info] >    { uid: 'Rg3vj9YZMCfj0hzVdfdpr1cotTR2', politIQ: 1 },
+[info] >    { uid: 'RhROK4utjZT4ZTpl6ebQnVt03u73', politIQ: 28 },
+[info] >    { uid: 'S1kSe1CJfRQUyeRA3B0AKTOqlZl2', politIQ: 19 },
+[info] >    { uid: 'S3lbX1cfaNWJea1CX3PcTxKHPMi2', politIQ: 21 },
+[info] >    { uid: 'SR9YNXyItwN4nE29L8yWlO3JZw52', politIQ: 8 },
+[info] >    { uid: 'SXPToZvAD2XIF4ZAZrG8JY7Disg1', politIQ: 32 },
+[info] >    { uid: 'SXRwVc0D5sPzlrEublBpUCQXWet1', politIQ: 40 },
+[info] >    { uid: 'Sm2XYooa1kMIZmpERGbNfPhChoI2', politIQ: 16 },
+[info] >    { uid: 'TEf2e5JDCMZxK53voaTvgMVOnum1', politIQ: 16 },
+[info] >    { uid: 'TJQtO9P0pyNqI3Tj2qY0HaeTgnn1', politIQ: 26 },
+[info] >    { uid: 'TORx0fPgRSSTnlvKRChKeSvnK3A2', politIQ: 20 },
+[info] >    { uid: 'TRrh7Mpylig5pIG4ZrzJz4fHBgn2', politIQ: 0 },
+[info] >    ... 106 more items
+[info] >  ]
+[debug] [2020-05-03T01:00:45.187Z] DEBUG: [runtime-status] [1897] Ephemeral server survived.
+[debug] [2020-05-03T01:00:45.187Z] [functions] Finished "test" in ~1s
+[debug] [2020-05-03T01:00:45.187Z] DEBUG: [worker-test-017c30ce-bb91-4b73-8b67-aa42f638fc17]: IDLE
+[debug] [2020-05-03T01:00:45.187Z] [work-queue] {"queueLength":0,"workRunningCount":0}
