@@ -11,7 +11,7 @@ admin.initializeApp();
 //  response.send("Hello from Firebase!");
 // });
 
-exports.calculateLeaderboardStatsAndPolitiqs = functions.pubsub.schedule('every hour').onRun(async () => {
+exports.calculateLeaderboardStatsAndPolitiqs = functions.pubsub.schedule('every 30 minutes').onRun(async () => {
     var flattenObject = function (ob) {
         var toReturn = {};
 
