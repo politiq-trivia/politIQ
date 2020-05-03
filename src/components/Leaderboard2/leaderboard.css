@@ -1,7 +1,7 @@
 .leaderboard-holder {
     display: flex;
     flex-direction: row;
-    height: 720px;
+    height: 80vh;
     margin-top: 114px;
     /* overflow: scroll; */
 }
@@ -89,7 +89,7 @@
 }
 
 .stat-rank, .stat-month, .stat-politIQ {
-    width: 33%;
+    width: 50%;
 }
 
 .stat-rank > p, .stat-month > p, .politIQ-label, .stat-politIQ {

@@ -104,7 +104,6 @@ class App extends Component {
 
 
   initializeApp = authUser => {
-    console.log("initializeApp", authUser)
     /*     storeQuizzes();   */
     //Instead of storeQuizzes, we will get the quizzes and set them in quizContext provider
     /* db.getQuizzes()

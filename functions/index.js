@@ -11,8 +11,7 @@ admin.initializeApp();
 //  response.send("Hello from Firebase!");
 // });
 
-/* exports.scheduledFunction = functions.pubsub.schedule('every minute').onRun((context) => {*/
-exports.test = functions.https.onRequest(async (req, res) => {
+exports.calculateLeaderboardStatsAndPolitiqs = functions.pubsub.schedule('every hour').onRun(async () => {
     var flattenObject = function (ob) {
         var toReturn = {};
 
@@ -56,6 +55,7 @@ exports.test = functions.https.onRequest(async (req, res) => {
 
         return lr;
     }
+
     console.log('function ran')
 
     // Read Scores
@@ -63,17 +63,15 @@ exports.test = functions.https.onRequest(async (req, res) => {
         return results.val()
     }).catch(err => {
         console.err(err)
-        res.end()
     });
 
     const users = await admin.database().ref("users").once("value").then(results => {
         return results.val()
     }).catch(err => {
         console.err(err)
-        res.end()
     });
 
-    const findScores = (users, scores) => {
+    const getScoresAndWriteToDatabase = (users, scores) => {
         let userObjectArray = Object.keys(scores).map(key => {
             return ({ user: key, scores: scores[key] })
         })
@@ -202,6 +200,7 @@ exports.test = functions.https.onRequest(async (req, res) => {
         const linReg = linearRegression(polInt, numQuizzes);
 
 
+        //Linear regression for politiq
         var tempAllRecentScores = allRecentScores.map(userObj => {
             userObj.politIQ = Math.round(20 * (userObj.politicalIntelligence / (userObj.numberOfQuizzesTaken * linReg.slope + linReg.intercept)))
             return userObj
@@ -223,14 +222,6 @@ exports.test = functions.https.onRequest(async (req, res) => {
             return (userObj.politIQ)
         }).reduce((a, b) => a + b, 0) / [...tempAllRecentScores].filter(userObj => userObj.affiliation === "Independent").length)
 
-
-
-
-
-        console.log('PolitIQs:', { repPolitIQ, demPolitIQ, indPolitIQ })
-        // setPolitIQs({ repPolitIQ, demPolitIQ, indPolitIQ })
-
-
         //  grab user ranks for week and month
         var tempMonthlyScores = [...tempAllRecentScores].sort(({ monthlyScore: a }, { monthlyScore: b }) => b - a)
         var tempWeeklyScores = [...tempAllRecentScores].sort(({ weeklyScore: a }, { weeklyScore: b }) => b - a)
@@ -241,22 +232,17 @@ exports.test = functions.https.onRequest(async (req, res) => {
         //     monthRank: tempMonthlyScores.map(function (x) { return x.uid; }).indexOf(authUser.uid) + 1
         // } : { weekRank: null, monthRank: null }
         // )
+        var politIQs = tempAllRecentScores.map(userObject => { return { uid: userObject.uid, politIQ: userObject.politIQ } }).reduce((obj, item) => (obj[item.uid] = item.politIQ, obj), {});
 
-
-        console.log('MonthlyScores:', tempMonthlyScores.slice(0, 10))
-        console.log('WeeklyScores:', tempWeeklyScores.slice(0, 10))
-        console.log('LastWeekScores:', [...tempAllRecentScores].sort(({ lastWeekScore: a }, { lastWeekScore: b }) => b - a).slice(0, 3))
-        console.log('LastMonthScores:', [...tempAllRecentScores].sort(({ lastMonthScore: a }, { lastMonthScore: b }) => b - a).slice(0, 3))
-        console.log('AllPolitIq:', tempAllRecentScores.map(userObject => { return { uid: userObject.uid, politIQ: userObject.politIQ } }))
-        // setMonthlyScores(tempMonthlyScores.slice(0, 10))
-        // setWeeklyScores(tempWeeklyScores.slice(0, 10))
-        // setLastWeekScores([...tempAllRecentScores].sort(({ lastWeekScore: a }, { lastWeekScore: b }) => b - a).slice(0, 3))
-        // setLastMonthScores([...tempAllRecentScores].sort(({ lastMonthScore: a }, { lastMonthScore: b }) => b - a).slice(0, 3))
+        admin.database().ref(`/leaderboard/MonthlyScores`).set(tempMonthlyScores.slice(0, 10))
+        admin.database().ref(`/leaderboard/WeeklyScores`).set(tempWeeklyScores.slice(0, 10))
+        admin.database().ref(`/leaderboard/LastWeekScores`).set([...tempAllRecentScores].sort(({ lastWeekScore: a }, { lastWeekScore: b }) => b - a).slice(0, 3))
+        admin.database().ref(`/leaderboard/LastMonthScores`).set([...tempAllRecentScores].sort(({ lastMonthScore: a }, { lastMonthScore: b }) => b - a).slice(0, 3))
+        admin.database().ref(`/leaderboard/AffiliationScores`).set({ repPolitIQ, demPolitIQ, indPolitIQ })
+        admin.database().ref(`/politIQ`).set(politIQs)
     }
 
-    findScores(users, scores)
-
-    res.end()
+    getScoresAndWriteToDatabase(users, scores)
 }
 )
 

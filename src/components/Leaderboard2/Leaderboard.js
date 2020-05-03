@@ -1,33 +1,60 @@
-import React, { useHooks, useEffect, useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 
 import PolitIQBar from "./PolitIQBar"
-import Button from "@material-ui/core/Button";
 
-import moment from 'moment';
 import VerifiedUser from '@material-ui/icons/VerifiedUser';
 import { NavLink } from 'react-router-dom';
 
 import LoadingGif from '../../6.gif';
 
-import { getPolitIQ } from '../../utils/calculatePolitIQ';
-import { QUIZ_ARCHIVE } from '../../constants/routes';
 import AuthUserContext from '../Auth/AuthUserContext';
-import { useScoresUsers } from "./useScoresUsers"
 import PolBarChart from "./barChart"
+
+import useLeaderboard from '../../hooks/useLeaderboard'
 
 import Marquee from "./marquee"
 import "./leaderboard.css"
+import { db } from '../../firebase';
+var flattenObject = function (ob) {
+    var toReturn = {};
 
+    for (var i in ob) {
+        if (!ob.hasOwnProperty(i)) continue;
+
+        if ((typeof ob[i]) == 'object') {
+            var flatObject = flattenObject(ob[i]);
+            for (var x in flatObject) {
+                if (!flatObject.hasOwnProperty(x)) continue;
+
+                toReturn[x] = flatObject[x];
+            }
+        } else {
+            toReturn[i] = ob[i];
+        }
+    }
+    return toReturn;
+}
 const Leaderboard = () => {
-
-
     const [showChart, setShowChart] = useState(true)
-
     const [timeframe, setTimeframe] = useState("Month")
+    const [authUserScore, setAuthUserScore] = useState(null)
+
     const authUser = useContext(AuthUserContext)
 
-    const [allRecentScores, politIQs, monthlyScores, weeklyScores, lastWeekScores, lastMonthScores, userRanks, loading] = useScoresUsers() // use a hook to get user scores and data into a data frame
+    const { politIQs, affiliationScores, monthlyScores, weeklyScores, lastWeekScores, lastMonthScores } = useLeaderboard()
 
+    useEffect(() => {
+        if (authUser) {
+            const getAuthUserScore = async () => {
+                db.getScoresByUid(authUser.uid).then(res => { return res.val() }).then(val => {
+
+                    setAuthUserScore(Object.values(flattenObject(val)).reduce((a, b) => a + b, 0))
+                })
+            }
+            getAuthUserScore()
+        }
+
+    }, authUser)
 
 
     const lastLeaders = (timeframe) => {
@@ -103,13 +130,8 @@ const Leaderboard = () => {
     const authUserStats = () => {
         if (authUser === null) {
             return (<div className="leader-user-stats">
-                <div className="stat-rank">
-                    <p>Rank</p>
-                    <h3>N/A</h3>
-
-                </div>
                 <div className="stat-month">
-                    <p>Score</p>
+                    <p>All-time Score</p>
                     <h3>N/A</h3>
                 </div>
                 <div className="stat-politIQ">
@@ -120,51 +142,25 @@ const Leaderboard = () => {
         } else {
             if (timeframe === "Week") {
                 return (<div className="leader-user-stats">
-                    <div className="stat-rank">
-                        <p>Rank</p>
-                        <h3>{userRanks.weekRank}</h3>
-
-                    </div>
                     <div className="stat-month">
-                        <p>Score</p>
-                        <h3>{allRecentScores.filter(userObject => {   /// filter array for uid that matches user, then find month scored
-                            return (userObject.uid == authUser.uid);
-                        }).length !== 0 ? (allRecentScores.filter(userObject => {   /// filter array for uid that matches user, then find month scored
-                            return (userObject.uid == authUser.uid);
-                        })[0].weeklyScore) : 0}</h3>
+                        <p>All-time Score</p>
+                        <h3>{authUserScore}</h3>
                     </div>
                     <div className="stat-politIQ">
                         <p>PolitIQ</p>
-                        <h3>{allRecentScores.filter(userObject => {   /// filter array for uid that matches user, then find month scored
-                            return (userObject.uid == authUser.uid);
-                        }).length !== 0 ? (allRecentScores.filter(userObject => {   /// filter array for uid that matches user, then find month scored
-                            return (userObject.uid == authUser.uid);
-                        })[0].politIQ) : 0}</h3>
+                        <h3>{politIQs && politIQs[authUser.uid]}</h3>
                     </div>
                 </div>)
             }
             if (timeframe === "Month") {
                 return (<div className="leader-user-stats">
-                    <div className="stat-rank">
-                        <p>Rank</p>
-                        <h3>{userRanks.monthRank}</h3>
-
-                    </div>
                     <div className="stat-month">
-                        <p>Score</p>
-                        <h3>{allRecentScores.filter(userObject => {   /// filter array for uid that matches user, then find month scored
-                            return (userObject.uid == authUser.uid);
-                        }).length !== 0 ? (allRecentScores.filter(userObject => {   /// filter array for uid that matches user, then find month scored
-                            return (userObject.uid == authUser.uid);
-                        })[0].monthlyScore) : 0}</h3>
+                        <p>All-time Score</p>
+                        <h3>{authUserScore}</h3>
                     </div>
                     <div className="stat-politIQ">
                         <p>PolitIQ</p>
-                        <h3>{allRecentScores.filter(userObject => {   /// filter array for uid that matches user, then find month scored
-                            return (userObject.uid == authUser.uid);
-                        }).length !== 0 ? (allRecentScores.filter(userObject => {   /// filter array for uid that matches user, then find month scored
-                            return (userObject.uid == authUser.uid);
-                        })[0].politIQ) : 0}</h3>
+                        <h3>{politIQs && politIQs[authUser.uid]}</h3>
                     </div>
                 </div>)
             }
@@ -174,7 +170,6 @@ const Leaderboard = () => {
 
     const renderLeaders = timeframe => {   // Creates teh leaders object based on 
         if (timeframe === "Month") {
-            console.log(monthlyScores)
             var scoreTotal = monthlyScores.reduce(function (prev, cur) { // total weekly score
                 return prev + cur.monthlyScore;
             }, 0);
@@ -240,17 +235,6 @@ const Leaderboard = () => {
         }
     }
 
-    /*  const bannerText = timeframe => {
-         if (timeframe === "Month") {
-             return (<p>Monthly leader of each party eligible to compete for $50!</p>)
-         }
-         if (timeframe === "Week") {
-             return (<p>Weekly leader receives $5!</p>)
-         }
-     }
-    */
-
-
     const loadingGif = <center style={{ height: "150px" }}><img src={LoadingGif} alt="loading" style={{ maxWidth: '100%' }} /></center>
 
 
@@ -266,10 +250,10 @@ const Leaderboard = () => {
                         <h2>{authUser ? (authUser.displayName) : "Sign up and find your PolitIQ!"}</h2>
                         <h4>{authUser ? (authUser.affiliation) : ""}</h4>
                     </div>
-                    {loading ? loadingGif : authUserStats()}
+                    {authUserStats()}
                     <div className="leader-link-holder">
                     </div>
-                    {showChart ? (loading ? loadingGif : <PolBarChart politIQs={politIQs} />) : (loading ? loadingGif : lastLeaders(timeframe))}
+                    {showChart && affiliationScores ? <PolBarChart politIQs={affiliationScores} /> : lastMonthScores && lastWeekScores && lastLeaders(timeframe)}
                     <center><p className="weekly" onClick={() => setShowChart(!showChart)}  >
                         {!showChart ? "Show Party Scores" : `Show Last ${timeframe}'s Leaders`}
                     </p></center>
@@ -280,7 +264,7 @@ const Leaderboard = () => {
                         <p onClick={() => setTimeframe("Month")} className={timeframe === "Week" ? "weekly" : "weekly selected"}>Top Ten Monthly</p>
                         <p onClick={() => setTimeframe("Week")} className={timeframe === "Week" ? "weekly selected" : "weekly"}>Top Ten Weekly</p>
                     </div>
-                    {loading ? loadingGif : renderLeaders(timeframe)}
+                    {monthlyScores && weeklyScores && renderLeaders(timeframe)}
                 </div>
             </div>
         </div>
