@@ -36,7 +36,6 @@ class ArchivedQuiz extends Component {
   };
   // get the quiz and display it on the page, admin show style
   getQuiz = date => {
-    console.log("db quiz request");
     db.getQuiz(date).then(response => {
       const quiz = response.val();
       this.setState({
@@ -55,7 +54,6 @@ class ArchivedQuiz extends Component {
       });
       result.pop();
       quizArray = [...result];
-      console.log(quizArray);
     } else return null;
 
     const renderQs = quizArray.map((q, i) => {

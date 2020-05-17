@@ -88,7 +88,6 @@ class ProfilePage extends Component {
 
   // TODO: remove context here because it's not necessary anymore
   render() {
-    console.log(this.props);
     return (
       <AuthUserContext.Consumer>
         {authUser => (

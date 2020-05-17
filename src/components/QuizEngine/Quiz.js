@@ -62,18 +62,15 @@ class QuizBase extends Component {
 
   checkForScores = date => {
 
-    console.log("checking for scores")
     // guarentee render of quiz if score isn't found
     this.setState({ userHasScoreSubmitted: false });
 
     // If quiz score exists they cannot retake the quiz
 
     if (this.props.authUser && date) {
-      console.log("checking for scores 2")
 
       db.checkQuizScore(this.props.authUser.uid, date).then(res => {
         if (typeof res.val() === "number") {
-          console.log("score exists")
 
           // if a score is submitted already
           // User cannot be displayed quiz any longer
@@ -83,7 +80,6 @@ class QuizBase extends Component {
           this.setState({ loading: false });
 
         } else {
-          console.log("score does not exist")
 
           this.setState({ finished: false });
 
@@ -94,7 +90,6 @@ class QuizBase extends Component {
   };
 
   componentDidMount = () => {
-    console.log("component mounts")
     // add listener to give the user a prompt before unloading (refreshing)
     window.addEventListener("beforeunload", this.handleWindowBeforeUnload);
     // also add a listener to give the prompt before going back a page
@@ -102,7 +97,6 @@ class QuizBase extends Component {
 
     const url = window.location.href;
     const date = url.split("/")[4];
-    console.log("mount date found:", date)
 
     let uid = "";
     this.getUser();
@@ -132,7 +126,6 @@ class QuizBase extends Component {
   };
 
   componentDidUpdate = (prevProps, prevState) => {
-    console.log("component updates")
 
     if (prevProps !== this.props) {
       if (this.props.authUser) {
@@ -149,18 +142,6 @@ class QuizBase extends Component {
       }
     }
   };
-
-  /*   componentWillUnmount = () => {
-      window.clearTimeout(this.timer);
-      window.clearTimeout(this.sadTrombone);
-      window.removeEventListener("beforeunload", this.handleWindowBeforeUnload);
-      window.removeEventListener("popstate", this.handleWindowBeforeUnload);
-      // maybe should also store the score so the user can't take the quiz again ?
-      if (this.state.finished === false) {
-        trackEvent("Quizzes", "Quiz forfeited", "QUIZ_FORFEIT");
-        this.submitScore(this.state.score, this.state.uid);
-      }
-    }; */
 
   getUser = () => {
 
@@ -189,25 +170,10 @@ class QuizBase extends Component {
 
   getQuiz = async date => {
 
-    //NOT USING CONTEXT ANYMORE, GETTING QUIZ MANUALLY BY DATE
-    //get quiz from db by date
-
-    console.log("gettingQuiz")
-
     var quiz = await db.getQuiz(date)
 
     quiz = quiz.val()
 
-    console.log("quizGot:", quiz)
-
-    // Use quiz context to get quizzes
-    /* const quiz = this.context[date];
-    if (quiz === undefined) {
-      if (quiz === null || quiz === undefined) {
-        return;
-      }
-    }
- */
     const quizQs = Object.keys(quiz);
     quizQs.pop();
     const qArray = [];

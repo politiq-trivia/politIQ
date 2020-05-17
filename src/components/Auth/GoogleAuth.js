@@ -43,9 +43,8 @@ class GoogleAuth extends Component {
     app.auth().signInWithPopup(googleProvider)
       .then((result, error) => {
         if (error && error.code === 'auth/account-exists-with-different-credential') {
-          console.log('account already exists'); // eslint-disable-line no-console
         } else {
-        // The signed-in user info.
+          // The signed-in user info.
           const { user } = result;
           const { uid } = user;
           db.getOneUser(uid)
@@ -116,7 +115,7 @@ class GoogleAuth extends Component {
     return (
       <div style={{ marginTop: '10px' }}>
         <Button onClick={() => this.doSignInWithGoogle()}>
-          <img style = {{ height: "35px", margin: "5px"}}src={require("../../googleIcon.png")}/>
+          <img style={{ height: "35px", margin: "5px" }} src={require("../../googleIcon.png")} />
           <span style={{ marginLeft: '5px' }}>Continue With Google</span>
         </Button>
         {error && <p>{error.message}</p>}

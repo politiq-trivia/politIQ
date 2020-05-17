@@ -35,23 +35,11 @@ const UserScoreboard = (props) => {
   const [usersMoney, usersMoneyEarned, loadingMoneyWon] = useGetMoneyEarned(props.uid) // use a hook to get user scores and data into a data frame
   const [contestedScore, loadingContestedScore] = useGetContestedQScore(props.uid) // use a hook to get user scores and data into a data frame
   const [submittedScore, loadingSubmittedScore] = useGetSubmittedQScore(props.uid) // use a hook to get user scores and data into a data frame
-  const [userScore, setUserScore] = useState(null)
 
   const authUser = useContext(AuthUserContext)
 
 
-  useEffect(() => {
-    if (props) {
-      const getLocalUserScore = async () => {
-        db.getScoresByUid(props.uid).then(res => { return res.val() }).then(val => {
 
-          setUserScore(Object.values(flattenObject(val)).reduce((a, b) => a + b, 0))
-        })
-      }
-      getLocalUserScore()
-    }
-
-  }, props.uid)
 
 
   let content = <div>{loadingGif}</div>
@@ -70,7 +58,7 @@ const UserScoreboard = (props) => {
             }}
           >
             <h2>
-              {props.authUser.uid === props.uid ? "My Scores"  /// if authuser then "my" else find  user page displayname
+              {authUser.uid === props.uid ? "My Scores"  /// if authuser then "my" else find  user page displayname
                 :
                 'Scores'}
             </h2>
@@ -131,7 +119,7 @@ const UserScoreboard = (props) => {
             }}
           >
             <h2>
-              {props.authUser.uid === props.uid ? "My"
+              {authUser.uid === props.uid ? "My"
                 :
                 'Scores'}
             </h2>

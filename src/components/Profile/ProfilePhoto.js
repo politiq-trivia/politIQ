@@ -45,8 +45,7 @@ class ProfilePhoto extends Component {
         .catch(function (error) {
           switch (error.code) {
             case "storage/object-not-found":
-              console.log("Object does not exist");
-              console.log(error);
+              console.error(error);
               set();
               break;
             case "storage/unauthorized":
@@ -116,7 +115,6 @@ class ProfilePhoto extends Component {
   };
 
   render() {
-    console.log(this.state);
     return (
       <form>
         {this.state.avatarURL ? (

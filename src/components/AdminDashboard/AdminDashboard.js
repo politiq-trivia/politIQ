@@ -62,7 +62,6 @@ class AdminDashboard extends Component {
 
   componentDidUpdate(prevProps) {
     if (this.props.renderPage !== prevProps.renderPage) {
-      console.log("redirecting components");
       this.redirectComponents();
       return true;
     }
@@ -331,84 +330,84 @@ class AdminDashboard extends Component {
             toggleDashboard={this.toggleDashboard}
           />
         ) : (
-          <div>
-            {this.state.addingQuiz ? (
-              <AddQuiz
-                toggleAddQuiz={this.toggleAddQuiz}
-                toggleDashboard={this.toggleDashboard}
-              />
-            ) : (
-              <div>
-                {this.state.showQuiz ? (
-                  <ShowQuiz
-                    toggleDashboard={this.toggleDashboard}
-                    quiz={this.state.selectedQuiz}
-                    quizId={this.state.selectedQuizId}
-                    toggleEditQuiz={this.toggleEditQuiz}
-                  />
-                ) : (
+            <div>
+              {this.state.addingQuiz ? (
+                <AddQuiz
+                  toggleAddQuiz={this.toggleAddQuiz}
+                  toggleDashboard={this.toggleDashboard}
+                />
+              ) : (
                   <div>
-                    {this.state.editingQuiz ? (
-                      <EditQuiz
-                        toggleQuizShow={this.toggleQuizShow}
+                    {this.state.showQuiz ? (
+                      <ShowQuiz
+                        toggleDashboard={this.toggleDashboard}
                         quiz={this.state.selectedQuiz}
                         quizId={this.state.selectedQuizId}
-                        toggleDeleteModal={this.toggleDeleteModal}
-                        deleteQuiz={this.deleteQuiz}
-                        showDeleteModal={this.state.showDeleteModal}
-                        toggleDashboard={this.toggleDashboard}
+                        toggleEditQuiz={this.toggleEditQuiz}
                       />
                     ) : (
-                      <div>
-                        {this.state.showUsers ? (
-                          <UserShow />
-                        ) : (
-                          <div>
-                            {this.state.showLeaders ? (
-                              <PartyLeaders />
-                            ) : (
+                        <div>
+                          {this.state.editingQuiz ? (
+                            <EditQuiz
+                              toggleQuizShow={this.toggleQuizShow}
+                              quiz={this.state.selectedQuiz}
+                              quizId={this.state.selectedQuizId}
+                              toggleDeleteModal={this.toggleDeleteModal}
+                              deleteQuiz={this.deleteQuiz}
+                              showDeleteModal={this.state.showDeleteModal}
+                              toggleDashboard={this.toggleDashboard}
+                            />
+                          ) : (
                               <div>
-                                {this.state.managingQuizzes ? (
-                                  <ManageQuizzes
-                                    toggleQuizShow={this.toggleQuizShow}
-                                    getQuiz={this.getQuiz}
-                                    toggleDeleteModal={this.toggleDeleteModal}
-                                    deleteQuiz={this.deleteQuiz}
-                                    showDeleteModal={this.state.showDeleteModal}
-                                  />
+                                {this.state.showUsers ? (
+                                  <UserShow />
                                 ) : (
-                                  <div className="dashboard">
-                                    <Paper className="dashContainer">
-                                      {isLoaded()}
-                                    </Paper>
-                                    <div className="dashContainer2">
-                                      <Link
-                                        to={LEADERBOARD}
-                                        style={{ textDecoration: "none" }}
-                                      >
-                                        <Scoreboard />
-                                      </Link>
-                                      <QuestionsToReview />
-                                      <ContestedQuestions />
-                                      <CashOutRequest
-                                        toggleCashOut={this.toggleCashOut}
-                                        cashoutData={this.state.cashoutData}
-                                      />
+                                    <div>
+                                      {this.state.showLeaders ? (
+                                        <PartyLeaders />
+                                      ) : (
+                                          <div>
+                                            {this.state.managingQuizzes ? (
+                                              <ManageQuizzes
+                                                toggleQuizShow={this.toggleQuizShow}
+                                                getQuiz={this.getQuiz}
+                                                toggleDeleteModal={this.toggleDeleteModal}
+                                                deleteQuiz={this.deleteQuiz}
+                                                showDeleteModal={this.state.showDeleteModal}
+                                              />
+                                            ) : (
+                                                <div className="dashboard">
+                                                  <Paper className="dashContainer">
+                                                    {isLoaded()}
+                                                  </Paper>
+                                                  <div className="dashContainer2">
+                                                    <Link
+                                                      to={LEADERBOARD}
+                                                      style={{ textDecoration: "none" }}
+                                                    >
+                                                      <Scoreboard />
+                                                    </Link>
+                                                    <QuestionsToReview />
+                                                    <ContestedQuestions />
+                                                    <CashOutRequest
+                                                      toggleCashOut={this.toggleCashOut}
+                                                      cashoutData={this.state.cashoutData}
+                                                    />
+                                                  </div>
+                                                </div>
+                                              )}
+                                          </div>
+                                        )}
                                     </div>
-                                  </div>
-                                )}
+                                  )}
                               </div>
                             )}
-                          </div>
-                        )}
-                      </div>
-                    )}
+                        </div>
+                      )}
                   </div>
                 )}
-              </div>
-            )}
-          </div>
-        )}
+            </div>
+          )}
       </div>
     );
   }

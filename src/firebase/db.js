@@ -61,7 +61,6 @@ export const subscribeUser = subscription => {
 
 // get one user and check if it is the admin
 export const checkAdmin = uid => {
-  console.log(uid, "uid in checkAdmin");
 
   const user = db
     .ref("users")

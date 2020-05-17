@@ -203,7 +203,6 @@ class BarChart extends Component {
 
 
   render() {
-    console.log("test:")
     return (
       <>
         {this.state.loading

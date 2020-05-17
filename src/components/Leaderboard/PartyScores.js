@@ -29,30 +29,29 @@ class PartyScores extends Component {
     let allScores = [];
 
     await db.getScores()
-    .then(response => {
+      .then(response => {
         const data = response.val();
         if (data === null) {
-            return 'No scores available';
+          return 'No scores available';
         }
         const usernames = Object.keys(data)
         usernames.forEach((user, i) => {
-            const dates = Object.keys(data[usernames[i]])
-            for (let k = 0; k < dates.length; k++) {
-                if (dates[k] >= '2019-04-01T00:00') {
-                    allScores.push({ user, data: data[usernames[i]]})
-                    return;
-                }
+          const dates = Object.keys(data[usernames[i]])
+          for (let k = 0; k < dates.length; k++) {
+            if (dates[k] >= '2019-04-01T00:00') {
+              allScores.push({ user, data: data[usernames[i]] })
+              return;
             }
+          }
         })
-    })
+      })
     let uidArray = [];
     for (let i = 0; i < allScores.length; i++) {
       uidArray.push(allScores[i].user)
     }
-    console.log("allScores", allScores)
-/*     const scores = JSON.parse(localStorage.getItem('allScores')).data
- */    // uid array represents the users who have score data
-    
+    /*     const scores = JSON.parse(localStorage.getItem('allScores')).data
+     */    // uid array represents the users who have score data
+
     this.getDems(allScores, uidArray, affiliation)
   }
 
@@ -67,7 +66,7 @@ class PartyScores extends Component {
         uidArray.forEach(async (user, i) => {
           if (usernames.indexOf(user) !== -1) {
             demsWithScores.push(data[i])
-          } 
+          }
         })
 
         // calculate the scores of all the dems and store them in a demScore array
@@ -96,11 +95,11 @@ class PartyScores extends Component {
         }
 
         // rank that array and return the top 3
-        const rankedScores = demScores.sort(function(a,b) {
+        const rankedScores = demScores.sort(function (a, b) {
           return a.score - b.score
         })
 
-        const rankReverse = rankedScores.reverse().slice(0,3)
+        const rankReverse = rankedScores.reverse().slice(0, 3)
         // get the information for those top 3 people.
         this.getUserInfo(rankReverse)
 
@@ -150,13 +149,13 @@ class PartyScores extends Component {
             </TableCell>
           </TableRow>
         )
-      }) 
+      })
     }
 
     const isLoading = () => {
       if (!this.state.isLoaded) {
         return (
-          <img src={loadingGif} alt="loadingGif"/>
+          <img src={loadingGif} alt="loadingGif" />
         )
       } else {
         return (
@@ -166,7 +165,7 @@ class PartyScores extends Component {
                 <TableCell>
                   Ranking
                 </TableCell>
-                <TableCell style={{ width: '10vw'}}>
+                <TableCell style={{ width: '10vw' }}>
                   User
                 </TableCell>
                 <TableCell>

@@ -142,7 +142,6 @@ class NavigationAuthBase extends Component {
   };
 
   handleAdminClick = () => {
-    console.log("handleAdminClick called");
     this.setState({
       open: !this.state.open
     });

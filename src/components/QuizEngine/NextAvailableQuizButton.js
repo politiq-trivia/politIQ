@@ -41,24 +41,8 @@ class NextAvailableQuizButton extends Component {
     let nextQuizDate;
     await db.getNextQuizDate(currentQuizDate).then(res => {
       nextQuizDate = Object.keys(res.val())[0];
-      /*  db.checkQuizScore(this.props.uid, Object.keys(res.val())[0]).then(score => { // uid is defined by this.props.uid
-         if (typeof score.val() === "number") {
-           // if a score is submitted already
-           console.log("userHasScoreSubmitted")
-           console.log("res.val()", score.val())
-           nextQuizScore = true
-         } else {
-           // no score submitted
-           console.log("noScoreSubmitted")
-           nextQuizScore = false
-         }
-       }).catch(error => console.log("errorFetchingScore: ", error)) */
+
     }).catch(error => console.log("errorFetchingNextQuiz: ", error))
-
-
-
-    console.log("nextQuizDate", nextQuizDate)
-
     return (nextQuizDate)
     /* 
         await db.getScoresByUid(this.props.uid).then(res => {

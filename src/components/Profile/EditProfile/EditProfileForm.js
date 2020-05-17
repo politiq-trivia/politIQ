@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { db } from "../../../firebase";
-import {auth} from "../../../firebase/firebase";
+import { auth } from "../../../firebase/firebase";
 import { withRouter } from "react-router-dom";
 import MediaQuery from "react-responsive";
 
@@ -57,10 +57,9 @@ class EditProfile extends Component {
       const user = auth.currentUser;
       await user
         .updateEmail(this.state.email)
-        .then(function() {
-          console.log("success");
+        .then(function () {
         })
-        .catch(function(error) {
+        .catch(function (error) {
           console.error(error);
         });
     }
@@ -91,10 +90,9 @@ class EditProfile extends Component {
       const user = auth.currentUser;
       await user
         .updateEmail(this.state.email)
-        .then(function() {
-          console.log("success");
+        .then(function () {
         })
-        .catch(function(error) {
+        .catch(function (error) {
           console.error(error);
         });
     }
