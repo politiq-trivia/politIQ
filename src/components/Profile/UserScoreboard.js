@@ -84,13 +84,17 @@ const UserScoreboard = (props) => {
               <div className="userScore">
                 Weekly Score
               <span className="s reg-score">
-                  {weeklyScores && weeklyScores.map(function (x) { return x.uid; }).indexOf(authUser.uid)}
+                  {weeklyScores && weeklyScores && weeklyScores.filter(scoreObject => {
+                    return scoreObject.uid === props.uid
+                  })[0].weeklyScore}
                 </span>
               </div>
               <div className="userScore">
                 Monthly Score
               <span className="s reg-score">
-                  {monthlyScores && monthlyScores.map(function (x) { return x.uid; }).indexOf(authUser.uid)}
+                  {monthlyScores && monthlyScores.filter(scoreObject => {
+                    return (scoreObject.uid === props.uid)
+                  })[0].monthlyScore}
                 </span>
               </div>
               <div className="userScore" id="submittedQScore">
@@ -139,18 +143,21 @@ const UserScoreboard = (props) => {
             </div>
             <div className="small-scoreboard">
               <div className="userScore">
-                All-Time-Score
+                Weekly Score
               <span className="s reg-score">
-                  {userScore}
+                  {weeklyScores && weeklyScores && weeklyScores.filter(scoreObject => {
+                    return scoreObject.uid === props.uid
+                  })[0].weeklyScore}
                 </span>
               </div>
-
-              {/*   <div className="userScore">
+              <div className="userScore">
                 Monthly Score
               <span className="s reg-score">
-                  {userScore}
+                  {monthlyScores && monthlyScores.filter(scoreObject => {
+                    return (scoreObject.uid === props.uid)
+                  })[0].monthlyScore}
                 </span>
-              </div> */}
+              </div>
             </div>
             <div className="small-scoreboard">
               <div className="userScore" id="submittedQScore">
