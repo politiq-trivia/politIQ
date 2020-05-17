@@ -42,7 +42,6 @@ class PublicProfilePhoto extends Component {
         .catch(function (error) {
           switch (error.code) {
             case "storage/object-not-found":
-              console.log("Object does not exist");
               set();
               break;
             case "storage/unauthorized":

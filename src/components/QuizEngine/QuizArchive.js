@@ -70,7 +70,6 @@ class QuizArchiveBase extends Component {
   };
 
   componentDidUpdate(prevProps, prevState) {
-    console.log("component updated");
     if (prevProps !== this.props) {
       if (this.props.authUser) {
         this.setState({
@@ -103,7 +102,6 @@ class QuizArchiveBase extends Component {
   };
 
   dateFilter = date => {
-    console.log(this.state.selectedMonth);
     if (
       this.state.selectedMonth ===
       moment()
@@ -138,18 +136,8 @@ class QuizArchiveBase extends Component {
   // user should be able to select a month for a dropdown and then retrieve the quizzes for that month.
   // the default on page load will be the current month
   getQuizzesFromDb = async () => {
-    // instead of making a db call here, get the quizzes from local storage
-    // this is dangerous all users can see quizzes then
-    /*     const data = await JSON.parse(localStorage.getItem("quizzes"));
-     */
-    let quizzes;
-    /*   if (!isEmpty(this.context)) {
-      // get quizzes from context
-      console.log("getting quizzes from context");
-      quizzes = this.context; //provided by App.js
-    } else {  */
-    console.log("getting quizzes from db");
 
+    let quizzes;
     // Context hasn't populated yet, (page reloaded), so get quizzes from database
     await db.getQuizzes().then(res => {
       quizzes = res.val();
@@ -167,7 +155,6 @@ class QuizArchiveBase extends Component {
         titleArray: [],
         page: 0
       });
-      console.log("no quizzes");
       return;
     }
 
@@ -430,7 +417,7 @@ class QuizArchiveBase extends Component {
                 <p className="archive-warning">
                   You have taken all of the available quizzes. Check back tomorrow
                   for the latest challenge!
-              </p>
+                </p>
               )}
             <hr style={{ marginBottom: "5vh", marginTop: "3vh" }} />
             <div className="viewOlder">
@@ -506,7 +493,7 @@ class QuizArchiveBase extends Component {
               <p id="archive-disclaimer">
                 You may take past quizzes to boost your politIQ, but they will not
                 affect your rankings for this month.
-            </p>
+              </p>
             ) : null}
         </div>
         {isLoading()}

@@ -1,7 +1,6 @@
 import React from 'react';
 
 const ScoreCounter = ({ demCount, repCount, indCount }) => {
-    console.log({ demCount, repCount, indCount })
     return (
         <div className="admin--scoreCounter-box">
             <h2>Active Users This Month:</h2>

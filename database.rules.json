@@ -1,8 +1,25 @@
 {
   "rules": {
+    "contestedQ": {
+      ".read": true,
+      ".write": "auth!= null"
+    },
+    "cashOut": {
+      ".write": true
+    },
+    "q4review": {
+      ".read": true,
+      ".write": "auth!= null"
+    },
     "quizzes": {
       ".read": true,
       ".write": "auth!= null"
+    },
+    "leaderboard": {
+      ".read": "auth!= null"
+    },
+    "politIQ": {
+      ".read": "auth!= null"
     },
     "scores": {
       ".read": true,
@@ -14,19 +31,9 @@
     },
     "users": {
       ".read": "auth!= null",
-      "$user": {
-        "displayName": {
-          ".read": true
-        },
-        "invisibleScore": {
-          ".read": true
-        },
-        "affiliation": {
-          ".read": true
-        }
+      "$uid": {
+        ".write": "$uid === auth.uid",
       }
-    },
-    ".read": "auth != null",
-    ".write": "auth != null"
+    }
   }
 }

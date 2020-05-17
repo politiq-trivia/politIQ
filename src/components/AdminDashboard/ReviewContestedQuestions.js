@@ -93,7 +93,6 @@ class ReviewContestedQuestions extends Component {
     const date = Object.keys(data)[0];
     const objectWithUids = data[date];
     const uid = Object.keys(Object.values(objectWithUids)[qNum])[qVal];
-    console.log("uid:", uid)
 
     await db.getDisplayNames2(uid).then(response => {
       const nameData = response;
@@ -116,11 +115,9 @@ class ReviewContestedQuestions extends Component {
     ]; // eslint-disable-line max-len
 
     if (Object.keys(userKeys).length === 1) {
-      console.log("1")
       qNum += 1;
 
       if (qNum > Object.keys(contestedQsForThisQuiz).length - 1) {
-        console.log("2")
 
         this.getContest();
         this.setState({
@@ -135,11 +132,9 @@ class ReviewContestedQuestions extends Component {
         qNum
       });
     } else if (Object.keys(userKeys).length > 1) {
-      console.log("3")
 
       let { qVal } = this.state;
       if (qVal === Object.keys(userKeys)) {
-        console.log("4")
 
         qNum += 1;
         this.setState({
@@ -147,7 +142,6 @@ class ReviewContestedQuestions extends Component {
           qNum
         });
       } else {
-        console.log("5")
 
         qVal += 1;
         this.setState({ qVal });
@@ -160,14 +154,12 @@ class ReviewContestedQuestions extends Component {
   reject = () => {
     // get questions from this quiz we are reviewing
     const contestedQs = this.state.data[this.state.selectedQuizId];
-    console.log("contestedQs:", contestedQs);
     const selected = Object.keys(contestedQs)[this.state.qNum];
 
     const uid = Object.keys(Object.values(contestedQs)[this.state.qNum])[
       this.state.qVal
     ];
 
-    console.log("selected:", selected);
     db.deleteContest(this.state.selectedQuizId, selected, uid);
 
     this.getContest();
@@ -176,7 +168,6 @@ class ReviewContestedQuestions extends Component {
   accept = async () => {
     // get questions from this quiz we are reviewing
     const contestedQs = this.state.data[this.state.selectedQuizId];
-    console.log("contestedQs:", contestedQs);
     const selected = Object.keys(contestedQs)[this.state.qNum];
 
     const uid = Object.keys(Object.values(contestedQs)[this.state.qNum])[
