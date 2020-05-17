@@ -152,7 +152,7 @@ const Leaderboard = () => {
                     </div>
                     <div className="stat-rank">
                         <p>Rank</p>
-                        <h3>{weeklyScores.map(function (x) { return x.uid; }).indexOf(authUser.uid)}</h3>
+                        <h3>{weeklyScores && weeklyScores.map(function (x) { return x.uid; }).indexOf(authUser.uid)}</h3>
                     </div>
                     <div className="stat-politIQ">
                         <p>PolitIQ</p>
@@ -168,7 +168,7 @@ const Leaderboard = () => {
                     </div>
                     <div className="stat-rank">
                         <p>Rank</p>
-                        <h3>{monthlyScores.map(function (x) { return x.uid; }).indexOf(authUser.uid)}</h3>
+                        <h3>{monthlyScores && monthlyScores.map(function (x) { return x.uid; }).indexOf(authUser.uid)}</h3>
                     </div>
                     <div className="stat-politIQ">
                         <p>PolitIQ</p>

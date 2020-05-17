@@ -125,7 +125,8 @@ class App extends Component {
 
 
     // get all the user's scores (all time)
-    getUserScores(authUser.uid);
+    /*     getUserScores(authUser.uid);
+     */
     this.setState({ authUser: authUser });
 
     //DONT THINK WE NEED ANY OF THIS ANYMORE
