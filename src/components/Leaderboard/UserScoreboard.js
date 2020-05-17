@@ -2,7 +2,6 @@ import React, { useContext, useState, useEffect } from "react";
 import { AuthUserContext } from "../Auth";
 import MediaQuery from "react-responsive";
 import { withFirebase } from "../../firebase";
-import { useScoresUsers } from "../Leaderboard2/useScoresUsers"
 import LoadingGif from '../../6.gif';
 import { useGetMoneyEarned } from "../hooks/useGetMoneyEarned"
 import { useGetContestedQScore } from "../hooks/useGetContestedQScore"
