@@ -1,6 +1,6 @@
 import React from 'react';
 
-import UserScoreboard from '../../Leaderboard/UserScoreboard';
+import UserScoreboard from '../../Profile/UserScoreboard';
 import CashOutButton from '../CashOutButton';
 import AuthUserContext from '../../Auth/AuthUserContext';
 

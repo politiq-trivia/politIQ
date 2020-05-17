@@ -38,7 +38,6 @@ import NoMatch from "./StaticPages/NoMatch";
 import FAQ from "./StaticPages/FAQ";
 
 import QuizContext from "./context/quizContext";
-import ScoreContext from "./context/scoreContext";
 
 import * as routes from "../constants/routes";
 import { firebase, db, withFirebase } from "../firebase";
@@ -89,17 +88,6 @@ class App extends Component {
         ? this.initializeApp(authUser)
         : this.setState({ authUser: null });
     });
-    // checks local storage for auth user - maybe there was a user from a
-    // previous session
-    /*  if (localStorage.authUser) {
-       // eslint-disable-line no-undef
-       const authUser = JSON.parse(localStorage.authUser); // eslint-disable-line no-undef
-       this.setState({
-         signedInUser: authUser.uid,
-         isAdmin: true
-       });
-     } */
-
   }
 
 
