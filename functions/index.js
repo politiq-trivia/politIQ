@@ -191,13 +191,13 @@ exports.calculateLeaderboardStatsAndPolitiqs = functions.pubsub.schedule('every 
 
 
         // POLITIQ CALCULATION
-        var polInt = allRecentScores.map(userObj => {
+        var politicalIntelligence = allRecentScores.map(userObj => {
             return (userObj.politicalIntelligence)
         })
-        var numQuizzes = allRecentScores.map(userObj => {
+        var numberOfQuizzesTakenByUser = allRecentScores.map(userObj => {
             return (userObj.numberOfQuizzesTaken)
         })
-        const linReg = linearRegression(polInt, numQuizzes);
+        const linReg = linearRegression(politicalIntelligence, numberOfQuizzesTakenByUser);
 
 
         //Linear regression for politiq
@@ -234,8 +234,8 @@ exports.calculateLeaderboardStatsAndPolitiqs = functions.pubsub.schedule('every 
         // )
         var politIQs = tempAllRecentScores.map(userObject => { return { uid: userObject.uid, politIQ: userObject.politIQ } }).reduce((obj, item) => (obj[item.uid] = item.politIQ, obj), {});
 
-        admin.database().ref(`/leaderboard/MonthlyScores`).set(tempMonthlyScores.slice(0, 10))
-        admin.database().ref(`/leaderboard/WeeklyScores`).set(tempWeeklyScores.slice(0, 10))
+        admin.database().ref(`/leaderboard/MonthlyScores`).set(tempMonthlyScores)
+        admin.database().ref(`/leaderboard/WeeklyScores`).set(tempWeeklyScores)
         admin.database().ref(`/leaderboard/LastWeekScores`).set([...tempAllRecentScores].sort(({ lastWeekScore: a }, { lastWeekScore: b }) => b - a).slice(0, 3))
         admin.database().ref(`/leaderboard/LastMonthScores`).set([...tempAllRecentScores].sort(({ lastMonthScore: a }, { lastMonthScore: b }) => b - a).slice(0, 3))
         admin.database().ref(`/leaderboard/AffiliationScores`).set({ repPolitIQ, demPolitIQ, indPolitIQ })

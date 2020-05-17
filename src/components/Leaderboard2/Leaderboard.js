@@ -134,6 +134,10 @@ const Leaderboard = () => {
                     <p>All-time Score</p>
                     <h3>N/A</h3>
                 </div>
+                <div className="stat-rank">
+                    <p>Rank</p>
+                    <h3>N/A</h3>
+                </div>
                 <div className="stat-politIQ">
                     <p>PolitIQ</p>
                     <h3>N/A</h3>
@@ -145,6 +149,10 @@ const Leaderboard = () => {
                     <div className="stat-month">
                         <p>All-time Score</p>
                         <h3>{authUserScore}</h3>
+                    </div>
+                    <div className="stat-rank">
+                        <p>Rank</p>
+                        <h3>{weeklyScores.map(function (x) { return x.uid; }).indexOf(authUser.uid)}</h3>
                     </div>
                     <div className="stat-politIQ">
                         <p>PolitIQ</p>
@@ -158,6 +166,10 @@ const Leaderboard = () => {
                         <p>All-time Score</p>
                         <h3>{authUserScore}</h3>
                     </div>
+                    <div className="stat-rank">
+                        <p>Rank</p>
+                        <h3>{monthlyScores.map(function (x) { return x.uid; }).indexOf(authUser.uid)}</h3>
+                    </div>
                     <div className="stat-politIQ">
                         <p>PolitIQ</p>
                         <h3>{politIQs && politIQs[authUser.uid]}</h3>
@@ -170,11 +182,11 @@ const Leaderboard = () => {
 
     const renderLeaders = timeframe => {   // Creates teh leaders object based on 
         if (timeframe === "Month") {
-            var scoreTotal = monthlyScores.reduce(function (prev, cur) { // total weekly score
+            var scoreTotal = monthlyScores.slice(0, 10).reduce(function (prev, cur) { // total weekly score
                 return prev + cur.monthlyScore;
             }, 0);
             if (scoreTotal === 0) { return <div className="container" style={{ marginTop: "20px" }}><center>No Monthly Scores Available Yet</center></div> } else {  // if there are no scores avaialble 
-                return (monthlyScores.map((d, i) => {
+                return (monthlyScores.slice(0, 10).map((d, i) => {
                     if (d.monthlyScore === 0) {
                         return (<div></div>)
                     } else {
@@ -183,7 +195,6 @@ const Leaderboard = () => {
 
                             <div className="content">
                                 <NavLink style={{ textDecoration: 'none' }} to={`/profile/${d.uid}`}>
-
                                     <PolitIQBar percentage={d.politIQ} />
                                     <div className="leader-info">
                                         <p>{d.displayName}</p>
@@ -203,11 +214,11 @@ const Leaderboard = () => {
 
         }
         if (timeframe === "Week") {
-            var scoreTotal = weeklyScores.reduce(function (prev, cur) { // total weekly score
+            var scoreTotal = weeklyScores.slice(0, 10).reduce(function (prev, cur) { // total weekly score
                 return prev + cur.weeklyScore;
             }, 0);
             if (scoreTotal === 0) { return <div className="container" style={{ marginTop: "20px" }}><center>No Weekly Scores Available Yet</center></div> } else {
-                return (weeklyScores.map((d, i) => {
+                return (weeklyScores.slice(0, 10).map((d, i) => {
                     if (d.weeklyScore === 0) {
                         return (<div></div>)
                     } else {
