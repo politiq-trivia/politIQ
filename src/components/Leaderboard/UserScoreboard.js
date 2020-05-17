@@ -29,7 +29,7 @@ var flattenObject = function (ob) {
   return toReturn;
 }
 const UserScoreboard = (props) => {
-  const { politIQs } = useLeaderboard()
+  const { monthlyScores, weeklyScores, politIQs } = useLeaderboard()
 
   const loadingGif = <center style={{ height: "150px" }}><img src={LoadingGif} alt="loading" style={{ maxWidth: '100%' }} /></center>
 
@@ -83,18 +83,17 @@ const UserScoreboard = (props) => {
             </div>
             <div className="small-scoreboard">
               <div className="userScore">
-                All-Time-Score
+                Weekly Score
               <span className="s reg-score">
-                  {userScore}
+                  {weeklyScores && weeklyScores.map(function (x) { return x.uid; }).indexOf(authUser.uid)}
                 </span>
               </div>
-
-              {/*   <div className="userScore">
+              <div className="userScore">
                 Monthly Score
               <span className="s reg-score">
-                  {userScore}
+                  {monthlyScores && monthlyScores.map(function (x) { return x.uid; }).indexOf(authUser.uid)}
                 </span>
-              </div> */}
+              </div>
               <div className="userScore" id="submittedQScore">
                 Contested and Submitted Q Score
               <span className="s"> {contestedScore + submittedScore}                          {// zero for now
@@ -129,7 +128,7 @@ const UserScoreboard = (props) => {
             }}
           >
             <h2>
-              {props.authUser.uid === props.uid ? "My"  /// if authuser then "my" else find  user page displayname
+              {props.authUser.uid === props.uid ? "My"
                 :
                 'Scores'}
             </h2>
