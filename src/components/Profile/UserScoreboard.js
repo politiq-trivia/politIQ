@@ -100,7 +100,7 @@ const UserScoreboard = (props) => {
               <span className="s reg-score">${usersMoney}</span>
               </div>
               <div className="userScore second-row">
-                Earnings
+                Total Earnings
               <span className="s reg-score">
                   ${usersMoneyEarned}            {// zero for now
                   }
@@ -165,7 +165,7 @@ const UserScoreboard = (props) => {
               style={{ justifyContent: "center" }}
             >
               <div className="userScore">
-                Earnings
+                Total Earnings
               <span className="s reg-score">
                   <span className="s reg-score">${usersMoneyEarned}</span> {// zero for now
                   }              </span>

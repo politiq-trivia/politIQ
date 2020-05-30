@@ -121,14 +121,14 @@ class NavigationAuthBase extends Component {
 
   getMostRecentQuizId = async () => {
     // need to get most recent quiz a user has not taken.  We can get quizzes in context and do the same logic as NextAvailableQuizButton
-    const quizId = await getMostRecentQuizId();
-    if (quizId === "No Available Quizzes") {
+    const quizRoute = await getMostRecentQuizId();
+    if (quizRoute === "No Available Quizzes") {
       this.setState({
         noQuizzes: true
       });
     } else {
       this.setState({
-        mostRecentQuizURL: quizId
+        mostRecentQuizURL: quizRoute
       });
     }
   };
@@ -148,6 +148,7 @@ class NavigationAuthBase extends Component {
   };
 
   render() {
+    console.log(this.state.mostRecentQuizURL)
     const fullList = (
       <div>
         <MediaQuery query="(max-width: 415px)">

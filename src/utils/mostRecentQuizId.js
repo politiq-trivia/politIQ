@@ -35,12 +35,12 @@ const getMostRecentQuizIdForUser = async (scoreData) => {
         return id;
     }
     let counter = 1;
-    let mostRecent = dateArray[dateArray.length-counter]
+    let mostRecent = dateArray[dateArray.length - counter]
     // if the user has scores, loop through those scores to find the first quiz they do not have a score for
     if (scoreData !== undefined && Object.keys(scoreData).length > 0) {
-        while(scoreData[mostRecent] !== undefined && counter < dateArray.length) {
+        while (scoreData[mostRecent] !== undefined && counter < dateArray.length) {
             counter++;
-            mostRecent = dateArray[dateArray.length-counter]
+            mostRecent = dateArray[dateArray.length - counter]
             if (scoreData[mostRecent] === undefined) {
                 break;
             }
@@ -49,11 +49,11 @@ const getMostRecentQuizIdForUser = async (scoreData) => {
             const id = "No Available Quizzes";
             return id;
         } else {
-            const id = "quiz/" + mostRecent;
+            const id = "/quiz/" + mostRecent;
             return id;
         }
     } else {
-        const id = "quiz/" + mostRecent;
+        const id = "/quiz/" + mostRecent;
         return id;
     }
 }
