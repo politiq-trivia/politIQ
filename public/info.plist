@@ -4,7 +4,6 @@
     <key>CFBundleTypeRole</key>
     <string>Editor</string>
     <key>CFBundleURLName</key>
-    <string>com.pushwoosh.scheme</string>
     <key>CFBundleURLSchemes</key>
     <array>
       <string>pw-957F6-E387B</string>
