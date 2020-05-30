@@ -1,7 +1,6 @@
 .leaderboard-holder {
     display: flex;
     flex-direction: row;
-    height: 720px;
     margin-top: 114px;
     /* overflow: scroll; */
 }
@@ -28,14 +27,13 @@
 .leaderboard-right {
     background-color: white;
     width: 55%;
-    overflow: scroll;
     height: 100%;
     padding-bottom: 20px;
 }
 
 @media screen and (max-width: 560px) {
     .leaderboard-holder {
-        height: 1500px;
+
         flex-direction: column;
     }
 
@@ -45,7 +43,6 @@
     }
 
     .leaderboard-right {
-        height: 3000px;
         width: 100%;
     }
 }
@@ -89,7 +86,7 @@
 }
 
 .stat-rank, .stat-month, .stat-politIQ {
-    width: 33%;
+    width: 50%;
 }
 
 .stat-rank > p, .stat-month > p, .politIQ-label, .stat-politIQ {

@@ -20,6 +20,8 @@ export const doCreateUser = (
     roles
   });
 
+
+
 export const onceGetUsers = () => {
   const users = db.ref("users").once("value");
   return users;
@@ -59,7 +61,6 @@ export const subscribeUser = subscription => {
 
 // get one user and check if it is the admin
 export const checkAdmin = uid => {
-  console.log(uid, "uid in checkAdmin");
 
   const user = db
     .ref("users")
@@ -529,12 +530,12 @@ export const setContestedScoreByUid = (uid, date, score) => {
 export const getContestedScoreByUid = (uid) => {
   const scores = db.ref()
     .child("/scores/").child(uid).child("contested").once('value')
-  return(scores)
+  return (scores)
 }
 export const getSubmittedScoreByUid = (uid) => {
   const scores = db.ref()
     .child("/scores/").child(uid).child("submitted").once('value')
-  return(scores)
+  return (scores)
 }
 
 
@@ -707,4 +708,55 @@ export const deleteComment = (profileID, date) => {
     .child(profileID)
     .child(date)
     .remove();
+};
+
+
+
+// LEADERBOARD  
+
+export const getMonthlyScores = () => {
+  const monthlyScores = db
+    .ref('leaderboard')
+    .child("MonthlyScores")
+    .once("value");
+  return monthlyScores;
+};
+
+export const getWeeklyScores = () => {
+  const weeklyScores = db
+    .ref('leaderboard')
+    .child("WeeklyScores")
+    .once("value");
+  return weeklyScores;
+};
+
+export const getLastMonthScores = () => {
+  const lastMonthScores = db
+    .ref('leaderboard')
+    .child("LastMonthScores")
+    .once("value");
+  return lastMonthScores;
+};
+
+export const getLastWeekScores = () => {
+  const lastWeekScores = db
+    .ref('leaderboard')
+    .child("LastWeekScores")
+    .once("value");
+  return lastWeekScores;
+};
+
+export const getAffiliationScores = () => {
+  const affiliationScores = db
+    .ref('leaderboard')
+    .child("AffiliationScores")
+    .once("value");
+  return affiliationScores;
+};
+
+export const getPolitIqs = () => {
+  const politIqs = db
+    .ref('politIQ')
+    .once("value");
+  return politIqs;
 };

@@ -22,7 +22,7 @@ import {
   EmailIcon
 } from "react-share";
 
-import UserScoreboard from "../Leaderboard/UserScoreboard";
+import UserScoreboard from "./UserScoreboard";
 import PublicProfilePhoto from "./PublicProfilePhoto";
 
 import "./profile.css";

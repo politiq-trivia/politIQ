@@ -32,7 +32,7 @@ export const onAuthUserListener = (next, fallback) =>
       await db
         .ref("users")
         .child(authUser.uid)
-        .on("value", function(snapshot) {
+        .on("value", function (snapshot) {
           dbUser = snapshot.val();
           if (!dbUser.roles) {
             dbUser.roles = [];
@@ -96,7 +96,6 @@ export const deleteUser = (email, password) => {
       user
         .delete()
         .then(res => {
-          console.log(res);
         })
         .catch(err => console.error(err));
     })

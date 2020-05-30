@@ -42,11 +42,10 @@ class ProfilePhoto extends Component {
             loading: false
           });
         })
-        .catch(function(error) {
+        .catch(function (error) {
           switch (error.code) {
             case "storage/object-not-found":
-              console.log("Object does not exist");
-              console.log(error);
+              console.error(error);
               set();
               break;
             case "storage/unauthorized":
@@ -116,7 +115,6 @@ class ProfilePhoto extends Component {
   };
 
   render() {
-    console.log(this.state);
     return (
       <form>
         {this.state.avatarURL ? (
@@ -135,31 +133,31 @@ class ProfilePhoto extends Component {
             </div>
           </div>
         ) : (
-          <div className="upload-holder">
-            <Button
-              color="primary"
-              variant="contained"
-              className="upload-button"
-            >
-              <FileUploader
-                accept="image/*"
-                name="avatar"
-                filename={this.state.userID + ".jpg"} //make pictures all end in jpg
-                storageRef={storage.imageRef}
-                onUploadStart={this.handleUploadStart}
-                onUploadError={this.handleUploadError}
-                onUploadSuccess={this.handleUploadSuccess}
-                onProgress={this.handleProgress}
+            <div className="upload-holder">
+              <Button
+                color="primary"
+                variant="contained"
+                className="upload-button"
+              >
+                <FileUploader
+                  accept="image/*"
+                  name="avatar"
+                  filename={this.state.userID + ".jpg"} //make pictures all end in jpg
+                  storageRef={storage.imageRef}
+                  onUploadStart={this.handleUploadStart}
+                  onUploadError={this.handleUploadError}
+                  onUploadSuccess={this.handleUploadSuccess}
+                  onProgress={this.handleProgress}
+                />
+              </Button>
+              <img
+                src={placeHolderImg}
+                alt="placeholder"
+                className="profile-photo"
+                style={{ marginTop: "2vh" }}
               />
-            </Button>
-            <img
-              src={placeHolderImg}
-              alt="placeholder"
-              className="profile-photo"
-              style={{ marginTop: "2vh" }}
-            />
-          </div>
-        )}
+            </div>
+          )}
         {this.state.isUploading && <p>Progress: {this.state.progress}</p>}
       </form>
     );

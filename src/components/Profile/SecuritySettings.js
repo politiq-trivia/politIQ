@@ -23,7 +23,6 @@ const SecuritySettings = props => {
 
   const handleDeleteUser = () => {
     const email = deleteAccountInputs.email;
-    console.log(deleteAccountInputs.email);
     const password = deleteAccountInputs.password;
     auth.deleteUser(email, password);
   };
@@ -36,7 +35,6 @@ const SecuritySettings = props => {
     }));
   };
 
-  console.log(props);
   return (
     <>
       <h1 id="settings-heading">Security Settings</h1>

@@ -12,7 +12,6 @@ const withAuthorization = condition => Component => {
       this.listener = auth.onAuthUserListener(
         authUser => {
           if (!condition(authUser)) {
-            console.log("condition not met");
             this.props.history.push(routes.SIGN_IN);
           }
         },

@@ -1,17 +1,34 @@
-import React, { useContext } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import { AuthUserContext } from "../Auth";
 import MediaQuery from "react-responsive";
 import { withFirebase } from "../../firebase";
-import { useScoresUsers } from "../Leaderboard2/useScoresUsers"
 import LoadingGif from '../../6.gif';
 import { useGetMoneyEarned } from "../hooks/useGetMoneyEarned"
 import { useGetContestedQScore } from "../hooks/useGetContestedQScore"
 import { useGetSubmittedQScore } from "../hooks/useGetSubmittedQScore"
+import useLeaderboard from "../../hooks/useLeaderboard";
+import { db } from '../../firebase'
+var flattenObject = function (ob) {
+  var toReturn = {};
 
+  for (var i in ob) {
+    if (!ob.hasOwnProperty(i)) continue;
 
+    if ((typeof ob[i]) == 'object') {
+      var flatObject = flattenObject(ob[i]);
+      for (var x in flatObject) {
+        if (!flatObject.hasOwnProperty(x)) continue;
+
+        toReturn[x] = flatObject[x];
+      }
+    } else {
+      toReturn[i] = ob[i];
+    }
+  }
+  return toReturn;
+}
 const UserScoreboard = (props) => {
-  const [allRecentScores, politIQs, monthlyScores, weeklyScores, lastWeekScores, lastMonthScores, userRanks, loading] = useScoresUsers() // use a hook to get user scores and data into a data frame
-
+  const { monthlyScores, weeklyScores, politIQs } = useLeaderboard()
 
   const loadingGif = <center style={{ height: "150px" }}><img src={LoadingGif} alt="loading" style={{ maxWidth: '100%' }} /></center>
 
@@ -19,11 +36,15 @@ const UserScoreboard = (props) => {
   const [contestedScore, loadingContestedScore] = useGetContestedQScore(props.uid) // use a hook to get user scores and data into a data frame
   const [submittedScore, loadingSubmittedScore] = useGetSubmittedQScore(props.uid) // use a hook to get user scores and data into a data frame
 
+  const authUser = useContext(AuthUserContext)
+
+
+
 
 
   let content = <div>{loadingGif}</div>
 
-  if (!(loading || loadingMoneyWon || loadingContestedScore || loadingSubmittedScore)) {
+  if (!(loadingMoneyWon || loadingContestedScore || loadingSubmittedScore)) {
 
     content =
       <div>
@@ -37,42 +58,31 @@ const UserScoreboard = (props) => {
             }}
           >
             <h2>
-              {props.authUser.uid === props.uid ? "My"  /// if authuser then "my" else find  user page displayname
+              {authUser.uid === props.uid ? "My Scores"  /// if authuser then "my" else find  user page displayname
                 :
-                `${allRecentScores.filter(userObject => {                   // go through all scores object (all users as well) and find display name of object with matching uid as the page
-                  return (userObject.uid == props.uid);
-                })[0].displayName}'s`} Scores
-          </h2>
+                'Scores'}
+            </h2>
             <div className="userScore politIQ">
               PolitIQ
             <span className="s reg-score politIQ-score">
-                {allRecentScores.filter(userObject => {   /// filter array for uid that matches user, then find month scored
-                  return (userObject.uid == props.uid);
-                }).length !== 0 ? (allRecentScores.filter(userObject => {   /// filter array for uid that matches user, then find month scored
-                  return (userObject.uid == props.uid);
-                })[0].politIQ) : 0}
+                {politIQs && politIQs[props.uid]}
               </span>
             </div>
             <div className="small-scoreboard">
               <div className="userScore">
-                Monthly Score
-              <span className="s reg-score">
-                  {allRecentScores.filter(userObject => {   /// filter array for uid that matches user, then find month scored
-                    return (userObject.uid == props.uid);
-                  }).length !== 0 ? (allRecentScores.filter(userObject => {   /// filter array for uid that matches user, then find month scored
-                    return (userObject.uid == props.uid);
-                  })[0].monthlyScore) : 0}
-                </span>
-              </div>
-
-              <div className="userScore">
                 Weekly Score
               <span className="s reg-score">
-                  {allRecentScores.filter(userObject => {   /// filter array for uid that matches user, then find month scored
-                    return (userObject.uid == props.uid);
-                  }).length !== 0 ? (allRecentScores.filter(userObject => {   /// filter array for uid that matches user, then find month scored
-                    return (userObject.uid == props.uid);
-                  })[0].weeklyScore) : 0}
+                  {weeklyScores && weeklyScores && weeklyScores.filter(scoreObject => {
+                    return scoreObject.uid === props.uid
+                  })[0].weeklyScore}
+                </span>
+              </div>
+              <div className="userScore">
+                Monthly Score
+              <span className="s reg-score">
+                  {monthlyScores && monthlyScores.filter(scoreObject => {
+                    return (scoreObject.uid === props.uid)
+                  })[0].monthlyScore}
                 </span>
               </div>
               <div className="userScore" id="submittedQScore">
@@ -109,41 +119,31 @@ const UserScoreboard = (props) => {
             }}
           >
             <h2>
-              {props.authUser.uid === props.uid ? "My"  /// if authuser then "my" else find  user page displayname
+              {authUser.uid === props.uid ? "My"
                 :
-                `${allRecentScores.filter(userObject => {                   // go through all scores object (all users as well) and find display name of object with matching uid as the page
-                  return (userObject.uid == props.uid);
-                })[0].displayName}'s`} Scores                </h2>
+                'Scores'}
+            </h2>
             <div className="userScore politIQ">
               PolitIQ
             <span className="s reg-score politIQ-score">
-                {allRecentScores.filter(userObject => {   /// filter array for uid that matches user, then find month scored
-                  return (userObject.uid == props.uid);
-                }).length !== 0 ? (allRecentScores.filter(userObject => {   /// filter array for uid that matches user, then find month scored
-                  return (userObject.uid == props.uid);
-                })[0].politIQ) : 0}
+                {politIQs && politIQs[authUser.uid]}
               </span>
             </div>
             <div className="small-scoreboard">
               <div className="userScore">
-                Monthly Score
-              <span className="s reg-score">
-                  {allRecentScores.filter(userObject => {   /// filter array for uid that matches user, then find month scored
-                    return (userObject.uid == props.uid);
-                  }).length !== 0 ? (allRecentScores.filter(userObject => {   /// filter array for uid that matches user, then find month scored
-                    return (userObject.uid == props.uid);
-                  })[0].monthlyScore) : 0}
-                </span>
-              </div>
-
-              <div className="userScore">
                 Weekly Score
               <span className="s reg-score">
-                  {allRecentScores.filter(userObject => {   /// filter array for uid that matches user, then find month scored
-                    return (userObject.uid == props.uid);
-                  }).length !== 0 ? (allRecentScores.filter(userObject => {   /// filter array for uid that matches user, then find month scored
-                    return (userObject.uid == props.uid);
-                  })[0].weeklyScore) : 0}
+                  {weeklyScores && weeklyScores && weeklyScores.filter(scoreObject => {
+                    return scoreObject.uid === props.uid
+                  })[0].weeklyScore}
+                </span>
+              </div>
+              <div className="userScore">
+                Monthly Score
+              <span className="s reg-score">
+                  {monthlyScores && monthlyScores.filter(scoreObject => {
+                    return (scoreObject.uid === props.uid)
+                  })[0].monthlyScore}
                 </span>
               </div>
             </div>

@@ -43,9 +43,8 @@ class FacebookAuth extends Component {
     app.auth().signInWithPopup(provider)
       .then((result, error) => {
         if (error && error.code === 'auth/account-exists-with-different-credential') {
-          console.log('account already exists'); // eslint-disable-line no-console
         } else {
-        // The signed-in user info.
+          // The signed-in user info.
           const { user } = result;
           const { uid } = user;
           db.getOneUser(uid)
@@ -116,7 +115,7 @@ class FacebookAuth extends Component {
     return (
       <div style={{ marginTop: '10px' }}>
         <Button onClick={() => this.doSignInWithFacebook()}>
-          <FacebookIcon round={true} size={32}/>
+          <FacebookIcon round={true} size={32} />
           <span style={{ marginLeft: '5px' }}>Continue With Facebook</span>
         </Button>
         {error && <p>{error.message}</p>}
