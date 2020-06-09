@@ -247,7 +247,7 @@ class Question extends Component {
                 <Button variant="contained" disabled={!this.props.authUser} onClick={this.props.toggleContest}>
                   Contest This Question
                 </Button>
-                {this.props.questionObj.questionSource && <a className='link' href={this.props.questionObj.questionSource}>
+                {this.props.questionObj.questionSource && <a className='link' rel="noreferrer noopener" target="_blank" href={this.props.questionObj.questionSource}>
                   <h1 className='link'> Source of question</h1>
                 </a>}
               </div>
