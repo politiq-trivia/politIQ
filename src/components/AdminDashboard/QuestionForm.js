@@ -113,6 +113,7 @@ class QuestionForm extends Component {
       this.state.a3correct,
       this.state.answerExplanation,
       this.state.timerDuration,
+      this.state.questionSource
     );
 
     this.setState({
@@ -134,6 +135,7 @@ class QuestionForm extends Component {
       a1correct: false,
       a2correct: false,
       a3correct: false,
+      questionSource: '',
       answerExplanation: '',
       timerDuration: 40,
       atLeastOneSaved: true,
@@ -263,14 +265,23 @@ class QuestionForm extends Component {
               <option value="90">90</option>
             </Select>
           </FormControl>
+          <h3>Source</h3>
+          <TextField
+            margin="normal"
+            fullWidth
+            value={this.state.questionSource}
+            onChange={(event) => this.setState(byPropKey('questionSource', event.target.value))}
+            type="text"
+            placeholder="Url source for question"
+          />
           <div className="quizButtonHolder">
             <Button color="primary" variant="contained" onClick={this.handleQuit}>
               Exit Without Saving
             </Button>
-            <Button onClick={this.handleSubmit} color="primary" variant="contained" disabled={ this.state.atLeastOneChecked === true && this.state.qtext !== '' && this.state.a1text !== '' ? false : true }> {/* eslint-disable-line no-unneeded-ternary */}
+            <Button onClick={this.handleSubmit} color="primary" variant="contained" disabled={this.state.atLeastOneChecked === true && this.state.qtext !== '' && this.state.a1text !== '' ? false : true}> {/* eslint-disable-line no-unneeded-ternary */}
               Save & Add New Question
             </Button>
-            <Button color="primary" variant="contained" onClick={this.handleReturn} disabled={ this.state.atLeastOneChecked === true && this.state.qtext !== '' && this.state.a1text !== '' ? false : true }> {/* eslint-disable-line no-unneeded-ternary */}
+            <Button color="primary" variant="contained" onClick={this.handleReturn} disabled={this.state.atLeastOneChecked === true && this.state.qtext !== '' && this.state.a1text !== '' ? false : true}> {/* eslint-disable-line no-unneeded-ternary */}
               Save & Complete Quiz
             </Button>
 

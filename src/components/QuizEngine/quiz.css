@@ -368,3 +368,8 @@
 #volume {
   margin-left: auto;
 }
+.link {
+  color: #b359f8;
+  margin: 10px;
+  text-decoration: none;
+}

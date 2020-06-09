@@ -288,7 +288,8 @@ export const addQuestion = (
   a3text,
   a3correct,
   answerExplanation,
-  timerDuration
+  timerDuration,
+  questionSource
 ) => {
   var whichQuiz = db.ref().child("quizzes/" + date + "/" + questionID);
   // whichQuiz.child('qID').set(questionID)
@@ -301,6 +302,7 @@ export const addQuestion = (
   whichQuiz.child("a3correct").set(a3correct);
   whichQuiz.child("answerExplanation").set(answerExplanation);
   whichQuiz.child("timerDuration").set(timerDuration);
+  whichQuiz.child("questionSource").set(questionSource);
 };
 
 // get a list of all the quizzes
