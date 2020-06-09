@@ -178,7 +178,7 @@ class HomePage extends Component {
 
         <center style={{ marginBottom: "30px" }}>
           <h2>Last Recorded Gameshow</h2>
-          <YouTubePlayer className="youtube" url='https://www.youtube.com/watch?v=r3g_gFEv8wE' />
+          <YouTubePlayer className="youtube" url='https://www.youtube.com/watch?v=VHZJjDYnWMI' />
           <a
             href="https://www.youtube.com/channel/UCv2imXzW9mKoZRVSF6BztBQ"
             target="_blank noopener noreferrer"
