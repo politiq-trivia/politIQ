@@ -109,114 +109,124 @@ class EditQuiz extends Component {
       }
       return (
         <FormControl key={i} id={q[0]} style={{ display: 'block' }}>
-            <h3 style={{ marginBottom: '1vh' }}> {q[0]}. Question:   </h3>
-            <TextField
-              margin="normal"
-              value={q[1]['q1']}
-              fullWidth
-              onChange={this.handleChange}
-              type="text"
-              placeholder={q[1]['q1']}
-              id={q[0] + ' q1'} // eslint-disable-line prefer-template
-              inputref={null}
-            />
-            <h5 style={{ fontSize: '2vh' }}>Answer Choices:</h5>
-            <TextField
-              margin="normal"
-              fullWidth
-              value={q[1]['a1text']}
-              onChange={this.handleChange}
-              type="text"
-              placeholder={q[1]['a1text']}
-              id={q[0] + ' a1text'} // eslint-disable-line prefer-template
-            />
-            <FormControlLabel
-              control={
-                <Checkbox
-                  checked={q[1]['a1correct']}
-                  onChange={this.handleCheck}
-                  color="primary"
-                  id={q[0] + ' a1correct'} // eslint-disable-line prefer-template
-                />
-              }
-              label="Correct Answer"
-              labelPlacement="start"
-              style={{ marginLeft: '0' }}
-            />
-            <TextField
-              margin="normal"
-              fullWidth
-              value={q[1]['a2text']}
-              onChange={this.handleChange}
-              type="text"
-              placeholder={q[1]['a2text']}
-              id={q[0] + ' a2text'} // eslint-disable-line prefer-template
-            />
-            <FormControlLabel
-              control={
-                <Checkbox
-                  checked={q[1]['a2correct']}
-                  onChange={this.handleCheck}
-                  color="primary"
-                  id={q[0] + ' a2correct'} // eslint-disable-line prefer-template
-                />
-              }
-              label="Correct Answer"
-              labelPlacement="start"
-              style={{ marginLeft: '0' }}
-            />
-            <TextField
-              margin="normal"
-              fullWidth
-              value={q[1]['a3text']}
-              onChange={this.handleChange}
-              type="text"
-              placeholder={q[1]['a3text']}
-              id={q[0] + ' a3text'} // eslint-disable-line prefer-template
-            />
-            <FormControlLabel
-              control={
-                <Checkbox
-                  checked={q[1]['a3correct']}
-                  onChange={this.handleCheck}
-                  color="primary"
-                  id={q[0] + ' a3correct'} // eslint-disable-line prefer-template
-                />
-              }
-              label="Correct Answer"
-              labelPlacement="start"
-              style={{ marginLeft: '0' }}
-            />
-            <TextField
-              margin="normal"
-              fullWidth
-              value={q[1]['answerExplanation']}
-              onChange={this.handleChange}
-              type="text"
-              placeholder={q[1]['answerExplanation']}
-              id={q[0] + ' answerExplanation'} // eslint-disable-line prefer-template
-            />
-            <FormControl fullWidth margin="normal">
-              <InputLabel htmlFor="timer-duration">Timer Duration(seconds)</InputLabel>
-              <Select
-                native
-                authWidth={true}
-                inputProps={{
-                  name: 'timerDuration',
-                  id: q[0],
-                }}
-                value={timerDuration}
-                onChange={(event) => this.handleDurationChange(event)}
-              >
-                <option value="30">30</option>
-                <option value="40">40</option>
-                <option value="50">50</option>
-                <option value="60">60</option>
-                <option value="70">70</option>
-                <option value="80">80</option>
-                <option value="90">90</option>
-              </Select>
-            </FormControl>
+          <h3 style={{ marginBottom: '1vh' }}> {q[0]}. Question:   </h3>
+          <TextField
+            margin="normal"
+            value={q[1]['q1']}
+            fullWidth
+            onChange={this.handleChange}
+            type="text"
+            placeholder={q[1]['q1']}
+            id={q[0] + ' q1'} // eslint-disable-line prefer-template
+            inputref={null}
+          />
+          <h5 style={{ fontSize: '2vh' }}>Answer Choices:</h5>
+          <TextField
+            margin="normal"
+            fullWidth
+            value={q[1]['a1text']}
+            onChange={this.handleChange}
+            type="text"
+            placeholder={q[1]['a1text']}
+            id={q[0] + ' a1text'} // eslint-disable-line prefer-template
+          />
+          <FormControlLabel
+            control={
+              <Checkbox
+                checked={q[1]['a1correct']}
+                onChange={this.handleCheck}
+                color="primary"
+                id={q[0] + ' a1correct'} // eslint-disable-line prefer-template
+              />
+            }
+            label="Correct Answer"
+            labelPlacement="start"
+            style={{ marginLeft: '0' }}
+          />
+          <TextField
+            margin="normal"
+            fullWidth
+            value={q[1]['a2text']}
+            onChange={this.handleChange}
+            type="text"
+            placeholder={q[1]['a2text']}
+            id={q[0] + ' a2text'} // eslint-disable-line prefer-template
+          />
+          <FormControlLabel
+            control={
+              <Checkbox
+                checked={q[1]['a2correct']}
+                onChange={this.handleCheck}
+                color="primary"
+                id={q[0] + ' a2correct'} // eslint-disable-line prefer-template
+              />
+            }
+            label="Correct Answer"
+            labelPlacement="start"
+            style={{ marginLeft: '0' }}
+          />
+          <TextField
+            margin="normal"
+            fullWidth
+            value={q[1]['a3text']}
+            onChange={this.handleChange}
+            type="text"
+            placeholder={q[1]['a3text']}
+            id={q[0] + ' a3text'} // eslint-disable-line prefer-template
+          />
+          <FormControlLabel
+            control={
+              <Checkbox
+                checked={q[1]['a3correct']}
+                onChange={this.handleCheck}
+                color="primary"
+                id={q[0] + ' a3correct'} // eslint-disable-line prefer-template
+              />
+            }
+            label="Correct Answer"
+            labelPlacement="start"
+            style={{ marginLeft: '0' }}
+          />
+          <TextField
+            margin="normal"
+            fullWidth
+            value={q[1]['answerExplanation']}
+            onChange={this.handleChange}
+            type="text"
+            placeholder={q[1]['answerExplanation']}
+            id={q[0] + ' answerExplanation'} // eslint-disable-line prefer-template
+          />
+          <FormControl fullWidth margin="normal">
+            <InputLabel htmlFor="timer-duration">Timer Duration(seconds)</InputLabel>
+            <Select
+              native
+              authWidth={true}
+              inputProps={{
+                name: 'timerDuration',
+                id: q[0],
+              }}
+              value={timerDuration}
+              onChange={(event) => this.handleDurationChange(event)}
+            >
+              <option value="30">30</option>
+              <option value="40">40</option>
+              <option value="50">50</option>
+              <option value="60">60</option>
+              <option value="70">70</option>
+              <option value="80">80</option>
+              <option value="90">90</option>
+            </Select>
+          </FormControl>
+          <h5 style={{ fontSize: '2vh' }}>Source:</h5>
+          <TextField
+            margin="normal"
+            fullWidth
+            value={q[1]['questionSource']}
+            onChange={this.handleChange}
+            type="text"
+            placeholder="Url source for question"
+            id={q[0] + ' questionSource'}
+          />
         </FormControl>
       );
     });
@@ -224,12 +234,12 @@ class EditQuiz extends Component {
       <Paper className="showQuiz">
         {this.props.showDeleteModal
           ? <DeleteModal
-              fromEditQuiz="true"
-              selected={[this.props.quizId]}
-              deleteQuiz={this.props.deleteQuiz}
-              toggleDeleteModal={this.props.toggleDeleteModal}
-              toggleDashboard={this.props.toggleDashboard}
-            />
+            fromEditQuiz="true"
+            selected={[this.props.quizId]}
+            deleteQuiz={this.props.deleteQuiz}
+            toggleDeleteModal={this.props.toggleDeleteModal}
+            toggleDashboard={this.props.toggleDashboard}
+          />
           : null
         }
         <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '5vh' }}>
@@ -245,13 +255,13 @@ class EditQuiz extends Component {
             <h1 style={{ display: 'inline' }}>Quiz Title: </h1>
             {this.state.quiz
               ? <TextField
-                  value={this.state.quiz['quiz-title']}
-                  style={{ marginTop: 'auto', marginBottom: 'auto' }}
-                  onChange={this.handleChange}
-                  margin="normal"
-                  type="text"
-                  id={'quiz-title'}
-                ></TextField>
+                value={this.state.quiz['quiz-title']}
+                style={{ marginTop: 'auto', marginBottom: 'auto' }}
+                onChange={this.handleChange}
+                margin="normal"
+                type="text"
+                id={'quiz-title'}
+              ></TextField>
               : null
             }
           </div>
