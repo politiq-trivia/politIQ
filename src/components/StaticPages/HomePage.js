@@ -9,7 +9,7 @@ import {
   LinkedinShareButton,
   TwitterShareButton,
   WhatsappShareButton,
-  EmailShareButton
+  EmailShareButton,
 } from "react-share";
 
 import {
@@ -17,7 +17,7 @@ import {
   TwitterIcon,
   WhatsappIcon,
   LinkedinIcon,
-  EmailIcon
+  EmailIcon,
 } from "react-share";
 
 import { withAuthorization } from "../Auth/index";
@@ -29,10 +29,9 @@ import Snackbar from "@material-ui/core/Snackbar";
 import IconButton from "@material-ui/core/IconButton";
 import CloseIcon from "@material-ui/icons/Close";
 import TodaysQuizButton from "./TodaysQuizButton";
-import YouTubePlayer from 'react-player/lib/players/YouTube'
+import YouTubePlayer from "react-player/lib/players/YouTube";
 
 import "./Static.css";
-
 
 const getHref = () => {
   return window.location.href.toString();
@@ -43,7 +42,7 @@ class HomePage extends Component {
     super(props);
     this.state = {
       noAvailableQuizzes: false,
-      open: false
+      open: false,
     };
   }
 
@@ -60,7 +59,7 @@ class HomePage extends Component {
         return [
           parseInt(v[1], 10),
           parseInt(v[2], 10),
-          parseInt(v[3] || 0, 10)
+          parseInt(v[3] || 0, 10),
         ];
       }
     }
@@ -79,20 +78,20 @@ class HomePage extends Component {
 
     if (needsToSeePrompt()) {
       this.setState({
-        open: true
+        open: true,
       });
     }
   };
 
   showErrorMessage = () => {
     this.setState({
-      noAvailableQuizzes: true
+      noAvailableQuizzes: true,
     });
   };
 
   handleClose = () => {
     this.setState({
-      open: false
+      open: false,
     });
   };
 
@@ -111,13 +110,13 @@ class HomePage extends Component {
         <Snackbar
           anchorOrigin={{
             vertical: "bottom",
-            horizontal: "left"
+            horizontal: "left",
           }}
           open={this.state.open}
           autoHideDuration={60000}
           onClose={this.handleClose}
           ContentProps={{
-            "aria-describedby": "message-id"
+            "aria-describedby": "message-id",
           }}
           // message={<span id="message-id">Add politIQ to your homescreen</span>}
           action={[
@@ -139,7 +138,7 @@ class HomePage extends Component {
               >
                 <CloseIcon />
               </IconButton>
-            </>
+            </>,
           ]}
         />
         <h1>
@@ -178,11 +177,10 @@ class HomePage extends Component {
 
         <center style={{ marginBottom: "30px" }}>
           <h2>Last Recorded Gameshow</h2>
-<<<<<<< HEAD
-          <YouTubePlayer className="youtube" url='https://www.youtube.com/watch?v=r3g_gFEv8wE' />
-=======
-          <YouTubePlayer className="youtube" url='https://www.youtube.com/watch?v=3TfFVWMLAwo&t=3s' />
->>>>>>> 5d8a8545db59ec6589bf327b752cb200674e8eb8
+          <YouTubePlayer
+            className="youtube"
+            url="https://www.youtube.com/watch?v=r3g_gFEv8wE"
+          />
           <a
             href="https://www.youtube.com/channel/UCv2imXzW9mKoZRVSF6BztBQ"
             target="_blank noopener noreferrer"
@@ -190,7 +188,7 @@ class HomePage extends Component {
           >
             <Button color="primary" variant="contained" id="gameshow">
               Click here to view previous gameshow challenges!
-          </Button>
+            </Button>
           </a>
         </center>
 
@@ -244,7 +242,7 @@ class HomePage extends Component {
   }
 }
 
-const condition = authUser => !!authUser;
+const condition = (authUser) => !!authUser;
 
 export default compose(
   // withEmailVerification,
