@@ -107,7 +107,7 @@ class Footer extends Component {
         <div className="links">
           <h3>Quick Links</h3>
           <Link
-            to={routes.HOME}
+            to={routes.PLAY_GAME}
             style={{
               color: "white",
               textDecoration: "none",
@@ -115,10 +115,10 @@ class Footer extends Component {
               display: "block",
             }}
           >
-            Home
+            Play
           </Link>
           <Link
-            to={routes.FAQ}
+            to={routes.SUBMIT_QUESTION}
             style={{
               color: "white",
               textDecoration: "none",
@@ -126,9 +126,9 @@ class Footer extends Component {
               display: "block",
             }}
           >
-            FAQs
+            Submit a Question
           </Link>
-          {localStorage.hasOwnProperty("authUser") ? null : (
+          {localStorage.hasOwnProperty("authUser") && (
             <Link
               to={routes.ABOUT}
               style={{
@@ -141,6 +141,17 @@ class Footer extends Component {
               About
             </Link>
           )}
+          <Link
+            to={routes.FAQ}
+            style={{
+              color: "white",
+              textDecoration: "none",
+              marginTop: "1vh",
+              display: "block",
+            }}
+          >
+            FAQ
+          </Link>
           {localStorage.hasOwnProperty("authUser") ? null : (
             <Link
               to={routes.SIGN_UP}
@@ -163,21 +174,6 @@ class Footer extends Component {
             className="socials"
             style={{ display: "flex", marginTop: "1vh" }}
           >
-            <FacebookShareButton
-              url={getHref()}
-              className="shareable"
-              quote="Check out my politIQ:"
-            >
-              <FacebookIcon round={true} size={32} />
-            </FacebookShareButton>
-            <LinkedinShareButton
-              url={getHref()}
-              className="shareable"
-              title="Check out my politIQ"
-              description="Are you smarter than a Republican? Democrat? Independent? Find out!"
-            >
-              <LinkedinIcon round={true} size={32} />
-            </LinkedinShareButton>
             <TwitterShareButton
               url={getHref()}
               title="Check out my politIQ:"
@@ -185,21 +181,37 @@ class Footer extends Component {
             >
               <TwitterIcon round={true} size={32} />
             </TwitterShareButton>
-            <WhatsappShareButton
+            <FacebookShareButton
+              url={getHref()}
+              className="shareable"
+              quote="Check out my politIQ:"
+            >
+              <FacebookIcon round={true} size={32} />
+            </FacebookShareButton>
+
+            {/* <LinkedinShareButton
+              url={getHref()}
+              className="shareable"
+              title="Check out my politIQ"
+              description="Are you smarter than a Republican? Democrat? Independent? Find out!"
+            >
+              <LinkedinIcon round={true} size={32} />
+            </LinkedinShareButton> */}
+            {/* <WhatsappShareButton
               url={getHref()}
               className="shareable"
               title="Check out my politIQ:"
             >
               <WhatsappIcon round={true} size={32} />
-            </WhatsappShareButton>
-            <EmailShareButton
+            </WhatsappShareButton> */}
+            {/* <EmailShareButton
               url={getHref()}
               className="shareable"
               subject="Check out my politIQ:"
               body="Are you smarter than a Republican? Democrat? Independent? Find out!"
             >
               <EmailIcon round={true} size={32} />
-            </EmailShareButton>
+            </EmailShareButton> */}
           </div>
         </div>
         <div className="bottom-nav">

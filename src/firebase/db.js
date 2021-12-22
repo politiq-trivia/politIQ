@@ -1,5 +1,5 @@
 import { db } from "./firebase";
-import moment from "moment"
+import moment from "moment";
 // User API
 
 export const doCreateUser = (
@@ -17,10 +17,8 @@ export const doCreateUser = (
     affiliation,
     isAdmin,
     bio,
-    roles
+    roles,
   });
-
-
 
 export const onceGetUsers = () => {
   const users = db.ref("users").once("value");
@@ -28,7 +26,7 @@ export const onceGetUsers = () => {
 };
 
 // delete the user and the stored score data
-export const deleteUser = uid => {
+export const deleteUser = (uid) => {
   db.ref("users")
     .child(uid)
     .remove();
@@ -38,16 +36,16 @@ export const deleteUser = uid => {
 };
 
 // push notification subscription - not currently used
-export const subscribeUser = subscription => {
+export const subscribeUser = (subscription) => {
   db.ref()
     .child("subscriptions")
     .push({
-      endpoint: subscription.endpoint
+      endpoint: subscription.endpoint,
     })
     .child("keys")
     .set({
       p256dh: subscription.keys.p256dh,
-      auth: subscription.keys.auth
+      auth: subscription.keys.auth,
     });
 };
 
@@ -60,12 +58,11 @@ export const subscribeUser = subscription => {
 // ------------------------------------------------------------------------
 
 // get one user and check if it is the admin
-export const checkAdmin = uid => {
-
+export const checkAdmin = (uid) => {
   const user = db
     .ref("users")
     .child(uid)
-    .once("value", function (snapshot) {
+    .once("value", function(snapshot) {
       return snapshot.val().isAdmin;
     });
   return user;
@@ -78,14 +75,13 @@ export const lastActive = (uid, date) => {
     .set(date);
 };
 
-export const getOneUser = uid => {
+export const getOneUser = (uid) => {
   const user = db
     .ref("users")
     .child(uid)
     .once("value");
-  return (user);
+  return user;
 };
-
 
 export const editUser = (uid, updates) => {
   const user = db
@@ -99,14 +95,21 @@ export const editUser = (uid, updates) => {
 // money won to their money earned & lifetime earnings (TO DO)
 
 export const getMoneyWon = (uid) => {
-  const moneyWon = db.ref("users").child(uid).child("moneyWon").once('value')
-  return (moneyWon)
-}
+  const moneyWon = db
+    .ref("users")
+    .child(uid)
+    .child("moneyWon")
+    .once("value");
+  return moneyWon;
+};
 export const getMoneyEarned = (uid) => {
-  const moneyEarned = db.ref("users").child(uid).child("lifetimeEarnings").once('value')
-  return (moneyEarned)
-}
-
+  const moneyEarned = db
+    .ref("users")
+    .child(uid)
+    .child("lifetimeEarnings")
+    .once("value");
+  return moneyEarned;
+};
 
 export const awardMoney = (uid, amount, lifetimeAmount) => {
   db.ref("users")
@@ -151,7 +154,7 @@ export const getAllCashoutRequests = () => {
 
 // remove a cashout request from db - regardless of whether it was accepted or rejected
 // because that's irrelevant here.
-export const removeCashoutRequest = uid => {
+export const removeCashoutRequest = (uid) => {
   db.ref("cashOut")
     .child(uid)
     .remove();
@@ -159,7 +162,7 @@ export const removeCashoutRequest = uid => {
 
 // reset the user's money won and change their cashoutrequested status back to false
 // then, send the updated users object back to the frontend
-export const acceptCashOut = uid => {
+export const acceptCashOut = (uid) => {
   db.ref("users")
     .child(uid)
     .child("moneyWon")
@@ -183,7 +186,7 @@ export const cashoutNotification = (date, updateObject) => {
 };
 
 // change the users cashoutrequest status to false
-export const rejectCashOut = uid => {
+export const rejectCashOut = (uid) => {
   db.ref("users")
     .child(uid)
     .child("cashoutRequested")
@@ -195,12 +198,12 @@ export const rejectCashOut = uid => {
   return updatedUserObj;
 };
 
-export const getAffiliation = uid => {
+export const getAffiliation = (uid) => {
   const affiliation = db
     .ref("users")
     .child(uid)
     .child("affiliation")
-    .once("value", function (snapshot) {
+    .once("value", function(snapshot) {
       return snapshot.val();
     });
   return affiliation;
@@ -230,11 +233,8 @@ export const scoreVisibility = (uid, invisibleScore) => {
     .set(invisibleScore);
 };
 
-
 export const getWinners = () => {
-  const winners = db
-    .ref("winners")
-    .once("value");
+  const winners = db.ref("winners").once("value");
   return winners;
 };
 // -------------------------------------------------------------------------
@@ -244,29 +244,57 @@ export const getWinners = () => {
 // --------------------------------------------------------------------------
 
 export const getMostRecentQuizDate = () => {
-  let currentTime = moment().format("YYYY-MM-DDTHH:mm")
-  var mostRecentQuizDate = db.ref().child('rssQuiz').orderByKey().endAt(currentTime).limitToLast(1).once("value")
-  return (mostRecentQuizDate)
-}
+  let currentTime = moment().format("YYYY-MM-DDTHH:mm");
+  var mostRecentQuizDate = db
+    .ref()
+    .child("rssQuiz")
+    .orderByKey()
+    .endAt(currentTime)
+    .limitToLast(1)
+    .once("value");
+  return mostRecentQuizDate;
+};
 export const getNextQuizDate = (inputQuiz) => {
-  var thisAndNextQuizDate = db.ref().child('rssQuiz').orderByKey().endAt(inputQuiz).limitToLast(2).once("value")
-  return (thisAndNextQuizDate)
-}
+  var thisAndNextQuizDate = db
+    .ref()
+    .child("rssQuiz")
+    .orderByKey()
+    .endAt(inputQuiz)
+    .limitToLast(2)
+    .once("value");
+  return thisAndNextQuizDate;
+};
 export const getLastNQuizzes = (n) => {
-  let currentTime = moment().format("YYYY-MM-DDTHH:mm")
-  var lastNQuizzes = db.ref().child('rssQuiz').orderByKey().endAt(currentTime).limitToLast(n).once("value")
-  return (lastNQuizzes)
-}
+  let currentTime = moment().format("YYYY-MM-DDTHH:mm");
+  var lastNQuizzes = db
+    .ref()
+    .child("rssQuiz")
+    .orderByKey()
+    .endAt(currentTime)
+    .limitToLast(n)
+    .once("value");
+  return lastNQuizzes;
+};
 
 export const getLastNScores = (uid, n) => {
-  let currentTime = moment().format("YYYY-MM-DDTHH:mm")
-  var lastNScores = db.ref().child('scores').child(uid).orderByKey().endAt(currentTime).limitToLast(n).once("value")
-  return (lastNScores)
-}
+  let currentTime = moment().format("YYYY-MM-DDTHH:mm");
+  var lastNScores = db
+    .ref()
+    .child("scores")
+    .child(uid)
+    .orderByKey()
+    .endAt(currentTime)
+    .limitToLast(n)
+    .once("value");
+  return lastNScores;
+};
 // Add a quiz
 export const getQuizRef = () => {
-  var quizRefs = db.ref().child("rssQuiz").once("value")
-  return (quizRefs)
+  var quizRefs = db
+    .ref()
+    .child("rssQuiz")
+    .once("value");
+  return quizRefs;
 };
 export const addQuiz = (date, title) => {
   var quizzes = db.ref().child("quizzes");
@@ -314,7 +342,7 @@ export const getQuizzes = () => {
 
 // get a specific quiz
 
-export const getQuiz = date => {
+export const getQuiz = (date) => {
   const quiz = db
     .ref()
     .child("quizzes")
@@ -336,14 +364,14 @@ export const deleteQuestion = (date, qNum) => {
 
 // delete a quiz
 
-export const deleteQuiz = date => {
+export const deleteQuiz = (date) => {
   db.ref()
     .child("quizzes/" + date)
     .remove();
   db.ref()
     .child("scores")
-    .once("value", function (snapshot) {
-      snapshot.forEach(function (childSnapshot) {
+    .once("value", function(snapshot) {
+      snapshot.forEach(function(childSnapshot) {
         const childKey = childSnapshot.key;
         const childData = childSnapshot.val();
         const dates = Object.keys(childData);
@@ -413,13 +441,13 @@ export const resetScores = (uid, date) => {
     .remove();
 };
 
-export const getDisplayNames = username => {
+export const getDisplayNames = (username) => {
   const displayName = db
     .ref()
     .child("users/" + username)
     .child("displayName")
     .once("value")
-    .then(function (snapshot) {
+    .then(function(snapshot) {
       const snap = snapshot.val();
       return snap;
     });
@@ -428,7 +456,7 @@ export const getDisplayNames = username => {
     .child("users/" + username)
     .child("invisibleScore")
     .once("value")
-    .then(function (snapshot) {
+    .then(function(snapshot) {
       const snap = snapshot.val();
       return snap;
     });
@@ -436,7 +464,7 @@ export const getDisplayNames = username => {
   return userData;
 };
 
-export const getDisplayNames2 = async username => {
+export const getDisplayNames2 = async (username) => {
   let displayName;
   let invisibleScore;
   await db
@@ -444,24 +472,24 @@ export const getDisplayNames2 = async username => {
     .child("users/" + username)
     .child("displayName")
     .once("value")
-    .then(res => (displayName = res.val()));
+    .then((res) => (displayName = res.val()));
   await db
     .ref()
     .child("users/" + username)
     .child("invisibleScore")
     .once("value")
-    .then(res => (invisibleScore = res.val()));
+    .then((res) => (invisibleScore = res.val()));
   const userData = { displayName, invisibleScore };
   return userData;
 };
 
-export const getOnlyDisplayNames = username => {
+export const getOnlyDisplayNames = (username) => {
   const displayName = db
     .ref()
     .child("users/" + username)
     .child("displayName")
     .once("value")
-    .then(function (snapshot) {
+    .then(function(snapshot) {
       const snap = snapshot.val();
       return snap;
     });
@@ -470,13 +498,13 @@ export const getOnlyDisplayNames = username => {
 
 // if I move this logic to the frontend, it ends up being three fewer db calls.
 // this function returns all users in that party, regardless of whether they have scores.
-export const getUserByAffiliation = affiliation => {
+export const getUserByAffiliation = (affiliation) => {
   let partyUids = [];
   const users = db
     .ref()
     .child("users/")
     .once("value")
-    .then(function (snapshot) {
+    .then(function(snapshot) {
       const snap = snapshot.val();
       const data = Object.values(snap);
       const uids = Object.keys(snap);
@@ -490,7 +518,7 @@ export const getUserByAffiliation = affiliation => {
   return users;
 };
 
-export const getScoresByUid = uid => {
+export const getScoresByUid = (uid) => {
   const scores = db
     .ref()
     .child("scores/")
@@ -500,7 +528,7 @@ export const getScoresByUid = uid => {
 };
 
 // separate score holder for points the user earns by getting or submitting scores
-export const getSubmittedOrContestedScoreByUid = uid => {
+export const getSubmittedOrContestedScoreByUid = (uid) => {
   const score = db
     .ref()
     .child("/scores/")
@@ -517,7 +545,7 @@ export const setSubmittedOrContestedScoreByUid = (uid, date, score) => {
     .child("submitted")
     .child(date)
     .set(score);
-}
+};
 export const setContestedScoreByUid = (uid, date, score) => {
   db.ref()
     .child("/scores/")
@@ -528,16 +556,23 @@ export const setContestedScoreByUid = (uid, date, score) => {
 };
 
 export const getContestedScoreByUid = (uid) => {
-  const scores = db.ref()
-    .child("/scores/").child(uid).child("contested").once('value')
-  return (scores)
-}
+  const scores = db
+    .ref()
+    .child("/scores/")
+    .child(uid)
+    .child("contested")
+    .once("value");
+  return scores;
+};
 export const getSubmittedScoreByUid = (uid) => {
-  const scores = db.ref()
-    .child("/scores/").child(uid).child("submitted").once('value')
-  return (scores)
-}
-
+  const scores = db
+    .ref()
+    .child("/scores/")
+    .child(uid)
+    .child("submitted")
+    .once("value");
+  return scores;
+};
 
 // ----------------------------------------------------------
 
@@ -587,7 +622,7 @@ export const getOneQuestion = () => {
 };
 
 // deleteUserQuestion
-export const deleteUserQuestion = date => {
+export const deleteUserQuestion = (date) => {
   db.ref()
     .child("q4review")
     .child(date)
@@ -618,7 +653,7 @@ export const getQBank = () => {
   return questions;
 };
 
-export const removeFromQBank = date => {
+export const removeFromQBank = (date) => {
   db.ref()
     .child("qbank")
     .child(date)
@@ -681,7 +716,7 @@ export const acceptContest = (date, qID, uid, issue, source) => {
 
 // ----------------------------------------------------------
 
-export const getComments = uid => {
+export const getComments = (uid) => {
   const commentsObj = db
     .ref()
     .child("comments")
@@ -710,13 +745,11 @@ export const deleteComment = (profileID, date) => {
     .remove();
 };
 
-
-
-// LEADERBOARD  
+// LEADERBOARD
 
 export const getMonthlyScores = () => {
   const monthlyScores = db
-    .ref('leaderboard')
+    .ref("leaderboard")
     .child("MonthlyScores")
     .once("value");
   return monthlyScores;
@@ -724,7 +757,7 @@ export const getMonthlyScores = () => {
 
 export const getWeeklyScores = () => {
   const weeklyScores = db
-    .ref('leaderboard')
+    .ref("leaderboard")
     .child("WeeklyScores")
     .once("value");
   return weeklyScores;
@@ -732,7 +765,7 @@ export const getWeeklyScores = () => {
 
 export const getLastMonthScores = () => {
   const lastMonthScores = db
-    .ref('leaderboard')
+    .ref("leaderboard")
     .child("LastMonthScores")
     .once("value");
   return lastMonthScores;
@@ -740,7 +773,7 @@ export const getLastMonthScores = () => {
 
 export const getLastWeekScores = () => {
   const lastWeekScores = db
-    .ref('leaderboard')
+    .ref("leaderboard")
     .child("LastWeekScores")
     .once("value");
   return lastWeekScores;
@@ -748,15 +781,13 @@ export const getLastWeekScores = () => {
 
 export const getAffiliationScores = () => {
   const affiliationScores = db
-    .ref('leaderboard')
+    .ref("leaderboard")
     .child("AffiliationScores")
     .once("value");
   return affiliationScores;
 };
 
 export const getPolitIqs = () => {
-  const politIqs = db
-    .ref('politIQ')
-    .once("value");
+  const politIqs = db.ref("politIQ").once("value");
   return politIqs;
 };

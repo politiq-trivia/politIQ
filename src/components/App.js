@@ -7,10 +7,10 @@ import "./App.css";
 import {
   getLastMonthScores,
   getUserScores,
-  getAllScores
+  getAllScores,
 } from "../utils/storeScoreData";
 
-import Sponsor from "./StaticPages/sponsor"
+import Sponsor from "./StaticPages/sponsor";
 import Navigation from "./Navigation/Navigation";
 import LandingPage from "./StaticPages/Landing";
 import SignUpPage from "./Auth/SignUp/SignUpPage";
@@ -47,22 +47,22 @@ const theme = createMuiTheme({
   palette: {
     primary: {
       main: "#b359f8",
-      light: "#C790F1"
+      light: "#C790F1",
     },
     secondary: {
-      main: "#000000"
+      main: "#000000",
     },
     default: {
-      main: "#FFDF00"
-    }
+      main: "#FFDF00",
+    },
   },
   overrides: {
     MuiTooltip: {
       tooltip: {
-        fontSize: "1em"
-      }
-    }
-  }
+        fontSize: "1em",
+      },
+    },
+  },
 });
 
 class App extends Component {
@@ -74,50 +74,46 @@ class App extends Component {
       signedInUser: "",
       scoreObject: {},
       displayName: "",
-      isAdmin: false,
+      isAdmin: true,
       quizzes: {},
-      scores: {}
+      scores: {},
     };
   }
 
-
   componentDidMount() {
     // sets the auth user in app state
-    this.listener = firebase.auth.onAuthStateChanged(authUser => {
+    this.listener = firebase.auth.onAuthStateChanged((authUser) => {
       authUser // eslint-disable-line no-unused-expressions
         ? this.initializeApp(authUser)
         : this.setState({ authUser: null });
     });
   }
 
-
-  initializeApp = authUser => {
-
+  initializeApp = (authUser) => {
     this.setState({ authUser: authUser });
-
   };
 
-  getSignedInUser = async uid => {
+  getSignedInUser = async (uid) => {
     const userData = await db.getDisplayNames(uid);
-    userData.displayName.then(displayName => {
+    userData.displayName.then((displayName) => {
       this.setState({
         signedInUser: uid,
-        displayName
+        displayName,
       });
     });
   };
 
   checkAdmin = () => {
     this.setState({
-      isAdmin: true
+      isAdmin: true,
     });
   };
 
   // stores the score object for a non-signed in user
   // so that they can save their score by signing up
-  storeScore = scoreObject => {
+  storeScore = (scoreObject) => {
     this.setState({
-      scoreObject
+      scoreObject,
     });
   };
 
@@ -127,7 +123,7 @@ class App extends Component {
       signedInUser: "",
       scoreObject: {},
       displayName: "",
-      isAdmin: false
+      isAdmin: false,
     });
   };
 
@@ -138,7 +134,7 @@ class App extends Component {
 
       <MuiThemeProvider theme={theme}>
         <QuizContext.Consumer>
-          {quizContext => (
+          {(quizContext) => (
             <Navigation
               quizContext={quizContext}
               signedInUser={this.state.signedInUser}
@@ -150,7 +146,7 @@ class App extends Component {
           <Route
             exact
             path={routes.LANDING}
-            render={props =>
+            render={(props) =>
               this.state.authUser ? <Redirect to="/home" /> : <LandingPage />
             }
           />
@@ -158,7 +154,7 @@ class App extends Component {
           <Route
             exact
             path={routes.SIGN_UP}
-            render={props => (
+            render={(props) => (
               <SignUpPage
                 {...props}
                 getSignedInUser={this.getSignedInUser}
@@ -169,7 +165,7 @@ class App extends Component {
           <Route
             exact
             path={routes.SIGN_IN}
-            render={props => (
+            render={(props) => (
               <SignInPage
                 {...props}
                 getSignedInUser={this.getSignedInUser}
@@ -178,11 +174,7 @@ class App extends Component {
               />
             )}
           />
-          <Route
-            exact
-            path={"/sponsor"}
-            render={Sponsor}
-          />
+          <Route exact path={"/sponsor"} render={Sponsor} />
           <Route
             exact
             path={routes.PASSWORD_FORGET}
@@ -191,17 +183,14 @@ class App extends Component {
           <Route
             exact
             path={routes.PROFILE}
-            render={props => (
-              <ProfilePage
-                {...props}
-                signedInUser={this.state.signedInUser}
-              />
+            render={(props) => (
+              <ProfilePage {...props} signedInUser={this.state.signedInUser} />
             )}
           />
           <Route
             exact
             path={routes.HOME}
-            render={props => (
+            render={(props) => (
               <HomePage {...props} signedInUser={this.state.signedInUser} />
             )}
           />
@@ -210,52 +199,49 @@ class App extends Component {
           <Route
             exact
             path={routes.CREATE_NEW_QUIZ}
-            render={props => (
+            render={(props) => (
               <AdminDashboard {...props} renderPage={"Create New Quiz"} />
             )}
           />
           <Route
             exact
             path={routes.MANAGE_QUIZZES}
-            render={props => (
+            render={(props) => (
               <AdminDashboard {...props} renderPage={"Manage Quizzes"} />
             )}
           />
           <Route
             exact
             path={routes.MANAGE_USERS}
-            render={props => (
+            render={(props) => (
               <AdminDashboard {...props} renderPage={"Manage Users"} />
             )}
           />
           <Route
             exact
             path={routes.ADMIN_LEADERBOARD}
-            render={props => (
+            render={(props) => (
               <AdminDashboard {...props} renderPage={"Leaderboard"} />
             )}
           />
           <Route
             exact
             path={routes.ADMIN_DASHBOARD}
-            render={props => <AdminDashboard {...props} renderPage={""} />}
+            render={(props) => <AdminDashboard {...props} renderPage={""} />}
           />
 
           {/* Quiz Routes */}
           <Route
             exact
             path={routes.QUIZ_ARCHIVE}
-            render={props => (
-              <QuizArchive
-                {...props}
-                signedInUser={this.state.signedInUser}
-              />
+            render={(props) => (
+              <QuizArchive {...props} signedInUser={this.state.signedInUser} />
             )}
           />
           <Route
             exact
             path={routes.QUIZ}
-            render={props => (
+            render={(props) => (
               <Quiz
                 {...props}
                 storeScore={this.storeScore}
@@ -277,7 +263,7 @@ class App extends Component {
           <Route
             exact
             path={routes.ARCHIVED_QUIZ}
-            render={props => <ArchivedQuiz {...props} />}
+            render={(props) => <ArchivedQuiz {...props} />}
           />
           <Route exact path={routes.LEADERBOARD} component={Leaderboard} />
           <Route exact path={routes.ABOUT} component={About} />
@@ -285,7 +271,7 @@ class App extends Component {
           <Route
             exact
             path={routes.SUBMIT_QUESTION}
-            render={props => (
+            render={(props) => (
               <QuestionSubmitForm
                 {...props}
                 signedInUser={this.state.signedInUser}
@@ -301,7 +287,7 @@ class App extends Component {
           <Route
             exact
             path={routes.USER_PROFILES}
-            render={props => (
+            render={(props) => (
               <PublicProfile
                 {...props}
                 key={window.location.pathName} // eslint-disable-line no-undef
@@ -322,7 +308,6 @@ class App extends Component {
         </Switch>
         <Footer signedInUser={this.state.signedInUser} />
       </MuiThemeProvider>
-
     );
   }
 }
